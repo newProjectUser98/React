@@ -1,0 +1,7 @@
+@import "./styles/mixins";
+
+.iw {
+  @include small {
+    overflow: hidden;
+  }
+}

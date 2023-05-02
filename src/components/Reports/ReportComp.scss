@@ -1,0 +1,83 @@
+@import "../../styles/mixins";
+
+.iw-water-treatment-unit__warpper {
+  @include small {
+    background: none !important;
+  }
+}
+
+.iw-summary-card {
+  @include small {
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.16);
+    border-radius: 20px !important;
+    text-align: center;
+  }
+}
+
+.iw-select-overview-section {
+  @include small {
+    flex-direction: column !important;
+    padding: 10px !important;
+    row-gap: 20px;
+  }
+
+  &__add-icon {
+    @include small {
+      display: block !important;
+
+      svg {
+        fill: white;
+      }
+    }
+  }
+
+  &__add-button {
+    @include small {
+      display: none !important;
+    }
+  }
+}
+
+.iw-chart-comp__list-container {
+  @include small {
+    display: none !important;
+  }
+}
+
+.iw-chart-comp__list-wrapper {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.16) !important;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  border-radius: 20px;
+
+  @include min-small {
+    display: none !important;
+  }
+}
+
+.iw-tabular-data__alert {
+  path {
+    stroke: #b68fe7;
+  }
+}
+
+.iw-tabular-data__download {
+  cursor: pointer;
+
+  path {
+    stroke: #6cced9;
+  }
+}
+
+.iw-Summary-card-data {
+  -ms-overflow-style: none;
+  /* Edge, Internet Explorer */
+  scrollbar-width: none;
+  /* Firefox */
+
+}
+
+.iw-Summary-card-data::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera */
+}

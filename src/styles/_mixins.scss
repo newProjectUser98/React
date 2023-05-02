@@ -1,0 +1,12 @@
+$sm-screen: 959px;
+
+@mixin small {
+  @media (max-width: #{$sm-screen}) {
+    @content;
+  }
+}
+@mixin min-small {
+  @media (min-width: #{$sm-screen}) {
+    @content;
+  }
+}

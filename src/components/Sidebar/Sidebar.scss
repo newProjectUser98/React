@@ -1,0 +1,61 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+.sidebar-wrap {
+  height: 100%;
+  width: $sidebarwidth;
+  background: $background;
+  position: fixed;
+  transition: all 0.5s ease;
+  overflow-y: scroll;
+  @include small {
+    display: none !important;
+  }
+  .logowrap {
+    height: 130px;
+    background-color: $primaryColor;
+    border-radius: 0px 0px 20px 20px;
+    position: relative;
+    &::before {
+      content: "";
+      background-image: url("../../assets/images/logo-before.svg");
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 53px;
+      width: 60px;
+    }
+  }
+
+  .menu-wrap {
+    .menuitem.active,
+    .menuitem:hover {
+      background-color: $primaryColor;
+      color: $white;
+    }
+  }
+}
+.sidebar-wrap.close {
+  width: 5rem;
+  transition: all 0.5s ease;
+  .logowrap {
+    padding: 10px;
+    flex-direction: column;
+    align-items: center;
+    .arrow-icons {
+      position: relative;
+      margin-left: 10px;
+    }
+    &::before {
+      content: "";
+      background: none;
+    }
+  }
+  .menu-wrap {
+    .menuitem {
+      justify-content: center;
+    }
+    .names {
+      display: none;
+    }
+  }
+}
