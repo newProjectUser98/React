@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif !important;
+}
+body {
+  font-family: "Poppins", sans-serif !important;
+}
+@layer components {
+  .iw-report__input-wrapper {
+    @apply sm:m-2 m-0 sm:bg-[#EAF4F5] bg-[#F0F0F1];
+  }
+}

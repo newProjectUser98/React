@@ -1,0 +1,22 @@
+- name: deploy
+  hosts: contabo
+  vars:
+    bit_user: nineesh_met
+    bit_pass: Q3kh7dL7S89K3x2XL8DP
+  tasks:
+    - name: pull from git
+      git:
+        repo: https://{{bit_user|urlencode()}}:{{bit_pass|urlencode()}}@bitbucket.org/akhilrajan/initiative-water.git
+        dest: /root/iwater/initiative-water/
+        update: yes
+        version: master
+    - name: deploy Docker Compose stack
+      docker_compose:
+        project_src: //root/iwater/
+        files:
+          - docker-compose.yml
+        build: yes
+        state: present
+        debug: yes
+        services:
+            - nginx

@@ -1,0 +1,27 @@
+@import '../../styles/variables';
+
+.header-wrap{
+    background: $background;
+    border-radius: 0px 0px 20px 0px;
+    .title{
+        color: $primaryColor;
+    }
+    .avatar{
+        background: $primaryColor;
+    }
+    .logowrap {
+        height: 130px;
+        background-color: $primaryColor;
+        border-radius: 0px 0px 20px 20px;
+        position: relative;
+        &::before {
+          content: "";
+          background-image: url("../../assets/images/logo-before.svg");
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 53px;
+          width: 60px;
+        }
+      }
+}
