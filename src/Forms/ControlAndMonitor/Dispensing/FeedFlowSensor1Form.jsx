@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { Field, Form, Formik } from 'formik';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import axios from 'axios';
 
 
 const FeedFlowSensor1Form = () => {
@@ -12,8 +13,23 @@ const FeedFlowSensor1Form = () => {
         p3:123456,
         p4:123456,
       };
+    
+      const onSubmitSetting = (values, submitProps) => {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "Water Treatment Unit",
+            component_name: "hpp"
+        }
+        let allData = { ...newData, ...values }
+        axios.post('/hpp-setting-treat', allData).then((res) => {
+            console.log("res", res);
+        }).catch((err) => {
+            console.log("err", err);
+        })
+    }
   return (
-    <Formik initialValues={initialValues}>
+    <Formik initialValues={initialValues} onSubmit={onSubmitSetting}>
         {
             (formik)=>{
                 return(

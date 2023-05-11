@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -19,13 +19,24 @@ import { ReactComponent as ChartLineColor } from "../../../assets/icons/ReportsI
 
 import Popup from "../../../hoc/Popup/Popup";
 import AddGraph from "./AddGraph";
+import axios from "axios";
 
-const SelectOverviewSection = ({ handleChecked, checked }) => {
-  const [Yaxis, setYaxis] = useState("");
+const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis }) => {
+  // const [Yaxis, setYaxis] = useState("");
   const [openPopup, setOpenPopup] = useState(false);
+  const [component, setComponent] = useState([])
+
   const handleChange = (event) => {
     setYaxis(event.target.value);
+    console.log("selected component",event.target.value);
   };
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/topicapikey_info/')
+    .then(res => setComponent(res.data))
+    .catch(err => console.log(err))
+  }, [])
+
   return (
     <Grid
       container
@@ -67,21 +78,26 @@ const SelectOverviewSection = ({ handleChecked, checked }) => {
                 alignContent: "center",
               }}
             >
-              Select Y axis
+              Select Component
             </InputLabel>
             <Select
               id="Yaxis"
               value={Yaxis}
-              label="Select City/State"
+              // label="Select City/State"
               onChange={handleChange}
-              placeholder="Select City/State"
+              // placeholder="Select City/State"
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={1}>Y axis 1</MenuItem>
+              {/* <MenuItem value={1}>Y axis 1</MenuItem>
               <MenuItem value={2}>Y axis 2</MenuItem>
-              <MenuItem value={3}>Y axis 3</MenuItem>
+              <MenuItem value={3}>Y axis 3</MenuItem> */}
+              {component.map((item) => {
+                return(
+                    <MenuItem value={item.key_value}>{item.key_name}</MenuItem>
+                )
+              })}
             </Select>
           </FormControl>
         </Grid>
