@@ -39,107 +39,109 @@ import FeedFlowSensor2Form from '../../../Forms/ControlAndMonitor/Dispensing/Fee
 import FeedFlowSensor3Form from '../../../Forms/ControlAndMonitor/Dispensing/FeedFlowSensor3Form'
 import FeedFlowSensor4Form from '../../../Forms/ControlAndMonitor/Dispensing/FeedFlowSensor4Form'
 
-const EquipmentDetail = ({proTitle}) => {
+const EquipmentDetail = ({ proTitle }) => {
+    const [isLoading, setIsLoading] = useState(false)
+    console.log("isLoading on eqp", isLoading);
+    return (
+        <div className='equipment-detail relative my-20'>
 
-  return (
-    <div className='equipment-detail relative my-20'>
-        
-        <div className='rounded-3xl w-full border'>
-            <div className="text-center p-3 rounded-tl-3xl rounded-tr-3xl font-bold text-xl text-white title-header">
-                <span>{proTitle}</span>
-            </div>
-            {/* <div className="p5 flex flex-wrap items-center justify-between p-5">
+            <div className='rounded-3xl w-full border'>
+                <div className="text-center p-3 rounded-tl-3xl rounded-tr-3xl font-bold text-xl text-white title-header">
+                    <span>{proTitle}</span>
+                </div>
+                {/* <div className="p5 flex flex-wrap items-center justify-between p-5">
 px-md-18 px-lg-28 py-12
             </div> */}
-            {
-                proTitle === 'Raw Water Tank' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={rawtank} alt="rawtank" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <div className="flex items-center w-full mb-5 flex-wrap justify-center">
-                                <div className="flex items-center m-2 ">
-                                    <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div> 
-                                    <span>State variables</span>
+                {
+                    proTitle === 'Raw Water Tank' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={rawtank} alt="rawtank" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <div className="flex items-center w-full mb-5 flex-wrap justify-center">
+                                    <div className="flex items-center m-2 ">
+                                        <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
+                                        <span>State variables</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex items-center mt-5 mx-2">
-                                <p className='w-40 my-2 font-bold'>State Variables</p>
-                            </div>
-                            <div className="flex items-center py-3">
-                                <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
-                                <p className='w-40'>Status</p>
-                                <p className='w-40'>Full</p>
-                                {/* <div className='w-40'>
+                                <div className="flex items-center mt-5 mx-2">
+                                    <p className='w-40 my-2 font-bold'>State Variables</p>
+                                </div>
+                                <div className="flex items-center py-3">
+                                    <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
+                                    <p className='w-40'>Status</p>
+                                    <p className='w-40'>Full</p>
+                                    {/* <div className='w-40'>
                                     <Switch color='primary'/>
                                 </div> */}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'RWP' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={rwp} alt="rwp" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <RwpForm/>
+                }
+                {
+                    proTitle === 'RWP' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={rwp} alt="rwp" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <RwpForm 
+                                setIsLoading={setIsLoading}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Feed Flow Sensor' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={feedflowsensor} alt="feedflowsensor" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <FeedFlowSensorForm/>
+                }
+                {
+                    proTitle === 'Feed Flow Sensor' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={feedflowsensor} alt="feedflowsensor" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <FeedFlowSensorForm />
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Ampv1' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={ampv1} alt="ampv1" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <Ampv1Form/>
+                }
+                {
+                    proTitle === 'Ampv1' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={ampv1} alt="ampv1" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <Ampv1Form />
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Ampv2' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={ampv2} alt="ampv2" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <Ampv2Form/>
+                }
+                {
+                    proTitle === 'Ampv2' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={ampv2} alt="ampv2" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <Ampv2Form />
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Filter Big 1' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={filterbig1} alt="filterbig1" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        {/* <div className="p-5">
+                }
+                {
+                    proTitle === 'Filter Big 1' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={filterbig1} alt="filterbig1" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            {/* <div className="p-5">
                             <div className="flex items-center py-3">
                                 <p className='w-40'>Status</p>
                                 <p className='w-40'>OFF</p>
@@ -172,116 +174,17 @@ px-md-18 px-lg-28 py-12
                                 <input type="text" name="overloadcurrent" id="overloadcurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Over load Current" />
                             </div>
                         </div> */}
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'Filter Big 2' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={filterbig2} alt="filterbig2" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        {/* <div className="p-5">
-                            <div className="flex items-center py-3">
-                                <p className='w-40'>Status</p>
-                                <p className='w-40'>OFF</p>
-                                <div className='w-40'>
-                                    <Switch color='primary'/>
-                                </div>
-                            </div>
-                            <div className="flex items-center py-3">
-                                <p className='w-40'>Current</p>
-                                <p className='w-40'>10.5A</p>
-                            </div>
-                            <div className="flex items-center py-3">
-                                <p className='w-40'>Error</p>
-                                <p className='w-40'>Error</p>
-                            </div>
-                            <div className="flex items-center py-3">
-                                <p className='w-40'>Settings</p>
-                                <p className='w-40'>Settings</p>
-                            </div>
-                            <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Customer Name</p>
-                                <input type="text" name="customername" id="customername" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Customer Name" />
-                            </div>
-                            <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Dry Run Current</p>
-                                <input type="text" name="dryruncurrent" id="dryruncurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Dry Run Current" />
-                            </div>
-                            <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Over load Current</p>
-                                <input type="text" name="overloadcurrent" id="overloadcurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Over load Current" />
-                            </div>
-                        </div> */}
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'Dosing Pump' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={dosingpump} alt="dosingpump" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        {/* <div className="p-5">
-                            <div className="flex items-center py-3">
-                                <p className='w-40'>Status</p>
-                                <p className='w-40'>OFF</p>
-                                <div className='w-40'>
-                                    <Switch color='primary'/>
-                                </div>
-                            </div>
-                            <div className="flex items-center py-3">
-                                <p className='w-40'>Current</p>
-                                <p className='w-40'>10.5A</p>
-                            </div>
-                            <div className="flex items-center py-3">
-                                <p className='w-40'>Error</p>
-                                <p className='w-40'>Error</p>
-                            </div>
-                            <div className="flex items-center py-3">
-                                <p className='w-40'>Settings</p>
-                                <p className='w-40'>Settings</p>
-                            </div>
-                            <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Customer Name</p>
-                                <input type="text" name="customername" id="customername" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Customer Name" />
-                            </div>
-                            <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Dry Run Current</p>
-                                <input type="text" name="dryruncurrent" id="dryruncurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Dry Run Current" />
-                            </div>
-                            <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Over load Current</p>
-                                <input type="text" name="overloadcurrent" id="overloadcurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Over load Current" />
-                            </div>
-                        </div> */}
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'ROI Panel' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={roipanel} alt="roipanel" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <RoiPanelForm/>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'IOT Module' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={iotmodule} alt="iotmodule" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        {/* <div className="p-5">
+                }
+                {
+                    proTitle === 'Filter Big 2' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={filterbig2} alt="filterbig2" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            {/* <div className="p-5">
                             <div className="flex items-center py-3">
                                 <p className='w-40'>Status</p>
                                 <p className='w-40'>OFF</p>
@@ -314,17 +217,17 @@ px-md-18 px-lg-28 py-12
                                 <input type="text" name="overloadcurrent" id="overloadcurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Over load Current" />
                             </div>
                         </div> */}
+                        </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Filter Small 1' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={filtersmall1} alt="filtersmall1" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        {/* <div className="p-5">
+                }
+                {
+                    proTitle === 'Dosing Pump' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={dosingpump} alt="dosingpump" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            {/* <div className="p-5">
                             <div className="flex items-center py-3">
                                 <p className='w-40'>Status</p>
                                 <p className='w-40'>OFF</p>
@@ -357,17 +260,116 @@ px-md-18 px-lg-28 py-12
                                 <input type="text" name="overloadcurrent" id="overloadcurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Over load Current" />
                             </div>
                         </div> */}
+                        </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Filter Small 2' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={filtersmall2} alt="filtersmall2" className='w-40'/>
+                }
+                {
+                    proTitle === 'ROI Panel' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={roipanel} alt="roipanel" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <RoiPanelForm />
+                            </div>
+                        </div>
                     </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        {/* <div className="p-5">
+                }
+                {
+                    proTitle === 'IOT Module' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={iotmodule} alt="iotmodule" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            {/* <div className="p-5">
+                            <div className="flex items-center py-3">
+                                <p className='w-40'>Status</p>
+                                <p className='w-40'>OFF</p>
+                                <div className='w-40'>
+                                    <Switch color='primary'/>
+                                </div>
+                            </div>
+                            <div className="flex items-center py-3">
+                                <p className='w-40'>Current</p>
+                                <p className='w-40'>10.5A</p>
+                            </div>
+                            <div className="flex items-center py-3">
+                                <p className='w-40'>Error</p>
+                                <p className='w-40'>Error</p>
+                            </div>
+                            <div className="flex items-center py-3">
+                                <p className='w-40'>Settings</p>
+                                <p className='w-40'>Settings</p>
+                            </div>
+                            <div className="flex items-center py-3 flex-wrap">
+                                <p className='w-40'>Customer Name</p>
+                                <input type="text" name="customername" id="customername" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Customer Name" />
+                            </div>
+                            <div className="flex items-center py-3 flex-wrap">
+                                <p className='w-40'>Dry Run Current</p>
+                                <input type="text" name="dryruncurrent" id="dryruncurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Dry Run Current" />
+                            </div>
+                            <div className="flex items-center py-3 flex-wrap">
+                                <p className='w-40'>Over load Current</p>
+                                <input type="text" name="overloadcurrent" id="overloadcurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Over load Current" />
+                            </div>
+                        </div> */}
+                        </div>
+                    </div>
+                }
+                {
+                    proTitle === 'Filter Small 1' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={filtersmall1} alt="filtersmall1" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            {/* <div className="p-5">
+                            <div className="flex items-center py-3">
+                                <p className='w-40'>Status</p>
+                                <p className='w-40'>OFF</p>
+                                <div className='w-40'>
+                                    <Switch color='primary'/>
+                                </div>
+                            </div>
+                            <div className="flex items-center py-3">
+                                <p className='w-40'>Current</p>
+                                <p className='w-40'>10.5A</p>
+                            </div>
+                            <div className="flex items-center py-3">
+                                <p className='w-40'>Error</p>
+                                <p className='w-40'>Error</p>
+                            </div>
+                            <div className="flex items-center py-3">
+                                <p className='w-40'>Settings</p>
+                                <p className='w-40'>Settings</p>
+                            </div>
+                            <div className="flex items-center py-3 flex-wrap">
+                                <p className='w-40'>Customer Name</p>
+                                <input type="text" name="customername" id="customername" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Customer Name" />
+                            </div>
+                            <div className="flex items-center py-3 flex-wrap">
+                                <p className='w-40'>Dry Run Current</p>
+                                <input type="text" name="dryruncurrent" id="dryruncurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Dry Run Current" />
+                            </div>
+                            <div className="flex items-center py-3 flex-wrap">
+                                <p className='w-40'>Over load Current</p>
+                                <input type="text" name="overloadcurrent" id="overloadcurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Over load Current" />
+                            </div>
+                        </div> */}
+                        </div>
+                    </div>
+                }
+                {
+                    proTitle === 'Filter Small 2' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={filtersmall2} alt="filtersmall2" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            {/* <div className="p-5">
                             <div className="flex items-center py-3">
                                 <p className='w-40'>Flow Rate</p>
                                 <p className='w-40'>054</p>
@@ -377,82 +379,82 @@ px-md-18 px-lg-28 py-12
                                 <input type="text" name="ff2" id="ff2" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Flow Factor" value={3300} />
                             </div>
                         </div> */}
+                        </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'LPS Range' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={lps} alt="lps" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <div className="flex items-center w-full mb-5 flex-wrap justify-center">
-                                <div className="flex items-center m-2 ">
-                                    <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div> 
-                                    <span>State variables</span>
+                }
+                {
+                    proTitle === 'LPS Range' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={lps} alt="lps" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <div className="flex items-center w-full mb-5 flex-wrap justify-center">
+                                    <div className="flex items-center m-2 ">
+                                        <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
+                                        <span>State variables</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center mt-5 mx-2">
+                                    <p className='w-40 my-2 font-bold'>State Variables</p>
+                                </div>
+                                <div className="flex items-center py-3">
+                                    <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
+                                    <p className='w-52'>Low Pressure Switch : </p>
+                                    <p className='w-40 mx-5'>Low</p>
                                 </div>
                             </div>
-                            <div className="flex items-center mt-5 mx-2">
-                                <p className='w-40 my-2 font-bold'>State Variables</p>
-                            </div>
-                            <div className="flex items-center py-3">
-                                <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
-                                <p className='w-52'>Low Pressure Switch : </p>
-                                <p className='w-40 mx-5'>Low</p>
+                        </div>
+                    </div>
+                }
+                {
+                    proTitle === 'HPP Range' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={hpp} alt="hpp" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <HppForm />
                             </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'HPP Range' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={hpp} alt="hpp" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <HppForm/>
+                }
+                {
+                    proTitle === 'HPS Range' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={hps} alt="hps" className='w-40' />
                         </div>
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'HPS Range' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={hps} alt="hps" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <div className="flex items-center w-full mb-5 flex-wrap justify-center">
-                                <div className="flex items-center m-2 ">
-                                    <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div> 
-                                    <span>State variables</span>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <div className="flex items-center w-full mb-5 flex-wrap justify-center">
+                                    <div className="flex items-center m-2 ">
+                                        <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
+                                        <span>State variables</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center mt-5 mx-2">
+                                    <p className='w-40 my-2 font-bold'>State Variables</p>
+                                </div>
+                                <div className="flex items-center py-3">
+                                    <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
+                                    <p className='w-52'>High Pressure Switch : </p>
+                                    <p className='mx-5 w-40'>High</p>
                                 </div>
                             </div>
-                            <div className="flex items-center mt-5 mx-2">
-                                <p className='w-40 my-2 font-bold'>State Variables</p>
-                            </div>
-                            <div className="flex items-center py-3">
-                                <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
-                                <p className='w-52'>High Pressure Switch : </p>
-                                <p className='mx-5 w-40'>High</p>
-                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Membrane' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={membrane} alt="membrane" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        {/* <div className="p-5">
+                }
+                {
+                    proTitle === 'Membrane' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={membrane} alt="membrane" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            {/* <div className="p-5">
                             <div className="flex items-center py-3">
                                 <p className='w-40'>Status</p>
                                 <p className='w-40'>OFF</p>
@@ -485,186 +487,186 @@ px-md-18 px-lg-28 py-12
                                 <input type="text" name="overloadcurrent" id="overloadcurrent" className="p-3 border rounded-md w-auto outline-none font-medium text-sm leading-5" placeholder="Over load Current" />
                             </div>
                         </div> */}
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'Premeate Flow Sensor' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={premeteflowsensor} alt="premeteflowsensor" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <PremeteFlowSensorForm/>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Conductivity' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={conductivity} alt="conductivity" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <ConductivityForm/>
+                }
+                {
+                    proTitle === 'Premeate Flow Sensor' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={premeteflowsensor} alt="premeteflowsensor" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <PremeteFlowSensorForm />
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Treated Water Tank' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={twtank} alt="twtank" className='w-40'/>
+                }
+                {
+                    proTitle === 'Conductivity' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={conductivity} alt="conductivity" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <ConductivityForm />
+                            </div>
+                        </div>
                     </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <div className="flex items-center w-full mb-5 flex-wrap justify-center">
-                                <div className="flex items-center m-2 ">
-                                    <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div> 
-                                    <span>State variables</span>
+                }
+                {
+                    proTitle === 'Treated Water Tank' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={twtank} alt="twtank" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <div className="flex items-center w-full mb-5 flex-wrap justify-center">
+                                    <div className="flex items-center m-2 ">
+                                        <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
+                                        <span>State variables</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center mt-5 mx-2">
+                                    <p className='w-40 my-2 font-bold'>State Variables</p>
+                                </div>
+                                <div className="flex items-center py-3">
+                                    <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
+                                    <p className='w-40'>Status : </p>
+                                    <p className='w-40'>Empty</p>
                                 </div>
                             </div>
-                            <div className="flex items-center mt-5 mx-2">
-                                <p className='w-40 my-2 font-bold'>State Variables</p>
+                        </div>
+                    </div>
+                }
+                {
+                    proTitle === 'IOT' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={iotmodule} alt="iotmodule" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                        </div>
+                    </div>
+                }
+                {
+                    proTitle === 'Water ATM' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={roipanel} alt="roipanel" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <RoiPanelAtmForm />
                             </div>
-                            <div className="flex items-center py-3">
-                                <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
-                                <p className='w-40'>Status : </p>
-                                <p className='w-40'>Empty</p>
+                        </div>
+                    </div>
+                }
+                {
+                    proTitle === 'Tap 1' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={tap} alt="tap" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <Tap1Form />
                             </div>
-                        </div> 
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'IOT' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={iotmodule} alt="iotmodule" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'Water ATM' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={roipanel} alt="roipanel" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <RoiPanelAtmForm/>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Tap 1' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={tap} alt="tap" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <Tap1Form/>
+                }
+                {
+                    proTitle === 'Tap 2' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={tap} alt="tap" className='w-40' />
                         </div>
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'Tap 2' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={tap} alt="tap" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <Tap2Form/>
-                        </div>
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'Tap 3' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={tap} alt="tap" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <Tap3Form/>
-                        </div>
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'Tap 4' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={tap} alt="tap" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <Tap4Form/>
-                        </div>
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'Conductivity 1' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={conductivity} alt="conductivity" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <div className="flex items-center py-3">
-                                <p className='w-40'>Conductivity/TDS</p>
-                                <p className='w-40'>1000</p>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <Tap2Form />
                             </div>
-                            <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Span</p>
-                                <input type="text" name="spn" id="spn" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" value={3300}/>
-                            </div>
-                            <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Trip Setpoint</p>
-                                <input type="text" name="tsp" id="tsp" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Trip Setpoint" value={500}/>
-                            </div>
-                            <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Atert Setpoint</p>
-                                <input type="text" name="asp" id="asp" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Atert Setpoint" value={700}/>
-                            </div>
-                            <button className='px-5 bg-primary-color py-2 text-white flex items-center justify-center rounded-lg hover:bg-text-title shadow-md'>Submit</button>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Conductivity 2' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={conductivity} alt="conductivity" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <Conductivity2Form/>
+                }
+                {
+                    proTitle === 'Tap 3' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={tap} alt="tap" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <Tap3Form />
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Raw Weter Tank' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={twtank} alt="twtank" className='w-40'/>
+                }
+                {
+                    proTitle === 'Tap 4' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={tap} alt="tap" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <Tap4Form />
+                            </div>
+                        </div>
                     </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        {/* <div className="p-5">
+                }
+                {
+                    proTitle === 'Conductivity 1' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={conductivity} alt="conductivity" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <div className="flex items-center py-3">
+                                    <p className='w-40'>Conductivity/TDS</p>
+                                    <p className='w-40'>1000</p>
+                                </div>
+                                <div className="flex items-center py-3 flex-wrap">
+                                    <p className='w-40'>Span</p>
+                                    <input type="text" name="spn" id="spn" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" value={3300} />
+                                </div>
+                                <div className="flex items-center py-3 flex-wrap">
+                                    <p className='w-40'>Trip Setpoint</p>
+                                    <input type="text" name="tsp" id="tsp" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Trip Setpoint" value={500} />
+                                </div>
+                                <div className="flex items-center py-3 flex-wrap">
+                                    <p className='w-40'>Atert Setpoint</p>
+                                    <input type="text" name="asp" id="asp" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Atert Setpoint" value={700} />
+                                </div>
+                                <button className='px-5 bg-primary-color py-2 text-white flex items-center justify-center rounded-lg hover:bg-text-title shadow-md'>Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {
+                    proTitle === 'Conductivity 2' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={conductivity} alt="conductivity" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <Conductivity2Form />
+                            </div>
+                        </div>
+                    </div>
+                }
+                {
+                    proTitle === 'Raw Weter Tank' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={twtank} alt="twtank" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            {/* <div className="p-5">
                             <div className="flex items-center py-3">
                                 <p className='w-40'>Conductivity/TDS</p>
                                 <p className='w-40'>1000</p>
@@ -682,64 +684,64 @@ px-md-18 px-lg-28 py-12
                                 <input type="text" name="asp" id="asp" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Atert Setpoint" value={700}/>
                             </div>
                         </div> */}
-                    </div>
-                </div>
-            }
-            {
-                proTitle === 'Feed Flow Sensor 1' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={feedflowsensor} alt="feedflowsensor" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <FeedFlowSensor1Form/>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Feed Flow Sensor 2' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={feedflowsensor} alt="feedflowsensor" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <FeedFlowSensor2Form/>
+                }
+                {
+                    proTitle === 'Feed Flow Sensor 1' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={feedflowsensor} alt="feedflowsensor" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <FeedFlowSensor1Form />
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Feed Flow Sensor 3' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={feedflowsensor} alt="feedflowsensor" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <FeedFlowSensor3Form/>
+                }
+                {
+                    proTitle === 'Feed Flow Sensor 2' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={feedflowsensor} alt="feedflowsensor" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <FeedFlowSensor2Form />
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            {
-                proTitle === 'Feed Flow Sensor 4' &&
-                <div className="p-5 flex flex-wrap items-stretch justify-between">
-                    <div className="flex items-center justify-center  w-5/12  ">
-                        <img src={feedflowsensor} alt="feedflowsensor" className='w-40'/>
-                    </div>
-                    <div className=" w-1/2 divider relative m-5">
-                        <div className="p-5">
-                            <FeedFlowSensor4Form/>
+                }
+                {
+                    proTitle === 'Feed Flow Sensor 3' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={feedflowsensor} alt="feedflowsensor" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <FeedFlowSensor3Form />
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+                {
+                    proTitle === 'Feed Flow Sensor 4' &&
+                    <div className="p-5 flex flex-wrap items-stretch justify-between">
+                        <div className="flex items-center justify-center  w-5/12  ">
+                            <img src={feedflowsensor} alt="feedflowsensor" className='w-40' />
+                        </div>
+                        <div className=" w-1/2 divider relative m-5">
+                            <div className="p-5">
+                                <FeedFlowSensor4Form />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default EquipmentDetail

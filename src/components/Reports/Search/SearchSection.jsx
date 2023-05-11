@@ -87,8 +87,11 @@ const SearchSection = () => {
             id="city"
             value={city}
             label="Select City/State"
-            onChange={handleChange}
-            placeholder="Select City/State"
+            onChange={(e) => {
+              setCity(e.target.value)
+              console.log(city);
+            }}
+            // placeholder="Select City/State"
           >
             <MenuItem value={1}>City 1</MenuItem>
             <MenuItem value={2}>City 2</MenuItem>

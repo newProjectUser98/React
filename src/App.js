@@ -1,11 +1,87 @@
 import "./App.scss";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./layout/Login";
 import Admin from "./layout/Admin";
 import routs from "./routes/routes";
 import { useEffect } from "react";
+
+let components = [
+  {
+    cnd: { cnd: "conductivity" },
+    panel: {
+      status: true,
+      raw_water_tank: "full",
+      treated_water_tank: "full",
+      low_pressure_switch: "low",
+      high_pressure_switch: "low",
+      dosing_pump: true,
+      error: "operational",
+    },
+    atm: {
+      status: "normal",
+      new_transaction_type: "coin",
+    },
+  },
+];
+
+let ErrorMSg = [
+  {
+    site_Name: "initiative Water",
+    time: "3 min ago",
+    component_name: "rwp",
+    error_msg: "please use numbers not a string",
+  },
+  {
+    site_Name: "Water initiative ",
+    time: "5 min ago",
+    component_name: "cnd/tds",
+    error_msg: "please use string not a number",
+  },
+  {
+    site_Name: "Water treatment",
+    time: "10 min ago",
+    component_name: "hpp",
+    error_msg: "enter a valid value",
+  },
+];
 function App() {
-  let navigate = useNavigate();
+  localStorage.setItem("components", JSON.stringify(components));
+  localStorage.setItem("ErrorMSg", JSON.stringify(ErrorMSg));
+  // let navigate = useNavigate();
+
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:8000/ws/chat/");
+
+    ws.onopen = function () {
+      alert("WebSocket Connected Successfully");
+      console.log("connection is opened");
+      ws.send("Thanks for connecting");
+    };
+
+    ws.onmessage = function (event) {
+      console.log(event);
+      console.log("message is received");
+      alert(event.data);
+      // Show desktop notification
+      if (Notification.permission === "granted") {
+        new Notification(event.data);
+      } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(function (permission) {
+          if (permission === "granted") {
+            new Notification(event.data);
+          }
+        });
+      }
+      localStorage.setItem("updateValue", JSON.stringify(event.data));
+    };
+    ws.onclose = function (event) {
+      console.log("connection is closed");
+    };
+
+    ws.onerror = function (event) {
+      console.log("something went wrong");
+    };
+  }, []);
 
   const user = JSON.parse(localStorage.getItem("user"));
   // useEffect(()=>{
@@ -14,6 +90,7 @@ function App() {
   //     navigate("/");
   //   }
   // },[user])
+
   return (
     <div className="iw">
       <Routes>
