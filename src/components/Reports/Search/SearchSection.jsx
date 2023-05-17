@@ -12,9 +12,6 @@ import { Grid, Typography } from "@mui/material";
 
 const SearchSection = () => {
   const [city, setCity] = useState("");
-  const handleChange = (event) => {
-    setCity(event.target.value);
-  };
   return (
     <Grid
       container

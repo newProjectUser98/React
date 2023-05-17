@@ -5,8 +5,8 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import { createTheme} from "@mui/material/styles";
+// eslint-disable-next-line
 const theme = createTheme({
   typography: {
     fontFamily: ["'Poppins'", "sans-serif"].join(","),

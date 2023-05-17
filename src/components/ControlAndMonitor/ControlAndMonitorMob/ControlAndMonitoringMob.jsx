@@ -11,6 +11,7 @@ import WaterTreatmentUnit from "./WaterTreatmentUnit";
 const ControlAndMonitoringMob = () => {
   const [tabStyle, setTabStyle] = useState(true);
 
+  // eslint-disable-next-line
   const test = [
     { comp: "TWS", type: "none" },
     { comp: "HPP", type: "none" },
@@ -94,6 +95,7 @@ const ControlAndMonitoringMob = () => {
         {title.map((item,i) =>
         <span key={i}
           className={
+            // eslint-disable-next-line
             item.id == tabStyle
               ? "text-xs rounded-t-xl w-3/6 flex items-center justify-center bg-gray-bg-2 text-text-gradient font-semibold"
               : "text-xs rounded-t-xl w-3/6 flex items-center justify-center bg-white text-button-hover font-normal"

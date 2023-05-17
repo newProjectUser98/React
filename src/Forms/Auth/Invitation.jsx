@@ -100,7 +100,9 @@ const Invitation = () => {
         .catch(err =>{
             console.error(err);
         })
-    },[id,token])
+    },
+    // eslint-disable-next-line
+    [id,token])
     return (
         <>
             {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Field, Form, Formik } from 'formik';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
@@ -10,27 +10,52 @@ const Conductivity2Form = () => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [spn, setSpn] = React.useState("");
+    const [asp, setAsp] = React.useState("");
 
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
     console.log("components ==>", components[0].cnd.cnd);
 
-    const initialValues = {
-        spn: 3300,
-        asp: 700,
-    };
+    
+    useEffect(()=>{
+        components[0].cnd.cnd === 'conductivity' ?
+            axios.get("http://127.0.0.1:8000/topicapi/consen_cnd_setting/").then((resp) => {
+                alert("hello")
+                console.log("res in get_rwp", resp.data);
+                setSpn(resp?.data[0]?.spn)
+                setAsp(resp?.data[0]?.asp)
+            }).catch((err) => {
+                console.log("err", err);
+            })
+            :
+            axios.get("http://127.0.0.1:8000/topicapi/consen_setting/").then((resp) => {
+                console.log("res in get_rwp", resp.data[0]);
+                setSpn(resp?.data[0]?.spn)
+                setAsp(resp?.data[0]?.asp)
+            }).catch((err) => {
+                console.log("err", err);
+            })
+    },
+    // eslint-disable-next-line
+    [])
 
+    const initialValues = {
+        spn: "",
+        asp: "",
+    };
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
-            unit_type: "water_treatment",
-            componant_name: "hpp"
+            unit_type: "water_dispense",
+            componant_name: components[0].cnd.cnd ? "consen_cnd" : "consen_tds",
+            spn: spn,
+            asp: asp
         }
-        let allData = { ...newData, ...values }
 
         components[0].cnd.cnd === 'conductivity' ?
-            axios.post('http://127.0.0.1:8000/topicapicnd_setting/', allData).then((res) => {
+            axios.post('http://127.0.0.1:8000/topicapi/consen_cnd_setting/', newData).then((res) => {
                 console.log("res in cnd", res);
                 setIsLoading(true);
                 setOpen(true);
@@ -41,7 +66,7 @@ const Conductivity2Form = () => {
             }).catch((err) => {
                 console.log("err", err);
             }) :
-            axios.post('http://127.0.0.1:8000/topicapiconsen_setting/', allData).then((res) => {
+            axios.post('http://127.0.0.1:8000/topicapi/consen_setting/', newData).then((res) => {
                 console.log("res in tds", res);
                 setIsLoading(true);
                 setOpen(true);
@@ -100,7 +125,7 @@ const Conductivity2Form = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2 '>Span</p>
-                                    <Field disabled={!editSetting} type="text" name="spn" id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
+                                    <Field disabled={!editSetting} type="text" name="spn" value={spn} onChange={(e) => setSpn(e.target.value)} id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
                                 </div>
                                 {/* <div className="flex items-center py-3 flex-wrap">
                                 <p className='w-40'>Trip Setpoint</p>
@@ -109,7 +134,7 @@ const Conductivity2Form = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Atert Setpoint</p>
-                                    <Field disabled={!editSetting} type="text" name="asp" id="asp" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Atert Setpoint" />
+                                    <Field disabled={!editSetting} type="text" name="asp" value={asp} onChange={(e) => setAsp(e.target.value)} id="asp" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Atert Setpoint" />
                                     {
                                         // changeConductivityDis === 'conductivity' ? 
                                         components[0].cnd.cnd === 'conductivity' ?

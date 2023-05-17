@@ -1,17 +1,30 @@
 import { Switch } from '@material-ui/core';
 import { Field, Form, Formik } from 'formik';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
 
 const RoiPanelForm = () => {
+    // eslint-disable-next-line
     const [statusVal, setStatusVal] = useState(false)
+    // eslint-disable-next-line
     const [dosingpumpVal, setdosingpumpVal] = useState(true)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [mod, setMod] = React.useState("");
+    const [nmv, setNmv] = React.useState("");
+    const [stp, setStp] = React.useState("");
+    const [srt1, setSrt1] = React.useState("");
+    const [srt2, setSrt2] = React.useState("");
+    const [unv, setUnv] = React.useState("");
+    const [ovv, setOvv] = React.useState("");
+    const [spn, setSpn] = React.useState("");
+    const [srt, setSrt] = React.useState("");
+    const [bkt, setBkt] = React.useState("");
+    const [rst, setRst] = React.useState("");
 
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
@@ -32,16 +45,45 @@ const RoiPanelForm = () => {
 
     };
 
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/topicapi/panel_setting/").then((resp) => {
+            console.log("res in get_rwp", resp.data[0]);
+            setMod(resp.data[0].mod)
+            setNmv(resp.data[0].nmv)
+            setStp(resp.data[0].stp)
+            setSrt1(resp.data[0].srt1)
+            setSrt2(resp.data[0].srt2)
+            setUnv(resp.data[0].unv)
+            setOvv(resp.data[0].ovv)
+            setSpn(resp.data[0].spn)
+            setSrt(resp.data[0].srt)
+            setBkt(resp.data[0].bkt)
+            setRst(resp.data[0].rst)
+        }).catch((err) => {
+            console.log("err", err);
+        })
+    }, [])
+
     const onSubmitSetting = (values, submitProps) => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "roi_panel"
+            componant_name: "roi_panel",
+            mod: mod,
+        nmv: nmv,
+        stp: stp,
+        srt1: srt1,
+        srt2: srt2,
+        unv: unv,
+        ovv: ovv,
+        spn: spn,
+        srt: srt,
+        bkt: bkt,
+        rst: rst,
         }
-        let allData = { ...newData, ...values }
-        axios.post('http://127.0.0.1:8000/topicapipanel_setting/', allData).then((res) => {
+        axios.post('http://127.0.0.1:8000/topicapi/panel_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -164,7 +206,7 @@ const RoiPanelForm = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Mode</p>
-                                    <Field as="select" disabled={!editSetting} name="mod" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} value={mod} onChange={(e) => setMod(e.target.value)} name="mod" className='w-52 my-2 p-2 border rounded'>
                                         <option value="" disabled>Select Mode</option>
                                         <option value="aut">Auto</option>
                                         <option value="sem">Semi Auto</option>
@@ -176,7 +218,7 @@ const RoiPanelForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Under Voltage</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="unv" id="unv" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Under Voltage" />
+                                        <Field disabled={!editSetting} type="text" value={unv} onChange={(e) => setUnv(e.target.value)} name="unv" id="unv" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Under Voltage" />
                                         <span className='mx-5 my-2'>Volts</span>
                                     </div>
                                 </div>
@@ -184,19 +226,19 @@ const RoiPanelForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Over Voltage</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="ovv" id="ovv" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Over Voltage" />
+                                        <Field disabled={!editSetting} type="text" value={ovv} onChange={(e) => setOvv(e.target.value)} name="ovv" id="ovv" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Over Voltage" />
                                         <span className='mx-5 my-2'>Volts</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Span</p>
-                                    <Field disabled={!editSetting} type="text" name="spn" id="spn" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
+                                    <Field disabled={!editSetting} type="text" value={spn} onChange={(e) => setSpn(e.target.value)} name="spn" id="spn" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>No.of Multiport valve</p>
-                                    <Field as="select" disabled={!editSetting} name="nmv" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} value={nmv} onChange={(e) => setNmv(e.target.value)} name="nmv" className='w-52 my-2 p-2 border rounded'>
                                         <option value="" disabled>Please Select</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -206,7 +248,7 @@ const RoiPanelForm = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Sensor Type</p>
-                                    <Field as="select" disabled={!editSetting} name="stp" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} value={stp} onChange={(e) => setStp(e.target.value)} name="stp" className='w-52 my-2 p-2 border rounded'>
                                         <option value="" disabled>Select Sensor Type</option>
                                         <option value="t">Time</option>
                                         <option value="f">Flow</option>
@@ -216,20 +258,20 @@ const RoiPanelForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Service Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="srt1" id="srth" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
+                                        <Field disabled={!editSetting} type="text" value={srt1} onChange={(e) => setSrt1(e.target.value)} name="srt1" id="srth" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
                                         <span className='mx-1'>:</span>
-                                        <Field disabled={!editSetting} type="text" name="srt2" id="srts" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
+                                        <Field disabled={!editSetting} type="text" value={srt2} onChange={(e) => setSrt2(e.target.value)} name="srt2" id="srts" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Backwash Time</p>
-                                    <Field disabled={!editSetting} type="text" name="bkt" id="bkt" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Backwash Time" />
+                                    <Field disabled={!editSetting} type="text" value={bkt} onChange={(e) => setBkt(e.target.value)} name="bkt" id="bkt" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Backwash Time" />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Rinse Time</p>
-                                    <Field disabled={!editSetting} type="text" name="rst" id="rst" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rinse Time" />
+                                    <Field disabled={!editSetting} type="text" value={rst} onChange={(e) => setRst(e.target.value)} name="rst" id="rst" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rinse Time" />
                                 </div>
 
                                 {

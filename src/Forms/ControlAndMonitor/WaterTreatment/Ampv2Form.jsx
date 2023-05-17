@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from 'formik';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
@@ -9,6 +9,52 @@ const Ampv2Form = () => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [pos, setPos] = useState('');
+    const [bkt, setBkt] = useState('');
+    const [ip1, setIp1] = useState('');
+    const [ip2, setIp2] = useState('');
+    const [ip3, setIp3] = useState('');
+    const [mot, setMot] = useState('');
+    const [op1, setOp1] = useState('');
+    const [op2, setOp2] = useState('');
+    const [op3, setOp3] = useState('');
+    const [psi, setPsi] = useState('');
+    const [rst, setRst] = useState('');
+    const [srt1, setSrt1] = useState('');
+    const [srt2, setSrt2] = useState('');
+    const [stp, setStp] = useState('');
+
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/topicapi/ampv2_state/").then((resp) => {
+            console.log("res in get_rwp_state", resp.data[0]);
+            setPos(resp.data[0].pos);
+        }).catch((err) => {
+            console.log("err", err);
+        })
+        axios.get("http://127.0.0.1:8000/topicapi/ampv2_setting/").then((resp) => {
+            console.log("res in get_rwp_setting", resp.data[0]);
+            let myNewData = resp.data[0]
+            const myData = JSON.stringify(myNewData);
+            localStorage.setItem("setting_Data", myData);
+            setBkt(resp.data[0].bkt)
+            setIp1(resp.data[0].ip1)
+            setIp2(resp.data[0].ip2)
+            setIp3(resp.data[0].ip3)
+            setMot(resp.data[0].mot)
+            setOp1(resp.data[0].op1)
+            setOp2(resp.data[0].op2)
+            setOp3(resp.data[0].op3)
+            setPsi(resp.data[0].psi)
+            setRst(resp.data[0].rst)
+            setSrt1(resp.data[0].srt1)
+            setSrt2(resp.data[0].srt2)
+            setStp(resp.data[0].stp)
+        }).catch((err) => {
+            console.log("err", err);
+        })
+    }, [])
+
+
     const initialValuesState = {
         pos: ''
     };
@@ -27,15 +73,18 @@ const Ampv2Form = () => {
         op2: 'ml-9',
         op3: 'ml-9',
     };
+
     const onSubmitState = (values, submitProps) => {
+        console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "ampv2"
+            componant_name: "ampv2",
+            pos: pos
         }
-        let allData = { ...newData, ...values }
-        axios.post('http://127.0.0.1:8000/topicapiampv2_state/', allData).then((res) => {
+        console.log("newData", newData);
+        axios.post('http://127.0.0.1:8000/topicapi/ampv2_state/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -48,16 +97,29 @@ const Ampv2Form = () => {
         })
     }
     const onSubmitSetting = (values, submitProps) => {
-        console.log("values", values);
+        console.log("values in ampv 2 setting", values);
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "ampv2"
+            componant_name: "ampv2",
+            stp: stp,
+            ip1: ip1,
+            ip2: ip2,
+            ip3: ip3,
+            psi: psi,
+            srt1: srt1,
+            srt2: srt2,
+            bkt: bkt,
+            rst: rst,
+            mot: mot,
+            op1: op1,
+            op2: op2,
+            op3: op3,
         }
-        let allData = { ...newData, ...values }
-        axios.post('http://127.0.0.1:8000/topicapiampv2_setting/', allData).then((res) => {
-            console.log("res", res);
+        console.log("newData", newData);
+        axios.post('http://127.0.0.1:8000/topicapi/ampv2_setting/', newData).then((res) => {
+            console.log("res in setting", res);
             setIsLoading(true);
             setOpen(true);
             setTimeout(() => {
@@ -101,7 +163,8 @@ const Ampv2Form = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-yellow-300 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Position</p>
-                                    <Field as="select" disabled={!editState} name="pos" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" name="pos" className='w-52 my-2 p-2 border rounded' value={pos}
+                                        onChange={(e) => setPos(e.target.value)} disabled={!editState}>
                                         <option value="" disabled>Select Position</option>
                                         <option value="ser">Service</option>
                                         <option value="bck">Backwash</option>
@@ -146,16 +209,19 @@ const Ampv2Form = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Service Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="srt1" id="srth" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
+                                        <Field disabled={!editSetting} type="text" name="srt1" id="srth" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" value={srt1}
+                                            onChange={(e) => setSrt1(e.target.value)} />
                                         <span className='mx-1'>:</span>
-                                        <Field disabled={!editSetting} type="text" name="srt2" id="srts" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
+                                        <Field disabled={!editSetting} type="text" name="srt2" id="srts" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" value={srt2}
+                                            onChange={(e) => setSrt2(e.target.value)} />
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Backwash Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="bkt" id="bkt" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Backwash Time" />
+                                        <Field disabled={!editSetting} type="text" name="bkt" id="bkt" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Backwash Time" value={bkt}
+                                            onChange={(e) => setBkt(e.target.value)} />
                                         <span className='mx-1'>minutes</span>
                                     </div>
                                 </div>
@@ -163,7 +229,8 @@ const Ampv2Form = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Rinse Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="rst" id="rst" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rinse Time" />
+                                        <Field disabled={!editSetting} type="text" name="rst" id="rst" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rinse Time" value={rst}
+                                            onChange={(e) => setRst(e.target.value)} />
                                         <span className='mx-1'>minutes</span>
                                     </div>
                                 </div>
@@ -171,14 +238,16 @@ const Ampv2Form = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Motor On Delay Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="mot" id="mot" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Motor On Delay Time" />
+                                        <Field disabled={!editSetting} type="text" name="mot" id="mot" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Motor On Delay Time" value={mot}
+                                            onChange={(e) => setMot(e.target.value)} />
                                         <span className='mx-1'>sec</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Sensor Type</p>
-                                    <Field as="select" disabled={!editSetting} name="stp" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} name="stp" className='w-52 my-2 p-2 border rounded' value={stp}
+                                        onChange={(e) => setStp(e.target.value)}>
                                         <option value="" disabled>Select Sensor Type</option>
                                         <option value="tme">Time</option>
                                         <option value="vol">Volume</option>
@@ -189,22 +258,26 @@ const Ampv2Form = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 1</p>
-                                    <Field disabled={!editSetting} type="text" name="op1" id="op1" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 1" />
+                                    <Field disabled={!editSetting} type="text" name="op1" id="op1" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 1" value={op1}
+                                        onChange={(e) => setOp1(e.target.value)} />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 2</p>
-                                    <Field disabled={!editSetting} type="text" name="op2" id="op2" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 2" />
+                                    <Field disabled={!editSetting} type="text" name="op2" id="op2" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 2" value={op2}
+                                        onChange={(e) => setOp2(e.target.value)} />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 3</p>
-                                    <Field disabled={!editSetting} type="text" name="op3" id="op3" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 3" />
+                                    <Field disabled={!editSetting} type="text" name="op3" id="op3" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 3" value={op3}
+                                        onChange={(e) => setOp3(e.target.value)} />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Input 1</p>
-                                    <Field as="select" disabled={!editSetting} name="ip1" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} name="ip1" className='w-52 my-2 p-2 border rounded' value={ip1}
+                                        onChange={(e) => setIp1(e.target.value)}>
                                         <option value="" disabled>Select Input 1</option>
                                         <option value="Off">Off</option>
                                         <option value="Twlvl">Treated Water Tank Level</option>
@@ -216,7 +289,8 @@ const Ampv2Form = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Input 2</p>
-                                    <Field as="select" disabled={!editSetting} name="ip2" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} name="ip2" className='w-52 my-2 p-2 border rounded' value={ip2}
+                                        onChange={(e) => setIp2(e.target.value)}>
                                         <option value="" disabled>Select Input 2</option>
                                         <option value="Off">Off</option>
                                         <option value="Twlvl">Treated Water Tank Level</option>
@@ -228,7 +302,8 @@ const Ampv2Form = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Input 3</p>
-                                    <Field as="select" disabled={!editSetting} name="ip3" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} name="ip3" className='w-52 my-2 p-2 border rounded' value={ip3}
+                                        onChange={(e) => setIp3(e.target.value)}>
                                         <option value="" disabled>Select Input 3</option>
                                         <option value="Off">Off</option>
                                         <option value="Twlvl">Treated Water Tank Level</option>
@@ -240,7 +315,8 @@ const Ampv2Form = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Pressure Switch Input</p>
-                                    <Field as="select" disabled={!editSetting} name="psi" className='w-auto my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} name="psi" className='w-auto my-2 p-2 border rounded' value={psi}
+                                        onChange={(e) => setPsi(e.target.value)}>
                                         <option value="" disabled>Select Pressure Switch Input</option>
                                         <option value="ena">Enable</option>
                                         <option value="dis">Disable</option>

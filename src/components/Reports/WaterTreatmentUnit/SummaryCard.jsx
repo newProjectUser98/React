@@ -3,6 +3,7 @@ import { Grid, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 
 const SummaryCard = ({ value, icon, title }) => {
+  // eslint-disable-next-line
   const [isActive, setIsActive] = useState(true);
 
   // const handleClick = () => {

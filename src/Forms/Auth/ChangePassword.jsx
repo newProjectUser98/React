@@ -56,7 +56,9 @@ const ChangePassword = () => {
         .catch(err =>{
             console.error(err);
         })
-    },[id,token])
+    },
+    // eslint-disable-next-line
+    [id,token])
     const initialValues = {
         username: resData?.Data?.username,
         email: resData?.Data?.email,

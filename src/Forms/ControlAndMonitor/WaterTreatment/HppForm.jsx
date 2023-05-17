@@ -1,6 +1,6 @@
 import { Switch } from '@material-ui/core';
 import { Field, Form, Formik } from 'formik'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
@@ -11,14 +11,36 @@ const HppForm = () => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [olc, setOlc] = React.useState("");
+    const [drc, setDrc] = React.useState("");
+    const [spn, setSpn] = React.useState("");
+
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/topicapi/hpp_state/").then((resp) => {
+            console.log("res in get_hpp state", resp.data[0]);
+            setStatusVal(resp.data[0].sts === "on" ? true : false)
+        }).catch((err) => {
+            console.log("err", err);
+        })
+        axios.get("http://127.0.0.1:8000/topicapi/hpp_setting/").then((resp) => {
+            console.log("res in get_hpp setting", resp.data[0]);
+            setDrc(resp.data[0].drc)
+            setOlc(resp.data[0].olc)
+            setSpn(resp.data[0].spn)
+        }).catch((err) => {
+            console.log("err", err);
+        })
+    }, [])
+
     const initialValuesState = {
-        sts: '',
+        sts: "",
         crt: "",
     };
+
     const initialValuesSetting = {
-        olc: 12.5,
-        drc: 1.5,
-        spn: 3300,
+        olc: "settingData.olc",
+        drc: "settingData.drc",
+        spn: "settingData.spn",
     };
     const onSubmitState = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
@@ -28,7 +50,7 @@ const HppForm = () => {
             componant_name: "hpp",
             sts: statusVal === true ? "on" : "off"
         }
-        axios.post('http://127.0.0.1:8000/topicapihpp_state/', newData).then((res) => {
+        axios.post('http://127.0.0.1:8000/topicapi/hpp_state/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -44,12 +66,14 @@ const HppForm = () => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
-            unit_type: "Water Treatment Unit",
-            componant_name: "hpp"
+            unit_type: "water_treatment",
+            componant_name: "hpp",
+            olc: olc,
+            spn: spn,
+            drc: drc
         }
-        console.log("values", values);
-        let allData = { ...newData, ...values }
-        axios.post('http://127.0.0.1:8000/topicapihpp_setting/', allData).then((res) => {
+        console.log("newData", newData);
+        axios.post('http://127.0.0.1:8000/topicapi/hpp_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -135,7 +159,8 @@ const HppForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Over Load Current</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="olc" id="olc" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Over Load Current" />
+                                        <Field disabled={!editSetting} type="text" name="olc" id="olc" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Over Load Current" value={olc}
+                                            onChange={(e) => setOlc(e.target.value)} />
                                         <span className='mx-5 my-2'>Ampere</span>
                                     </div>
                                 </div>
@@ -143,14 +168,16 @@ const HppForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Dry Run Current</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="drc" id="drc" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Dry Run Current" />
+                                        <Field disabled={!editSetting} type="text" name="drc" id="drc" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Dry Run Current" value={drc}
+                                            onChange={(e) => setDrc(e.target.value)} />
                                         <span className='mx-5 my-2'>Ampere</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Span</p>
-                                    <Field disabled={!editSetting} type="text" name="spn" id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
+                                    <Field disabled={!editSetting} type="text" name="spn" id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" value={spn}
+                                        onChange={(e) => setSpn(e.target.value)} />
                                 </div>
                                 {
                                     editSetting &&

@@ -135,7 +135,9 @@ const Login = () => {
     } else {
       setCounter(0);
     }
-  }, [counter]);
+  },
+  // eslint-disable-next-line
+  [counter]);
   return (
     <>
       {resData?.message && (

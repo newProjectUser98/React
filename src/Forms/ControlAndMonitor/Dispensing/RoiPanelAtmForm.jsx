@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from 'formik';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
@@ -8,10 +8,38 @@ const RoiPanelAtmForm = () => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [ntp, setNtp] = React.useState("");
+    const [nov, setNov] = React.useState("");
+    const [vl1, setvl1] = React.useState("");
+    const [vl2, setvl2] = React.useState("");
+    const [vl3, setvl3] = React.useState("");
+    const [vl4, setvl4] = React.useState("");
+    const [re1, setre1] = React.useState("");
+    const [re2, setre2] = React.useState("");
+    const [re3, setre3] = React.useState("");
+    const [re4, setre4] = React.useState("");
 
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
     console.log("components ==>", components[0].atm.new_transaction_type);
+
+    useEffect(()=>{
+        axios.get("http://127.0.0.1:8000/topicapi/atm_setting/").then((resp)=>{
+            console.log("res in get_rwp",resp.data[0]);
+            setNov(resp.data[0].nov)
+            setNtp(resp.data[0].ntp)
+            setvl1(resp.data[0].vl1)
+            setvl2(resp.data[0].vl2)
+            setvl3(resp.data[0].vl3)
+            setvl4(resp.data[0].vl4)
+            setre1(resp.data[0].re1)
+            setre2(resp.data[0].re2)
+            setre3(resp.data[0].re3)
+            setre4(resp.data[0].re4)
+        }).catch((err)=>{
+            console.log("err",err);
+        })
+    }, [])
 
     const initialValues = {
         ntp: '',
@@ -25,16 +53,25 @@ const RoiPanelAtmForm = () => {
         re3: 100,
         re4: 100,
     };
+
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
-            unit_type: "water_treatment",
-            componant_name: "hpp"
+            unit_type: "water_dispense",
+            componant_name: "atm",
+            ntp: ntp,
+            nov: nov,
+            vl1: vl1,
+            vl2: vl2,
+            vl3: vl3,
+            vl4: vl4,
+            re1: re1,
+            re2: re2,
+            re3: re3,
+            re4: re4,
         }
-        console.log("nov", values);
-        let allData = { ...newData, ...values }
-        axios.post('http://127.0.0.1:8000/topicapiatm_setting/', allData).then((res) => {
+        axios.post('http://127.0.0.1:8000/topicapi/atm_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -120,7 +157,7 @@ const RoiPanelAtmForm = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>No. Of Tap</p>
-                                    <Field as="select" disabled={!editSetting} name="ntp" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} name="ntp" id="ntp" value={ntp} onChange={(e) => setNtp(e.target.value)} className='w-52 my-2 p-2 border rounded'>
                                         <option value="" disabled>Please Select</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -131,7 +168,7 @@ const RoiPanelAtmForm = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>No. Of Volume</p>
-                                    <Field as="select" disabled={!editSetting} name="nov" id="nov" className='w-52 my-2 p-2 border rounded'>
+                                    <Field as="select" disabled={!editSetting} name="nov" id="nov" value={nov} onChange={(e) => setNov(e.target.value)} className='w-52 my-2 p-2 border rounded'>
                                         <option value="" disabled>Please Select</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -143,7 +180,7 @@ const RoiPanelAtmForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Volume1</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="vl1" id="vl1" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Volume1" />
+                                        <Field disabled={!editSetting} type="text" name="vl1" id="vl1" value={vl1} onChange={(e) => setvl1(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Volume1" />
                                         <span className='mx-3'>m3/hr</span>
                                     </div>
                                 </div>
@@ -151,7 +188,7 @@ const RoiPanelAtmForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Volume2</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="vl2" id="vl2" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Volume2" />
+                                        <Field disabled={!editSetting} type="text" name="vl2" id="vl2" value={vl2} onChange={(e) => setvl2(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Volume2" />
                                         <span className='mx-3'>m3/hr</span>
                                     </div>
                                 </div>
@@ -159,7 +196,7 @@ const RoiPanelAtmForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Volume3</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="vl3" id="vl3" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Volume3" />
+                                        <Field disabled={!editSetting} type="text" name="vl3" id="vl3" value={vl3} onChange={(e) => setvl3(e.target.value)} className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Volume3" />
                                         <span className='mx-3'>m3/hr</span>
                                     </div>
                                 </div>
@@ -167,7 +204,7 @@ const RoiPanelAtmForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40'>Volume4</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="vl4" id="vl4" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Volume4" />
+                                        <Field disabled={!editSetting} type="text" name="vl4" id="vl4" value={vl4} onChange={(e) => setvl4(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Volume4" />
                                         <span className='mx-3'>m3/hr</span>
                                     </div>
                                 </div>
@@ -176,7 +213,7 @@ const RoiPanelAtmForm = () => {
                                     <p className='w-40 my-2'>Rate1</p>
                                     <div>
                                         <span className='mx-3'>Rs</span>
-                                        <Field disabled={!editSetting} type="text" name="re1" id="re1" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rate1" />
+                                        <Field disabled={!editSetting} type="text" name="re1" id="re1" value={re1} onChange={(e) => setre1(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rate1" />
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
@@ -184,7 +221,7 @@ const RoiPanelAtmForm = () => {
                                     <p className='w-40 my-2'>Rate2</p>
                                     <div>
                                         <span className='mx-3'>Rs</span>
-                                        <Field disabled={!editSetting} type="text" name="re2" id="re2" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rate2" />
+                                        <Field disabled={!editSetting} type="text" name="re2" id="re2" value={re2} onChange={(e) => setre2(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rate2" />
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
@@ -192,7 +229,7 @@ const RoiPanelAtmForm = () => {
                                     <p className='w-40 my-2'>Rate3</p>
                                     <div>
                                         <span className='mx-3'>Rs</span>
-                                        <Field disabled={!editSetting} type="text" name="re3" id="re3" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rate3" />
+                                        <Field disabled={!editSetting} type="text" name="re3" id="re3" value={re3} onChange={(e) => setre3(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rate3" />
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
@@ -200,7 +237,7 @@ const RoiPanelAtmForm = () => {
                                     <p className='w-40 my-2'>Rate4</p>
                                     <div>
                                         <span className='mx-3'>Rs</span>
-                                        <Field disabled={!editSetting} type="text" name="re4" id="re4" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rate4" />
+                                        <Field disabled={!editSetting} type="text" name="re4" id="re4" value={re4} onChange={(e) => setre4(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rate4" />
                                     </div>
                                 </div>
                                 {

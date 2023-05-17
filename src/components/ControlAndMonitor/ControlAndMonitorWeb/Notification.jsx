@@ -1,13 +1,9 @@
 import { Grid, } from '@material-ui/core'
 import React from 'react'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { Paper } from '@mui/material';
 
 const Notification = () => {
-    const orange = ''
-    const red = ''
-    const gray = ''
 
     let ErrorMSgJSON = localStorage.getItem("ErrorMSg");
     let ErrorMsg = JSON.parse(ErrorMSgJSON);
