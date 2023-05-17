@@ -1,7 +1,6 @@
 import { Field, Form, Formik } from 'formik'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import * as Yup from "yup";
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
@@ -9,20 +8,32 @@ const PremeteFlowSensorForm = () => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [ff, setFF] = React.useState("");
+
+
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/topicapi/P_flowsen_setting/").then((resp) => {
+            console.log("res in get_p_flowsen", resp.data);
+            setFF(resp.data[0].ff)
+        }).catch((err) => {
+            console.log("err", err);
+        })
+    }, [])
 
     const initialValues = {
         flowrate: '',
-        ff: "003.00",
+        ff: "settingData.ff",
     };
+
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "P_flowsen"
+            componant_name: "P_flowsen",
+            ff:ff
         }
-        let allData = { ...newData, ...values }
-        axios.post('http://127.0.0.1:8000/topicapiP_flowsen_setting/', allData).then((res) => {
+        axios.post('http://127.0.0.1:8000/topicapi/P_flowsen_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -73,7 +84,8 @@ const PremeteFlowSensorForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Flow Factor</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="ff" id="ff" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Flow Factor" />
+                                        <Field disabled={!editSetting} type="text" name="ff" id="ff" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Flow Factor" value={ff}
+                                        onChange={(e) => setFF(e.target.value)} />
                                         <span className='mx-2 my-2'>ml/pulse</span>
                                     </div>
                                 </div>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Switch } from "@mui/material";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 
@@ -32,9 +31,7 @@ import PremeteFlowSensorForm from "../../../Forms/ControlAndMonitor/WaterTreatme
 import ConductivityForm from "../../../Forms/ControlAndMonitor/WaterTreatment/ConductivityForm";
 
 const WaterTreatmentUnit = ({ toDisplay }) => {
-  const [selected, setSelected] = useState(null);
   const [toggleValue, setToggleValue] = useState('');
-  const [changeConductivity, setChangeConductivity] = useState('conductivity')
 
   return (
     <div

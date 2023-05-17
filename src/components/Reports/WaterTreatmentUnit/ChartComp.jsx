@@ -14,7 +14,6 @@ import LineChartComp from "./LineChartComp";
 import { useEffect } from "react";
 import { ReactComponent as LeftArrow } from "../../../assets/icons/ReportsIcon/CaretLeft.svg";
 import ReactSimplyCarousel from "react-simply-carousel";
-import axios from "axios";
 
 const ChartComp = () => {
   const [checked, setChecked] = useState(false);
@@ -48,7 +47,9 @@ const ChartComp = () => {
       });
       setChartColors(newArr);
     }
-  }, [updatedColor, updatedIndex]);
+  },
+  // eslint-disable-next-line
+  [updatedColor, updatedIndex]);
 
 
   const matches = useMediaQuery("(min-width: 960px)");
@@ -169,7 +170,7 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis }
     { color: "#2025A6" },
     { color: "#8F1A67" },
   ];
-
+// eslint-disable-next-line
   const chartData = [
     {
       name: "x ",

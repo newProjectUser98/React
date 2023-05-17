@@ -47,7 +47,6 @@ let ErrorMSg = [
 function App() {
   localStorage.setItem("components", JSON.stringify(components));
   localStorage.setItem("ErrorMSg", JSON.stringify(ErrorMSg));
-  // let navigate = useNavigate();
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8000/ws/chat/");

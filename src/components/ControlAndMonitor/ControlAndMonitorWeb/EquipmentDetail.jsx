@@ -1,5 +1,5 @@
-import { Switch } from '@material-ui/core'
-import React, { useState } from 'react'
+
+import React from 'react'
 import rwp from '../../../assets/images/rwp-motor.svg'
 import ampv1 from '../../../assets/images/ampv1.svg'
 import ampv2 from '../../../assets/images/ampv2.svg'
@@ -40,8 +40,6 @@ import FeedFlowSensor3Form from '../../../Forms/ControlAndMonitor/Dispensing/Fee
 import FeedFlowSensor4Form from '../../../Forms/ControlAndMonitor/Dispensing/FeedFlowSensor4Form'
 
 const EquipmentDetail = ({ proTitle }) => {
-    const [isLoading, setIsLoading] = useState(false)
-    console.log("isLoading on eqp", isLoading);
     return (
         <div className='equipment-detail relative my-20'>
 
@@ -89,8 +87,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <RwpForm 
-                                setIsLoading={setIsLoading}/>
+                                <RwpForm />
                             </div>
                         </div>
                     </div>

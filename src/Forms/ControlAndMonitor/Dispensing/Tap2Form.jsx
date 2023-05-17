@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Field, Form, Formik } from 'formik';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
@@ -9,23 +9,41 @@ const Tap2Form = () => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [p1, setP1] = React.useState("");
+    const [p2, setP2] = React.useState("");
+    const [p3, setP3] = React.useState("");
+    const [p4, setP4] = React.useState("");
+
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/topicapi/tap2_setting/").then((resp) => {
+            console.log("res in get_rwp", resp.data[0]);
+            setP1(resp.data[0].p1)
+            setP2(resp.data[0].p2)
+            setP3(resp.data[0].p3)
+            setP4(resp.data[0].p4)
+        }).catch((err) => {
+            console.log("err", err);
+        })
+    }, [])
 
     const initialValues = {
-        p1: 123456,
-        p2: 123456,
-        p3: 123456,
-        p4: 123456,
+        p1: "",
+        p2: "",
+        p3: "",
+        p4: "",
     };
-
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
-            unit_type: "water_treatment",
-            componant_name: "tap2"
+            unit_type: "water_dispense",
+            componant_name: "tap2",
+            p1: p1,
+            p2: p2,
+            p3: p3,
+            p4: p4
         }
-        let allData = { ...newData, ...values }
-        axios.post('http://127.0.0.1:8000/topicapitap2_setting/', allData).then((res) => {
+        axios.post('http://127.0.0.1:8000/topicapi/tap2_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -62,22 +80,22 @@ const Tap2Form = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Pulse1</p>
-                                    <Field disabled={!editSetting} type="text" name="p1" id="p1" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Pulse1" />
+                                    <Field disabled={!editSetting} type="text" name="p1" id="p1" value={p1} onChange={(e) => setP1(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Pulse1" />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Pulse2</p>
-                                    <Field disabled={!editSetting} type="text" name="p2" id="p2" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Pulse2" />
+                                    <Field disabled={!editSetting} type="text" name="p2" id="p2" value={p2} onChange={(e) => setP2(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Pulse2" />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Pulse3</p>
-                                    <Field disabled={!editSetting} type="text" name="p3" id="p3" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Pulse3" />
+                                    <Field disabled={!editSetting} type="text" name="p3" id="p3" value={p3} onChange={(e) => setP3(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Pulse3" />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Pulse4</p>
-                                    <Field disabled={!editSetting} type="text" name="p4" id="p4" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Pulse4" />
+                                    <Field disabled={!editSetting} type="text" name="p4" id="p4" value={p4} onChange={(e) => setP4(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Pulse4" />
                                 </div>
                                 {
                                     editSetting &&

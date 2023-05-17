@@ -6,10 +6,14 @@ import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
 
 const ConductivityForm = () => {
+    // eslint-disable-next-line
     const [changeConductivity, setChangeConductivity] = useState('conductivity')
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [spn, setSpn] = React.useState("");
+    const [tsp, setTsp] = React.useState("");
+    const [asp, setAsp] = React.useState("");
 
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
@@ -20,35 +24,60 @@ const ConductivityForm = () => {
         tsp: 500,
         asp: 700
     };
+
+    useEffect(() => {
+        components[0].cnd.cnd === 'conductivity' ?
+            axios.get("http://127.0.0.1:8000/topicapi/cnd_setting/").then((resp) => {
+                console.log("res in get_rwp", resp.data[0]);
+                setSpn(resp?.data[0]?.spn)
+                setTsp(resp?.data[0]?.tsp)
+                setAsp(resp?.data[0]?.asp)
+            }).catch((err) => {
+                console.log("err", err);
+            })
+            :
+            axios.get("http://127.0.0.1:8000/topicapi/tds_setting/").then((resp) => {
+                console.log("res in get_rwp", resp.data[0]);
+                setSpn(resp?.data[0]?.spn)
+                setTsp(resp?.data[0]?.tsp)
+                setAsp(resp?.data[0]?.asp)
+            }).catch((err) => {
+                console.log("err", err);
+            })
+    },
+        // eslint-disable-next-line
+        [])
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "hpp"
+            componant_name: components[0].cnd.cnd === "conductivity" ? "conductivity" : "tds",
+            spn: spn,
+            tsp: tsp,
+            asp: asp
         }
-        let allData = { ...newData, ...values }
 
         components[0].cnd.cnd === 'conductivity' ?
-            axios.post('http://127.0.0.1:8000/topicapicnd_setting/', allData).then((res) => {
+            axios.post('http://127.0.0.1:8000/topicapi/cnd_setting/', newData).then((res) => {
                 console.log("res in cnd", res);
                 setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 10000);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
             }).catch((err) => {
                 console.log("err", err);
             }) :
-            axios.post('http://127.0.0.1:8000/topicapitds_setting/', allData).then((res) => {
+            axios.post('http://127.0.0.1:8000/topicapi/tds_setting/', newData).then((res) => {
                 console.log("res in tds", res);
                 setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 10000);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
             }).catch((err) => {
                 console.log("err", err);
             })
@@ -100,13 +129,13 @@ const ConductivityForm = () => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Span</p>
-                                    <Field disabled={!editSetting} type="text" name="spn" id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
+                                    <Field disabled={!editSetting}  value={spn} onChange={(e) => setSpn(e.target.value)} type="text" name="spn" id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Trip Setpoint</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="tsp" id="tsp" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Trip Setpoint" />
+                                        <Field disabled={!editSetting} type="text" name="tsp" value={tsp} onChange={(e) => setTsp(e.target.value)} id="tsp" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Trip Setpoint" />
                                         {
                                             // changeConductivity === 'conductivity' ?
                                             components[0].cnd.cnd === 'conductivity' ?
@@ -120,7 +149,7 @@ const ConductivityForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Alert Setpoint</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="asp" id="asp" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Alert Setpoint" />
+                                        <Field disabled={!editSetting} type="text" name="asp" id="asp" value={asp} onChange={(e) => setAsp(e.target.value)} className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Alert Setpoint" />
                                         {
                                             // changeConductivity === 'conductivity' ?
                                             components[0].cnd.cnd === 'conductivity' ?

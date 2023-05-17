@@ -28,7 +28,9 @@ const Sidebar = (props) => {
   useEffect(() => {
     const headername = getheadertitle(Object.values(location));
     headername ? dispatch(updateheadertitle(headername?.name)) : dispatch(updateheadertitle('Sites under subscription'))
-  }, [location]);
+  },
+  // eslint-disable-next-line
+  [location]);
   useEffect(() => {
     if(setOpen){
       setOpen(matches);

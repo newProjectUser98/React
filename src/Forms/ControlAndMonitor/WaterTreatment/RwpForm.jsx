@@ -1,8 +1,6 @@
 import { Switch } from '@material-ui/core'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import React, { useState } from 'react'
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import * as Yup from "yup";
 import TextError from '../../TextError';
@@ -15,16 +13,43 @@ const RwpForm = () => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
+    const [olc, setOlc] = React.useState("");
+    const [drc, setDrc] = React.useState("");
+    const [spn, setSpn] = React.useState("");
+
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/topicapi/Rwp_state/").then((resp) => {
+            console.log("res in get_rwp_state 56", resp.data[0]);
+            setStatusVal(resp.data[0].sts === "on" ? true : false)
+        }).catch((err) => {
+            console.log("err", err);
+        })
+        axios.get("http://127.0.0.1:8000/topicapi/rwp_setting/").then((resp) => {
+            console.log("res in get_rwp set", resp.data[0]);
+            setDrc(resp.data[0].drc)
+            setOlc(resp.data[0].olc)
+            setSpn(resp.data[0].spn)
+
+        }).catch((err) => {
+            console.log("err", err);
+        })
+    }, [])
 
     const initialValuesState = {
         sts: "",
         crt: "",
     };
+
     const initialValuesSetting = {
-        olc: 12.5,
-        drc: 1.5,
-        spn: 3300,
+        olc: "settingData.olc",
+        drc: "settingData.drc",
+        spn: "settingData.spn",
     }
+    console.log(
+        "olc val", "data.olc"
+    );
+    console.log("initialValuesSetting", initialValuesSetting);
+    // eslint-disable-next-line
     const validationSchemaSetting = Yup.object({
         olc: Yup.number('Please enter numbers')
     })
@@ -38,9 +63,7 @@ const RwpForm = () => {
             componant_name: "rwp",
             sts: statusVal === true ? "on" : "off"
         }
-        let allData = { ...newData }
-        console.log("all data", allData);
-        axios.post('http://127.0.0.1:8000/topicapiRwp_state/', allData).then((res) => {
+        axios.post('http://127.0.0.1:8000/topicapi/Rwp_state/', newData).then((res) => {
             setIsLoading(true);
             setOpen(true);
             setTimeout(() => {
@@ -56,10 +79,12 @@ const RwpForm = () => {
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "rwp"
+            componant_name: "rwp",
+            olc: olc,
+            spn: spn,
+            drc: drc
         }
-        let allData = { ...newData, ...values }
-        axios.post('http://127.0.0.1:8000/topicapiRwp_setting/', allData).then((res) => {
+        axios.post('http://127.0.0.1:8000/topicapi/rwp_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -74,7 +99,7 @@ const RwpForm = () => {
     return (
         <>
             {isLoading &&
-            <BackdropComp open={open}/>
+                <BackdropComp open={open} />
             }
             <div className="flex items-center w-full mb-5 flex-wrap justify-center">
                 <div className="flex items-center m-2 ">
@@ -132,7 +157,9 @@ const RwpForm = () => {
             //validationSchema={validationSchemaSetting}
             >
                 {
-                    (formik) => {
+                    ({ values }) => {
+                        console.log("initialValuesSetting in return", initialValuesSetting);
+                        console.log("values....", values);
                         return (
                             <Form autoComplete='off'>
                                 <div className="flex items-center mt-5 mx-2">
@@ -145,7 +172,8 @@ const RwpForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Over Load Current</p>
                                     <div>
-                                        <Field disabled={!editSetting} type='text' id='olc' name='olc' placeholder="Over Load Current" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" />
+                                        <Field disabled={!editSetting} type='text' id='olc' name='olc' placeholder="Over Load Current" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={olc}
+                                        onChange={(e) => setOlc(e.target.value)}/>
                                         <span className='mx-1 my-2'>Ampere</span>
                                     </div>
                                     <ErrorMessage name="olc" component={TextError} />
@@ -154,14 +182,16 @@ const RwpForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Dry Run Current</p>
                                     <div>
-                                        <Field disabled={!editSetting} type='text' id='drc' name='drc' placeholder="Dry Run Current" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" />
+                                        <Field disabled={!editSetting} type='text' id='drc' name='drc' placeholder="Dry Run Current" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={drc}
+                                        onChange={(e) => setDrc(e.target.value)}/>
                                         <span className='mx-1 my-2'>Ampere</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Span</p>
-                                    <Field disabled={!editSetting} type='text' id='spn' name='spn' placeholder="Span" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" />
+                                    <Field disabled={!editSetting} type='text' id='spn' name='spn' placeholder="Span" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={spn}
+                                        onChange={(e) => setSpn(e.target.value)}/>
                                 </div>
                                 {
                                     editSetting &&

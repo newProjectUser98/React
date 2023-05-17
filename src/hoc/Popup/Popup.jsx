@@ -22,7 +22,9 @@ const Popup = (props) => {
         if(setTabForm){
             setTabForm(tabValue)
         }
-    },[tabValue])
+    },
+    // eslint-disable-next-line
+    [tabValue])
     return (
         <Dialog open={openPopup} maxWidth="md" classes={{ paper: classes.dialogWrapper }}>
             <DialogTitle className={classes.dialogTitle}>

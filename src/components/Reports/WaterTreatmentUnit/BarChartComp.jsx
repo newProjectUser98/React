@@ -37,7 +37,9 @@ const BarChartComp = ({ color, chartData, Yaxis }) => {
         // console.log(filteredData)
       })
       .catch(err => console.log(err))
-  }, [hourlyData])
+  },
+  // eslint-disable-next-line
+  [hourlyData])
 
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/topicapirepo_daily/")
@@ -47,7 +49,9 @@ const BarChartComp = ({ color, chartData, Yaxis }) => {
         // console.log(filteredData)
       })
       .catch(err => console.log(err))
-  }, [dailyData])
+  },
+  // eslint-disable-next-line
+  [dailyData])
 
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/topicapirepo_monthly/")
@@ -57,7 +61,9 @@ const BarChartComp = ({ color, chartData, Yaxis }) => {
         // console.log(filteredData)
       })
       .catch(err => console.log(err))
-  }, [monthlyData])
+  },
+  // eslint-disable-next-line
+  [monthlyData])
 
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/topicapirepo_yearly/")
@@ -67,7 +73,9 @@ const BarChartComp = ({ color, chartData, Yaxis }) => {
         // console.log(filteredData)
       })
       .catch(err => console.log(err))
-  }, [yearlyData])
+  },
+  // eslint-disable-next-line
+  [yearlyData])
 
   return (
     <>
