@@ -15,7 +15,7 @@ const Notification = () => {
                     <div className="p-5 notification overflow-y-scroll scroll-m-px">
                         <div className="flex justify-between mb-5">
                             <p className="text-lg font-normal">Activity Feed</p>
-                            <p className="text-lg font-normal cursor-pointer">Mark All As Read</p>
+                            {/* <p className="text-lg font-normal cursor-pointer">Mark All As Read</p> */}
                         </div>
                         <Grid container spacing={5} className="my-5">
                             {
@@ -45,7 +45,7 @@ const Notification = () => {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <button className='flex'>Mark as read</button>
+                                                            {/* <button className='flex'>Mark as read</button> */}
                                                         </div>
                                                     </div>
                                                 </div>
