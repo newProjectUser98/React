@@ -10,15 +10,26 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Grid, Typography } from "@mui/material";
 
-const SearchSection = () => {
+const SearchSection = ({deviceID, setDeviceID}) => {
   const [city, setCity] = useState("");
+  
+  const handleChange = (event) => {
+    setCity(event.target.value);
+  };
+
+  const handleChangeDeviceID = (event) => {
+    setDeviceID(event.target.value)
+    console.log('device_id in searchSection', event.target.value);
+  }
+
+
   return (
     <Grid
       container
       display={"flex"}
       className="md:bg-[#F7F7F7] bg-none md:px-8 md:py-9 rounded-[20px] sm:flex-row flex-col sm:items-center items-start sm:space-y-3 space-y-3 lg:justify-evenly justify-start"
     >
-      <Grid item lg={1} md={12} className='my-1'>
+      <Grid item lg={2} md={12} className='my-1'>
         <Typography fontWeight={500} color={"#3C3744"} fontSize={"13px"}>
           Select Site
         </Typography>
@@ -44,8 +55,10 @@ const SearchSection = () => {
               fontSize: "13px",
               fontWeight: 500,
             }}
-            placeholder="Search by site name"
+            placeholder="Search by name"
             className="sm:m-2 m-0"
+            onChange={handleChangeDeviceID}
+            value={deviceID}
           />
           <IconButton type="button" aria-label="search">
             <SearchIcon />
@@ -58,7 +71,8 @@ const SearchSection = () => {
         className="sm:hidden block"
         fontWeight={500}
       >
-        Select City/State
+        {/* Select City/State */}
+        Select Site Name
       </Typography>
       <Grid item lg={5} md={12} className="w-full my-3">
         <FormControl
@@ -78,17 +92,15 @@ const SearchSection = () => {
               alignContent: "center",
             }}
           >
-            Select City/State
+            {/* Select City/State */}
+            Select Site Name
           </InputLabel>
           <Select
             id="city"
             value={city}
             label="Select City/State"
-            onChange={(e) => {
-              setCity(e.target.value)
-              console.log(city);
-            }}
-            // placeholder="Select City/State"
+            onChange={handleChange}
+            placeholder="Select City/State"
           >
             <MenuItem value={1}>City 1</MenuItem>
             <MenuItem value={2}>City 2</MenuItem>

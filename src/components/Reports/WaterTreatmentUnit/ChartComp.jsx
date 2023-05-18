@@ -14,11 +14,14 @@ import LineChartComp from "./LineChartComp";
 import { useEffect } from "react";
 import { ReactComponent as LeftArrow } from "../../../assets/icons/ReportsIcon/CaretLeft.svg";
 import ReactSimplyCarousel from "react-simply-carousel";
+import axios from "axios";
 
-const ChartComp = () => {
+const ChartComp = ({deviceID}) => {
   const [checked, setChecked] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [Yaxis, setYaxis] = useState("");
+  const [variable, setVariable] = useState("")
+  const [graphData, setGraphData] = useState("")
 
   const handleChecked = () => {
     setChecked(!checked);
@@ -47,10 +50,10 @@ const ChartComp = () => {
       });
       setChartColors(newArr);
     }
-  },
-  // eslint-disable-next-line
-  [updatedColor, updatedIndex]);
+  }, [updatedColor, updatedIndex]);
 
+  // console.log("Yaxis in ChartComp", Yaxis);
+  // console.log("variable in ChartComp", variable);
 
   const matches = useMediaQuery("(min-width: 960px)");
 
@@ -62,6 +65,10 @@ const ChartComp = () => {
           checked={checked}
           Yaxis={Yaxis} 
           setYaxis={setYaxis}
+          variable={variable}
+          setVariable={setVariable}
+          graphData={graphData}
+          setGraphData={setGraphData}
         />
       </Grid>
 
@@ -76,7 +83,7 @@ const ChartComp = () => {
         >
           {ChartColors?.map((item, index) => (
             <Chart key={index} item={item} index={index} setUpdatedColor={setUpdatedColor} setUpdatedIndex={setUpdatedIndex} checked={checked}
-            Yaxis={Yaxis}/>
+            Yaxis={Yaxis} variable={variable} deviceID={deviceID} graphData={graphData}/>
           ))}
         </Grid>
       )}
@@ -144,6 +151,9 @@ const ChartComp = () => {
               setUpdatedColor={setUpdatedColor}
               setUpdatedIndex={setUpdatedIndex}
               checked={checked}
+              Yaxis={Yaxis} variable={variable}
+              deviceID={deviceID}
+              graphData={graphData}
             />
           ))}
         </ReactSimplyCarousel>
@@ -154,7 +164,7 @@ const ChartComp = () => {
 
 export default ChartComp;
 
-const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis }) => {
+const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, variable, deviceID, graphData }) => {
   const [openPopup, setOpenPopup] = useState(false);
   const PopupColors = [
     { color: "#6CCED9" },
@@ -170,7 +180,7 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis }
     { color: "#2025A6" },
     { color: "#8F1A67" },
   ];
-// eslint-disable-next-line
+
   const chartData = [
     {
       name: "x ",
@@ -210,12 +220,18 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis }
           <LineChartComp 
           color={item.color}
           Yaxis={Yaxis} 
+          variable={variable}
+          deviceID={deviceID}
+          graphData={graphData}
         //  chartData={data} 
           />
         ) : (
           <BarChartComp 
           color={item.color} 
           Yaxis={Yaxis}
+          variable={variable}
+          deviceID={deviceID}
+          graphData={graphData}
         //  chartData={data} 
           />
         )}

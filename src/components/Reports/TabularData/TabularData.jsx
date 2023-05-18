@@ -16,14 +16,32 @@ import TableComp from "./TableComp";
 const TabularData = () => {
   const [waterTreatmentUnit, setWaterTreatmentUnit] = useState("");
   const [rwp, setRwp] = useState("");
+  const [component, setComponent] = useState("")
+
+  const waterTreatmentDetails = ['Water Treatment Unit', 'Water Dispensing Unit']
+
+  const WaterTreatmentcomponentDetails = [
+    'rwp', 'cnd_tds', 'hpp', 'flowsen', 'panel', 'ampv1', 'ampv2', 'ampv3', 'ampv4', 'ampv5'
+  ]
+
+  const WaterDispensecomponentDetails = [
+    'atm', 'tap1', 'tap2', 'tap3', 'tap4', 'consen'
+  ]
 
   const selectWaterTereatment = (event) => {
     setWaterTreatmentUnit(event.target.value);
+    console.log(event.target.value);
   };
 
   const selectRwp = (event) => {
     setRwp(event.target.value);
   };
+
+  const selectComponent = (event) => {
+    setComponent(event.target.value)
+    console.log(event.target.value);
+  }
+
   return (
     <Paper
       elevation={0}
@@ -94,7 +112,8 @@ const TabularData = () => {
                     alignContent: "center",
                   }}
                 >
-                  Water Treatment Unit
+                  {/* Water Treatment Unit */}
+                  Select Unit
                 </InputLabel>
                 <Select
                   id="waterTreatmentUnit"
@@ -106,8 +125,15 @@ const TabularData = () => {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={1}>Water Treatment Unit</MenuItem>
-                  <MenuItem value={2}>Water Dispensing Unit</MenuItem>
+                  {/* <MenuItem value={1}>Water Treatment Unit</MenuItem>
+                  <MenuItem value={2}>Water Dispensing Unit</MenuItem> */}
+                  {waterTreatmentDetails.map((unit) => {
+                    return (
+                      <MenuItem value={unit}>
+                        {unit}
+                      </MenuItem>
+                    )
+                  })}
                 </Select>
               </FormControl>
 
@@ -129,9 +155,51 @@ const TabularData = () => {
                     alignContent: "center",
                   }}
                 >
-                  RWP
+                  {/* RWP */}
+                  Select Component
                 </InputLabel>
-                <Select
+                {(waterTreatmentUnit === "Water Treatment Unit") &&
+                  <Select
+                    id="rwp"
+                    value={component}
+                    label="RWP"
+                    onChange={selectComponent}
+                    placeholder="RWP"
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {WaterTreatmentcomponentDetails.map((comp) => {
+                      return (
+                        <MenuItem value={comp}>
+                          {comp}
+                        </MenuItem>
+                      )
+                    })}
+                  </Select>
+                }
+
+                {(waterTreatmentUnit === "Water Dispensing Unit") &&
+                  <Select
+                    id="rwp"
+                    value={component}
+                    label="RWP"
+                    onChange={selectComponent}
+                    placeholder="RWP"
+                  >
+                    <MenuItem value="">
+                      <em>None</em>
+                    </MenuItem>
+                    {WaterDispensecomponentDetails.map((comp) => {
+                      return (
+                        <MenuItem value={comp}>
+                          {comp}
+                        </MenuItem>
+                      )
+                    })}
+                  </Select>
+                }
+                {/* <Select
                   id="rwp"
                   value={rwp}
                   label="RWP"
@@ -144,7 +212,7 @@ const TabularData = () => {
                   <MenuItem value={1}>RWP</MenuItem>
                   <MenuItem value={2}>HPP</MenuItem>
                   <MenuItem value={3}>Panel</MenuItem>
-                </Select>
+                </Select> */}
               </FormControl>
             </Grid>
           </Grid>
@@ -178,7 +246,7 @@ const TabularData = () => {
         mb={"100px"}
         className=" sm:rounded-b-none rounded-b-[20px] sm:pt-0 pt-7"
       >
-        
+
         <Box className="sm:hidden flex justify-between bg-white p-5">
           <Box className="flex items-center cursor-pointer">
             <AlertsIcon className="iw-tabular-data__alert" />
@@ -231,9 +299,9 @@ const TabularData = () => {
             </Select>
           </FormControl>
         </Box>
-        
 
-        <TableComp />
+
+        <TableComp component={component}/>
       </Grid>
     </Paper>
   );
