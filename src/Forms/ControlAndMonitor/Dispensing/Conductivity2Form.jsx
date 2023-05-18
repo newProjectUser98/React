@@ -20,7 +20,7 @@ const Conductivity2Form = () => {
     
     useEffect(()=>{
         components[0].cnd.cnd === 'conductivity' ?
-            axios.get("http://3.108.228.232:8000/topicapi/consen_cnd_setting/").then((resp) => {
+            axios.get("/topicapi/consen_cnd_setting/").then((resp) => {
                 alert("hello")
                 console.log("res in get_rwp", resp.data);
                 setSpn(resp?.data[0]?.spn)
@@ -29,7 +29,7 @@ const Conductivity2Form = () => {
                 console.log("err", err);
             })
             :
-            axios.get("http://3.108.228.232:8000/topicapi/consen_setting/").then((resp) => {
+            axios.get("/topicapi/consen_setting/").then((resp) => {
                 console.log("res in get_rwp", resp.data[0]);
                 setSpn(resp?.data[0]?.spn)
                 setAsp(resp?.data[0]?.asp)
@@ -55,7 +55,7 @@ const Conductivity2Form = () => {
         }
 
         components[0].cnd.cnd === 'conductivity' ?
-            axios.post('http://3.108.228.232:8000/topicapi/consen_cnd_setting/', newData).then((res) => {
+            axios.post('/topicapi/consen_cnd_setting/', newData).then((res) => {
                 console.log("res in cnd", res);
                 setIsLoading(true);
                 setOpen(true);
@@ -66,7 +66,7 @@ const Conductivity2Form = () => {
             }).catch((err) => {
                 console.log("err", err);
             }) :
-            axios.post('http://3.108.228.232:8000/topicapi/consen_setting/', newData).then((res) => {
+            axios.post('/topicapi/consen_setting/', newData).then((res) => {
                 console.log("res in tds", res);
                 setIsLoading(true);
                 setOpen(true);

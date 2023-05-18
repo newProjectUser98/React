@@ -44,13 +44,13 @@ const Ampv1Form = () => {
     };
 
     useEffect(() => {
-        axios.get("http://3.108.228.232:8000/topicapi/ampv1_state/").then((resp) => {
+        axios.get("/topicapi/ampv1_state/").then((resp) => {
             console.log("res in get_rwp_state", resp.data[0]);
             setPos(resp.data[0].pos);
         }).catch((err) => {
             console.log("err", err);
         })
-        axios.get("http://3.108.228.232:8000/topicapi/ampv1_setting/").then((resp) => {
+        axios.get("/topicapi/ampv1_setting/").then((resp) => {
             console.log("res in get_rwp_setting", resp.data[0]);
             let myNewData = resp.data[0]
             const myData = JSON.stringify(myNewData);
@@ -80,7 +80,7 @@ const Ampv1Form = () => {
             componant_name: "ampv1",
             pos: pos
         }
-        axios.post('http://3.108.228.232:8000/topicapi/ampv1_state/', newData).then((res) => {
+        axios.post('/topicapi/ampv1_state/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -112,7 +112,7 @@ const Ampv1Form = () => {
             op2: op2,
             op3: op3,
         }
-        axios.post('http://3.108.228.232:8000/topicapi/ampv1_setting/', newData).then((res) => {
+        axios.post('/topicapi/ampv1_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
