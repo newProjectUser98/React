@@ -27,7 +27,7 @@ const ConductivityForm = () => {
 
     useEffect(() => {
         components[0].cnd.cnd === 'conductivity' ?
-            axios.get("http://3.108.228.232:8000/topicapi/cnd_setting/").then((resp) => {
+            axios.get("/topicapi/cnd_setting/").then((resp) => {
                 console.log("res in get_rwp", resp.data[0]);
                 setSpn(resp?.data[0]?.spn)
                 setTsp(resp?.data[0]?.tsp)
@@ -36,7 +36,7 @@ const ConductivityForm = () => {
                 console.log("err", err);
             })
             :
-            axios.get("http://3.108.228.232:8000/topicapi/tds_setting/").then((resp) => {
+            axios.get("/topicapi/tds_setting/").then((resp) => {
                 console.log("res in get_rwp", resp.data[0]);
                 setSpn(resp?.data[0]?.spn)
                 setTsp(resp?.data[0]?.tsp)
@@ -59,7 +59,7 @@ const ConductivityForm = () => {
         }
 
         components[0].cnd.cnd === 'conductivity' ?
-            axios.post('http://3.108.228.232:8000/topicapi/cnd_setting/', newData).then((res) => {
+            axios.post('/topicapi/cnd_setting/', newData).then((res) => {
                 console.log("res in cnd", res);
                 setIsLoading(true);
                 setOpen(true);
@@ -70,7 +70,7 @@ const ConductivityForm = () => {
             }).catch((err) => {
                 console.log("err", err);
             }) :
-            axios.post('http://3.108.228.232:8000/topicapi/tds_setting/', newData).then((res) => {
+            axios.post('/topicapi/tds_setting/', newData).then((res) => {
                 console.log("res in tds", res);
                 setIsLoading(true);
                 setOpen(true);

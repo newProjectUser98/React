@@ -3,6 +3,7 @@ import Login from "./layout/Login";
 import Admin from "./layout/Admin";
 import routs from "./routes/routes";
 import { useEffect } from "react";
+import axios from "axios";
 
 let components = [
   {
@@ -44,10 +45,18 @@ let ErrorMSg = [
   },
 ];
 function App() {
+
+  
   localStorage.setItem("components", JSON.stringify(components));
   localStorage.setItem("ErrorMSg", JSON.stringify(ErrorMSg));
 
   useEffect(() => {
+
+  if('http://localhost:3000'){
+    axios.defaults.baseURL = "http://127.0.0.1:8000/"
+  } else {
+    axios.defaults.baseURL = "http://3.108.228.232:8000/"
+  }
     const ws = new WebSocket("ws://localhost:8000/ws/chat/");
 
     ws.onopen = function () {

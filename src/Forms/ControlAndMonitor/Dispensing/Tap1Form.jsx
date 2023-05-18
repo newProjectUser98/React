@@ -16,7 +16,7 @@ const Tap1Form = () => {
 
 
     useEffect(() => {
-        axios.get("http://3.108.228.232:8000/topicapi/tap1_setting/").then((resp) => {
+        axios.get("/topicapi/tap1_setting/").then((resp) => {
             console.log("res in get_rwp", resp.data[0]);
             setP1(resp.data[0].p1)
             setP2(resp.data[0].p2)
@@ -45,7 +45,7 @@ const Tap1Form = () => {
             p3: p3,
             p4: p4
         }
-        axios.post('http://3.108.228.232:8000/topicapi/tap1_setting/', newData).then((res) => {
+        axios.post('/topicapi/tap1_setting/', newData).then((res) => {
             console.log("res in tap1 get", res.data);
             setIsLoading(true);
             setOpen(true);

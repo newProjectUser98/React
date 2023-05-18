@@ -16,13 +16,13 @@ const HppForm = () => {
     const [spn, setSpn] = React.useState("");
 
     useEffect(() => {
-        axios.get("http://3.108.228.232:8000/topicapi/hpp_state/").then((resp) => {
+        axios.get("/topicapi/hpp_state/").then((resp) => {
             console.log("res in get_hpp state", resp.data[0]);
             setStatusVal(resp.data[0].sts === "on" ? true : false)
         }).catch((err) => {
             console.log("err", err);
         })
-        axios.get("http://3.108.228.232:8000/topicapi/hpp_setting/").then((resp) => {
+        axios.get("/topicapi/hpp_setting/").then((resp) => {
             console.log("res in get_hpp setting", resp.data[0]);
             setDrc(resp.data[0].drc)
             setOlc(resp.data[0].olc)
@@ -50,7 +50,7 @@ const HppForm = () => {
             componant_name: "hpp",
             sts: statusVal === true ? "on" : "off"
         }
-        axios.post('http://3.108.228.232:8000/topicapi/hpp_state/', newData).then((res) => {
+        axios.post('/topicapi/hpp_state/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -73,7 +73,7 @@ const HppForm = () => {
             drc: drc
         }
         console.log("newData", newData);
-        axios.post('http://3.108.228.232:8000/topicapi/hpp_setting/', newData).then((res) => {
+        axios.post('/topicapi/hpp_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);

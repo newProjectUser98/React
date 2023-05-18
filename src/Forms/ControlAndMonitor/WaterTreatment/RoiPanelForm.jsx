@@ -46,7 +46,7 @@ const RoiPanelForm = () => {
     };
 
     useEffect(() => {
-        axios.get("http://3.108.228.232:8000/topicapi/panel_setting/").then((resp) => {
+        axios.get("/topicapi/panel_setting/").then((resp) => {
             console.log("res in get_rwp", resp.data[0]);
             setMod(resp.data[0].mod)
             setNmv(resp.data[0].nmv)
@@ -83,7 +83,7 @@ const RoiPanelForm = () => {
         bkt: bkt,
         rst: rst,
         }
-        axios.post('http://3.108.228.232:8000/topicapi/panel_setting/', newData).then((res) => {
+        axios.post('/topicapi/panel_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
