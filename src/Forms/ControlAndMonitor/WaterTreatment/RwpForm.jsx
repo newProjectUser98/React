@@ -22,7 +22,7 @@ const RwpForm = () => {
     const validationSchemaSetting = Yup.object({
         olc: Yup.number('Please enter numbers')
     })
-
+    console.log("statusValue",statusVal);
     const onSubmitState = (values, submitProps) => {
         console.log('values => ',values);
     }
@@ -65,7 +65,7 @@ const RwpForm = () => {
                                 <p className='w-40'>Status</p>
                                 <p className='w-30 mx-2'>{statusVal? 'ON' : 'OFF'}</p>
                                 <div className='w-30'>
-                                    <Switch name='sts' disabled={!editState} value={statusVal} checked={statusVal} onChange={(e)=> setStatusVal(e.target.checked)} color='primary'/>
+                                    <Switch name='sts' id="sts" disabled={!editState} value={statusVal} checked={statusVal} onChange={(e)=> setStatusVal(e.target.checked)} color='primary'/>
                                 </div>
                             </div>
                             <div className="flex items-center py-3">

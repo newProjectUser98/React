@@ -14,20 +14,27 @@ import LineChartComp from "./LineChartComp";
 import { useEffect } from "react";
 import { ReactComponent as LeftArrow } from "../../../assets/icons/ReportsIcon/CaretLeft.svg";
 import ReactSimplyCarousel from "react-simply-carousel";
+import axios from "axios";
 
-const ChartComp = () => {
+const ChartComp = ({deviceID}) => {
   const [checked, setChecked] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [Yaxis, setYaxis] = useState("");
+  const [variable, setVariable] = useState("")
+  const [graphData, setGraphData] = useState("")
 
   const handleChecked = () => {
     setChecked(!checked);
   };
 
   const [ChartColors, setChartColors] = useState([
-    { title: "5 YEARS", color: "#6CCED9" },
-    { title: "MONTHLY", color: "#BA4DBC" },
-    { title: "DAILY", color: "#F3C82F" },
-    { title: "HOURLY", color: "#539D31" },
+    // { title: "5 YEARS", color: "#6CCED9" },
+    // { title: "MONTHLY", color: "#BA4DBC" },
+    // { title: "DAILY", color: "#F3C82F" },
+    { 
+      //title: "HOURLY", 
+      color: "#539D31" 
+    },
   ]);
   const [updatedColor, setUpdatedColor] = useState("");
   const [updatedIndex, setUpdatedIndex] = useState();
@@ -45,6 +52,9 @@ const ChartComp = () => {
     }
   }, [updatedColor, updatedIndex]);
 
+  // console.log("Yaxis in ChartComp", Yaxis);
+  // console.log("variable in ChartComp", variable);
+
   const matches = useMediaQuery("(min-width: 960px)");
 
   return (
@@ -53,6 +63,12 @@ const ChartComp = () => {
         <SelectOverviewSection
           handleChecked={handleChecked}
           checked={checked}
+          Yaxis={Yaxis} 
+          setYaxis={setYaxis}
+          variable={variable}
+          setVariable={setVariable}
+          graphData={graphData}
+          setGraphData={setGraphData}
         />
       </Grid>
 
@@ -66,7 +82,8 @@ const ChartComp = () => {
           className="iw-chart-comp__list-container"
         >
           {ChartColors?.map((item, index) => (
-            <Chart key={index} item={item} index={index} setUpdatedColor={setUpdatedColor} setUpdatedIndex={setUpdatedIndex} checked={checked}/>
+            <Chart key={index} item={item} index={index} setUpdatedColor={setUpdatedColor} setUpdatedIndex={setUpdatedIndex} checked={checked}
+            Yaxis={Yaxis} variable={variable} deviceID={deviceID} graphData={graphData}/>
           ))}
         </Grid>
       )}
@@ -134,6 +151,9 @@ const ChartComp = () => {
               setUpdatedColor={setUpdatedColor}
               setUpdatedIndex={setUpdatedIndex}
               checked={checked}
+              Yaxis={Yaxis} variable={variable}
+              deviceID={deviceID}
+              graphData={graphData}
             />
           ))}
         </ReactSimplyCarousel>
@@ -144,7 +164,7 @@ const ChartComp = () => {
 
 export default ChartComp;
 
-const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked }) => {
+const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, variable, deviceID, graphData }) => {
   const [openPopup, setOpenPopup] = useState(false);
   const PopupColors = [
     { color: "#6CCED9" },
@@ -192,14 +212,28 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked }) => {
           fontSize={"16px"}
           fontFamily={"Poppins"}
         >
-          {item.title} {index}
+          {/* {item.title} {index} */}
         </Typography>
       </Grid>
-      <Grid height={300} mt={"30px"}>
+      <Grid height={1300} mt={"30px"}>
         {checked ? (
-          <LineChartComp color={item.color} chartData={chartData} />
+          <LineChartComp 
+          color={item.color}
+          Yaxis={Yaxis} 
+          variable={variable}
+          deviceID={deviceID}
+          graphData={graphData}
+        //  chartData={data} 
+          />
         ) : (
-          <BarChartComp color={item.color} chartData={chartData} />
+          <BarChartComp 
+          color={item.color} 
+          Yaxis={Yaxis}
+          variable={variable}
+          deviceID={deviceID}
+          graphData={graphData}
+        //  chartData={data} 
+          />
         )}
       </Grid>
       <Grid

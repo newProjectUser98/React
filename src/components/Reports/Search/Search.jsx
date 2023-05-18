@@ -3,11 +3,11 @@ import React from "react";
 import DatePickerComp from "./DatePickerComp";
 import SearchSection from "./SearchSection";
 
-const Search = () => {
+const Search = ({deviceID, setDeviceID}) => {
   return (
     <Grid container spacing={5} className='items-stretch'>
       <Grid item md={6} lg={8} className='w-full'>
-        <SearchSection />
+        <SearchSection deviceID={deviceID} setDeviceID={setDeviceID}/>
       </Grid>
       <Grid item md={6} lg={4} className='w-full'>
         <Grid container className="sm:bg-[#F7F7F7]  md:p-5 rounded-[20px] h-full -mt-1" spacing={1}>

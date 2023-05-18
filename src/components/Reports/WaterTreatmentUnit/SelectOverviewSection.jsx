@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -19,13 +19,202 @@ import { ReactComponent as ChartLineColor } from "../../../assets/icons/ReportsI
 
 import Popup from "../../../hoc/Popup/Popup";
 import AddGraph from "./AddGraph";
+import axios from "axios";
 
-const SelectOverviewSection = ({ handleChecked, checked }) => {
-  const [Yaxis, setYaxis] = useState("");
+const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variable, setVariable, setGraphData, graphData }) => {
+  // const [Yaxis, setYaxis] = useState("");
   const [openPopup, setOpenPopup] = useState(false);
+  const [component, setComponent] = useState([])
+  const [comp_variables, setCompVariables] = useState([])
+
+  const cnd_tds_variables = ['cnd', 'spn', 'tsp', 'asp']
+
   const handleChange = (event) => {
     setYaxis(event.target.value);
+    console.log("selected component", event.target.value);
   };
+
+  const handleVariableChange = (event) => {
+    setVariable(event.target.value)
+    console.log('selected variable', event.target.value);
+  }
+
+  const handleGraphDataChange = (event) => {
+    setGraphData(event.target.value)
+    console.log('selected graphData', event.target.value);
+  }
+
+  const component_variable_data = {
+    cnd_tds: [
+      "spn",
+      "tsp",
+      "asp",
+      "cnd"
+    ],
+    rwp: [
+      "crt",
+      "olc",
+      "drc",
+      "spn"
+    ],
+    hpp: [
+      "crt",
+      "olc",
+      "drc",
+      "spn"
+    ],
+    panel: [
+      "ipv",
+      "unv",
+      "ovv",
+      "nmv",
+      "spn",
+      "srt",
+      "bkt",
+      "rst"
+    ],
+    ampv1: [
+      "rmt",
+      "cct",
+      "srt",
+      "bkt",
+      "rst",
+      "mot",
+      // "op1",
+      // "op2",
+      // "op3"
+    ],
+    ampv2: [
+      "rmt",
+      "cct",
+      "srt",
+      "bkt",
+      "rst",
+      "mot",
+      // "op1",
+      // "op2",
+      // "op3"
+    ],
+    ampv3: [
+      "rmt",
+      "cct",
+      "srt",
+      "bkt",
+      "rst",
+      "mot",
+      // "op1",
+      // "op2",
+      // "op3"
+    ],
+    ampv4: [
+      "rmt",
+      "cct",
+      "srt",
+      "bkt",
+      "rst",
+      "mot",
+      // "op1",
+      // "op2",
+      // "op3"
+    ],
+    ampv5: [
+      "rmt",
+      "cct",
+      "srt",
+      "bkt",
+      "rst",
+      "mot",
+      // "op1",
+      // "op2",
+      // "op3"
+    ],
+    flowsen: [
+      "fr1",
+      "fr2",
+      "ff1",
+      "ff2"
+      // "ff3",
+      // "fr4"
+    ],
+    tap1: [
+      "p1",
+      "p2",
+      "p3",
+      "p4"
+    ],
+    tap2: [
+      "p1",
+      "p2",
+      "p3",
+      "p4"
+    ],
+    tap3: [
+      "p1",
+      "p2",
+      "p3",
+      "p4"
+    ],
+    tap4: [
+      "p1",
+      "p2",
+      "p3",
+      "p4"
+    ],
+    consen: [
+      "cnd",
+      "spn",
+      "asp"
+    ],
+    atm: [
+      "ndv",
+      "nta",
+      "tmp",
+      "ntp",
+      "nov",
+      "vl1",
+      "vl2",
+      "vl3",
+      "vl4",
+      "re1",
+      "re2",
+      "re3",
+      "re4"]
+  }
+
+  useEffect(() => {
+    if (Yaxis === 'cnd_tds') {
+      setCompVariables(component_variable_data.cnd_tds)
+    } else if (Yaxis === 'rwp') {
+      setCompVariables(component_variable_data.rwp)
+    } else if (Yaxis === 'hpp') {
+      setCompVariables(component_variable_data.hpp)
+    } else if (Yaxis === 'panel') {
+      setCompVariables(component_variable_data.panel)
+    } else if (Yaxis === 'ampv1' || Yaxis === 'ampv2' || Yaxis === 'ampv3' || Yaxis === 'ampv4' || Yaxis === 'ampv5') {
+      setCompVariables(component_variable_data.ampv1)
+    } else if (Yaxis === 'flowsen') {
+      setCompVariables(component_variable_data.flowsen)
+    } else if (Yaxis === 'tap1' || Yaxis === 'tap2' || Yaxis === 'tap3' || Yaxis === 'tap4') {
+      setCompVariables(component_variable_data.tap1)
+    } else if (Yaxis === 'consen') {
+      setCompVariables(component_variable_data.consen)
+    } else if (Yaxis === 'atm') {
+      setCompVariables(component_variable_data.atm)
+    } else {
+      setCompVariables([])
+    }
+  }, [Yaxis])
+
+  console.log('component_variable', comp_variables);
+  // console.log('Yaxis in overview', Yaxis);
+  // console.log('variable in overview', variable);
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/topicapikey_info/')
+      .then(res => setComponent(res.data))
+      .catch(err => console.log(err))
+  }, [])
+
   return (
     <Grid
       container
@@ -53,7 +242,7 @@ const SelectOverviewSection = ({ handleChecked, checked }) => {
           <FormControl
             size="small"
             sx={{
-              minWidth: "200px",
+              minWidth: "170px",
               backgroundColor: "#EAF4F5",
               borderRadius: "10px",
               "& fieldset": { border: "none", outline: "none" },
@@ -67,31 +256,138 @@ const SelectOverviewSection = ({ handleChecked, checked }) => {
                 alignContent: "center",
               }}
             >
-              Select Y axis
+              Select Component
             </InputLabel>
             <Select
               id="Yaxis"
               value={Yaxis}
-              label="Select City/State"
+              // label="Select City/State"
               onChange={handleChange}
-              placeholder="Select City/State"
+            // placeholder="Select City/State"
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={1}>Y axis 1</MenuItem>
+              {/* <MenuItem value={1}>Y axis 1</MenuItem>
               <MenuItem value={2}>Y axis 2</MenuItem>
-              <MenuItem value={3}>Y axis 3</MenuItem>
+              <MenuItem value={3}>Y axis 3</MenuItem> */}
+              {component.map((item) => {
+                return (
+                  <MenuItem value={item.key_value}>{item.key_name}</MenuItem>
+                )
+              })}
             </Select>
           </FormControl>
         </Grid>
+
+        <Grid>
+          <FormControl
+            size="small"
+            sx={{
+              minWidth: "150px",
+              backgroundColor: "#EAF4F5",
+              borderRadius: "10px",
+              "& fieldset": { border: "none", outline: "none" },
+            }}
+          >
+            <InputLabel
+              sx={{
+                fontSize: "13px",
+                fontWeight: 500,
+                textAlign: "center",
+                alignContent: "center",
+              }}
+            >
+              Select Variable
+            </InputLabel>
+            <Select
+              id="variable"
+              value={variable}
+              // label="Select City/State"
+              onChange={handleVariableChange}
+            // placeholder="Select City/State"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {/* <MenuItem value={1}>Y axis 1</MenuItem>
+              <MenuItem value={2}>Y axis 2</MenuItem>
+              <MenuItem value={3}>Y axis 3</MenuItem> */}
+              {/* {Yaxis === 'cnd_tds' ? (
+                cnd_tds_variables.map((item) => (
+                  <MenuItem value={item}>{item}</MenuItem>
+                ))
+              ) : null} */}
+
+              {comp_variables.map((item) => {
+                return (
+                  <MenuItem value={item}>{item}</MenuItem>
+                )
+              })}
+
+            </Select>
+          </FormControl>
+        </Grid>
+
+        {/*Adding New Grid Here*/}
+
+        <Grid>
+          <FormControl
+            size="small"
+            sx={{
+              minWidth: "120px",
+              backgroundColor: "#EAF4F5",
+              borderRadius: "10px",
+              "& fieldset": { border: "none", outline: "none" },
+            }}
+          >
+            <InputLabel
+              sx={{
+                fontSize: "13px",
+                fontWeight: 500,
+                textAlign: "center",
+                alignContent: "center",
+              }}
+            >
+              Select Data
+            </InputLabel>
+            <Select
+              id="graphData"
+              value={graphData}
+              // label="Select City/State"
+              onChange={handleGraphDataChange}
+            // placeholder="Select City/State"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+
+              <MenuItem value="sum">
+                Sum
+              </MenuItem>
+
+              <MenuItem value="avg">
+                Avg
+              </MenuItem>
+
+              <MenuItem value="count">
+                Count
+              </MenuItem>
+
+
+            </Select>
+          </FormControl>
+        </Grid>
+
+        {/*Ending New Grid Here*/}
+
       </Grid>
 
       <Grid
         item
         lg={6} md={12}
         className='flex items-center xl:justify-end justify-center my-3 w-full'
-        gap={3}
+        gap={2}
       >
         <Grid
           height={"36px"}

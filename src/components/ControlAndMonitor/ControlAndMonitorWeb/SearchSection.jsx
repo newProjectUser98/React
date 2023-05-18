@@ -22,7 +22,7 @@ const SearchSection = ({searchdata}) => {
                                         name="sitename"
                                         id="sitename"
                                         className="py-2 w-full mr-2 sitename border-none outline-none font-medium text-sm leading-5"
-                                        placeholder="Search by site name"
+                                        placeholder="site name"
                                     />
                                     <SearchIcon className='searchicon'/>
                                 </div>
