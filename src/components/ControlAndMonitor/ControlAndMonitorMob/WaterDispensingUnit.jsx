@@ -4,7 +4,7 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 import conductivity from '../../../assets/images/conductivity.svg'
 import roipanel from '../../../assets/images/roipanel.svg'
 import tap from '../../../assets/images/tap.svg'
-import twtank from '../../../assets/images/twtank.svg'
+import twtank from '../../../assets/images/twtank.jpg'
 import iotmodule from '../../../assets/images/iotmodule.svg'
 import feedflowsensor from '../../../assets/images/feedflowsensor.svg'
 import Conductivity2Form from "../../../Forms/ControlAndMonitor/Dispensing/Conductivity2Form";

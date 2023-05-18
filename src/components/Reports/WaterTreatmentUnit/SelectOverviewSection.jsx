@@ -32,7 +32,7 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis }) => {
   };
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/topicapikey_info/')
+    axios.get('http://3.108.228.232:8000/topicapikey_info/')
     .then(res => setComponent(res.data))
     .catch(err => console.log(err))
   }, [])

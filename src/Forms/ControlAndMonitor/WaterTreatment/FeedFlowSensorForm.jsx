@@ -12,7 +12,7 @@ const FeedFlowSensorForm = () => {
 
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/topicapi/F_flowsen_setting/").then((resp) => {
+        axios.get("http://3.108.228.232:8000/topicapi/F_flowsen_setting/").then((resp) => {
             console.log("res in get_ff", resp.data[0]);
             setff(resp.data[0].ff)
         }).catch((err) => {
@@ -34,7 +34,7 @@ const FeedFlowSensorForm = () => {
             componant_name: "F_flowsen",
             ff: ff
         }
-        axios.post('http://127.0.0.1:8000/topicapi/F_flowsen_setting/', newData).then((res) => {
+        axios.post('http://3.108.228.232:8000/topicapi/F_flowsen_setting/', newData).then((res) => {
             setIsLoading(true);
             setOpen(true);
             setTimeout(() => {

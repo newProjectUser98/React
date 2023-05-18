@@ -15,7 +15,7 @@ const Tap4Form = () => {
     const [p4, setP4] = React.useState("");
 
     useEffect(()=>{
-        axios.get("http://127.0.0.1:8000/topicapi/tap4_setting/").then((resp)=>{
+        axios.get("http://3.108.228.232:8000/topicapi/tap4_setting/").then((resp)=>{
             console.log("res in get_rwp",resp.data[0]);
             setP1(resp.data[0].p1)
             setP2(resp.data[0].p2)
@@ -45,7 +45,7 @@ const Tap4Form = () => {
             p3: p3,
             p4: p4
         }
-        axios.post('http://127.0.0.1:8000/topicapi/tap4_setting/', newData).then((res) => {
+        axios.post('http://3.108.228.232:8000/topicapi/tap4_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
