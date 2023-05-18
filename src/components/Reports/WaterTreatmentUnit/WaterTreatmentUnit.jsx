@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Divider, Grid, Paper, Typography } from "@mui/material";
 import SummaryCard from "./SummaryCard";
 import ChartComp from "./ChartComp";
@@ -12,12 +12,14 @@ import { ReactComponent as TotalVolumeProducedIcon } from "../../../assets/icons
 import { ReactComponent as NumberOfFaultsIcon } from "../../../assets/icons/ReportsIcon/NumberOfFaultsIcon.svg";
 import { ReactComponent as PermeateFlowRateIcon } from "../../../assets/icons/ReportsIcon/PermeateFlowRateIcon.svg";
 
-const WaterTreatmentUnit = () => {
+const WaterTreatmentUnit = ({deviceID}) => {
   const [value, setValue] = React.useState(0);
+
 
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
+  console.log('value in tabpanel', value);
   const SummaryCardData = [
     { value: "120 Hrs", icon: <WorkingHoursIcon />, title: "Working Hours" },
     {
@@ -161,7 +163,7 @@ const WaterTreatmentUnit = () => {
             />
           </Grid>
           <Grid>
-            <ChartComp />
+            <ChartComp deviceID={deviceID}/>
           </Grid>
         </Grid>
       </TabPanel>
