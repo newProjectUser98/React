@@ -12,7 +12,7 @@ const PremeteFlowSensorForm = () => {
 
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/topicapi/P_flowsen_setting/").then((resp) => {
+        axios.get("http://3.108.228.232:8000/topicapi/P_flowsen_setting/").then((resp) => {
             console.log("res in get_p_flowsen", resp.data);
             setFF(resp.data[0].ff)
         }).catch((err) => {
@@ -33,7 +33,7 @@ const PremeteFlowSensorForm = () => {
             componant_name: "P_flowsen",
             ff:ff
         }
-        axios.post('http://127.0.0.1:8000/topicapi/P_flowsen_setting/', newData).then((res) => {
+        axios.post('http://3.108.228.232:8000/topicapi/P_flowsen_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);

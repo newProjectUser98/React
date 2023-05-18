@@ -24,7 +24,7 @@ const RoiPanelAtmForm = () => {
     console.log("components ==>", components[0].atm.new_transaction_type);
 
     useEffect(()=>{
-        axios.get("http://127.0.0.1:8000/topicapi/atm_setting/").then((resp)=>{
+        axios.get("http://3.108.228.232:8000/topicapi/atm_setting/").then((resp)=>{
             console.log("res in get_rwp",resp.data[0]);
             setNov(resp.data[0].nov)
             setNtp(resp.data[0].ntp)
@@ -71,7 +71,7 @@ const RoiPanelAtmForm = () => {
             re3: re3,
             re4: re4,
         }
-        axios.post('http://127.0.0.1:8000/topicapi/atm_setting/', newData).then((res) => {
+        axios.post('http://3.108.228.232:8000/topicapi/atm_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);

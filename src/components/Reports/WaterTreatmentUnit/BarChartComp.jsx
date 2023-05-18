@@ -11,26 +11,26 @@ const BarChartComp = ({ color, chartData, Yaxis }) => {
 
 
   // useEffect(() => {
-    // axios.get("http://127.0.0.1:8000/topicapirepo_hourly/")
+    // axios.get("http://3.108.228.232:8000/topicapirepo_hourly/")
     //   .then(res => setHourlyData(res.data))
     //   .catch(err => console.log(err))
 
-    // axios.get("http://127.0.0.1:8000/topicapirepo_daily/")
+    // axios.get("http://3.108.228.232:8000/topicapirepo_daily/")
     //   .then(res => setDailyData(res.data))
     //   .catch(err => console.log(err))
 
-    // axios.get("http://127.0.0.1:8000/topicapirepo_monthly/")
+    // axios.get("http://3.108.228.232:8000/topicapirepo_monthly/")
     //   .then(res => setMonthlyData(res.data))
     //   .catch(err => console.log(err))
 
-    // axios.get("http://127.0.0.1:8000/topicapirepo_yearly/")
+    // axios.get("http://3.108.228.232:8000/topicapirepo_yearly/")
     //   .then(res => setYearlyData(res.data))
     //   .catch(err => console.log(err))
   // })
 
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/topicapirepo_hourly/")
+    axios.get("http://3.108.228.232:8000/topicapirepo_hourly/")
       .then(res => {
         const filteredData = res.data.filter(obj => obj.service === Yaxis)
         setHourlyData(filteredData)
@@ -42,7 +42,7 @@ const BarChartComp = ({ color, chartData, Yaxis }) => {
   [hourlyData])
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/topicapirepo_daily/")
+    axios.get("http://3.108.228.232:8000/topicapirepo_daily/")
       .then(res => {
         const filteredData = res.data.filter(obj => obj.service === Yaxis)
         setDailyData(filteredData)
@@ -54,7 +54,7 @@ const BarChartComp = ({ color, chartData, Yaxis }) => {
   [dailyData])
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/topicapirepo_monthly/")
+    axios.get("http://3.108.228.232:8000/topicapirepo_monthly/")
       .then(res => {
         const filteredData = res.data.filter(obj => obj.service === Yaxis)
         setMonthlyData(filteredData)
@@ -66,7 +66,7 @@ const BarChartComp = ({ color, chartData, Yaxis }) => {
   [monthlyData])
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/topicapirepo_yearly/")
+    axios.get("http://3.108.228.232:8000/topicapirepo_yearly/")
       .then(res => {
         const filteredData = res.data.filter(obj => obj.service === Yaxis)
         setYearlyData(filteredData)

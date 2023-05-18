@@ -25,13 +25,13 @@ const Ampv2Form = () => {
     const [stp, setStp] = useState('');
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/topicapi/ampv2_state/").then((resp) => {
+        axios.get("http://3.108.228.232:8000/topicapi/ampv2_state/").then((resp) => {
             console.log("res in get_rwp_state", resp.data[0]);
             setPos(resp.data[0].pos);
         }).catch((err) => {
             console.log("err", err);
         })
-        axios.get("http://127.0.0.1:8000/topicapi/ampv2_setting/").then((resp) => {
+        axios.get("http://3.108.228.232:8000/topicapi/ampv2_setting/").then((resp) => {
             console.log("res in get_rwp_setting", resp.data[0]);
             let myNewData = resp.data[0]
             const myData = JSON.stringify(myNewData);
@@ -84,7 +84,7 @@ const Ampv2Form = () => {
             pos: pos
         }
         console.log("newData", newData);
-        axios.post('http://127.0.0.1:8000/topicapi/ampv2_state/', newData).then((res) => {
+        axios.post('http://3.108.228.232:8000/topicapi/ampv2_state/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -118,7 +118,7 @@ const Ampv2Form = () => {
             op3: op3,
         }
         console.log("newData", newData);
-        axios.post('http://127.0.0.1:8000/topicapi/ampv2_setting/', newData).then((res) => {
+        axios.post('http://3.108.228.232:8000/topicapi/ampv2_setting/', newData).then((res) => {
             console.log("res in setting", res);
             setIsLoading(true);
             setOpen(true);

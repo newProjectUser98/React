@@ -11,21 +11,21 @@ const LineChartComp = ({ color, chartData, Yaxis }) => {
 
 
   // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_hourly/")
+  //   axios.get("http://3.108.228.232:8000/topicapirepo_hourly/")
   //     .then(res => setHourlyData1(res.data))
   //     .catch(err => console.log(err))
 
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_daily/")
+  //   axios.get("http://3.108.228.232:8000/topicapirepo_daily/")
   //     .then(res => setDailyData1(res.data))
   //     .catch(err => console.log(err))
 
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_monthly/")
+  //   axios.get("http://3.108.228.232:8000/topicapirepo_monthly/")
   //     .then(res => setMonthlyData1(res.data))
   //     .catch(err => console.log(err))
   // }, [])
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/topicapirepo_hourly/")
+    axios.get("http://3.108.228.232:8000/topicapirepo_hourly/")
       .then(res => {
         const filteredData = res.data.filter(obj => obj.service === Yaxis)
         setHourlyData1(filteredData)
@@ -37,7 +37,7 @@ const LineChartComp = ({ color, chartData, Yaxis }) => {
   [hourlyData1])
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/topicapirepo_daily/")
+    axios.get("http://3.108.228.232:8000/topicapirepo_daily/")
       .then(res => {
         const filteredData = res.data.filter(obj => obj.service === Yaxis)
         setDailyData1(filteredData)
@@ -49,7 +49,7 @@ const LineChartComp = ({ color, chartData, Yaxis }) => {
   [dailyData1])
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/topicapirepo_monthly/")
+    axios.get("http://3.108.228.232:8000/topicapirepo_monthly/")
       .then(res => {
         const filteredData = res.data.filter(obj => obj.service === Yaxis)
         setMonthlyData1(filteredData)
@@ -61,7 +61,7 @@ const LineChartComp = ({ color, chartData, Yaxis }) => {
   [monthlyData1])
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/topicapirepo_yearly/")
+    axios.get("http://3.108.228.232:8000/topicapirepo_yearly/")
       .then(res => {
         const filteredData = res.data.filter(obj => obj.service === Yaxis)
         setYearlyData1(filteredData)

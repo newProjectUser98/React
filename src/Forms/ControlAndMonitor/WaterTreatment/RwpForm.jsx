@@ -18,13 +18,13 @@ const RwpForm = () => {
     const [spn, setSpn] = React.useState("");
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/topicapi/Rwp_state/").then((resp) => {
+        axios.get("http://3.108.228.232:8000/topicapi/Rwp_state/").then((resp) => {
             console.log("res in get_rwp_state 56", resp.data[0]);
             setStatusVal(resp.data[0].sts === "on" ? true : false)
         }).catch((err) => {
             console.log("err", err);
         })
-        axios.get("http://127.0.0.1:8000/topicapi/rwp_setting/").then((resp) => {
+        axios.get("http://3.108.228.232:8000/topicapi/rwp_setting/").then((resp) => {
             console.log("res in get_rwp set", resp.data[0]);
             setDrc(resp.data[0].drc)
             setOlc(resp.data[0].olc)
@@ -63,7 +63,7 @@ const RwpForm = () => {
             componant_name: "rwp",
             sts: statusVal === true ? "on" : "off"
         }
-        axios.post('http://127.0.0.1:8000/topicapi/Rwp_state/', newData).then((res) => {
+        axios.post('http://3.108.228.232:8000/topicapi/Rwp_state/', newData).then((res) => {
             setIsLoading(true);
             setOpen(true);
             setTimeout(() => {
@@ -84,7 +84,7 @@ const RwpForm = () => {
             spn: spn,
             drc: drc
         }
-        axios.post('http://127.0.0.1:8000/topicapi/rwp_setting/', newData).then((res) => {
+        axios.post('http://3.108.228.232:8000/topicapi/rwp_setting/', newData).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
