@@ -14,17 +14,22 @@ const Tap3Form = () => {
     const [p3, setP3] = React.useState("");
     const [p4, setP4] = React.useState("");
 
-    useEffect(()=>{
-        axios.get("/topicapi/tap3_setting/").then((resp)=>{
-            console.log("res in get_rwp",resp.data[0]);
-            setP1(resp.data[0].p1)
-            setP2(resp.data[0].p2)
-            setP3(resp.data[0].p3)
-            setP4(resp.data[0].p4)
-        }).catch((err)=>{
-            console.log("err",err);
+    useEffect(() => {
+        let newData = {
+            unit_type: "water_dispense",
+            company_name: userData.company_name,
+            componant_name: "tap3"
+        }
+        axios.post("/topicapi/updated_disp_tap3/", newData).then((resp) => {
+            console.log("res in get_rwp", resp.data[0].fields);
+            setP1(resp.data[0].fields.p1)
+            setP2(resp.data[0].fields.p2)
+            setP3(resp.data[0].fields.p3)
+            setP4(resp.data[0].fields.p4)
+        }).catch((err) => {
+            console.log("err", err);
         })
-    },[])
+    }, [])
 
     const initialValues = {
         p1: "",

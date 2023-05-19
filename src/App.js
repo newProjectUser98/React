@@ -58,7 +58,7 @@ function App() {
       window.location.origin === "http://localhost:3000"
         ? "127.0.0.1:8000"
         : "65.2.189.24:8000";
-    const ws = new WebSocket(`ws://${wsUrl}:8000/ws/chat/`);
+    const ws = new WebSocket(`ws://${wsUrl}/ws/chat/`);
 
     ws.onopen = function () {
       alert("WebSocket Connected Successfully");

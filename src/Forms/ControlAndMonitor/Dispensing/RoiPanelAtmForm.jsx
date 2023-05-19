@@ -23,21 +23,26 @@ const RoiPanelAtmForm = () => {
     let components = JSON.parse(componentsJSON);
     console.log("components ==>", components[0].atm.new_transaction_type);
 
-    useEffect(()=>{
-        axios.get("/topicapi/atm_setting/").then((resp)=>{
-            console.log("res in get_rwp",resp.data[0]);
-            setNov(resp.data[0].nov)
-            setNtp(resp.data[0].ntp)
-            setvl1(resp.data[0].vl1)
-            setvl2(resp.data[0].vl2)
-            setvl3(resp.data[0].vl3)
-            setvl4(resp.data[0].vl4)
-            setre1(resp.data[0].re1)
-            setre2(resp.data[0].re2)
-            setre3(resp.data[0].re3)
-            setre4(resp.data[0].re4)
-        }).catch((err)=>{
-            console.log("err",err);
+    useEffect(() => {
+        let newData = {
+            unit_type: "water_dispense",
+            company_name: userData.company_name,
+            componant_name: "atm"
+        }
+        axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
+            console.log("res in get_rwp", resp.data[0].fields);
+            setNov(resp.data[0].fields.nov)
+            setNtp(resp.data[0].fields.ntp)
+            setvl1(resp.data[0].fields.vl1)
+            setvl2(resp.data[0].fields.vl2)
+            setvl3(resp.data[0].fields.vl3)
+            setvl4(resp.data[0].fields.vl4)
+            setre1(resp.data[0].fields.re1)
+            setre2(resp.data[0].fields.re2)
+            setre3(resp.data[0].fields.re3)
+            setre4(resp.data[0].fields.re4)
+        }).catch((err) => {
+            console.log("err", err);
         })
     }, [])
 
