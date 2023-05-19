@@ -15,6 +15,7 @@ const Tap3Form = () => {
     const [p4, setP4] = React.useState("");
 
     useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             unit_type: "water_dispense",
             company_name: userData.company_name,

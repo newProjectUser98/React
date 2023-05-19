@@ -16,7 +16,7 @@ const RwpForm = () => {
     const [olc, setOlc] = React.useState("");
     const [drc, setDrc] = React.useState("");
     const [spn, setSpn] = React.useState("");
-
+    console.log("sts", statusVal);
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
@@ -25,8 +25,8 @@ const RwpForm = () => {
             componant_name: "rwp"
         }
         axios.post("/topicapi/updated_treat_rwp/", newData).then((resp) => {
-            console.log("resp in rwp state", resp.data[0].fields);
-            setStatusVal(resp.data.sts)
+            console.log("resp in rwp state", resp.data[0].fields.sts);
+            setStatusVal(resp.data.sts == "on" ? true : false)
             setOlc(resp.data[0].fields.olc)
             setDrc(resp.data[0].fields.drc)
             setSpn(resp.data[0].fields.spn)

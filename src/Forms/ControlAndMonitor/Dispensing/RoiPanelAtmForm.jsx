@@ -24,6 +24,7 @@ const RoiPanelAtmForm = () => {
     console.log("components ==>", components[0].atm.new_transaction_type);
 
     useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             unit_type: "water_dispense",
             company_name: userData.company_name,
