@@ -46,7 +46,14 @@ const RoiPanelForm = () => {
     };
 
     useEffect(() => {
-        axios.get("/topicapi/panel_setting/").then((resp) => {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_treatment",
+            componant_name: "hpp",
+            sts: statusVal === true ? "on" : "off"
+        }
+        axios.post("/topicapi/updated_treat_panel/",newData).then((resp) => {
             console.log("res in get_rwp", resp.data[0]);
             setMod(resp.data[0].mod)
             setNmv(resp.data[0].nmv)
@@ -70,7 +77,7 @@ const RoiPanelForm = () => {
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "roi_panel",
+            componant_name: "panel",
             mod: mod,
         nmv: nmv,
         stp: stp,

@@ -25,30 +25,28 @@ const Ampv2Form = () => {
     const [stp, setStp] = useState('');
 
     useEffect(() => {
-        axios.get("/topicapi/ampv2_state/").then((resp) => {
-            console.log("res in get_rwp_state", resp.data[0]);
-            setPos(resp.data[0].pos);
-        }).catch((err) => {
-            console.log("err", err);
-        })
-        axios.get("/topicapi/ampv2_setting/").then((resp) => {
-            console.log("res in get_rwp_setting", resp.data[0]);
-            let myNewData = resp.data[0]
-            const myData = JSON.stringify(myNewData);
-            localStorage.setItem("setting_Data", myData);
-            setBkt(resp.data[0].bkt)
-            setIp1(resp.data[0].ip1)
-            setIp2(resp.data[0].ip2)
-            setIp3(resp.data[0].ip3)
-            setMot(resp.data[0].mot)
-            setOp1(resp.data[0].op1)
-            setOp2(resp.data[0].op2)
-            setOp3(resp.data[0].op3)
-            setPsi(resp.data[0].psi)
-            setRst(resp.data[0].rst)
-            setSrt1(resp.data[0].srt1)
-            setSrt2(resp.data[0].srt2)
-            setStp(resp.data[0].stp)
+        const userData = JSON.parse(localStorage.getItem('user'));
+        let newData = {
+            unit_type: "water_treatment",
+            company_name: userData.company_name,
+            componant_name: "ampv1"
+        }
+        axios.post("/topicapi/updated_treat_ampv2/", newData).then((resp) => {
+            console.log("res in get_ampv2_setting", resp.data);
+            setPos(resp.data[0].fields.pos)
+            setBkt(resp.data[0].fields.bkt)
+            setIp1(resp.data[0].fields.ip1)
+            setIp2(resp.data[0].fields.ip2)
+            setIp3(resp.data[0].fields.ip3)
+            setMot(resp.data[0].fields.mot)
+            setOp1(resp.data[0].fields.op1)
+            setOp2(resp.data[0].fields.op2)
+            setOp3(resp.data[0].fields.op3)
+            setPsi(resp.data[0].fields.psi)
+            setRst(resp.data[0].fields.rst)
+            setSrt1(resp.data[0].fields.srt1)
+            setSrt2(resp.data[0].fields.srt2)
+            setStp(resp.data[0].fields.stp)
         }).catch((err) => {
             console.log("err", err);
         })
@@ -78,9 +76,9 @@ const Ampv2Form = () => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
-            company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "ampv2",
+            company_name: userData.company_name,
+            componant_name: "ampv1",
             pos: pos
         }
         console.log("newData", newData);

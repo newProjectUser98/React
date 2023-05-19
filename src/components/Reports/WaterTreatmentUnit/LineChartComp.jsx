@@ -11,21 +11,21 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
 
 
   // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_hourly/")
+  //   axios.get("/topicapirepo_hourly/")
   //     .then(res => setHourlyData1(res.data))
   //     .catch(err => console.log(err))
 
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_daily/")
+  //   axios.get("/topicapirepo_daily/")
   //     .then(res => setDailyData1(res.data))
   //     .catch(err => console.log(err))
 
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_monthly/")
+  //   axios.get("/topicapirepo_monthly/")
   //     .then(res => setMonthlyData1(res.data))
   //     .catch(err => console.log(err))
   // }, [])
 
   // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_hourly/")
+  //   axios.get("/topicapirepo_hourly/")
   //     .then(res => {
   //       const filteredData = res.data.filter(obj => obj.service === Yaxis)
   //       setHourlyData1(filteredData)
@@ -35,7 +35,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
   // }, [hourlyData1])
 
   // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_daily/")
+  //   axios.get("/topicapirepo_daily/")
   //     .then(res => {
   //       const filteredData = res.data.filter(obj => obj.service === Yaxis)
   //       setDailyData1(filteredData)
@@ -45,7 +45,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
   // }, [dailyData1])
 
   // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_monthly/")
+  //   axios.get("/topicapirepo_monthly/")
   //     .then(res => {
   //       const filteredData = res.data.filter(obj => obj.service === Yaxis)
   //       setMonthlyData1(filteredData)
@@ -55,7 +55,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
   // }, [monthlyData1])
 
   // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_yearly/")
+  //   axios.get("/topicapirepo_yearly/")
   //     .then(res => {
   //       const filteredData = res.data.filter(obj => obj.service === Yaxis)
   //       setYearlyData1(filteredData)
@@ -69,7 +69,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
   useEffect(() => {
 
     if (Yaxis === 'cnd_tds') {
-      axios.get("http://127.0.0.1:8000/topicapicnd_hourly/")
+      axios.get("/topicapicnd_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -82,7 +82,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapicnd_daily/")
+      axios.get("/topicapicnd_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -95,7 +95,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapicnd_monthly/")
+      axios.get("/topicapicnd_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -108,7 +108,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapicnd_yearly/")
+      axios.get("/topicapicnd_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -123,7 +123,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'rwp') {
-      axios.get("http://127.0.0.1:8000/topicapirwp_hourly/")
+      axios.get("/topicapirwp_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -136,7 +136,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapirwp_daily/")
+      axios.get("/topicapirwp_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -149,7 +149,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapirwp_monthly/")
+      axios.get("/topicapirwp_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -162,7 +162,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapirwp_yearly/")
+      axios.get("/topicapirwp_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -177,7 +177,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'hpp') {
-      axios.get("http://127.0.0.1:8000/topicapihpp_hourly/")
+      axios.get("/topicapihpp_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -190,7 +190,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapihpp_daily/")
+      axios.get("/topicapihpp_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -203,7 +203,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapihpp_monthly/")
+      axios.get("/topicapihpp_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -216,7 +216,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapihpp_yearly/")
+      axios.get("/topicapihpp_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -231,7 +231,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'panel') {
-      axios.get("http://127.0.0.1:8000/topicapipanel_hourly/")
+      axios.get("/topicapipanel_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -244,7 +244,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapipanel_daily/")
+      axios.get("/topicapipanel_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -257,7 +257,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapipanel_monthly/")
+      axios.get("/topicapipanel_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -270,7 +270,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapipanel_yearly/")
+      axios.get("/topicapipanel_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -285,7 +285,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'flowsen') {
-      axios.get("http://127.0.0.1:8000/topicapiflowsen_hourly/")
+      axios.get("/topicapiflowsen_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -298,7 +298,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiflowsen_daily/")
+      axios.get("/topicapiflowsen_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -311,7 +311,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiflowsen_monthly/")
+      axios.get("/topicapiflowsen_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -324,7 +324,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiflowsen_yearly/")
+      axios.get("/topicapiflowsen_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -339,7 +339,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'ampv1') {
-      axios.get("http://127.0.0.1:8000/topicapiampv1_hourly/")
+      axios.get("/topicapiampv1_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -352,7 +352,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv1_daily/")
+      axios.get("/topicapiampv1_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -365,7 +365,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv1_monthly/")
+      axios.get("/topicapiampv1_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -378,7 +378,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv1_yearly/")
+      axios.get("/topicapiampv1_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -393,7 +393,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'ampv2') {
-      axios.get("http://127.0.0.1:8000/topicapiampv2_hourly/")
+      axios.get("/topicapiampv2_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -406,7 +406,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv2_daily/")
+      axios.get("/topicapiampv2_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -419,7 +419,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv2_monthly/")
+      axios.get("/topicapiampv2_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -432,7 +432,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv2_yearly/")
+      axios.get("/topicapiampv2_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -447,7 +447,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'ampv3') {
-      axios.get("http://127.0.0.1:8000/topicapiampv3_hourly/")
+      axios.get("/topicapiampv3_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -460,7 +460,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv3_daily/")
+      axios.get("/topicapiampv3_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -473,7 +473,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv3_monthly/")
+      axios.get("/topicapiampv3_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -486,7 +486,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv3_yearly/")
+      axios.get("/topicapiampv3_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -501,7 +501,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'ampv4') {
-      axios.get("http://127.0.0.1:8000/topicapiampv4_hourly/")
+      axios.get("/topicapiampv4_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -514,7 +514,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv4_daily/")
+      axios.get("/topicapiampv4_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -527,7 +527,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv4_monthly/")
+      axios.get("/topicapiampv4_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -540,7 +540,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv4_yearly/")
+      axios.get("/topicapiampv4_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -555,7 +555,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'ampv5') {
-      axios.get("http://127.0.0.1:8000/topicapiampv5_hourly/")
+      axios.get("/topicapiampv5_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -568,7 +568,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv5_daily/")
+      axios.get("/topicapiampv5_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -581,7 +581,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv5_monthly/")
+      axios.get("/topicapiampv5_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -594,7 +594,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiampv5_yearly/")
+      axios.get("/topicapiampv5_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -609,7 +609,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'atm') {
-      axios.get("http://127.0.0.1:8000/topicapiatm_hourly/")
+      axios.get("/topicapiatm_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -622,7 +622,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiatm_daily/")
+      axios.get("/topicapiatm_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -635,7 +635,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiatm_monthly/")
+      axios.get("/topicapiatm_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -648,7 +648,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiatm_yearly/")
+      axios.get("/topicapiatm_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -663,7 +663,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'tap1') {
-      axios.get("http://127.0.0.1:8000/topicapitap1_hourly/")
+      axios.get("/topicapitap1_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -676,7 +676,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap1_daily/")
+      axios.get("/topicapitap1_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -689,7 +689,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap1_monthly/")
+      axios.get("/topicapitap1_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -702,7 +702,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap1_yearly/")
+      axios.get("/topicapitap1_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -717,7 +717,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'tap2') {
-      axios.get("http://127.0.0.1:8000/topicapitap2_hourly/")
+      axios.get("/topicapitap2_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -730,7 +730,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap2_daily/")
+      axios.get("/topicapitap2_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -743,7 +743,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap2_monthly/")
+      axios.get("/topicapitap2_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -756,7 +756,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap2_yearly/")
+      axios.get("/topicapitap2_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -771,7 +771,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'tap3') {
-      axios.get("http://127.0.0.1:8000/topicapitap3_hourly/")
+      axios.get("/topicapitap3_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -784,7 +784,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap3_daily/")
+      axios.get("/topicapitap3_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -797,7 +797,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap3_monthly/")
+      axios.get("/topicapitap3_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -810,7 +810,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap3_yearly/")
+      axios.get("/topicapitap3_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -825,7 +825,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'tap4') {
-      axios.get("http://127.0.0.1:8000/topicapitap4_hourly/")
+      axios.get("/topicapitap4_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -838,7 +838,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap4_daily/")
+      axios.get("/topicapitap4_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -851,7 +851,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap4_monthly/")
+      axios.get("/topicapitap4_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -864,7 +864,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapitap4_yearly/")
+      axios.get("/topicapitap4_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -879,7 +879,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
     }
 
     else if (Yaxis === 'consen') {
-      axios.get("http://127.0.0.1:8000/topicapiconsen_hourly/")
+      axios.get("/topicapiconsen_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -892,7 +892,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiconsen_daily/")
+      axios.get("/topicapiconsen_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -905,7 +905,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiconsen_monthly/")
+      axios.get("/topicapiconsen_monthly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)
@@ -918,7 +918,7 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapiconsen_yearly/")
+      axios.get("/topicapiconsen_yearly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
           // setDailyData1(filteredData)

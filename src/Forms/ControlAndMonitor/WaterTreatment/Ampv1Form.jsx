@@ -44,30 +44,28 @@ const Ampv1Form = () => {
     };
 
     useEffect(() => {
-        axios.get("/topicapi/ampv1_state/").then((resp) => {
-            console.log("res in get_rwp_state", resp.data[0]);
-            setPos(resp.data[0].pos);
-        }).catch((err) => {
-            console.log("err", err);
-        })
-        axios.get("/topicapi/ampv1_setting/").then((resp) => {
-            console.log("res in get_rwp_setting", resp.data[0]);
-            let myNewData = resp.data[0]
-            const myData = JSON.stringify(myNewData);
-            localStorage.setItem("setting_Data", myData);
-            setBkt(resp.data[0].bkt)
-            setIp1(resp.data[0].ip1)
-            setIp2(resp.data[0].ip2)
-            setIp3(resp.data[0].ip3)
-            setMot(resp.data[0].mot)
-            setOp1(resp.data[0].op1)
-            setOp2(resp.data[0].op2)
-            setOp3(resp.data[0].op3)
-            setPsi(resp.data[0].psi)
-            setRst(resp.data[0].rst)
-            setSrt1(resp.data[0].srt1)
-            setSrt2(resp.data[0].srt2)
-            setStp(resp.data[0].stp)
+        const userData = JSON.parse(localStorage.getItem('user'));
+        let newData = {
+            unit_type: "water_treatment",
+            company_name: userData.company_name,
+            componant_name: "ampv1"
+        }
+        axios.post("/topicapi/updated_treat_ampv1/", newData).then((resp) => {
+            console.log("res in get_rwp_setting", resp.data);
+            setPos(resp.data[0].fields.pos)
+            setBkt(resp.data[0].fields.bkt)
+            setIp1(resp.data[0].fields.ip1)
+            setIp2(resp.data[0].fields.ip2)
+            setIp3(resp.data[0].fields.ip3)
+            setMot(resp.data[0].fields.mot)
+            setOp1(resp.data[0].fields.op1)
+            setOp2(resp.data[0].fields.op2)
+            setOp3(resp.data[0].fields.op3)
+            setPsi(resp.data[0].fields.psi)
+            setRst(resp.data[0].fields.rst)
+            setSrt1(resp.data[0].fields.srt1)
+            setSrt2(resp.data[0].fields.srt2)
+            setStp(resp.data[0].fields.stp)
         }).catch((err) => {
             console.log("err", err);
         })
@@ -126,7 +124,7 @@ const Ampv1Form = () => {
     }
     return (
         <>
-        {isLoading &&
+            {isLoading &&
                 <BackdropComp open={open} />
             }
             <div className="flex items-center w-full mb-5 flex-wrap justify-center">
@@ -204,10 +202,10 @@ const Ampv1Form = () => {
                                     <p className='w-40 my-2'>Service Time</p>
                                     <div>
                                         <Field disabled={!editSetting} type="text" name="srt1" id="srth" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" value={srt1}
-                                            onChange={(e) => setSrt1(e.target.value)}/>
+                                            onChange={(e) => setSrt1(e.target.value)} />
                                         <span className='mx-1'>:</span>
                                         <Field disabled={!editSetting} type="text" name="srt2" id="srts" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" value={srt2}
-                                            onChange={(e) => setSrt2(e.target.value)}/>
+                                            onChange={(e) => setSrt2(e.target.value)} />
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
@@ -215,7 +213,7 @@ const Ampv1Form = () => {
                                     <p className='w-40 my-2'>Backwash Time</p>
                                     <div>
                                         <Field disabled={!editSetting} type="text" name="bkt" id="bkt" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Backwash Time" value={bkt}
-                                            onChange={(e) => setBkt(e.target.value)}/>
+                                            onChange={(e) => setBkt(e.target.value)} />
                                         <span className='mx-1'>minutes</span>
                                     </div>
                                 </div>
@@ -224,7 +222,7 @@ const Ampv1Form = () => {
                                     <p className='w-40 my-2'>Rinse Time</p>
                                     <div>
                                         <Field disabled={!editSetting} type="text" name="rst" id="rst" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rinse Time" value={rst}
-                                            onChange={(e) => setRst(e.target.value)}/>
+                                            onChange={(e) => setRst(e.target.value)} />
                                         <span className='mx-1'>minutes</span>
                                     </div>
                                 </div>
@@ -233,7 +231,7 @@ const Ampv1Form = () => {
                                     <p className='w-40 my-2'>Motor On Delay Time</p>
                                     <div>
                                         <Field disabled={!editSetting} type="text" name="mot" id="mot" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Motor On Delay Time" value={mot}
-                                            onChange={(e) => setMot(e.target.value)}/>
+                                            onChange={(e) => setMot(e.target.value)} />
                                         <span className='mx-1'>sec</span>
                                     </div>
                                 </div>
@@ -253,19 +251,19 @@ const Ampv1Form = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 1</p>
                                     <Field disabled={!editSetting} type="text" name="op1" id="op1" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 1" value={op1}
-                                        onChange={(e) => setOp1(e.target.value)}/>
+                                        onChange={(e) => setOp1(e.target.value)} />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 2</p>
                                     <Field disabled={!editSetting} type="text" name="op2" id="op2" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 2" value={op2}
-                                        onChange={(e) => setOp2(e.target.value)}/>
+                                        onChange={(e) => setOp2(e.target.value)} />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 3</p>
                                     <Field disabled={!editSetting} type="text" name="op3" id="op3" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 3" value={op3}
-                                        onChange={(e) => setOp3(e.target.value)}/>
+                                        onChange={(e) => setOp3(e.target.value)} />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>

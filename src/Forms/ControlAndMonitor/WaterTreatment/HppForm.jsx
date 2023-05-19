@@ -16,19 +16,21 @@ const HppForm = () => {
     const [spn, setSpn] = React.useState("");
 
     useEffect(() => {
-        axios.get("/topicapi/hpp_state/").then((resp) => {
-            console.log("res in get_hpp state", resp.data[0]);
-            setStatusVal(resp.data[0].sts === "on" ? true : false)
+        const userData = JSON.parse(localStorage.getItem('user'));
+        let newData = {
+            unit_type: "water_treatment",
+            company_name: userData.company_name,
+            componant_name: "hpp"
+        }
+        axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
+            console.log("resp in rwp state", resp.data[0].fields);
+            setStatusVal(resp.data.sts)
+            setOlc(resp.data[0].fields.olc)
+            setDrc(resp.data[0].fields.drc)
+            setSpn(resp.data[0].fields.spn)
+
         }).catch((err) => {
-            console.log("err", err);
-        })
-        axios.get("/topicapi/hpp_setting/").then((resp) => {
-            console.log("res in get_hpp setting", resp.data[0]);
-            setDrc(resp.data[0].drc)
-            setOlc(resp.data[0].olc)
-            setSpn(resp.data[0].spn)
-        }).catch((err) => {
-            console.log("err", err);
+            console.log("err in rwp state", err);
         })
     }, [])
 

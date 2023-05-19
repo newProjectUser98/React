@@ -18,20 +18,21 @@ const RwpForm = () => {
     const [spn, setSpn] = React.useState("");
 
     useEffect(() => {
-        axios.get("/topicapi/Rwp_state/").then((resp) => {
-            console.log("res in get_rwp_state 56", resp.data[0]);
-            setStatusVal(resp.data[0].sts === "on" ? true : false)
-        }).catch((err) => {
-            console.log("err", err);
-        })
-        axios.get("/topicapi/rwp_setting/").then((resp) => {
-            console.log("res in get_rwp set", resp.data[0]);
-            setDrc(resp.data[0].drc)
-            setOlc(resp.data[0].olc)
-            setSpn(resp.data[0].spn)
+        const userData = JSON.parse(localStorage.getItem('user'));
+        let newData = {
+            unit_type: "water_treatment",
+            company_name: userData.company_name,
+            componant_name: "rwp"
+        }
+        axios.post("/topicapi/updated_treat_rwp/", newData).then((resp) => {
+            console.log("resp in rwp state", resp.data[0].fields);
+            setStatusVal(resp.data.sts)
+            setOlc(resp.data[0].fields.olc)
+            setDrc(resp.data[0].fields.drc)
+            setSpn(resp.data[0].fields.spn)
 
         }).catch((err) => {
-            console.log("err", err);
+            console.log("err in rwp state", err);
         })
     }, [])
 
@@ -63,7 +64,7 @@ const RwpForm = () => {
             componant_name: "rwp",
             sts: statusVal === true ? "on" : "off"
         }
-        axios.post('/topicapi/Rwp_state/', newData).then((res) => {
+        axios.post('/topicapi/rwp_state/', newData).then((res) => {
             setIsLoading(true);
             setOpen(true);
             setTimeout(() => {
@@ -115,6 +116,7 @@ const RwpForm = () => {
                     <span>Setting variable</span>
                 </div>
             </div>
+
             <Formik
                 initialValues={initialValuesState}
                 onSubmit={onSubmitState}
@@ -173,7 +175,7 @@ const RwpForm = () => {
                                     <p className='w-40 my-2'>Over Load Current</p>
                                     <div>
                                         <Field disabled={!editSetting} type='text' id='olc' name='olc' placeholder="Over Load Current" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={olc}
-                                        onChange={(e) => setOlc(e.target.value)}/>
+                                            onChange={(e) => setOlc(e.target.value)} />
                                         <span className='mx-1 my-2'>Ampere</span>
                                     </div>
                                     <ErrorMessage name="olc" component={TextError} />
@@ -183,7 +185,7 @@ const RwpForm = () => {
                                     <p className='w-40 my-2'>Dry Run Current</p>
                                     <div>
                                         <Field disabled={!editSetting} type='text' id='drc' name='drc' placeholder="Dry Run Current" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={drc}
-                                        onChange={(e) => setDrc(e.target.value)}/>
+                                            onChange={(e) => setDrc(e.target.value)} />
                                         <span className='mx-1 my-2'>Ampere</span>
                                     </div>
                                 </div>
@@ -191,7 +193,7 @@ const RwpForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Span</p>
                                     <Field disabled={!editSetting} type='text' id='spn' name='spn' placeholder="Span" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={spn}
-                                        onChange={(e) => setSpn(e.target.value)}/>
+                                        onChange={(e) => setSpn(e.target.value)} />
                                 </div>
                                 {
                                     editSetting &&

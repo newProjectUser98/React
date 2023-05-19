@@ -210,7 +210,7 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
   // console.log('variable in overview', variable);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/topicapikey_info/')
+    axios.get('/topicapikey_info/')
       .then(res => setComponent(res.data))
       .catch(err => console.log(err))
   }, [])
