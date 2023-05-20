@@ -22,11 +22,11 @@ const Tap4Form = () => {
             componant_name: "tap4"
         }
         axios.post("/topicapi/updated_disp_tap4/", newData).then((resp) => {
-            console.log("res in get_rwp", resp.data[0].fields);
-            setP1(resp.data[0].fields.p1)
-            setP2(resp.data[0].fields.p2)
-            setP3(resp.data[0].fields.p3)
-            setP4(resp.data[0].fields.p4)
+            console.log("res in get_rwp", resp.data[0].data);
+            setP1(resp.data[0].data.p1)
+            setP2(resp.data[0].data.p2)
+            setP3(resp.data[0].data.p3)
+            setP4(resp.data[0].data.p4)
         }).catch((err) => {
             console.log("err", err);
         })

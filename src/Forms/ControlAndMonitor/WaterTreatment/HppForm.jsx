@@ -23,11 +23,11 @@ const HppForm = () => {
             componant_name: "hpp"
         }
         axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
-            console.log("resp in rwp state", resp.data[0].fields);
-            setStatusVal(resp.data.sts)
-            setOlc(resp.data[0].fields.olc)
-            setDrc(resp.data[0].fields.drc)
-            setSpn(resp.data[0].fields.spn)
+            console.log("resp in hpp", resp.data[0].data);
+            setStatusVal(resp.data[0].data.sts == "on" ? true : false)
+            setOlc(resp.data[0].data.olc)
+            setDrc(resp.data[0].data.drc)
+            setSpn(resp.data[0].data.spn)
 
         }).catch((err) => {
             console.log("err in rwp state", err);

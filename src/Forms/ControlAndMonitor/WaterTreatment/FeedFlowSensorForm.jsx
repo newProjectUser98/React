@@ -12,9 +12,16 @@ const FeedFlowSensorForm = () => {
 
 
     useEffect(() => {
-        axios.get("/topicapi/F_flowsen_setting/").then((resp) => {
-            console.log("res in get_ff", resp.data[0]);
-            setff(resp.data[0].ff)
+        let userData = JSON.parse(localStorage.getItem('user'));
+        let newData = {
+            unit_type: "water_treatment",
+            company_name: userData.company_name,
+            componant_name: "F_flowsen"
+        }
+        axios.post("/topicapi/updated_treat_P_flowsen/", newData).then((resp) => {
+            console.log("res in get_F_flowsen", resp.data);
+            // setFF(resp.data[0].ff)ranch
+            
         }).catch((err) => {
             console.log("err", err);
         })

@@ -25,11 +25,11 @@ const RwpForm = () => {
             componant_name: "rwp"
         }
         axios.post("/topicapi/updated_treat_rwp/", newData).then((resp) => {
-            console.log("resp in rwp state", resp.data[0].fields.sts);
-            setStatusVal(resp.data.sts == "on" ? true : false)
-            setOlc(resp.data[0].fields.olc)
-            setDrc(resp.data[0].fields.drc)
-            setSpn(resp.data[0].fields.spn)
+            console.log("resp in rwp state", resp.data[0].data.sts);
+            setStatusVal(resp.data[0].data.sts == "on" ? true : false)
+            setOlc(resp.data[0].data.olc)
+            setDrc(resp.data[0].data.drc)
+            setSpn(resp.data[0].data.spn)
 
         }).catch((err) => {
             console.log("err in rwp state", err);

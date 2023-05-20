@@ -42,30 +42,28 @@ const RoiPanelForm = () => {
         srt: 9959,
         bkt: 99,
         rst: 99,
-
     };
 
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
-            company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "hpp",
-            sts: statusVal === true ? "on" : "off"
+            company_name: userData.company_name,
+            componant_name: "panel"
         }
-        axios.post("/topicapi/updated_treat_panel/",newData).then((resp) => {
-            console.log("res in get_rwp", resp.data[0]);
-            setMod(resp.data[0].mod)
-            setNmv(resp.data[0].nmv)
-            setStp(resp.data[0].stp)
-            setSrt1(resp.data[0].srt1)
-            setSrt2(resp.data[0].srt2)
-            setUnv(resp.data[0].unv)
-            setOvv(resp.data[0].ovv)
-            setSpn(resp.data[0].spn)
-            setSrt(resp.data[0].srt)
-            setBkt(resp.data[0].bkt)
-            setRst(resp.data[0].rst)
+        axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
+            console.log("res in get_panel", resp.data[0].data);
+            setMod(resp.data[0].data.mod)
+            setNmv(resp.data[0].data.nmv)
+            setStp(resp.data[0].data.stp)
+            setSrt1(resp.data[0].data.srt1)
+            setSrt2(resp.data[0].data.srt2)
+            setUnv(resp.data[0].data.unv)
+            setOvv(resp.data[0].data.ovv)
+            setSpn(resp.data[0].data.spn)
+            setSrt(resp.data[0].data.srt)
+            setBkt(resp.data[0].data.bkt)
+            setRst(resp.data[0].data.rst)
         }).catch((err) => {
             console.log("err", err);
         })
@@ -79,16 +77,16 @@ const RoiPanelForm = () => {
             unit_type: "water_treatment",
             componant_name: "panel",
             mod: mod,
-        nmv: nmv,
-        stp: stp,
-        srt1: srt1,
-        srt2: srt2,
-        unv: unv,
-        ovv: ovv,
-        spn: spn,
-        srt: srt,
-        bkt: bkt,
-        rst: rst,
+            nmv: nmv,
+            stp: stp,
+            srt1: srt1,
+            srt2: srt2,
+            unv: unv,
+            ovv: ovv,
+            spn: spn,
+            srt: srt,
+            bkt: bkt,
+            rst: rst,
         }
         axios.post('/topicapi/panel_setting/', newData).then((res) => {
             console.log("res", res);

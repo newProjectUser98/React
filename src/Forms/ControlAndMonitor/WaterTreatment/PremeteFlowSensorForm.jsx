@@ -11,14 +11,20 @@ const PremeteFlowSensorForm = () => {
     const [ff, setFF] = React.useState("");
 
 
-    useEffect(() => {
-        axios.get("/topicapi/P_flowsen_setting/").then((resp) => {
-            console.log("res in get_p_flowsen", resp.data);
-            setFF(resp.data[0].ff)
-        }).catch((err) => {
-            console.log("err", err);
-        })
-    }, [])
+    // useEffect(() => {
+    //     let userData = JSON.parse(localStorage.getItem('user'));
+    //     let newData = {
+    //         unit_type: "water_treatment",
+    //         company_name: userData.company_name,
+    //         componant_name: "P_flowsen"
+    //     }
+    //     axios.post("/topicapi/updated_treat_P_flowsen/",newData).then((resp) => {
+    //         console.log("res in get_p_flowsen", resp.data);
+    //         // setFF(resp.data[0].ff)
+    //     }).catch((err) => {
+    //         console.log("err", err);
+    //     })
+    // }, [])
 
     const initialValues = {
         flowrate: '',

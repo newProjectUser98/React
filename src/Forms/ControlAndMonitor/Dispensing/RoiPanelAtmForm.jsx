@@ -31,17 +31,17 @@ const RoiPanelAtmForm = () => {
             componant_name: "atm"
         }
         axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
-            console.log("res in get_rwp", resp.data[0].fields);
-            setNov(resp.data[0].fields.nov)
-            setNtp(resp.data[0].fields.ntp)
-            setvl1(resp.data[0].fields.vl1)
-            setvl2(resp.data[0].fields.vl2)
-            setvl3(resp.data[0].fields.vl3)
-            setvl4(resp.data[0].fields.vl4)
-            setre1(resp.data[0].fields.re1)
-            setre2(resp.data[0].fields.re2)
-            setre3(resp.data[0].fields.re3)
-            setre4(resp.data[0].fields.re4)
+            console.log("res in get_atm", resp.data[0].data);
+            setNov(resp.data[0].data.nov)
+            setNtp(resp.data[0].data.ntp)
+            setvl1(resp.data[0].data.vl1)
+            setvl2(resp.data[0].data.vl2)
+            setvl3(resp.data[0].data.vl3)
+            setvl4(resp.data[0].data.vl4)
+            setre1(resp.data[0].data.re1)
+            setre2(resp.data[0].data.re2)
+            setre3(resp.data[0].data.re3)
+            setre4(resp.data[0].data.re4)
         }).catch((err) => {
             console.log("err", err);
         })
