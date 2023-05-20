@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Field, Form, Formik } from 'formik';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
@@ -18,32 +18,32 @@ const Conductivity2Form = () => {
     console.log("components ==>", components[0].cnd.cnd);
 
 
-    useEffect(() => {
-        let userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            unit_type: "water_dispense",
-            company_name: userData.company_name,
-            componant_name: "consen_cnd"
-        }
-        components[0].cnd.cnd === 'conductivity' ?
-            axios.post("/topicapi/updated_disp_consen/", newData).then((resp) => {
-                console.log("res in get_consen", resp.data);
-                setSpn(resp.data[0].fields?.spn)
-                setAsp(resp.data[0].fields?.asp)
-            }).catch((err) => {
-                console.log("err", err);
-            })
-            :
-            axios.post("/topicapi/updated_disp_consen/", newData).then((resp) => {
-                console.log("res in get_rwp", resp.data[0].fields);
-                setSpn(resp.data[0].fields?.spn)
-                setAsp(resp.data[0].fields?.asp)
-            }).catch((err) => {
-                console.log("err", err);
-            })
-    },
+    // useEffect(() => {
+    //     let userData = JSON.parse(localStorage.getItem('user'));
+    //     let newData = {
+    //         unit_type: "water_dispense",
+    //         company_name: userData.company_name,
+    //         componant_name: "consen_cnd"
+    //     }
+    //     components[0].cnd.cnd === 'conductivity' ?
+    //         axios.post("/topicapi/updated_disp_consen/", newData).then((resp) => {
+    //             console.log("res in get_consen", resp.data);
+    //             setSpn(resp.data[0].fields?.spn)
+    //             setAsp(resp.data[0].fields?.asp)
+    //         }).catch((err) => {
+    //             console.log("err", err);
+    //         })
+    //         :
+    //         axios.post("/topicapi/updated_disp_consen/", newData).then((resp) => {
+    //             console.log("res in get_rwp", resp.data[0].fields);
+    //             setSpn(resp.data[0].fields?.spn)
+    //             setAsp(resp.data[0].fields?.asp)
+    //         }).catch((err) => {
+    //             console.log("err", err);
+    //         })
+    // },
         // eslint-disable-next-line
-        [])
+        // [])
 
     const initialValues = {
         spn: "",
