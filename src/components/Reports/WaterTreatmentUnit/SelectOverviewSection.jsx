@@ -21,13 +21,21 @@ import Popup from "../../../hoc/Popup/Popup";
 import AddGraph from "./AddGraph";
 import axios from "axios";
 
-const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variable, setVariable, setGraphData, graphData }) => {
+const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variable, setVariable, setGraphData, graphData, value }) => {
   // const [Yaxis, setYaxis] = useState("");
   const [openPopup, setOpenPopup] = useState(false);
   const [component, setComponent] = useState([])
   const [comp_variables, setCompVariables] = useState([])
 
-  const cnd_tds_variables = ['cnd', 'spn', 'tsp', 'asp']
+  // const cnd_tds_variables = ['cnd', 'spn', 'tsp', 'asp']
+
+  const WaterTreatmentcomponentDetails = [
+    'rwp', 'cnd_tds', 'hpp', 'flowsen', 'panel', 'ampv1', 'ampv2', 'ampv3', 'ampv4', 'ampv5'
+  ]
+
+  const WaterDispensecomponentDetails = [
+    'atm', 'tap1', 'tap2', 'tap3', 'tap4', 'consen'
+  ]
 
   const handleChange = (event) => {
     setYaxis(event.target.value);
@@ -209,11 +217,23 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
   // console.log('Yaxis in overview', Yaxis);
   // console.log('variable in overview', variable);
 
+  // useEffect(() => {
+  //   axios.get('http://127.0.0.1:8000/topicapi/key_info/')
+  //     .then(res => setComponent(res.data))
+  //     .catch(err => console.log(err))
+  // }, [])
+
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/topicapikey_info/')
-      .then(res => setComponent(res.data))
-      .catch(err => console.log(err))
+
+    if(value === 0){
+      setComponent(WaterTreatmentcomponentDetails)
+    }
+    if(value === 1){
+      setComponent(WaterDispensecomponentDetails)
+    }
+
   }, [])
+
 
   return (
     <Grid
@@ -273,7 +293,7 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
               <MenuItem value={3}>Y axis 3</MenuItem> */}
               {component.map((item) => {
                 return (
-                  <MenuItem value={item.key_value}>{item.key_name}</MenuItem>
+                  <MenuItem value={item}>{item}</MenuItem>
                 )
               })}
             </Select>

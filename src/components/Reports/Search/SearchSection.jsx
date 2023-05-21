@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
@@ -9,19 +9,37 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { Grid, Typography } from "@mui/material";
+import axios from "axios";
 
-const SearchSection = ({deviceID, setDeviceID}) => {
+const SearchSection = ({ deviceID, setDeviceID, selectSiteName, setSelectSiteName }) => {
   const [city, setCity] = useState("");
-  
+  const [site, setSite] = useState([])
+
   const handleChange = (event) => {
-    setCity(event.target.value);
+    setSelectSiteName(event.target.value);
+    console.log(event.target.value);
   };
 
-  const handleChangeDeviceID = (event) => {
-    setDeviceID(event.target.value)
-    console.log('device_id in searchSection', event.target.value);
-  }
+  // const handleChangeDeviceID = (event) => {
+  //   setDeviceID(event.target.value)
+  //   console.log('device_id in searchSection', event.target.value);
+  // }
 
+
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/topicapi/device_info/")
+      .then(res => {
+        const companyName = JSON.parse(localStorage.getItem("user")).company_name;
+        const sitefilteredData = res.data.filter(obj => obj.company_name === companyName)
+        console.log('siteData', sitefilteredData)
+        setSite(sitefilteredData)
+        console.log('site res data', res.data);
+        const devicefilteredData = res.data.filter(obj => obj.site_name === selectSiteName)
+        console.log('deviceData', devicefilteredData)
+        setDeviceID(devicefilteredData[0].Device_id)
+      })
+      .catch(err => console.log(err))
+  }, [selectSiteName])
 
   return (
     <Grid
@@ -34,7 +52,7 @@ const SearchSection = ({deviceID, setDeviceID}) => {
           Select Site
         </Typography>
       </Grid>
-      <Grid item lg={5} md={12} className="w-full my-3">
+      {/* <Grid item lg={5} md={12} className="w-full my-3">
         <Paper
           elevation={0}
           component="form"
@@ -64,7 +82,7 @@ const SearchSection = ({deviceID, setDeviceID}) => {
             <SearchIcon />
           </IconButton>
         </Paper>
-      </Grid>
+      </Grid> */}
 
       <Typography
         fontSize={"13px"}
@@ -97,14 +115,27 @@ const SearchSection = ({deviceID, setDeviceID}) => {
           </InputLabel>
           <Select
             id="city"
-            value={city}
+            value={selectSiteName}
             label="Select City/State"
             onChange={handleChange}
             placeholder="Select City/State"
           >
-            <MenuItem value={1}>City 1</MenuItem>
+            {/* <MenuItem value={1}>City 1</MenuItem>
             <MenuItem value={2}>City 2</MenuItem>
-            <MenuItem value={3}>City 3</MenuItem>
+            <MenuItem value={3}>City 3</MenuItem> */}
+
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+
+            {site.map((unit) => {
+              return (
+                <MenuItem value={unit.site_name}>
+                  {unit.site_name}
+                </MenuItem>
+              )
+            })}
+
           </Select>
         </FormControl>
       </Grid>

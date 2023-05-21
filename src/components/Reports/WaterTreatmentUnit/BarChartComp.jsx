@@ -1,962 +1,122 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import Popup from "../../../hoc/Popup/Popup";
+import SelectColorIcon from "../../../assets/icons/ReportsIcon/SelectColorIcon.png";
 import { XAxis, BarChart, Bar, YAxis } from "recharts";
 
-const BarChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }) => {
+const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index, setUpdatedColor, setUpdatedIndex, updatedColor }) => {
 
   const [hourlyData, setHourlyData] = useState([])
   const [monthlyData, setMonthlyData] = useState([])
   const [dailyData, setDailyData] = useState([])
   const [yearlyData, setYearlyData] = useState([])
-
-  // console.log("variable in bar", variable);
-  // console.log("Yaxis in bar", Yaxis);
-
-
-  // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_hourly/")
-  //     .then(res => console.log('hourlyData', res.data[0][variable]))
-  //     .catch(err => console.log(err))
-
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_daily/")
-  //     .then(res => {
-  //       const filteredData = res.data.filter(obj => obj.service === Yaxis)
-  //       // setDailyData(filteredData)
-  //       const data = filteredData.map((item) => {
-  //         return item[variable]
-  //       })
-  //       console.log('dailyData', filteredData)
-  //       console.log('finalData', data)
-  //     })
-  //     .catch(err => console.log(err))
-
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_monthly/")
-  //     .then(res => console.log('monthlyData', res.data))
-  //     .catch(err => console.log(err))
-
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_yearly/")
-  //     .then(res => console.log(res.data))
-  //     .catch(err => console.log(err))
-  // }, [variable])
-
-
-  // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_hourly/")
-  //     .then(res => {
-  //       const filteredData = res.data.filter(obj => obj.service === Yaxis)
-  //       setHourlyData(filteredData)
-  //       // console.log(filteredData)
-  //     })
-  //     .catch(err => console.log(err))
-  // }, [hourlyData])
-
-  // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_daily/")
-  //     .then(res => {
-  //       const filteredData = res.data.filter(obj => obj.service === Yaxis)
-  //       setDailyData(filteredData)
-  //       // console.log(filteredData)
-  //     })
-  //     .catch(err => console.log(err))
-  // }, [dailyData])
-
-  // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_monthly/")
-  //     .then(res => {
-  //       const filteredData = res.data.filter(obj => obj.service === Yaxis)
-  //       setMonthlyData(filteredData)
-  //       // console.log(filteredData)
-  //     })
-  //     .catch(err => console.log(err))
-  // }, [monthlyData])
-
-  // useEffect(() => {
-  //   axios.get("http://127.0.0.1:8000/topicapirepo_yearly/")
-  //     .then(res => {
-  //       const filteredData = res.data.filter(obj => obj.service === Yaxis)
-  //       setYearlyData(filteredData)
-  //       // console.log(filteredData)
-  //     })
-  //     .catch(err => console.log(err))
-  // }, [yearlyData])
+  const [openPopup, setOpenPopup] = useState(false);
+  const [updatedColor1, setUpdatedColor1] = useState(false)
+  const [updatedColor2, setUpdatedColor2] = useState(false)
+  const [updatedColor3, setUpdatedColor3] = useState(false)
+  const [updatedColor4, setUpdatedColor4] = useState(false)
+  const [index1, setIndex1] = useState(false)
+  const [index2, setIndex2] = useState(false)
+  const [index3, setIndex3] = useState(false)
+  const [index4, setIndex4] = useState(false)
 
 
 
+  const PopupColors = [
+    { color: "#6CCED9" },
+    { color: "#B68FE7" },
+    { color: "#539D31" },
+    { color: "#F3C82F" },
+    { color: "#3699FF" },
+    { color: "#BA4DBC" },
+    { color: "#309E91" },
+    { color: "#8C38F4" },
+    { color: "#246F01" },
+    { color: "#F3812F" },
+    { color: "#2025A6" },
+    { color: "#8F1A67" },
+  ];
+
+  console.log('deviceId in barchart', deviceID);
 
   useEffect(() => {
 
     if (Yaxis === 'cnd_tds') {
-      axios.get("http://127.0.0.1:8000/topicapicnd_hourly/")
+      axios.get("/topicapi/cnd_hourly/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
           console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
           setHourlyData(filteredData)
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapicnd_daily/")
+      axios.get("/topicapi/cnd_daily/")
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
+          console.log('dailyData', filteredData)
+          setDailyData(filteredData)
+        })
+        .catch(err => console.log(err))
+
+      axios.get("/topicapi/cnd_monthly/")
+        .then(res => {
+          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
+          console.log('monthlyData', filteredData)
+          setMonthlyData(filteredData)
+        })
+        .catch(err => console.log(err))
+
+      axios.get("/topicapi/cnd_yearly/")
+        .then(res => {
+          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
+          console.log('yearlyData', filteredData)
+          setYearlyData(filteredData)
+        })
+        .catch(err => console.log(err))
+    } else {
+
+      axios.get(`/topicapi/${Yaxis}_hourly/`)
+        .then(res => {
+          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
+          console.log('hourlyData', filteredData)
+          setHourlyData(filteredData)
+        })
+        .catch(err => console.log(err))
+
+      axios.get(`/topicapi/${Yaxis}_daily/`)
+        .then(res => {
+          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
+          console.log('dailyData', filteredData)
           // console.log('finalData in daily', data)
           setDailyData(filteredData)
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapicnd_monthly/")
+      axios.get(`/topicapi/${Yaxis}_monthly/`)
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
+          console.log('monthlyData', filteredData)
           setMonthlyData(filteredData)
         })
         .catch(err => console.log(err))
 
-      axios.get("http://127.0.0.1:8000/topicapicnd_yearly/")
+      axios.get(`/topicapi/${Yaxis}_yearly/`)
         .then(res => {
           const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
+          console.log('yearlyData', filteredData)
           setYearlyData(filteredData)
         })
         .catch(err => console.log(err))
+
     }
-
-    else if (Yaxis === 'rwp') {
-      axios.get("http://127.0.0.1:8000/topicapirwp_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapirwp_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapirwp_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapirwp_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'hpp') {
-      axios.get("http://127.0.0.1:8000/topicapihpp_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapihpp_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapihpp_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapihpp_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'panel') {
-      axios.get("http://127.0.0.1:8000/topicapipanel_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapipanel_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapipanel_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapipanel_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'flowsen') {
-      axios.get("http://127.0.0.1:8000/topicapiflowsen_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiflowsen_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiflowsen_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiflowsen_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'ampv1') {
-      axios.get("http://127.0.0.1:8000/topicapiampv1_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv1_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv1_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv1_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          console.log('res.data in ampv1 yearly', res.data);
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('yearlyData in ampv1', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'ampv2') {
-      axios.get("http://127.0.0.1:8000/topicapiampv2_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          console.log('res.data of hourly in ampv2', res.data);
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData of ampv2', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv2_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv2_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv2_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'ampv3') {
-      axios.get("http://127.0.0.1:8000/topicapiampv3_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv3_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv3_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv3_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'ampv4') {
-      axios.get("http://127.0.0.1:8000/topicapiampv4_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv4_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv4_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv4_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'ampv5') {
-      axios.get("http://127.0.0.1:8000/topicapiampv5_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv5_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv5_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiampv5_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'atm') {
-      axios.get("http://127.0.0.1:8000/topicapiatm_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiatm_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiatm_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiatm_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'tap1') {
-      axios.get("http://127.0.0.1:8000/topicapitap1_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapitap1_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapitap1_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapitap1_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'tap2') {
-      axios.get("http://127.0.0.1:8000/topicapitap2_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapitap2_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapitap2_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapitap2_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'tap3') {
-      axios.get("http://127.0.0.1:8000/topicapitap3_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapitap3_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapitap3_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapitap3_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'tap4') {
-      axios.get("http://127.0.0.1:8000/topicapitap4_hourly/")
-      .then(res => {
-        const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-        // setDailyData(filteredData)
-        const data = filteredData.map((item) => {
-          return item[variable]
-        })
-        console.log('hourlyData', filteredData)
-        // console.log('finalData in hourly', data)
-        setHourlyData(filteredData)
-      })
-      .catch(err => console.log(err))
-
-    axios.get("http://127.0.0.1:8000/topicapitap4_daily/")
-      .then(res => {
-        const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-        // setDailyData(filteredData)
-        const data = filteredData.map((item) => {
-          return item[variable]
-        })
-        // console.log('dailyData', filteredData)
-        // console.log('finalData in daily', data)
-        setDailyData(filteredData)
-      })
-      .catch(err => console.log(err))
-
-    axios.get("http://127.0.0.1:8000/topicapitap4_monthly/")
-      .then(res => {
-        const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-        // setDailyData(filteredData)
-        const data = filteredData.map((item) => {
-          return item[variable]
-        })
-        // console.log('monthlyData', filteredData)
-        // console.log('finalData in monthly', data)
-        setMonthlyData(filteredData)
-      })
-      .catch(err => console.log(err))
-
-    axios.get("http://127.0.0.1:8000/topicapitap4_yearly/")
-      .then(res => {
-        const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-        // setDailyData(filteredData)
-        const data = filteredData.map((item) => {
-          return item[variable]
-        })
-        console.log('hourlyData', filteredData)
-        // console.log('finalData in hourly', data)
-        setYearlyData(filteredData)
-      })
-      .catch(err => console.log(err))
-    }
-
-    else if (Yaxis === 'consen') {
-      axios.get("http://127.0.0.1:8000/topicapiconsen_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiconsen_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiconsen_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          // console.log('monthlyData', filteredData)
-          // console.log('finalData in monthly', data)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("http://127.0.0.1:8000/topicapiconsen_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          // setDailyData(filteredData)
-          const data = filteredData.map((item) => {
-            return item[variable]
-          })
-          console.log('hourlyData', filteredData)
-          // console.log('finalData in hourly', data)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    }else{
-        setHourlyData([])
-        setDailyData([])
-        setMonthlyData([])
-        setYearlyData([])
-    }
-
   }, [variable])
+
 
   return (
     <>
@@ -969,16 +129,11 @@ const BarChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }
             {variable && (
               <>
                 <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} axisLine={false} tickLine={false} />
-                {/* <YAxis dataKey={`${variable}.avg`} fontSize={10} axisLine={false} tickLine={false} />
-                <YAxis dataKey={`${variable}.count`} fontSize={10} axisLine={false} tickLine={false} /> */}
               </>
             )}
-            {/* <YAxis dataKey="sum" fontSize={10} axisLine={false} tickLine={false} />
-            <YAxis dataKey="avg" fontSize={10} axisLine={false} tickLine={false} />
-            <YAxis dataKey="count" fontSize={10} axisLine={false} tickLine={false} /> */}
             <defs>
               <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                <stop offset="0" stopColor={color} />
+                <stop offset="0" stopColor={index1 ? color : updatedColor1} />
                 <stop offset="1" stopColor="#FFFFFF" />
               </linearGradient>
             </defs>
@@ -990,40 +145,70 @@ const BarChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }
                   barSize={35}
                   radius={50}
                 />
-                {/* <Bar
-                  dataKey={`${variable}.avg`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                />
-                <Bar
-                  dataKey={`${variable}.count`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                /> */}
               </>
             )}
 
-            {/* <Bar
-              dataKey="avg"
-              fill={`url("#${"chartLG" + color}")`}
-              barSize={35}
-              radius={50}
-            />
-            <Bar
-              dataKey="count"
-              fill={`url("#${"chartLG" + color}")`}
-              barSize={35}
-              radius={50}
-            />
-            <Bar
-              dataKey="sum"
-              fill={`url("#${"chartLG" + color}")`}
-              barSize={35}
-              radius={50}
-            /> */}
           </BarChart>
+          <Grid
+            display={"flex"}
+            justifyContent="center"
+            alignItems="center"
+            mt={"30px"}
+          >
+            <Typography
+              fontWeight={500}
+              color="#464E5F"
+              fontSize={"16px"}
+              fontFamily={"Poppins"}
+            >
+              Select Color
+            </Typography>
+
+            <Grid>
+              <IconButton
+                type="button"
+                aria-label="search"
+                onClick={() => {
+                  setOpenPopup(true);
+                  // setUpdatedIndex(index1);
+                  console.log("checking value")
+
+                }}
+              >
+                <img src={SelectColorIcon} alt="selectColor" />
+              </IconButton>
+            </Grid>
+            <Popup
+              openPopup={openPopup}
+              setOpenPopup={setOpenPopup}
+              title={"Select Color"}
+            >
+              <Grid container justifyContent={"center"}>
+                <Grid item md={3.5}>
+                  {PopupColors.map((item, index) => (
+                    <IconButton
+                      key={index}
+                      type="button"
+                      value={1}
+                      onClick={(e) => {
+                        setUpdatedColor1(item.color);
+                        setOpenPopup(false);
+                        setIndex1(true)
+                      }}
+                    >
+                      <Box
+                        key={index}
+                        height={"24px"}
+                        width={"24px"}
+                        bgcolor={item.color}
+                      />
+                    </IconButton>
+                  ))}
+                </Grid>
+              </Grid>
+            </Popup>
+          </Grid>
+          {console.log("checking index1", index1)}
         </div>
       }
 
@@ -1035,13 +220,11 @@ const BarChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }
             {variable && (
               <>
                 <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} axisLine={false} tickLine={false} />
-                {/* <YAxis dataKey={`${variable}.avg`} fontSize={10} axisLine={false} tickLine={false} />
-                <YAxis dataKey={`${variable}.count`} fontSize={10} axisLine={false} tickLine={false} /> */}
               </>
             )}
             <defs>
               <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                <stop offset="0" stopColor={color} />
+                <stop offset="0" stopColor={index2 ? color : updatedColor2} />
                 <stop offset="1" stopColor="#FFFFFF" />
               </linearGradient>
             </defs>
@@ -1053,21 +236,66 @@ const BarChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }
                   barSize={35}
                   radius={50}
                 />
-                {/* <Bar
-                  dataKey={`${variable}.avg`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                />
-                <Bar
-                  dataKey={`${variable}.count`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                /> */}
               </>
             )}
           </BarChart>
+
+          <Grid
+            display={"flex"}
+            justifyContent="center"
+            alignItems="center"
+            mt={"30px"}
+          >
+            <Typography
+              fontWeight={500}
+              color="#464E5F"
+              fontSize={"16px"}
+              fontFamily={"Poppins"}
+            >
+              Select Color
+            </Typography>
+
+            <Grid>
+              <IconButton
+                type="button"
+                aria-label="search"
+                onClick={() => {
+                  setOpenPopup(true);
+                  // setUpdatedIndex(0);
+                }}
+              >
+                <img src={SelectColorIcon} alt="selectColor" />
+              </IconButton>
+            </Grid>
+            <Popup
+              openPopup={openPopup}
+              setOpenPopup={setOpenPopup}
+              title={"Select Color"}
+            >
+              <Grid container justifyContent={"center"}>
+                <Grid item md={3.5}>
+                  {PopupColors.map((item, index) => (
+                    <IconButton
+                      key={index}
+                      type="button"
+                      onClick={() => {
+                        setUpdatedColor2(item.color);
+                        setOpenPopup(false);
+                        setIndex2(true)
+                      }}
+                    >
+                      <Box
+                        key={index}
+                        height={"24px"}
+                        width={"24px"}
+                        bgcolor={item.color}
+                      />
+                    </IconButton>
+                  ))}
+                </Grid>
+              </Grid>
+            </Popup>
+          </Grid>
         </div>
       }
 
@@ -1079,13 +307,11 @@ const BarChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }
             {variable && (
               <>
                 <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} axisLine={false} tickLine={false} />
-                {/* <YAxis dataKey={`${variable}.avg`} fontSize={10} axisLine={false} tickLine={false} />
-                <YAxis dataKey={`${variable}.count`} fontSize={10} axisLine={false} tickLine={false} /> */}
               </>
             )}
             <defs>
               <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                <stop offset="0" stopColor={color} />
+                <stop offset="0" stopColor={index3 ? color : updatedColor3} />
                 <stop offset="1" stopColor="#FFFFFF" />
               </linearGradient>
             </defs>
@@ -1097,21 +323,66 @@ const BarChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }
                   barSize={35}
                   radius={50}
                 />
-                {/* <Bar
-                  dataKey={`${variable}.avg`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                />
-                <Bar
-                  dataKey={`${variable}.count`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                /> */}
               </>
             )}
           </BarChart>
+
+          <Grid
+            display={"flex"}
+            justifyContent="center"
+            alignItems="center"
+            mt={"30px"}
+          >
+            <Typography
+              fontWeight={500}
+              color="#464E5F"
+              fontSize={"16px"}
+              fontFamily={"Poppins"}
+            >
+              Select Color
+            </Typography>
+
+            <Grid>
+              <IconButton
+                type="button"
+                aria-label="search"
+                onClick={() => {
+                  setOpenPopup(true);
+                  // setUpdatedIndex(0);
+                }}
+              >
+                <img src={SelectColorIcon} alt="selectColor" />
+              </IconButton>
+            </Grid>
+            <Popup
+              openPopup={openPopup}
+              setOpenPopup={setOpenPopup}
+              title={"Select Color"}
+            >
+              <Grid container justifyContent={"center"}>
+                <Grid item md={3.5}>
+                  {PopupColors.map((item, index) => (
+                    <IconButton
+                      key={index}
+                      type="button"
+                      onClick={() => {
+                        setUpdatedColor3(item.color);
+                        setOpenPopup(false);
+                        setIndex3(true)
+                      }}
+                    >
+                      <Box
+                        key={index}
+                        height={"24px"}
+                        width={"24px"}
+                        bgcolor={item.color}
+                      />
+                    </IconButton>
+                  ))}
+                </Grid>
+              </Grid>
+            </Popup>
+          </Grid>
         </div>
       }
 
@@ -1124,13 +395,11 @@ const BarChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }
             {variable && (
               <>
                 <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} axisLine={false} tickLine={false} />
-                {/* <YAxis dataKey={`${variable}.avg`} fontSize={10} axisLine={false} tickLine={false} />
-                <YAxis dataKey={`${variable}.count`} fontSize={10} axisLine={false} tickLine={false} /> */}
               </>
             )}
             <defs>
               <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                <stop offset="0" stopColor={color} />
+                <stop offset="0" stopColor={index4 ? color : updatedColor4} />
                 <stop offset="1" stopColor="#FFFFFF" />
               </linearGradient>
             </defs>
@@ -1142,21 +411,65 @@ const BarChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }
                   barSize={35}
                   radius={50}
                 />
-                {/* <Bar
-                  dataKey={`${variable}.avg`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                />
-                <Bar
-                  dataKey={`${variable}.count`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                /> */}
               </>
             )}
           </BarChart>
+          <Grid
+            display={"flex"}
+            justifyContent="center"
+            alignItems="center"
+            mt={"30px"}
+          >
+            <Typography
+              fontWeight={500}
+              color="#464E5F"
+              fontSize={"16px"}
+              fontFamily={"Poppins"}
+            >
+              Select Color
+            </Typography>
+
+            <Grid>
+              <IconButton
+                type="button"
+                aria-label="search"
+                onClick={() => {
+                  setOpenPopup(true);
+                  // setUpdatedIndex(0);
+                }}
+              >
+                <img src={SelectColorIcon} alt="selectColor" />
+              </IconButton>
+            </Grid>
+            <Popup
+              openPopup={openPopup}
+              setOpenPopup={setOpenPopup}
+              title={"Select Color"}
+            >
+              <Grid container justifyContent={"center"}>
+                <Grid item md={3.5}>
+                  {PopupColors.map((item, index) => (
+                    <IconButton
+                      key={index}
+                      type="button"
+                      onClick={() => {
+                        setUpdatedColor4(item.color);
+                        setOpenPopup(false);
+                        setIndex4(true)
+                      }}
+                    >
+                      <Box
+                        key={index}
+                        height={"24px"}
+                        width={"24px"}
+                        bgcolor={item.color}
+                      />
+                    </IconButton>
+                  ))}
+                </Grid>
+              </Grid>
+            </Popup>
+          </Grid>
         </div>
       }
     </>

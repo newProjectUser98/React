@@ -7,11 +7,12 @@ import WaterTreatmentUnit from "./WaterTreatmentUnit/WaterTreatmentUnit";
 const ReportsComp = () => {
 
   const [deviceID, setDeviceID] = useState("")
+  const [selectSiteName, setSelectSiteName] = useState("")
 
   return (
     <Grid className="sm:p-[30px] p-5">
       <Grid>
-        <Search deviceID={deviceID} setDeviceID={setDeviceID}/>
+        <Search deviceID={deviceID} setDeviceID={setDeviceID} selectSiteName={selectSiteName} setSelectSiteName={setSelectSiteName}/>
       </Grid>
       <Grid pt={"40px"}>
         <WaterTreatmentUnit deviceID={deviceID}/>
