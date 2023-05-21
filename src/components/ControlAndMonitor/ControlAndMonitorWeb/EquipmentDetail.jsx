@@ -40,6 +40,7 @@ import FeedFlowSensor3Form from '../../../Forms/ControlAndMonitor/Dispensing/Fee
 import FeedFlowSensor4Form from '../../../Forms/ControlAndMonitor/Dispensing/FeedFlowSensor4Form'
 
 const EquipmentDetail = ({ proTitle }) => {
+    let intervalTime = 5000;
     return (
         <div className='equipment-detail relative my-20'>
 
@@ -87,7 +88,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <RwpForm />
+                                <RwpForm intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -113,7 +114,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <Ampv1Form />
+                                <Ampv1Form intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -126,7 +127,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <Ampv2Form />
+                                <Ampv2Form intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -268,7 +269,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <RoiPanelForm />
+                                <RoiPanelForm intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -413,7 +414,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <HppForm />
+                                <HppForm intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -508,7 +509,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <ConductivityForm />
+                                <ConductivityForm intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -557,7 +558,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <RoiPanelAtmForm />
+                                <RoiPanelAtmForm intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -570,7 +571,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <Tap1Form />
+                                <Tap1Form intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -583,7 +584,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <Tap2Form />
+                                <Tap2Form intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -596,7 +597,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <Tap3Form />
+                                <Tap3Form intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -609,7 +610,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <Tap4Form />
+                                <Tap4Form intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>

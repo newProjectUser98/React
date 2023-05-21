@@ -6,7 +6,7 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
 
-const RoiPanelForm = () => {
+const RoiPanelForm = ({ intervalTime }) => {
     // eslint-disable-next-line
     const [statusVal, setStatusVal] = useState(false)
     // eslint-disable-next-line
@@ -45,6 +45,7 @@ const RoiPanelForm = () => {
     };
 
     useEffect(() => {
+        const fetchData = () => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             unit_type: "water_treatment",
@@ -52,6 +53,7 @@ const RoiPanelForm = () => {
             componant_name: "panel"
         }
         axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
+            
             console.log("res in get_panel", resp.data[0].data);
             setMod(resp.data[0].data.mod)
             setNmv(resp.data[0].data.nmv)
@@ -64,10 +66,17 @@ const RoiPanelForm = () => {
             setSrt(resp.data[0].data.srt)
             setBkt(resp.data[0].data.bkt)
             setRst(resp.data[0].data.rst)
+            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
         }).catch((err) => {
             console.log("err", err);
         })
-    }, [])
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, intervalTime);
+    return () => {
+        clearInterval(intervalId);
+    };
+}, [intervalTime]);
 
     const onSubmitSetting = (values, submitProps) => {
         console.log("values", values);

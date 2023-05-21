@@ -5,7 +5,7 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
 
-const Tap2Form = () => {
+const Tap2Form = ({intervalTime}) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -15,6 +15,7 @@ const Tap2Form = () => {
     const [p4, setP4] = React.useState("");
 
     useEffect(() => {
+        const fetchData = () => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             unit_type: "water_dispense",
@@ -22,15 +23,23 @@ const Tap2Form = () => {
             componant_name: "tap2"
         }
         axios.post("/topicapi/updated-disp_tap2/", newData).then((resp) => {
-            console.log("res in get_rwp", resp.data[0].fields);
+            console.log("res in get_tap2", resp.data[0].data);
             setP1(resp.data[0].data.p1)
             setP2(resp.data[0].data.p2)
             setP3(resp.data[0].data.p3)
             setP4(resp.data[0].data.p4)
+            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+            console.log("resp.data[0].data.updated_at", resp.data[0].data.updated_at);
         }).catch((err) => {
             console.log("err", err);
         })
-    }, [])
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, intervalTime);
+    return () => {
+        clearInterval(intervalId);
+    };
+}, [intervalTime]);
 
     const initialValues = {
         p1: "",

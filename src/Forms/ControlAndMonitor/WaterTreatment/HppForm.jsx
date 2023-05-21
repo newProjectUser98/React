@@ -5,7 +5,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
-const HppForm = () => {
+const HppForm = ({intervalTime}) => {
     const [statusVal, setStatusVal] = useState(false)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -16,6 +16,7 @@ const HppForm = () => {
     const [spn, setSpn] = React.useState("");
 
     useEffect(() => {
+        const fetchData = () => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             unit_type: "water_treatment",
@@ -28,11 +29,17 @@ const HppForm = () => {
             setOlc(resp.data[0].data.olc)
             setDrc(resp.data[0].data.drc)
             setSpn(resp.data[0].data.spn)
-
+            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
         }).catch((err) => {
             console.log("err in rwp state", err);
         })
-    }, [])
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, intervalTime);
+    return () => {
+        clearInterval(intervalId);
+    };
+}, [intervalTime]);
 
     const initialValuesState = {
         sts: "",

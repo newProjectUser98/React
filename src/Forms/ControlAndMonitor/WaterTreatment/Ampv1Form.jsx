@@ -4,7 +4,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
-const Ampv1Form = () => {
+const Ampv1Form = ({intervalTime}) => {
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -44,6 +44,7 @@ const Ampv1Form = () => {
     };
 
     useEffect(() => {
+        const fetchData = () => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             unit_type: "water_treatment",
@@ -66,10 +67,17 @@ const Ampv1Form = () => {
             setSrt1(resp.data[0].data.srt1)
             setSrt2(resp.data[0].data.srt2)
             setStp(resp.data[0].data.stp)
+            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
         }).catch((err) => {
             console.log("err", err);
         })
-    }, [])
+    }
+    fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime])
     const onSubmitState = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {

@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import TextError from '../../TextError';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
-const RwpForm = () => {
+const RwpForm = ({ intervalTime }) => {
 
     const [statusVal, setStatusVal] = useState(false)
     const [editState, setEditState] = useState(false)
@@ -17,24 +17,38 @@ const RwpForm = () => {
     const [drc, setDrc] = React.useState("");
     const [spn, setSpn] = React.useState("");
     console.log("sts", statusVal);
-    useEffect(() => {
-        const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            unit_type: "water_treatment",
-            company_name: userData.company_name,
-            componant_name: "rwp"
-        }
-        axios.post("/topicapi/updated_treat_rwp/", newData).then((resp) => {
-            console.log("resp in rwp state", resp.data[0].data.sts);
-            setStatusVal(resp.data[0].data.sts == "on" ? true : false)
-            setOlc(resp.data[0].data.olc)
-            setDrc(resp.data[0].data.drc)
-            setSpn(resp.data[0].data.spn)
 
-        }).catch((err) => {
-            console.log("err in rwp state", err);
-        })
-    }, [])
+    console.log("intervalTime", intervalTime);
+    useEffect(() => {
+        const fetchData = () => {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                unit_type: "water_treatment",
+                company_name: userData.company_name,
+                componant_name: "rwp"
+            }
+            console.log("newData", newData);
+            axios.post("/topicapi/updated_treat_rwp/", newData)
+                .then((resp) => {
+                    console.log("resp in rwp state", resp.data[0].data.updated_at);
+
+                    setStatusVal(resp.data[0].data.sts === "on");
+                    setOlc(resp.data[0].data.olc);
+                    setDrc(resp.data[0].data.drc);
+                    setSpn(resp.data[0].data.spn);
+                    localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                })
+                .catch((err) => {
+                    console.log("err in rwp state", err);
+                });
+        };
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime]);
+
 
     const initialValuesState = {
         sts: "",

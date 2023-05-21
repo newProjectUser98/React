@@ -5,7 +5,7 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
 
-const ConductivityForm = () => {
+const ConductivityForm = ({intervalTime}) => {
     // eslint-disable-next-line
     const [changeConductivity, setChangeConductivity] = useState('conductivity')
     const [editSetting, setEditSetting] = useState(false)
@@ -26,8 +26,15 @@ const ConductivityForm = () => {
     };
 
     useEffect(() => {
+        const fetchData = () => {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_treatment",
+                componant_name: components[0].cnd.cnd === "conductivity" ? "cnd_tds" : "tds",
+            }
         components[0].cnd.cnd === 'conductivity' ?
-            axios.get("/topicapi/cnd_setting/").then((resp) => {
+            axios.post("/topicapi/updated_treat_cnd_tds_sen/",newData).then((resp) => {
                 console.log("res in get_rwp", resp.data[0]);
                 setSpn(resp?.data[0]?.spn)
                 setTsp(resp?.data[0]?.tsp)
@@ -44,9 +51,13 @@ const ConductivityForm = () => {
             }).catch((err) => {
                 console.log("err", err);
             })
-    },
-        // eslint-disable-next-line
-        [])
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, intervalTime);
+    return () => {
+        clearInterval(intervalId);
+    };
+}, [intervalTime]);
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {

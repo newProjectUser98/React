@@ -5,7 +5,7 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
 
-const Tap1Form = () => {
+const Tap1Form = ({intervalTime}) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -16,6 +16,7 @@ const Tap1Form = () => {
 
 
     useEffect(() => {
+        const fetchData = () => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             unit_type: "water_dispense",
@@ -28,10 +29,17 @@ const Tap1Form = () => {
             setP2(resp.data[0].data.p2)
             setP3(resp.data[0].data.p3)
             setP4(resp.data[0].data.p4)
+            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
         }).catch((err) => {
             console.log("err", err);
         })
-    }, [])
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, intervalTime);
+    return () => {
+        clearInterval(intervalId);
+    };
+}, [intervalTime]);
 
     const initialValues = {
         p1: "",

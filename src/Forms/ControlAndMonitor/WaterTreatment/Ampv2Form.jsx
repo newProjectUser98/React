@@ -4,7 +4,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
-const Ampv2Form = () => {
+const Ampv2Form = ({intervalTime}) => {
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -25,32 +25,41 @@ const Ampv2Form = () => {
     const [stp, setStp] = useState('');
 
     useEffect(() => {
-        const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            unit_type: "water_treatment",
-            company_name: userData.company_name,
-            componant_name: "ampv1"
+        const fetchData = () => {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                unit_type: "water_treatment",
+                company_name: userData.company_name,
+                componant_name: "ampv2"
+            }
+            axios.post("/topicapi/updated_treat_ampv2/", newData).then((resp) => {
+                console.log("res in get_ampv2_setting", resp.data);
+                setPos(resp.data[0].data.pos)
+                setBkt(resp.data[0].data.bkt)
+                setIp1(resp.data[0].data.ip1)
+                setIp2(resp.data[0].data.ip2)
+                setIp3(resp.data[0].data.ip3)
+                setMot(resp.data[0].data.mot)
+                setOp1(resp.data[0].data.op1)
+                setOp2(resp.data[0].data.op2)
+                setOp3(resp.data[0].data.op3)
+                setPsi(resp.data[0].data.psi)
+                setRst(resp.data[0].data.rst)
+                setSrt1(resp.data[0].data.srt1)
+                setSrt2(resp.data[0].data.srt2)
+                setStp(resp.data[0].data.stp)
+                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+
+            }).catch((err) => {
+                console.log("err", err);
+            })
         }
-        axios.post("/topicapi/updated_treat_ampv2/", newData).then((resp) => {
-            console.log("res in get_ampv2_setting", resp.data);
-            setPos(resp.data[0].data.pos)
-            setBkt(resp.data[0].data.bkt)
-            setIp1(resp.data[0].data.ip1)
-            setIp2(resp.data[0].data.ip2)
-            setIp3(resp.data[0].data.ip3)
-            setMot(resp.data[0].data.mot)
-            setOp1(resp.data[0].data.op1)
-            setOp2(resp.data[0].data.op2)
-            setOp3(resp.data[0].data.op3)
-            setPsi(resp.data[0].data.psi)
-            setRst(resp.data[0].data.rst)
-            setSrt1(resp.data[0].data.srt1)
-            setSrt2(resp.data[0].data.srt2)
-            setStp(resp.data[0].data.stp)
-        }).catch((err) => {
-            console.log("err", err);
-        })
-    }, [])
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime])
 
 
     const initialValuesState = {
@@ -78,7 +87,7 @@ const Ampv2Form = () => {
         let newData = {
             unit_type: "water_treatment",
             company_name: userData.company_name,
-            componant_name: "ampv1",
+            componant_name: "ampv2",
             pos: pos
         }
         console.log("newData", newData);

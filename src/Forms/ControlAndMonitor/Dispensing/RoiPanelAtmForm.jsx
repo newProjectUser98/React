@@ -4,7 +4,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
-const RoiPanelAtmForm = () => {
+const RoiPanelAtmForm = ({intervalTime}) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -24,6 +24,7 @@ const RoiPanelAtmForm = () => {
     console.log("components ==>", components[0].atm.new_transaction_type);
 
     useEffect(() => {
+        const fetchData = () => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             unit_type: "water_dispense",
@@ -42,10 +43,17 @@ const RoiPanelAtmForm = () => {
             setre2(resp.data[0].data.re2)
             setre3(resp.data[0].data.re3)
             setre4(resp.data[0].data.re4)
+            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
         }).catch((err) => {
             console.log("err", err);
         })
-    }, [])
+    };
+    fetchData();
+    const intervalId = setInterval(fetchData, intervalTime);
+    return () => {
+        clearInterval(intervalId);
+    };
+}, [intervalTime]);
 
     const initialValues = {
         ntp: '',
