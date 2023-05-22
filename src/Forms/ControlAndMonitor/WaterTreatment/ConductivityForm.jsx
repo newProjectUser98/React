@@ -5,7 +5,7 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
 
-const ConductivityForm = ({intervalTime}) => {
+const ConductivityForm = ({ intervalTime }) => {
     // eslint-disable-next-line
     const [changeConductivity, setChangeConductivity] = useState('conductivity')
     const [editSetting, setEditSetting] = useState(false)
@@ -29,12 +29,11 @@ const ConductivityForm = ({intervalTime}) => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
             let newData = {
-                company_name: userData.company_name,
                 unit_type: "water_treatment",
-                componant_name: components[0].cnd.cnd === "conductivity" ? "cnd_tds" : "tds",
+                company_name: userData.company_name,
+                componant_name: "cnd_tds_sen",
             }
-        components[0].cnd.cnd === 'conductivity' ?
-            axios.post("/topicapi/updated_treat_cnd_tds_sen/",newData).then((resp) => {
+            axios.post("/topicapi/updated_treat_cnd_tds_sen/", newData).then((resp) => {
                 console.log("res in get_rwp", resp.data[0]);
                 setSpn(resp?.data[0]?.spn)
                 setTsp(resp?.data[0]?.tsp)
@@ -42,22 +41,13 @@ const ConductivityForm = ({intervalTime}) => {
             }).catch((err) => {
                 console.log("err", err);
             })
-            :
-            axios.get("/topicapi/tds_setting/").then((resp) => {
-                console.log("res in get_rwp", resp.data[0]);
-                setSpn(resp?.data[0]?.spn)
-                setTsp(resp?.data[0]?.tsp)
-                setAsp(resp?.data[0]?.asp)
-            }).catch((err) => {
-                console.log("err", err);
-            })
-    };
-    fetchData();
-    const intervalId = setInterval(fetchData, intervalTime);
-    return () => {
-        clearInterval(intervalId);
-    };
-}, [intervalTime]);
+        }
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime]);
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
@@ -140,7 +130,7 @@ const ConductivityForm = ({intervalTime}) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Span</p>
-                                    <Field disabled={!editSetting}  value={spn} onChange={(e) => setSpn(e.target.value)} type="text" name="spn" id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
+                                    <Field disabled={!editSetting} value={spn} onChange={(e) => setSpn(e.target.value)} type="text" name="spn" id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
