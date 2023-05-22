@@ -21,7 +21,7 @@ const SearchSection = ({ deviceID, setDeviceID, selectSiteName, setSelectSiteNam
   };
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/topicapi/device_info/")
+    axios.get("/topicapi/device_info/")
       .then(res => {
         const companyName = JSON.parse(localStorage.getItem("user")).company_name;
         const sitefilteredData = res.data.filter(obj => obj.company_name === companyName)
