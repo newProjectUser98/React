@@ -27,17 +27,30 @@ const ConductivityForm = ({ intervalTime }) => {
 
     useEffect(() => {
         const fetchData = () => {
+            
+
+
             const userData = JSON.parse(localStorage.getItem('user'));
+            // let obj = [];
+            // obj["unit_type"] = "water_treatment";
+            // obj["company_name"] = userData.company_name;
+            // obj["componant_name"] = "cnd_tds_sen";
+
             let newData = {
-                unit_type: "water_treatment",
-                company_name: userData.company_name,
-                componant_name: "cnd_tds_sen",
+                
+                "unit_type": "water_treatment",
+                "company_name": userData.company_name,
+                "componant_name": "cnd_tds_sen",
             }
+
+            // let newData =JSON.stringify(obj);
+            console.log(newData);
             axios.post("/topicapi/updated_treat_cnd_tds_sen/", newData).then((resp) => {
-                console.log("res in get_rwp", resp.data[0]);
-                setSpn(resp?.data[0]?.spn)
-                setTsp(resp?.data[0]?.tsp)
-                setAsp(resp?.data[0]?.asp)
+                console.log("res in get_cnd", resp.data[0].data);
+                setSpn(resp.data[0].data.spn)
+                setTsp(resp.data[0].data.tsp)
+                setAsp(resp.data[0].data.asp)
+                localStorage.setItem('updated_time', resp.data[0].updated_at);
             }).catch((err) => {
                 console.log("err", err);
             })
