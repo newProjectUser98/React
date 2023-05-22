@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { LineChart, Line, XAxis, YAxis } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import axios from "axios";
 
-const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData }) => {
+const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData }) => {
 
   const [hourlyData1, setHourlyData1] = useState([])
   const [monthlyData1, setMonthlyData1] = useState([])
@@ -87,82 +87,76 @@ const LineChartComp = ({ color, chartData, Yaxis, variable, deviceID, graphData 
       {(hourlyData1.length !== 0) &&
         <div>
           <p>Hourly Data</p>
-          <LineChart width={300} height={300} data={hourlyData1}>
-            <XAxis dataKey="hour" fontSize={10} tickLine={false} />
-            {variable && (
-              <>
-                <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.${graphData}`} stroke={color} dot={false} />
-                {/* <YAxis dataKey={`${variable}.avg`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.avg`} stroke={color} dot={false} />
-                <YAxis dataKey={`${variable}.count`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.count`} stroke={color} dot={false} /> */}
-              </>
-            )}
-            {/* <YAxis dataKey="sum" fontSize={10} tickLine={false} />
-            <Line dataKey="sum" stroke={color} dot={false} />
-            <YAxis dataKey="avg" fontSize={10} tickLine={false} />
-            <Line dataKey="avg" stroke={color} dot={false} />
-            <YAxis dataKey="count" fontSize={10} tickLine={false} />
-            <Line dataKey="count" stroke={color} dot={false} /> */}
-          </LineChart>
+
+          {variable && (
+
+            <LineChart width={300} height={300} data={hourlyData1}>
+              <XAxis dataKey="hour" fontSize={10} tickLine={false} />
+              <YAxis fontSize={10} tickLine={false} />
+              <Tooltip/>
+              <Legend/>
+              <Line dataKey={`${variable}.${graphData}`} stroke={color} dot={false} />
+            </LineChart>
+
+          )}
+
         </div>
       }
 
       {(dailyData1.length !== 0) &&
         <div>
           <p>Daily Data</p>
-          <LineChart width={300} height={300} data={dailyData1}>
-            <XAxis dataKey="day" fontSize={10} tickLine={false} />
-            {variable && (
-              <>
-                <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.${graphData}`} stroke={color} dot={false} />
-                {/* <YAxis dataKey={`${variable}.avg`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.avg`} stroke={color} dot={false} />
-                <YAxis dataKey={`${variable}.count`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.count`} stroke={color} dot={false} /> */}
-              </>
-            )}
-          </LineChart>
+
+          {variable && (
+
+            <LineChart width={300} height={300} data={dailyData1}>
+              <XAxis dataKey="day" fontSize={10} tickLine={false} />
+              <YAxis fontSize={10} tickLine={false} />
+              <Tooltip/>
+              <Legend/>
+              <Line dataKey={`${variable}.${graphData}`} stroke={color} dot={false} />
+            </LineChart>
+
+          )}
+
         </div>
       }
 
       {(monthlyData1.length !== 0) &&
         <div>
           <p>Monthly Data</p>
-          <LineChart width={300} height={300} data={monthlyData1}>
-            <XAxis dataKey="month" fontSize={10} tickLine={false} />
-            {variable && (
-              <>
-                <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.${graphData}`} stroke={color} dot={false} />
-                {/* <YAxis dataKey={`${variable}.avg`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.avg`} stroke={color} dot={false} />
-                <YAxis dataKey={`${variable}.count`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.count`} stroke={color} dot={false} /> */}
-              </>
-            )}
-          </LineChart>
+
+          {variable && (
+
+            <LineChart width={300} height={300} data={monthlyData1}>
+              <XAxis dataKey="month" fontSize={10} tickLine={false} />
+              <YAxis fontSize={10} tickLine={false} />
+              <Tooltip/>
+              <Legend/>
+              <Line dataKey={`${variable}.${graphData}`} stroke={color} dot={false} />
+            </LineChart>
+
+          )}
+
         </div>
       }
 
       {(yearlyData1.length !== 0) &&
         <div>
           <p>Yearly Data</p>
-          <LineChart width={300} height={300} data={monthlyData1}>
-            <XAxis dataKey="year" fontSize={10} tickLine={false} />
-            {variable && (
-              <>
-                <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.${graphData}`} stroke={color} dot={false} />
-                {/* <YAxis dataKey={`${variable}.avg`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.avg`} stroke={color} dot={false} />
-                <YAxis dataKey={`${variable}.count`} fontSize={10} tickLine={false} />
-                <Line dataKey={`${variable}.count`} stroke={color} dot={false} /> */}
-              </>
-            )}
-          </LineChart>
+
+          {variable && (
+
+            <LineChart width={300} height={300} data={monthlyData1}>
+              <XAxis dataKey="year" fontSize={10} tickLine={false} />
+              <YAxis fontSize={10} tickLine={false} />
+              <Tooltip/>
+              <Legend/>
+              <Line dataKey={`${variable}.${graphData}`} stroke={color} dot={false} />
+            </LineChart>
+
+          )}
+
         </div>
       }
     </>

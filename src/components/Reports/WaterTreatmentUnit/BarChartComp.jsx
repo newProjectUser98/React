@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import Popup from "../../../hoc/Popup/Popup";
 import SelectColorIcon from "../../../assets/icons/ReportsIcon/SelectColorIcon.png";
-import { XAxis, BarChart, Bar, YAxis } from "recharts";
+import { XAxis, BarChart, Bar, YAxis, Tooltip, Legend } from "recharts";
 
 const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index, setUpdatedColor, setUpdatedIndex, updatedColor }) => {
 
@@ -124,31 +124,32 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
       {(hourlyData.length !== 0) &&
         <div>
           <p>Hourly data</p>
-          <BarChart width={300} height={300} data={hourlyData}>
-            <XAxis dataKey="hour" fontSize={10} axisLine={false} tickLine={false} />
-            {variable && (
-              <>
-                <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} axisLine={false} tickLine={false} />
-              </>
-            )}
-            <defs>
-              <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                <stop offset="0" stopColor={index1 ? color : updatedColor1} />
-                <stop offset="1" stopColor="#FFFFFF" />
-              </linearGradient>
-            </defs>
-            {variable && (
-              <>
-                <Bar
-                  dataKey={`${variable}.${graphData}`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                />
-              </>
-            )}
 
-          </BarChart>
+          {variable && (
+            <BarChart width={300} height={300} data={hourlyData}>
+              <XAxis dataKey="hour" fontSize={10} axisLine={false} tickLine={false} />
+
+              <YAxis fontSize={10} axisLine={false} tickLine={false} />
+
+              <Tooltip />
+              <Legend />
+
+              <defs>
+                <linearGradient id={"chartLG" + color} x2="0" y2="100%">
+                  <stop offset="0" stopColor={index1 ? updatedColor1 : color} />
+                  <stop offset="1" stopColor="#FFFFFF" />
+                </linearGradient>
+              </defs>
+
+              <Bar
+                dataKey={`${variable}.${graphData}`}
+                fill={`url("#${"chartLG" + color}")`}
+                barSize={35}
+                radius={50}
+              />
+            </BarChart>
+          )}
+
           <Grid
             display={"flex"}
             justifyContent="center"
@@ -171,8 +172,6 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
                 onClick={() => {
                   setOpenPopup(true);
                   // setUpdatedIndex(index1);
-                  console.log("checking value")
-
                 }}
               >
                 <img src={SelectColorIcon} alt="selectColor" />
@@ -215,30 +214,31 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
       {(dailyData.length !== 0) &&
         <div>
           <p>Daily data</p>
-          <BarChart width={300} height={300} data={dailyData}>
-            <XAxis dataKey="day" fontSize={10} axisLine={false} tickLine={false} />
-            {variable && (
-              <>
-                <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} axisLine={false} tickLine={false} />
-              </>
-            )}
-            <defs>
-              <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                <stop offset="0" stopColor={index2 ? color : updatedColor2} />
-                <stop offset="1" stopColor="#FFFFFF" />
-              </linearGradient>
-            </defs>
-            {variable && (
-              <>
-                <Bar
-                  dataKey={`${variable}.${graphData}`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                />
-              </>
-            )}
-          </BarChart>
+
+          {variable && (
+            <BarChart width={300} height={300} data={dailyData}>
+              <XAxis dataKey="day" fontSize={10} axisLine={false} tickLine={false} />
+              <YAxis fontSize={10} axisLine={false} tickLine={false} />
+
+              <Tooltip />
+              <Legend />
+
+              <defs>
+                <linearGradient id={"chartLG" + color} x2="0" y2="100%">
+                  <stop offset="0" stopColor={index2 ? color : updatedColor2} />
+                  <stop offset="1" stopColor="#FFFFFF" />
+                </linearGradient>
+              </defs>
+
+              <Bar
+                dataKey={`${variable}.${graphData}`}
+                fill={`url("#${"chartLG" + color}")`}
+                barSize={35}
+                radius={50}
+              />
+            </BarChart>
+          )}
+
 
           <Grid
             display={"flex"}
@@ -302,30 +302,33 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
       {(monthlyData.length !== 0) &&
         <div>
           <p>Monthly data</p>
-          <BarChart width={300} height={300} data={monthlyData}>
-            <XAxis dataKey="month" fontSize={10} axisLine={false} tickLine={false} />
-            {variable && (
-              <>
-                <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} axisLine={false} tickLine={false} />
-              </>
-            )}
-            <defs>
-              <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                <stop offset="0" stopColor={index3 ? color : updatedColor3} />
-                <stop offset="1" stopColor="#FFFFFF" />
-              </linearGradient>
-            </defs>
-            {variable && (
-              <>
-                <Bar
-                  dataKey={`${variable}.${graphData}`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                />
-              </>
-            )}
-          </BarChart>
+
+          {variable && (
+
+            <BarChart width={300} height={300} data={monthlyData}>
+              <XAxis dataKey="month" fontSize={10} axisLine={false} tickLine={false} />
+              <YAxis fontSize={10} axisLine={false} tickLine={false} />
+
+              <Tooltip />
+              <Legend />
+
+              <defs>
+                <linearGradient id={"chartLG" + color} x2="0" y2="100%">
+                  <stop offset="0" stopColor={index3 ? color : updatedColor3} />
+                  <stop offset="1" stopColor="#FFFFFF" />
+                </linearGradient>
+              </defs>
+
+              <Bar
+                dataKey={`${variable}.${graphData}`}
+                fill={`url("#${"chartLG" + color}")`}
+                barSize={35}
+                radius={50}
+              />
+            </BarChart>
+
+          )}
+
 
           <Grid
             display={"flex"}
@@ -390,30 +393,33 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
       {(yearlyData.length !== 0) &&
         <div>
           <p>Yearly data</p>
-          <BarChart width={300} height={300} data={yearlyData}>
-            <XAxis dataKey="year" fontSize={10} axisLine={false} tickLine={false} />
-            {variable && (
-              <>
-                <YAxis dataKey={`${variable}.${graphData}`} fontSize={10} axisLine={false} tickLine={false} />
-              </>
-            )}
-            <defs>
-              <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                <stop offset="0" stopColor={index4 ? color : updatedColor4} />
-                <stop offset="1" stopColor="#FFFFFF" />
-              </linearGradient>
-            </defs>
-            {variable && (
-              <>
-                <Bar
-                  dataKey={`${variable}.${graphData}`}
-                  fill={`url("#${"chartLG" + color}")`}
-                  barSize={35}
-                  radius={50}
-                />
-              </>
-            )}
-          </BarChart>
+
+          {variable && (
+
+            <BarChart width={300} height={300} data={yearlyData}>
+              <XAxis dataKey="year" fontSize={10} axisLine={false} tickLine={false} />
+              <YAxis fontSize={10} axisLine={false} tickLine={false} />
+
+              <Tooltip />
+              <Legend />
+
+              <defs>
+                <linearGradient id={"chartLG" + color} x2="0" y2="100%">
+                  <stop offset="0" stopColor={index4 ? color : updatedColor4} />
+                  <stop offset="1" stopColor="#FFFFFF" />
+                </linearGradient>
+              </defs>
+
+              <Bar
+                dataKey={`${variable}.${graphData}`}
+                fill={`url("#${"chartLG" + color}")`}
+                barSize={35}
+                radius={50}
+              />
+            </BarChart>
+
+          )}
+
           <Grid
             display={"flex"}
             justifyContent="center"
