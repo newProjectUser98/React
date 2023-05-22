@@ -21,13 +21,20 @@ import Popup from "../../../hoc/Popup/Popup";
 import AddGraph from "./AddGraph";
 import axios from "axios";
 
-const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variable, setVariable, setGraphData, graphData }) => {
-  // const [Yaxis, setYaxis] = useState("");
+const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variable, setVariable, setGraphData, graphData, value }) => {
+
   const [openPopup, setOpenPopup] = useState(false);
   const [component, setComponent] = useState([])
   const [comp_variables, setCompVariables] = useState([])
 
-  const cnd_tds_variables = ['cnd', 'spn', 'tsp', 'asp']
+
+  const WaterTreatmentcomponentDetails = [
+    'rwp', 'cnd_tds', 'hpp', 'flowsen', 'panel', 'ampv1', 'ampv2', 'ampv3', 'ampv4', 'ampv5'
+  ]
+
+  const WaterDispensecomponentDetails = [
+    'atm', 'tap1', 'tap2', 'tap3', 'tap4', 'consen'
+  ]
 
   const handleChange = (event) => {
     setYaxis(event.target.value);
@@ -45,140 +52,37 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
   }
 
   const component_variable_data = {
-    cnd_tds: [
-      "spn",
-      "tsp",
-      "asp",
-      "cnd"
-    ],
-    rwp: [
-      "crt",
-      "olc",
-      "drc",
-      "spn"
-    ],
-    hpp: [
-      "crt",
-      "olc",
-      "drc",
-      "spn"
-    ],
-    panel: [
-      "ipv",
-      "unv",
-      "ovv",
-      "nmv",
-      "spn",
-      "srt",
-      "bkt",
-      "rst"
-    ],
-    ampv1: [
-      "rmt",
-      "cct",
-      "srt",
-      "bkt",
-      "rst",
-      "mot",
-      // "op1",
-      // "op2",
-      // "op3"
-    ],
-    ampv2: [
-      "rmt",
-      "cct",
-      "srt",
-      "bkt",
-      "rst",
-      "mot",
-      // "op1",
-      // "op2",
-      // "op3"
-    ],
-    ampv3: [
-      "rmt",
-      "cct",
-      "srt",
-      "bkt",
-      "rst",
-      "mot",
-      // "op1",
-      // "op2",
-      // "op3"
-    ],
-    ampv4: [
-      "rmt",
-      "cct",
-      "srt",
-      "bkt",
-      "rst",
-      "mot",
-      // "op1",
-      // "op2",
-      // "op3"
-    ],
-    ampv5: [
-      "rmt",
-      "cct",
-      "srt",
-      "bkt",
-      "rst",
-      "mot",
-      // "op1",
-      // "op2",
-      // "op3"
-    ],
-    flowsen: [
-      "fr1",
-      "fr2",
-      "ff1",
-      "ff2"
-      // "ff3",
-      // "fr4"
-    ],
-    tap1: [
-      "p1",
-      "p2",
-      "p3",
-      "p4"
-    ],
-    tap2: [
-      "p1",
-      "p2",
-      "p3",
-      "p4"
-    ],
-    tap3: [
-      "p1",
-      "p2",
-      "p3",
-      "p4"
-    ],
-    tap4: [
-      "p1",
-      "p2",
-      "p3",
-      "p4"
-    ],
-    consen: [
-      "cnd",
-      "spn",
-      "asp"
-    ],
-    atm: [
-      "ndv",
-      "nta",
-      "tmp",
-      "ntp",
-      "nov",
-      "vl1",
-      "vl2",
-      "vl3",
-      "vl4",
-      "re1",
-      "re2",
-      "re3",
-      "re4"]
+    cnd_tds: ["spn","tsp","asp","cnd"],
+
+    rwp: ["crt","olc","drc","spn"],
+
+    hpp: ["crt","olc","drc","spn"],
+
+    panel: ["ipv","unv","ovv","nmv","spn","srt","bkt","rst"],
+
+    ampv1: ["rmt","cct","srt","bkt","rst","mot"],
+
+    ampv2: ["rmt","cct","srt","bkt","rst","mot"],
+
+    ampv3: ["rmt","cct","srt","bkt","rst","mot"],
+
+    ampv4: ["rmt","cct","srt","bkt","rst","mot"],
+
+    ampv5: ["rmt","cct","srt","bkt","rst","mot"],
+
+    flowsen: ["fr1","fr2","ff1","ff2"],
+
+    tap1: ["p1","p2","p3","p4"],
+
+    tap2: ["p1","p2","p3","p4"],
+
+    tap3: ["p1","p2","p3","p4"],
+
+    tap4: ["p1","p2","p3","p4"],
+
+    consen: ["cnd","spn","asp"],
+
+    atm: ["ndv","nta","tmp","ntp","nov","vl1","vl2","vl3","vl4","re1","re2","re3","re4"]
   }
 
   useEffect(() => {
@@ -206,14 +110,18 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
   }, [Yaxis])
 
   console.log('component_variable', comp_variables);
-  // console.log('Yaxis in overview', Yaxis);
-  // console.log('variable in overview', variable);
 
   useEffect(() => {
-    axios.get('/topicapikey_info/')
-      .then(res => setComponent(res.data))
-      .catch(err => console.log(err))
+
+    if(value === 0){
+      setComponent(WaterTreatmentcomponentDetails)
+    }
+    if(value === 1){
+      setComponent(WaterDispensecomponentDetails)
+    }
+
   }, [])
+
 
   return (
     <Grid
@@ -261,19 +169,14 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
             <Select
               id="Yaxis"
               value={Yaxis}
-              // label="Select City/State"
               onChange={handleChange}
-            // placeholder="Select City/State"
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {/* <MenuItem value={1}>Y axis 1</MenuItem>
-              <MenuItem value={2}>Y axis 2</MenuItem>
-              <MenuItem value={3}>Y axis 3</MenuItem> */}
               {component.map((item) => {
                 return (
-                  <MenuItem value={item.key_value}>{item.key_name}</MenuItem>
+                  <MenuItem value={item}>{item}</MenuItem>
                 )
               })}
             </Select>
@@ -303,21 +206,11 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
             <Select
               id="variable"
               value={variable}
-              // label="Select City/State"
               onChange={handleVariableChange}
-            // placeholder="Select City/State"
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              {/* <MenuItem value={1}>Y axis 1</MenuItem>
-              <MenuItem value={2}>Y axis 2</MenuItem>
-              <MenuItem value={3}>Y axis 3</MenuItem> */}
-              {/* {Yaxis === 'cnd_tds' ? (
-                cnd_tds_variables.map((item) => (
-                  <MenuItem value={item}>{item}</MenuItem>
-                ))
-              ) : null} */}
 
               {comp_variables.map((item) => {
                 return (

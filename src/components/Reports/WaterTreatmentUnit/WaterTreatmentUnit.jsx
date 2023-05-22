@@ -12,7 +12,7 @@ import { ReactComponent as TotalVolumeProducedIcon } from "../../../assets/icons
 import { ReactComponent as NumberOfFaultsIcon } from "../../../assets/icons/ReportsIcon/NumberOfFaultsIcon.svg";
 import { ReactComponent as PermeateFlowRateIcon } from "../../../assets/icons/ReportsIcon/PermeateFlowRateIcon.svg";
 
-const WaterTreatmentUnit = ({deviceID}) => {
+const WaterTreatmentUnit = ({ deviceID }) => {
   const [value, setValue] = React.useState(0);
 
 
@@ -163,12 +163,59 @@ const WaterTreatmentUnit = ({deviceID}) => {
             />
           </Grid>
           <Grid>
-            <ChartComp deviceID={deviceID}/>
+            <ChartComp deviceID={deviceID} value={value} />
           </Grid>
         </Grid>
       </TabPanel>
+      
       <TabPanel value={value} index={1}>
-        {"Dispensing Unit Data"}
+        {/* {"Dispensing Unit Data"} */}
+        <Grid
+          bgcolor={"#F7F7F7"}
+          pb={"30px"}
+          className="sm:bg-[#F7F7F7] bg-white"
+        >
+          <Grid container justifyContent="flex-end" className="sm:flex hidden">
+            <Typography
+              fontWeight={500}
+              fontSize={"14px"}
+              fontFamily={"Poppins"}
+              p={"24px"}
+              color={"#464E5F"}
+            >
+              Summary Overview
+            </Typography>
+          </Grid>
+          <Grid
+            container
+            direction="row"
+            alignItems="center"
+            gap={"20px"}
+            className="sm:flex-wrap flex-nowrap sm:justify-evenly 
+          justify-start overflow-auto sm:pb-0 p-5 sm:pl-0 iw-Summary-card-data"
+          >
+            {SummaryCardData.map((item, i) => (
+              <SummaryCard
+                key={i}
+                value={item.value}
+                icon={item.icon}
+                title={item.title}
+              />
+            ))}
+          </Grid>
+          <Grid pt={"30px"}>
+            <Divider
+              className="border-white"
+              variant="middle"
+              sx={{
+                backgroundColor: "white",
+              }}
+            />
+          </Grid>
+          <Grid>
+            <ChartComp deviceID={deviceID} value={value} />
+          </Grid>
+        </Grid>
       </TabPanel>
     </Paper>
   );
