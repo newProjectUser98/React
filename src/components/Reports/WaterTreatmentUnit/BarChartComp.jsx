@@ -171,6 +171,7 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
                 aria-label="search"
                 onClick={() => {
                   setOpenPopup(true);
+                  setIndex1(true)
                   // setUpdatedIndex(index1);
                 }}
               >
@@ -192,7 +193,6 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
                       onClick={(e) => {
                         setUpdatedColor1(item.color);
                         setOpenPopup(false);
-                        setIndex1(true)
                       }}
                     >
                       <Box
@@ -207,10 +207,9 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
               </Grid>
             </Popup>
           </Grid>
-          {console.log("checking index1", index1)}
         </div>
       }
-
+      {console.log("checking index1", index1)}
       {(dailyData.length !== 0) &&
         <div>
           <p>Daily data</p>
