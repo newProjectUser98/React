@@ -16,6 +16,8 @@ const RwpForm = ({ intervalTime }) => {
     const [olc, setOlc] = React.useState("");
     const [drc, setDrc] = React.useState("");
     const [spn, setSpn] = React.useState("");
+    const [crt, setCrt] = React.useState("");
+    let access_token = localStorage.getItem("access_token")
     console.log("sts", statusVal);
 
     console.log("intervalTime", intervalTime);
@@ -27,7 +29,6 @@ const RwpForm = ({ intervalTime }) => {
                 company_name: userData.company_name,
                 componant_name: "rwp"
             }
-            console.log("newData", newData);
             axios.post("/topicapi/updated_treat_rwp/", newData)
                 .then((resp) => {
                     console.log("resp in rwp state", resp.data[0].data.updated_at);
@@ -36,6 +37,7 @@ const RwpForm = ({ intervalTime }) => {
                     setOlc(resp.data[0].data.olc);
                     setDrc(resp.data[0].data.drc);
                     setSpn(resp.data[0].data.spn);
+                    setCrt(resp.data[0].data.crt);
                     localStorage.setItem('updated_time', resp.data[0].data.updated_at);
                 })
                 .catch((err) => {
@@ -78,7 +80,13 @@ const RwpForm = ({ intervalTime }) => {
             componant_name: "rwp",
             sts: statusVal === true ? "on" : "off"
         }
-        axios.post('/topicapi/rwp_state/', newData).then((res) => {
+        
+        console.log("accessTokenVal", access_token);
+        axios.post('/topicapi/rwp_state/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
+            }
+        }).then((res) => {
             setIsLoading(true);
             setOpen(true);
             setTimeout(() => {
@@ -99,7 +107,12 @@ const RwpForm = ({ intervalTime }) => {
             spn: spn,
             drc: drc
         }
-        axios.post('/topicapi/rwp_setting/', newData).then((res) => {
+        let access_token = localStorage.getItem("access_token")
+        axios.post('/topicapi/rwp_setting/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
+            }
+        }).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -156,7 +169,8 @@ const RwpForm = ({ intervalTime }) => {
                                 <div className="flex items-center py-3">
                                     <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40'>Current</p>
-                                    <p className='w-40'>10.5 Ampere</p>
+                                    <p className='w-40'>{crt} A</p>
+                                    {/* <p className='w-40'>10.5 Ampere</p> */}
                                 </div>
                                 {
                                     editState &&

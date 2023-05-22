@@ -14,6 +14,8 @@ const ConductivityForm = ({ intervalTime }) => {
     const [spn, setSpn] = React.useState("");
     const [tsp, setTsp] = React.useState("");
     const [asp, setAsp] = React.useState("");
+    const [cnd, setCnd] = React.useState("");
+    let access_token = localStorage.getItem("access_token")
 
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
@@ -27,17 +29,8 @@ const ConductivityForm = ({ intervalTime }) => {
 
     useEffect(() => {
         const fetchData = () => {
-            
-
-
             const userData = JSON.parse(localStorage.getItem('user'));
-            // let obj = [];
-            // obj["unit_type"] = "water_treatment";
-            // obj["company_name"] = userData.company_name;
-            // obj["componant_name"] = "cnd_tds_sen";
-
             let newData = {
-                
                 "unit_type": "water_treatment",
                 "company_name": userData.company_name,
                 "componant_name": "cnd_tds_sen",
@@ -50,7 +43,8 @@ const ConductivityForm = ({ intervalTime }) => {
                 setSpn(resp.data[0].data.spn)
                 setTsp(resp.data[0].data.tsp)
                 setAsp(resp.data[0].data.asp)
-                localStorage.setItem('updated_time', resp.data[0].updated_at);
+                setCnd(resp.data[0].data.cnd)
+                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err", err);
             })
@@ -66,14 +60,18 @@ const ConductivityForm = ({ intervalTime }) => {
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: components[0].cnd.cnd === "conductivity" ? "conductivity" : "tds",
+            componant_name: "cnd_tds_sen",
             spn: spn,
             tsp: tsp,
             asp: asp
         }
 
         components[0].cnd.cnd === 'conductivity' ?
-            axios.post('/topicapi/cnd_setting/', newData).then((res) => {
+            axios.post('/topicapi/cnd_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            }).then((res) => {
                 console.log("res in cnd", res);
                 setIsLoading(true);
                 setOpen(true);
@@ -124,7 +122,7 @@ const ConductivityForm = ({ intervalTime }) => {
                 {
                     // changeConductivity === 'conductivity' ?
                     components[0].cnd.cnd === 'conductivity' ?
-                        <p className='w-30 mx-3'>100.0 uS</p>
+                        <p className='w-30 mx-3'>{cnd} uS</p>
                         :
                         <p className='w-30 mx-3'>100.0ppm</p>
                 }

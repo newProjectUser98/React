@@ -23,7 +23,8 @@ const Ampv2Form = ({intervalTime}) => {
     const [srt1, setSrt1] = useState('');
     const [srt2, setSrt2] = useState('');
     const [stp, setStp] = useState('');
-
+    const [cct, setCct] = useState('');
+    let access_token = localStorage.getItem("access_token")
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
@@ -48,6 +49,7 @@ const Ampv2Form = ({intervalTime}) => {
                 setSrt1(resp.data[0].data.srt1)
                 setSrt2(resp.data[0].data.srt2)
                 setStp(resp.data[0].data.stp)
+                setCct(resp.data[0].data.cct)
                 localStorage.setItem('updated_time', resp.data[0].data.updated_at);
 
             }).catch((err) => {
@@ -91,7 +93,12 @@ const Ampv2Form = ({intervalTime}) => {
             pos: pos
         }
         console.log("newData", newData);
-        axios.post('/topicapi/ampv2_state/', newData).then((res) => {
+        axios.post('/topicapi/ampv2_state/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
+            }
+        }
+).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -125,7 +132,12 @@ const Ampv2Form = ({intervalTime}) => {
             op3: op3,
         }
         console.log("newData", newData);
-        axios.post('/topicapi/ampv2_setting/', newData).then((res) => {
+        axios.post('/topicapi/ampv2_setting/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
+            }
+        }
+).then((res) => {
             console.log("res in setting", res);
             setIsLoading(true);
             setOpen(true);
@@ -188,7 +200,7 @@ const Ampv2Form = ({intervalTime}) => {
                                 <div className="flex items-center py-3">
                                     <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40'>Cycle Count</p>
-                                    <p className=''>1234</p>
+                                    <p className=''>{cct}</p>
                                     <span className='mx-1'>Cycles</span>
                                 </div>
 

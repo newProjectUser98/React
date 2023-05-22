@@ -25,7 +25,15 @@ const RoiPanelForm = ({ intervalTime }) => {
     const [srt, setSrt] = React.useState("");
     const [bkt, setBkt] = React.useState("");
     const [rst, setRst] = React.useState("");
-
+    const [sts, setSts] = React.useState("");
+    const [rtl, setRtl] = React.useState("");
+    const [ttl, setTtl] = React.useState("");
+    const [lps, setLps] = React.useState("");
+    const [hps, setHps] = React.useState("");
+    const [dgp, setDgp] = React.useState("");
+    const [ipv, setIpv] = React.useState("");
+    const [err, setErr] = React.useState("");
+    let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
     console.log("components ==>", components[0].panel.dosing_pump);
@@ -66,6 +74,14 @@ const RoiPanelForm = ({ intervalTime }) => {
             setSrt(resp.data[0].data.srt)
             setBkt(resp.data[0].data.bkt)
             setRst(resp.data[0].data.rst)
+            setSts(resp.data[0].data.sts)
+            setRtl(resp.data[0].data.rtl)
+            setTtl(resp.data[0].data.ttl)
+            setLps(resp.data[0].data.lps)
+            setHps(resp.data[0].data.hps)
+            setDgp(resp.data[0].data.dgp)
+            setIpv(resp.data[0].data.ipv)
+            setErr(resp.data[0].data.err)
             localStorage.setItem('updated_time', resp.data[0].data.updated_at);
         }).catch((err) => {
             console.log("err", err);
@@ -97,7 +113,11 @@ const RoiPanelForm = ({ intervalTime }) => {
             bkt: bkt,
             rst: rst,
         }
-        axios.post('/topicapi/panel_setting/', newData).then((res) => {
+        axios.post('/topicapi/panel_setting/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
+            }
+        }).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -131,7 +151,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40'>Status</p>
                 {/* <p className='w-30 mx-2'>{statusVal? 'ON' : 'OFF'}</p> */}
-                <p className='w-30 mx-2'>{components[0].panel.status === true ? 'ON' : 'OFF'}</p>
+                <p className='w-30 mx-2'>{sts}</p>
                 <div className='w-30'>
                     {/* <Switch name='status' checked={statusVal} onChange={(e)=> setStatusVal(e.target.checked)} color='primary'/> */}
                     <Switch name='status' checked={components[0].panel.status} onChange={(e) => setStatusVal(e.target.checked)} color='primary' />
@@ -143,7 +163,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <select name="rtl" id="rtl" className='w-52 p-2 border my-2 rounded'>
                     {/* <option value="full">Full</option>
                 <option value="full">Full</option> */}
-                    <option value={components[0].panel.raw_water_tank}>{components[0].panel.raw_water_tank}</option>
+                    <option value={rtl}>{rtl}</option>
                 </select>
             </div>
             <div className="flex items-center py-3 flex-wrap">
@@ -152,7 +172,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <select name="ttl" id="ttl" className='w-52 p-2 border my-2 rounded'>
                     {/* <option value="full">Full</option>
                 <option value="emp">Empty</option> */}
-                    <option value={components[0].panel.treated_water_tank}>{components[0].panel.treated_water_tank}</option>
+                    <option value={ttl}>{ttl}</option>
                 </select>
             </div>
             <div className="flex items-center py-3 flex-wrap">
@@ -161,14 +181,14 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <select name="lps" id="lps" className='w-52 p-2 border my-2  rounded'>
                     {/* <option value="low">Low</option>
                 <option value="high">High</option> */}
-                    <option value={components[0].panel.low_pressure_switch}>{components[0].panel.low_pressure_switch}</option>
+                    <option value={lps}>{lps}</option>
                 </select>
             </div>
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>High Pressure Switch</p>
                 <select name="hps" id="hps" className='w-52 p-2 border my-2 rounded'>
-                    <option value={components[0].panel.high_pressure_switch}>{components[0].panel.high_pressure_switch}</option>
+                    <option value={hps}>{hps}</option>
                     {/* <option value="low">Low</option>
                 <option value="high">High</option> */}
                 </select>
@@ -177,7 +197,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Dosing Pump</p>
                 {/* <p className='w-30 mx-2'>{dosingpumpVal? 'ON' : 'OFF'}</p> */}
-                <p className='w-30 mx-2'>{components[0].panel.dosing_pump === true ? 'ON' : 'OFF'}</p>
+                <p className='w-30 mx-2'>{dgp}</p>
                 <div className='w-30'>
                     {/* <Switch name='status' checked={dosingpumpVal} onChange={(e)=> setdosingpumpVal(e.target.checked)} color='primary'/> */}
                     <Switch name='status' checked={components[0].panel.dosing_pump} onChange={(e) => setdosingpumpVal(e.target.checked)} color='primary' />
@@ -186,14 +206,14 @@ const RoiPanelForm = ({ intervalTime }) => {
             <div className="flex items-center py-3">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40'>Input Voltage</p>
-                <p className=''>230</p>
+                <p className=''>{ipv}</p>
                 <span className='mx-1'>Volts</span>
             </div>
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Error</p>
                 <select name="stp" id="stp" className='my-2 w-52 p-2 border rounded'>
-                    <option value="opl">{components[0].panel.error}</option>
+                    <option value={err}>{components[0].panel.error}</option>
                     {/* <option value="opl">Operational</option> */}
                     {/* <option value="lpst">LPS Trip</option> */}
                     {/* <option value="hpst">HPS Trip</option>

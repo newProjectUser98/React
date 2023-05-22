@@ -5,7 +5,7 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
 
-const Tap4Form = ({intervalTime}) => {
+const Tap4Form = ({ intervalTime }) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -13,32 +13,33 @@ const Tap4Form = ({intervalTime}) => {
     const [p2, setP2] = React.useState("");
     const [p3, setP3] = React.useState("");
     const [p4, setP4] = React.useState("");
+    let access_token = localStorage.getItem("access_token")
 
     useEffect(() => {
         const fetchData = () => {
-        const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            unit_type: "water_dispense",
-            company_name: userData.company_name,
-            componant_name: "tap4"
-        }
-        axios.post("/topicapi/updated_disp_tap4/", newData).then((resp) => {
-            console.log("res in get_tap4", resp.data[0].data);
-            setP1(resp.data[0].data.p1)
-            setP2(resp.data[0].data.p2)
-            setP3(resp.data[0].data.p3)
-            setP4(resp.data[0].data.p4)
-            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
-        }).catch((err) => {
-            console.log("err", err);
-        })
-    };
-    fetchData();
-    const intervalId = setInterval(fetchData, intervalTime);
-    return () => {
-        clearInterval(intervalId);
-    };
-}, [intervalTime]);
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                unit_type: "water_dispense",
+                company_name: userData.company_name,
+                componant_name: "tap4"
+            }
+            axios.post("/topicapi/updated_disp_tap4/", newData).then((resp) => {
+                console.log("res in get_tap4", resp.data[0].data);
+                setP1(resp.data[0].data.p1)
+                setP2(resp.data[0].data.p2)
+                setP3(resp.data[0].data.p3)
+                setP4(resp.data[0].data.p4)
+                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+            }).catch((err) => {
+                console.log("err", err);
+            })
+        };
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime]);
 
     const initialValues = {
         p1: "",
@@ -59,7 +60,12 @@ const Tap4Form = ({intervalTime}) => {
             p3: p3,
             p4: p4
         }
-        axios.post('/topicapi/tap4_setting/', newData).then((res) => {
+        axios.post('/topicapi/tap4_setting/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
+            }
+        }
+        ).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);

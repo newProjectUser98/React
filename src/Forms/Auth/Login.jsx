@@ -10,10 +10,11 @@ import { CircularProgress } from "@mui/material";
 import SnackBar from "../../hoc/SnackBarAlert/SnackBar";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import axios from "axios";
 
 const initialValuesEmail = {
-  email: "",
-  password: "",
+  email: "test@gmail.com",
+  password: "Test@123",
 };
 const validationSchemaEmail = Yup.object({
   email: Yup.string()
@@ -81,8 +82,27 @@ const Login = () => {
   };
 
   const onSubmitEmail = (values, submitProps) => {
+    let newData = {
+      username: values.email,
+      password: values.password
+    }
+    console.log("values in Email_newData", newData);
     setResData("");
     setStatus("");
+    axios.post("/topicapi/token/", newData, {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+  .then((resp) => {
+    console.log("resp in generate token", resp.data.refresh);
+    localStorage.setItem('access_token', resp.data.access);
+    localStorage.setItem('refresh_token', resp.data.refresh);
+    navigate("/admin/control-and-monitor-site");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
     values.login_type = loginType;
     dispatch(userlogin(values))
       .then((res) => {
@@ -136,8 +156,8 @@ const Login = () => {
       setCounter(0);
     }
   },
-  // eslint-disable-next-line
-  [counter]);
+    // eslint-disable-next-line
+    [counter]);
   return (
     <>
       {resData?.message && (

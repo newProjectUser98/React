@@ -18,7 +18,12 @@ const RoiPanelAtmForm = ({intervalTime}) => {
     const [re2, setre2] = React.useState("");
     const [re3, setre3] = React.useState("");
     const [re4, setre4] = React.useState("");
-
+    const [sts, setSts] = React.useState("");
+    const [ndv, setNdv] = React.useState("");
+    const [ntt, setNtt] = React.useState("");
+    const [nta, setNta] = React.useState("");
+    const [tmp, setTmp] = React.useState("");
+    let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
     console.log("components ==>", components[0].atm.new_transaction_type);
@@ -43,6 +48,11 @@ const RoiPanelAtmForm = ({intervalTime}) => {
             setre2(resp.data[0].data.re2)
             setre3(resp.data[0].data.re3)
             setre4(resp.data[0].data.re4)
+            setSts(resp.data[0].data.sts)
+            setNdv(resp.data[0].data.ndv)
+            setNtt(resp.data[0].data.ntt)
+            setNta(resp.data[0].data.nta)
+            setTmp(resp.data[0].data.tmp)
             localStorage.setItem('updated_time', resp.data[0].data.updated_at);
         }).catch((err) => {
             console.log("err", err);
@@ -85,7 +95,11 @@ const RoiPanelAtmForm = ({intervalTime}) => {
             re3: re3,
             re4: re4,
         }
-        axios.post('/topicapi/atm_setting/', newData).then((res) => {
+        axios.post('/topicapi/atm_setting/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
+            }
+        }).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -119,7 +133,7 @@ const RoiPanelAtmForm = ({intervalTime}) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Status</p>
                 <select name="sts" id="sts" className='my-2 w-52 px-5 py-2 border rounded'>
-                    <option value={components[0].atm.status}>{components[0].atm.status}</option>
+                    <option value={sts}>{components[0].atm.status}</option>
                     {/* <option value="nml">Normal</option>
                 <option value="tke">tank_empty</option>
                 <option value="tpl">Tap_Low</option>
@@ -130,7 +144,7 @@ const RoiPanelAtmForm = ({intervalTime}) => {
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>New Dispense Volume</p>
-                <p className='w-30 my-2'>11234500 m3/hr</p>
+                <p className='w-30 my-2'>{ndv} m3/hr</p>
                 {/* <div>
                 <Field type="text" name="ndv" id="ndv" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="New Dispense Volume"/>
                 <span className='mx-5'>m3/hr</span>
@@ -140,7 +154,7 @@ const RoiPanelAtmForm = ({intervalTime}) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>New Transaction Type</p>
                 <select name="ntt" id="ntt" className='my-2 w-52 px-5 py-2 border rounded'>
-                    <option value="cn">{components[0].atm.new_transaction_type}</option>
+                    <option value="cn">{ntt}</option>
                     {/* <option value="cn">Coin</option>
                 <option value="cd">Card</option>
                 <option value="qr">QR</option> */}
@@ -149,12 +163,12 @@ const RoiPanelAtmForm = ({intervalTime}) => {
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>New Transaction Amount</p>
-                <p className='w-30 my-2'>Rs: 27682320</p>
+                <p className='w-30 my-2'>Rs: {nta}</p>
             </div>
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40'>Water tempreture</p>
-                <p className=''>21.0</p>
+                <p className=''>{tmp}</p>
                 <span className='mx-1'>&deg;C</span>
             </div>
             <Formik initialValues={initialValues} onSubmit={onSubmitSetting}>

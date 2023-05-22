@@ -5,7 +5,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
-const HppForm = ({intervalTime}) => {
+const HppForm = ({ intervalTime }) => {
     const [statusVal, setStatusVal] = useState(false)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -14,32 +14,34 @@ const HppForm = ({intervalTime}) => {
     const [olc, setOlc] = React.useState("");
     const [drc, setDrc] = React.useState("");
     const [spn, setSpn] = React.useState("");
-
+    const [crt, setCrt] = React.useState("");
+    let access_token = localStorage.getItem("access_token")
     useEffect(() => {
         const fetchData = () => {
-        const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            unit_type: "water_treatment",
-            company_name: userData.company_name,
-            componant_name: "hpp"
-        }
-        axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
-            console.log("resp in hpp", resp.data[0].data);
-            setStatusVal(resp.data[0].data.sts == "on" ? true : false)
-            setOlc(resp.data[0].data.olc)
-            setDrc(resp.data[0].data.drc)
-            setSpn(resp.data[0].data.spn)
-            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
-        }).catch((err) => {
-            console.log("err in rwp state", err);
-        })
-    };
-    fetchData();
-    const intervalId = setInterval(fetchData, intervalTime);
-    return () => {
-        clearInterval(intervalId);
-    };
-}, [intervalTime]);
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                unit_type: "water_treatment",
+                company_name: userData.company_name,
+                componant_name: "hpp"
+            }
+            axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
+                console.log("resp in hpp", resp.data[0].data);
+                setStatusVal(resp.data[0].data.sts == "on" ? true : false)
+                setOlc(resp.data[0].data.olc)
+                setDrc(resp.data[0].data.drc)
+                setSpn(resp.data[0].data.spn)
+                setCrt(resp.data[0].data.crt)
+                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+            }).catch((err) => {
+                console.log("err in rwp state", err);
+            })
+        };
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime]);
 
     const initialValuesState = {
         sts: "",
@@ -59,7 +61,11 @@ const HppForm = ({intervalTime}) => {
             componant_name: "hpp",
             sts: statusVal === true ? "on" : "off"
         }
-        axios.post('/topicapi/hpp_state/', newData).then((res) => {
+        axios.post('/topicapi/hpp_state/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
+            }
+        }).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -82,7 +88,11 @@ const HppForm = ({intervalTime}) => {
             drc: drc
         }
         console.log("newData", newData);
-        axios.post('/topicapi/hpp_setting/', newData).then((res) => {
+        axios.post('/topicapi/hpp_setting/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
+            }
+        }).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -138,7 +148,7 @@ const HppForm = ({intervalTime}) => {
                                 <div className="flex items-center py-3">
                                     <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40'>Current</p>
-                                    <p className='w-40'>10.5A</p>
+                                    <p className='w-40'>{crt} A</p>
                                 </div>
                                 {
                                     editState &&
