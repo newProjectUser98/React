@@ -15,25 +15,34 @@ const SearchSection = ({ deviceID, setDeviceID, selectSiteName, setSelectSiteNam
   const [city, setCity] = useState("");
   const [site, setSite] = useState([])
 
+
+
+  useEffect(() => {
+    const delay = 1000; // 1 second delay (in milliseconds)
+  
+    const timer = setTimeout(() => {
+      axios.get("/topicapi/device_info/")
+        .then(res => {
+          const companyName = JSON.parse(localStorage.getItem("user")).company_name;
+          const sitefilteredData = res.data.filter(obj => obj.company_name === companyName)
+          console.log('siteData', sitefilteredData)
+          setSite(sitefilteredData)
+          console.log('site res data', res.data);
+          const devicefilteredData = res.data.filter(obj => obj.site_name === selectSiteName)
+          console.log('deviceData', devicefilteredData)
+          setDeviceID(devicefilteredData[0].Device_id)
+        })
+        .catch(err => console.log(err));
+    }, delay);
+  
+    // Clear the timer if the component is unmounted or the dependency changes
+    return () => clearTimeout(timer);
+  }, [selectSiteName]);
+
   const handleChange = (event) => {
     setSelectSiteName(event.target.value);
     console.log(event.target.value);
   };
-
-  useEffect(() => {
-    axios.get("/topicapi/device_info/")
-      .then(res => {
-        const companyName = JSON.parse(localStorage.getItem("user")).company_name;
-        const sitefilteredData = res.data.filter(obj => obj.company_name === companyName)
-        console.log('siteData', sitefilteredData)
-        setSite(sitefilteredData)
-        console.log('site res data', res.data);
-        const devicefilteredData = res.data.filter(obj => obj.site_name === selectSiteName)
-        console.log('deviceData', devicefilteredData)
-        setDeviceID(devicefilteredData[0].Device_id)
-      })
-      .catch(err => console.log(err))
-  }, [selectSiteName])
 
   return (
     <Grid
