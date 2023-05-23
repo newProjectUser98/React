@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Divider, Grid, Paper, Typography } from "@mui/material";
 import SummaryCard from "./SummaryCard";
 import ChartComp from "./ChartComp";

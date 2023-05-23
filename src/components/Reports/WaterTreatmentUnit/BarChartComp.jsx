@@ -115,7 +115,9 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
         .catch(err => console.log(err))
 
     }
-  }, [variable])
+  }, 
+  // eslint-disable-next-line
+  [variable])
 
 
   return (
