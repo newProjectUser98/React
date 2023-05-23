@@ -19,7 +19,7 @@ import { ReactComponent as ChartLineColor } from "../../../assets/icons/ReportsI
 
 import Popup from "../../../hoc/Popup/Popup";
 import AddGraph from "./AddGraph";
-import axios from "axios";
+
 
 const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variable, setVariable, setGraphData, graphData, value }) => {
 
@@ -107,7 +107,9 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
     } else {
       setCompVariables([])
     }
-  }, [Yaxis])
+  }, 
+  // eslint-disable-next-line
+  [Yaxis])
 
   console.log('component_variable', comp_variables);
 
@@ -120,7 +122,9 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
       setComponent(WaterDispensecomponentDetails)
     }
 
-  }, [])
+  }, 
+  // eslint-disable-next-line
+  [])
 
 
   return (
