@@ -4,7 +4,21 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
-const RoiPanelAtmForm = ({intervalTime}) => {
+
+let statusData = [
+    { value: "nml", label: "normal" },
+    { value: "tke", label: "Tank Empty" },
+    { value: "tpl", label: "Tap Low" },
+    { value: "nof", label: "noflow" },
+    { value: "nof", label: "noflow" },
+    { value: "tpd", label: "Tempared" },
+]
+let newTransactionTypeData = [
+    { value: "cn", label: "coin" },
+    { value: "cd", label: "Card" },
+    { value: "qr", label: "QR" }
+]
+const RoiPanelAtmForm = ({ intervalTime }) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -18,9 +32,9 @@ const RoiPanelAtmForm = ({intervalTime}) => {
     const [re2, setre2] = React.useState("");
     const [re3, setre3] = React.useState("");
     const [re4, setre4] = React.useState("");
-    const [sts, setSts] = React.useState("");
+    const [sts, setSts] = React.useState({ value: "", label: "" });
     const [ndv, setNdv] = React.useState("");
-    const [ntt, setNtt] = React.useState("");
+    const [ntt, setNtt] = React.useState({ value: "", label: "" });
     const [nta, setNta] = React.useState("");
     const [tmp, setTmp] = React.useState("");
     let access_token = localStorage.getItem("access_token")
@@ -30,40 +44,55 @@ const RoiPanelAtmForm = ({intervalTime}) => {
 
     useEffect(() => {
         const fetchData = () => {
-        const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            unit_type: "water_dispense",
-            company_name: userData.company_name,
-            componant_name: "atm"
-        }
-        axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
-            console.log("res in get_atm", resp.data[0].data);
-            setNov(resp.data[0].data.nov)
-            setNtp(resp.data[0].data.ntp)
-            setvl1(resp.data[0].data.vl1)
-            setvl2(resp.data[0].data.vl2)
-            setvl3(resp.data[0].data.vl3)
-            setvl4(resp.data[0].data.vl4)
-            setre1(resp.data[0].data.re1)
-            setre2(resp.data[0].data.re2)
-            setre3(resp.data[0].data.re3)
-            setre4(resp.data[0].data.re4)
-            setSts(resp.data[0].data.sts)
-            setNdv(resp.data[0].data.ndv)
-            setNtt(resp.data[0].data.ntt)
-            setNta(resp.data[0].data.nta)
-            setTmp(resp.data[0].data.tmp)
-            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
-        }).catch((err) => {
-            console.log("err", err);
-        })
-    };
-    fetchData();
-    const intervalId = setInterval(fetchData, intervalTime);
-    return () => {
-        clearInterval(intervalId);
-    };
-}, [intervalTime]);
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                unit_type: "water_dispense",
+                company_name: userData.company_name,
+                componant_name: "atm"
+            }
+            axios.post("", newData).then((resp) => {
+                console.log("resp", resp);
+            }).catch((error) => {
+                console.log("error", error);
+            })
+            axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
+                console.log("res in get_atm", resp.data[0].data);
+                setNov(resp.data[0].data.nov)
+                setNtp(resp.data[0].data.ntp)
+                setvl1(resp.data[0].data.vl1)
+                setvl2(resp.data[0].data.vl2)
+                setvl3(resp.data[0].data.vl3)
+                setvl4(resp.data[0].data.vl4)
+                setre1(resp.data[0].data.re1)
+                setre2(resp.data[0].data.re2)
+                setre3(resp.data[0].data.re3)
+                setre4(resp.data[0].data.re4)
+                setNdv(resp.data[0].data.ndv)
+                setNtt(resp.data[0].data.ntt)
+                setNta(resp.data[0].data.nta)
+                setTmp(resp.data[0].data.tmp)
+                console.log("sts in data", resp.data[0].data.sts);
+                statusData.map((item, id) => {
+                    if (item.value === resp.data[0].data.sts) {
+                        setSts({ value: item.value, label: item.label })
+                    }
+                })
+                newTransactionTypeData.map((item, id) => {
+                    if (item.value === resp.data[0].data.ntt) {
+                        setNtt({ value: item.value, label: item.label })
+                    }
+                })
+                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+            }).catch((err) => {
+                console.log("err", err);
+            })
+        };
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime]);
 
     const initialValues = {
         ntp: '',
@@ -133,7 +162,7 @@ const RoiPanelAtmForm = ({intervalTime}) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Status</p>
                 <select name="sts" id="sts" className='my-2 w-52 px-5 py-2 border rounded'>
-                    <option value={sts}>{components[0].atm.status}</option>
+                    <option value={sts.value}>{sts.label}</option>
                     {/* <option value="nml">Normal</option>
                 <option value="tke">tank_empty</option>
                 <option value="tpl">Tap_Low</option>
@@ -154,7 +183,7 @@ const RoiPanelAtmForm = ({intervalTime}) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>New Transaction Type</p>
                 <select name="ntt" id="ntt" className='my-2 w-52 px-5 py-2 border rounded'>
-                    <option value="cn">{ntt}</option>
+                    <option value={ntt.value}>{ntt.label}</option>
                     {/* <option value="cn">Coin</option>
                 <option value="cd">Card</option>
                 <option value="qr">QR</option> */}

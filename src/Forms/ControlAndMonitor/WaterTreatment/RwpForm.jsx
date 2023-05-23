@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import TextError from '../../TextError';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 const RwpForm = ({ intervalTime }) => {
 
     const [statusVal, setStatusVal] = useState(false)
@@ -17,6 +18,7 @@ const RwpForm = ({ intervalTime }) => {
     const [drc, setDrc] = React.useState("");
     const [spn, setSpn] = React.useState("");
     const [crt, setCrt] = React.useState("");
+    const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     console.log("sts", statusVal);
 
@@ -31,8 +33,7 @@ const RwpForm = ({ intervalTime }) => {
             }
             axios.post("/topicapi/updated_treat_rwp/", newData)
                 .then((resp) => {
-                    console.log("resp in rwp state", resp.data[0].data.updated_at);
-
+                    console.log("rwpVal", resp.data);
                     setStatusVal(resp.data[0].data.sts === "on");
                     setOlc(resp.data[0].data.olc);
                     setDrc(resp.data[0].data.drc);
@@ -42,6 +43,7 @@ const RwpForm = ({ intervalTime }) => {
                 })
                 .catch((err) => {
                     console.log("err in rwp state", err);
+
                 });
         };
         fetchData();
@@ -80,11 +82,15 @@ const RwpForm = ({ intervalTime }) => {
             componant_name: "rwp",
             sts: statusVal === true ? "on" : "off"
         }
-        
-        console.log("accessTokenVal", access_token);
-        axios.post('/topicapi/rwp_state/', newData, {
+        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+            console.log("resp", resp);
+        }).catch((error) => {
+            console.log("error", error);
+        })
+        axios.post('/topicapi/Rwp_state/', newData, {
             headers: {
-                'Authorization': 'Bearer ' + access_token
+                'Authorization': 'Bearer ' + access_token,
+                'Content-Type': 'application/json'
             }
         }).then((res) => {
             setIsLoading(true);
@@ -108,6 +114,11 @@ const RwpForm = ({ intervalTime }) => {
             drc: drc
         }
         let access_token = localStorage.getItem("access_token")
+        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+            console.log("resp", resp);
+        }).catch((error) => {
+            console.log("error", error);
+        })
         axios.post('/topicapi/rwp_setting/', newData, {
             headers: {
                 'Authorization': 'Bearer ' + access_token
@@ -121,7 +132,11 @@ const RwpForm = ({ intervalTime }) => {
                 setOpen(false);
             }, 10000);
         }).catch((err) => {
-            console.log("err", err);
+            console.log("err", err.response.statusText);
+            if (err.response.statusText === "Unauthorized"){
+                navigate("/");
+                alert("Please enter valid credentials")
+            }
         })
     }
     return (

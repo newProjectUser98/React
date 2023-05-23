@@ -24,6 +24,7 @@ const Ampv2Form = ({intervalTime}) => {
     const [srt2, setSrt2] = useState('');
     const [stp, setStp] = useState('');
     const [cct, setCct] = useState('');
+    const [rmt, setRmt] = useState('');
     let access_token = localStorage.getItem("access_token")
     useEffect(() => {
         const fetchData = () => {
@@ -50,6 +51,7 @@ const Ampv2Form = ({intervalTime}) => {
                 setSrt2(resp.data[0].data.srt2)
                 setStp(resp.data[0].data.stp)
                 setCct(resp.data[0].data.cct)
+                setRmt(resp.data[0].data.rmt)
                 localStorage.setItem('updated_time', resp.data[0].data.updated_at);
 
             }).catch((err) => {
@@ -93,6 +95,11 @@ const Ampv2Form = ({intervalTime}) => {
             pos: pos
         }
         console.log("newData", newData);
+        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+            console.log("resp", resp);
+        }).catch((error) => {
+            console.log("error", error);
+        })
         axios.post('/topicapi/ampv2_state/', newData, {
             headers: {
                 'Authorization': 'Bearer ' + access_token
@@ -132,6 +139,11 @@ const Ampv2Form = ({intervalTime}) => {
             op3: op3,
         }
         console.log("newData", newData);
+        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+            console.log("resp", resp);
+        }).catch((error) => {
+            console.log("error", error);
+        })
         axios.post('/topicapi/ampv2_setting/', newData, {
             headers: {
                 'Authorization': 'Bearer ' + access_token
@@ -194,7 +206,7 @@ const Ampv2Form = ({intervalTime}) => {
                                 <div className="flex items-center py-3">
                                     <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40'>Remaining Time</p>
-                                    <p className=''>59</p>
+                                    <p className=''>{rmt}</p>
                                     <span className='mx-1'>sec</span>
                                 </div>
                                 <div className="flex items-center py-3">

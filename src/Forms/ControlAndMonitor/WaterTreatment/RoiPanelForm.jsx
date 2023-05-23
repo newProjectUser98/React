@@ -5,7 +5,18 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
-
+let ErrorData = [
+    { value: "opl", label: "Operational" },
+    { value: "lpst", label: "LPS Trip" },
+    { value: "hpst", label: "HPS Trip" },
+    { value: "rwpot", label: "RWP Overload Trip" },
+    { value: "hppot", label: "HPP Overload Trip" },
+    { value: "rwpdt", label: "RWP Dryrun Trip" },
+    { value: "hppdt", label: "RWP Dryrun Trip" },
+    { value: "uvl", label: "Under Voltage Trip" },
+    { value: "ovl", label: "Over Voltage Trip" },
+    { value: "cont", label: "Conductivity Trip" },
+]
 const RoiPanelForm = ({ intervalTime }) => {
     // eslint-disable-next-line
     const [statusVal, setStatusVal] = useState(false)
@@ -32,7 +43,7 @@ const RoiPanelForm = ({ intervalTime }) => {
     const [hps, setHps] = React.useState("");
     const [dgp, setDgp] = React.useState("");
     const [ipv, setIpv] = React.useState("");
-    const [err, setErr] = React.useState("");
+    const [err, setErr] = React.useState({ value: "", label: "" });
     let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
@@ -54,45 +65,49 @@ const RoiPanelForm = ({ intervalTime }) => {
 
     useEffect(() => {
         const fetchData = () => {
-        const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            unit_type: "water_treatment",
-            company_name: userData.company_name,
-            componant_name: "panel"
-        }
-        axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
-            
-            console.log("res in get_panel", resp.data[0].data);
-            setMod(resp.data[0].data.mod)
-            setNmv(resp.data[0].data.nmv)
-            setStp(resp.data[0].data.stp)
-            setSrt1(resp.data[0].data.srt1)
-            setSrt2(resp.data[0].data.srt2)
-            setUnv(resp.data[0].data.unv)
-            setOvv(resp.data[0].data.ovv)
-            setSpn(resp.data[0].data.spn)
-            setSrt(resp.data[0].data.srt)
-            setBkt(resp.data[0].data.bkt)
-            setRst(resp.data[0].data.rst)
-            setSts(resp.data[0].data.sts)
-            setRtl(resp.data[0].data.rtl)
-            setTtl(resp.data[0].data.ttl)
-            setLps(resp.data[0].data.lps)
-            setHps(resp.data[0].data.hps)
-            setDgp(resp.data[0].data.dgp)
-            setIpv(resp.data[0].data.ipv)
-            setErr(resp.data[0].data.err)
-            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
-        }).catch((err) => {
-            console.log("err", err);
-        })
-    };
-    fetchData();
-    const intervalId = setInterval(fetchData, intervalTime);
-    return () => {
-        clearInterval(intervalId);
-    };
-}, [intervalTime]);
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                unit_type: "water_treatment",
+                company_name: userData.company_name,
+                componant_name: "panel"
+            }
+            axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
+
+                console.log("res in get_panel", resp.data[0].data);
+                setMod(resp.data[0].data.mod)
+                setNmv(resp.data[0].data.nmv)
+                setStp(resp.data[0].data.stp)
+                setSrt1(resp.data[0].data.srt1)
+                setSrt2(resp.data[0].data.srt2)
+                setUnv(resp.data[0].data.unv)
+                setOvv(resp.data[0].data.ovv)
+                setSpn(resp.data[0].data.spn)
+                setSrt(resp.data[0].data.srt)
+                setBkt(resp.data[0].data.bkt)
+                setRst(resp.data[0].data.rst)
+                setSts(resp.data[0].data.sts)
+                setRtl(resp.data[0].data.rtl)
+                setTtl(resp.data[0].data.ttl)
+                setLps(resp.data[0].data.lps)
+                setHps(resp.data[0].data.hps)
+                setDgp(resp.data[0].data.dgp)
+                setIpv(resp.data[0].data.ipv)
+                ErrorData.map((item, id) => {
+                    if (item.value === resp.data[0].data.err) {
+                        setErr({ value: item.value, label: item.label })
+                    }
+                })
+                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+            }).catch((err) => {
+                console.log("err", err);
+            })
+        };
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime]);
 
     const onSubmitSetting = (values, submitProps) => {
         console.log("values", values);
@@ -113,6 +128,11 @@ const RoiPanelForm = ({ intervalTime }) => {
             bkt: bkt,
             rst: rst,
         }
+        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+            console.log("resp", resp);
+        }).catch((error) => {
+            console.log("error", error);
+        })
         axios.post('/topicapi/panel_setting/', newData, {
             headers: {
                 'Authorization': 'Bearer ' + access_token
@@ -154,7 +174,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <p className='w-30 mx-2'>{sts}</p>
                 <div className='w-30'>
                     {/* <Switch name='status' checked={statusVal} onChange={(e)=> setStatusVal(e.target.checked)} color='primary'/> */}
-                    <Switch name='status' checked={components[0].panel.status} onChange={(e) => setStatusVal(e.target.checked)} color='primary' />
+                    <Switch name='status' checked={sts === "on" ? true : false} onChange={(e) => setStatusVal(e.target.checked)} color='primary' />
                 </div>
             </div>
             <div className="flex items-center py-3 flex-wrap">
@@ -200,7 +220,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <p className='w-30 mx-2'>{dgp}</p>
                 <div className='w-30'>
                     {/* <Switch name='status' checked={dosingpumpVal} onChange={(e)=> setdosingpumpVal(e.target.checked)} color='primary'/> */}
-                    <Switch name='status' checked={components[0].panel.dosing_pump} onChange={(e) => setdosingpumpVal(e.target.checked)} color='primary' />
+                    <Switch name='status' checked={dgp === "on" ? true : false} onChange={(e) => setdosingpumpVal(e.target.checked)} color='primary' />
                 </div>
             </div>
             <div className="flex items-center py-3">
@@ -213,17 +233,9 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Error</p>
                 <select name="stp" id="stp" className='my-2 w-52 p-2 border rounded'>
-                    <option value={err}>{components[0].panel.error}</option>
-                    {/* <option value="opl">Operational</option> */}
-                    {/* <option value="lpst">LPS Trip</option> */}
-                    {/* <option value="hpst">HPS Trip</option>
-                <option value="rwpot">RWP Overload Trip</option>
-                <option value="hppot">HPP Overload Trip</option>
-                <option value="rwpdt">RWP Dryrun Trip</option>
-                <option value="hppdt">HPP Dryrun Trip</option>
-                <option value="uvl">Under Voltage</option>
-                <option value="ovl">Over Voltage Trip</option>
-                <option value="cont">Conductivity Trip</option> */}
+
+                    <option value={err.value}>{err.label}</option>
+
                 </select>
             </div>
             <Formik initialValues={initialValues} onSubmit={onSubmitSetting}>

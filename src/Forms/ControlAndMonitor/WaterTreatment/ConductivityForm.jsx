@@ -65,7 +65,11 @@ const ConductivityForm = ({ intervalTime }) => {
             tsp: tsp,
             asp: asp
         }
-
+        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+            console.log("resp", resp);
+        }).catch((error) => {
+            console.log("error", error);
+        })
         components[0].cnd.cnd === 'conductivity' ?
             axios.post('/topicapi/cnd_setting/', newData, {
                 headers: {

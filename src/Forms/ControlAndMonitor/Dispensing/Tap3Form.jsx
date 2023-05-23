@@ -59,6 +59,11 @@ const Tap3Form = ({ intervalTime }) => {
             p3: p3,
             p4: p4
         }
+        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+            console.log("resp", resp);
+        }).catch((error) => {
+            console.log("error", error);
+        })
         axios.post('/topicapi/tap3_setting/', newData, {
             headers: {
                 'Authorization': 'Bearer ' + access_token

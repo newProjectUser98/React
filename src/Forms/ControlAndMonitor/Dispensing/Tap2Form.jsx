@@ -22,6 +22,11 @@ const Tap2Form = ({ intervalTime }) => {
                 company_name: userData.company_name,
                 componant_name: "tap2"
             }
+            axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+                console.log("resp", resp);
+            }).catch((error) => {
+                console.log("error", error);
+            })
             axios.post("/topicapi/updated-disp_tap2/", newData).then((resp) => {
                 console.log("res in get_tap2", resp.data[0].data);
                 setP1(resp.data[0].data.p1)

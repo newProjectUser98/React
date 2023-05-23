@@ -61,9 +61,15 @@ const HppForm = ({ intervalTime }) => {
             componant_name: "hpp",
             sts: statusVal === true ? "on" : "off"
         }
+        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+            console.log("resp", resp);
+        }).catch((error) => {
+            console.log("error", error);
+        })
         axios.post('/topicapi/hpp_state/', newData, {
             headers: {
-                'Authorization': 'Bearer ' + access_token
+                'Authorization': 'Bearer ' + access_token,
+                'Content-Type': 'application/json'
             }
         }).then((res) => {
             console.log("res", res);
@@ -85,12 +91,18 @@ const HppForm = ({ intervalTime }) => {
             componant_name: "hpp",
             olc: olc,
             spn: spn,
-            drc: drc
+            drc: drc,
         }
         console.log("newData", newData);
+        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+            console.log("resp", resp);
+        }).catch((error) => {
+            console.log("error", error);
+        })
         axios.post('/topicapi/hpp_setting/', newData, {
             headers: {
-                'Authorization': 'Bearer ' + access_token
+                'Authorization': 'Bearer ' + access_token,
+                'Content-Type': 'application/json'
             }
         }).then((res) => {
             console.log("res", res);
