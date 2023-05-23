@@ -58,63 +58,78 @@ const HppForm = ({ intervalTime }) => {
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "hpp",
-            sts: statusVal === true ? "on" : "off"
+            componant_name: "hpp"
         }
         axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp);
+            console.log("resp in hpp deviceid", resp.data[0].data.Device_id);
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_treatment",
+                componant_name: "hpp",
+                device_id: resp?.data[0]?.data?.Device_id,
+                sts: statusVal === true ? "on" : "off"
+            }
+            axios.post('/topicapi/hpp_state/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                console.log("res", res);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 20000);
+            }).catch((err) => {
+                console.log("err", err);
+            })
         }).catch((error) => {
             console.log("error", error);
         })
-        axios.post('/topicapi/hpp_state/', newData, {
-            headers: {
-                'Authorization': 'Bearer ' + access_token,
-                'Content-Type': 'application/json'
-            }
-        }).then((res) => {
-            console.log("res", res);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 20000);
-        }).catch((err) => {
-            console.log("err", err);
-        })
+
     }
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "hpp",
-            olc: olc,
-            spn: spn,
-            drc: drc,
+            componant_name: "hpp"
         }
         console.log("newData", newData);
         axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp);
+            console.log("resp in hpp set device id", resp.data[0].data.Device_id);
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_treatment",
+                componant_name: "hpp",
+                olc: olc,
+                spn: spn,
+                drc: drc,
+                device_id: resp?.data[0]?.data?.Device_id
+            }
+            axios.post('/topicapi/hpp_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                console.log("res", res);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
+            }).catch((err) => {
+                console.log("err", err);
+            })
+
         }).catch((error) => {
             console.log("error", error);
         })
-        axios.post('/topicapi/hpp_setting/', newData, {
-            headers: {
-                'Authorization': 'Bearer ' + access_token,
-                'Content-Type': 'application/json'
-            }
-        }).then((res) => {
-            console.log("res", res);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 10000);
-        }).catch((err) => {
-            console.log("err", err);
-        })
+
     }
     return (
         <>
