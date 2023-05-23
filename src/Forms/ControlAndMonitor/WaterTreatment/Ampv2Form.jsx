@@ -4,7 +4,7 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 
-const Ampv2Form = ({intervalTime}) => {
+const Ampv2Form = ({ intervalTime }) => {
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -97,25 +97,33 @@ const Ampv2Form = ({intervalTime}) => {
         console.log("newData", newData);
         axios.post("/topicapi/get_device_id/", newData).then((resp) => {
             console.log("resp", resp);
+            let newData = {
+                unit_type: "water_treatment",
+                company_name: userData.company_name,
+                componant_name: "ampv2",
+                pos: pos,
+                device_id: resp?.data[0]?.data?.Device_id
+            }
+            axios.post('/topicapi/ampv2_state/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            }
+            ).then((res) => {
+                console.log("res", res);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 70000);
+            }).catch((err) => {
+                console.log("err", err);
+            })
         }).catch((error) => {
             console.log("error", error);
         })
-        axios.post('/topicapi/ampv2_state/', newData, {
-            headers: {
-                'Authorization': 'Bearer ' + access_token
-            }
-        }
-).then((res) => {
-            console.log("res", res);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 70000);
-        }).catch((err) => {
-            console.log("err", err);
-        })
+
     }
     const onSubmitSetting = (values, submitProps) => {
         console.log("values in ampv 2 setting", values);
@@ -141,24 +149,43 @@ const Ampv2Form = ({intervalTime}) => {
         console.log("newData", newData);
         axios.post("/topicapi/get_device_id/", newData).then((resp) => {
             console.log("resp", resp);
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_treatment",
+                componant_name: "ampv2",
+                stp: stp,
+                ip1: ip1,
+                ip2: ip2,
+                ip3: ip3,
+                psi: psi,
+                srt1: srt1,
+                srt2: srt2,
+                bkt: bkt,
+                rst: rst,
+                mot: mot,
+                op1: op1,
+                op2: op2,
+                op3: op3,
+                device_id: resp?.data[0]?.data?.Device_id
+            }
+            axios.post('/topicapi/ampv2_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                console.log("res", res);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
+            }).catch((err) => {
+                console.log("err", err);
+            })
         }).catch((error) => {
             console.log("error", error);
-        })
-        axios.post('/topicapi/ampv2_setting/', newData, {
-            headers: {
-                'Authorization': 'Bearer ' + access_token
-            }
-        }
-).then((res) => {
-            console.log("res in setting", res);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 10000);
-        }).catch((err) => {
-            console.log("err", err);
         })
     }
     return (

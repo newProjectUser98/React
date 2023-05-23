@@ -62,26 +62,42 @@ const Tap1Form = ({ intervalTime }) => {
             p4: p4
         }
         let access_token = localStorage.getItem("access_token")
-        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp);
-        }).catch((error) => {
-            console.log("error", error);
-        })
-        axios.post('/topicapi/tap1_setting/', newData, {
-            headers: {
+        axios.post("/topicapi/get_device_id/", newData)
+        .then((resp) => {
+          console.log("resp", resp);
+          let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_dispense",
+            componant_name: "tap1",
+            p1: p1,
+            p2: p2,
+            p3: p3,
+            p4: p4,
+            device_id: resp?.data[0]?.data?.Device_id
+          };
+      
+          setTimeout(() => {
+            axios.post('/topicapi/tap1_setting/', newData, {
+              headers: {
                 'Authorization': 'Bearer ' + access_token
-            }
-        }).then((res) => {
-            console.log("res in tap1 get", res.data);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
+              }
+            }).then((res) => {
+              console.log("res in tap1 get", res.data);
+              setIsLoading(true);
+              setOpen(true);
+              setTimeout(() => {
                 setIsLoading(false)
                 setOpen(false);
-            }, 10000);
-        }).catch((err) => {
-            console.log("err", err);
+              }, 10000);
+            }).catch((err) => {
+              console.log("err", err);
+            });
+          }, 3000);
         })
+        .catch((error) => {
+          console.log("error", error);
+        });      
+
     }
 
     return (

@@ -63,14 +63,20 @@ const ConductivityForm = ({ intervalTime }) => {
             componant_name: "cnd_tds_sen",
             spn: spn,
             tsp: tsp,
-            asp: asp
+            asp: asp,
         }
         axios.post("/topicapi/get_device_id/", newData).then((resp) => {
             console.log("resp", resp);
-        }).catch((error) => {
-            console.log("error", error);
-        })
-        components[0].cnd.cnd === 'conductivity' ?
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_treatment",
+                componant_name: "cnd_tds_sen",
+                spn: spn,
+                tsp: tsp,
+                asp: asp,
+                device_id: resp?.data[0]?.data?.Device_id
+            }
+            components[0].cnd.cnd === 'conductivity' ?
             axios.post('/topicapi/cnd_setting/', newData, {
                 headers: {
                     'Authorization': 'Bearer ' + access_token
@@ -97,6 +103,10 @@ const ConductivityForm = ({ intervalTime }) => {
             }).catch((err) => {
                 console.log("err", err);
             })
+        }).catch((error) => {
+            console.log("error", error);
+        })
+        
     }
     return (
         <>

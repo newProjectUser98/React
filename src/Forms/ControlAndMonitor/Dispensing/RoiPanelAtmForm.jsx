@@ -124,21 +124,44 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
             re3: re3,
             re4: re4,
         }
-        axios.post('/topicapi/atm_setting/', newData, {
-            headers: {
-                'Authorization': 'Bearer ' + access_token
-            }
-        }).then((res) => {
-            console.log("res", res);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 10000);
-        }).catch((err) => {
-            console.log("err", err);
-        })
+        axios.post("/topicapi/get_device_id/", newData)
+            .then((resp) => {
+                console.log("resp", resp);
+                let newData = {
+                    company_name: userData.company_name,
+                    unit_type: "water_dispense",
+                    componant_name: "atm",
+                    ntp: ntp,
+                    nov: nov,
+                    vl1: vl1,
+                    vl2: vl2,
+                    vl3: vl3,
+                    vl4: vl4,
+                    re1: re1,
+                    re2: re2,
+                    re3: re3,
+                    re4: re4,
+                    device_id: resp?.data[0]?.data?.Device_id
+                }
+                axios.post('/topicapi/atm_setting/', newData, {
+                    headers: {
+                        'Authorization': 'Bearer ' + access_token
+                    }
+                }).then((res) => {
+                    console.log("res", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 10000);
+                }).catch((err) => {
+                    console.log("err", err);
+                })
+            }).catch((err) => {
+                console.log("err", err);
+            })
+
     }
     return (
         <>

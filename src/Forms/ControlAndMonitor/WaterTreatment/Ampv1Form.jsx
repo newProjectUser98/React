@@ -53,6 +53,7 @@ const Ampv1Form = ({intervalTime}) => {
             company_name: userData.company_name,
             componant_name: "ampv1"
         }
+        
         axios.post("/topicapi/updated_treat_ampv1/", newData).then((resp) => {
             console.log("res in get_rwp_setting", resp.data);
             setPos(resp.data[0].data.pos)
@@ -88,28 +89,35 @@ const Ampv1Form = ({intervalTime}) => {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: "ampv1",
-            pos: pos
         }
         axios.post("/topicapi/get_device_id/", newData).then((resp) => {
             console.log("resp", resp);
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_treatment",
+                componant_name: "ampv1",
+                pos: pos,
+                device_id: resp?.data[0]?.data?.Device_id,
+            }
+            axios.post('/topicapi/ampv1_state/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            }).then((res) => {
+                console.log("res", res);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 70000);
+            }).catch((err) => {
+                console.log("err", err);
+            })
         }).catch((error) => {
             console.log("error", error);
         })
-        axios.post('/topicapi/ampv1_state/', newData, {
-            headers: {
-                'Authorization': 'Bearer ' + access_token
-            }
-        }).then((res) => {
-            console.log("res", res);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 70000);
-        }).catch((err) => {
-            console.log("err", err);
-        })
+        
     }
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
@@ -133,25 +141,45 @@ const Ampv1Form = ({intervalTime}) => {
         }
         axios.post("/topicapi/get_device_id/", newData).then((resp) => {
             console.log("resp", resp);
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_treatment",
+                componant_name: "ampv1",
+                stp: stp,
+                ip1: ip1,
+                ip2: ip2,
+                ip3: ip3,
+                psi: psi,
+                srt1: srt1,
+                srt2: srt2,
+                bkt: bkt,
+                rst: rst,
+                mot: mot,
+                op1: op1,
+                op2: op2,
+                op3: op3,
+                device_id: resp?.data[0]?.data?.Device_id
+            }
+            axios.post('/topicapi/ampv1_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                    'Content-Type': 'application/json'
+                }
+            }).then((res) => {
+                console.log("res", res);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
+            }).catch((err) => {
+                console.log("err", err);
+            })
         }).catch((error) => {
             console.log("error", error);
         })
-        axios.post('/topicapi/ampv1_setting/', newData, {
-            headers: {
-                'Authorization': 'Bearer ' + access_token,
-                'Content-Type': 'application/json'
-            }
-        }).then((res) => {
-            console.log("res", res);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 10000);
-        }).catch((err) => {
-            console.log("err", err);
-        })
+        
     }
     return (
         <>

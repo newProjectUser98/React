@@ -129,25 +129,43 @@ const RoiPanelForm = ({ intervalTime }) => {
             rst: rst,
         }
         axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp);
+            console.log("resp", resp?.data[0]?.data?.Device_id);
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_treatment",
+                componant_name: "panel",
+                mod: mod,
+                nmv: nmv,
+                stp: stp,
+                srt1: srt1,
+                srt2: srt2,
+                unv: unv,
+                ovv: ovv,
+                spn: spn,
+                srt: srt,
+                bkt: bkt,
+                rst: rst,
+                device_id: resp?.data[0]?.data?.Device_id
+            }
+            axios.post('/topicapi/panel_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            }).then((res) => {
+                console.log("res", res);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
+            }).catch((err) => {
+                console.log("err", err);
+            })
         }).catch((error) => {
             console.log("error", error);
         })
-        axios.post('/topicapi/panel_setting/', newData, {
-            headers: {
-                'Authorization': 'Bearer ' + access_token
-            }
-        }).then((res) => {
-            console.log("res", res);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 10000);
-        }).catch((err) => {
-            console.log("err", err);
-        })
+        
     }
     return (
         <>
