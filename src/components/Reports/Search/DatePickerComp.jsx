@@ -12,6 +12,7 @@ const DatePickerComp = () => {
   const handleChange = (newValue) => {
     setValue(newValue);
   };
+  console.log('value in date component', value);
 
   return (
     <Box>
