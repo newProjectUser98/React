@@ -3,6 +3,7 @@ import { Field, Form, Formik } from 'formik'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 
 
 const ConductivityForm = ({ intervalTime }) => {
@@ -15,6 +16,7 @@ const ConductivityForm = ({ intervalTime }) => {
     const [tsp, setTsp] = React.useState("");
     const [asp, setAsp] = React.useState("");
     const [cnd, setCnd] = React.useState("");
+    const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
 
     let componentsJSON = localStorage.getItem("components");
@@ -91,6 +93,10 @@ const ConductivityForm = ({ intervalTime }) => {
                 }, 10000);
             }).catch((err) => {
                 console.log("err", err);
+                if (err.response.statusText === "Unauthorized"){
+                    navigate("/");
+                    alert("Please enter valid credentials")
+                }
             }) :
             axios.post('/topicapi/tds_setting/', newData).then((res) => {
                 console.log("res in tds", res);

@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 
-const Ampv1Form = ({intervalTime}) => {
+const Ampv1Form = ({ intervalTime }) => {
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -25,6 +26,7 @@ const Ampv1Form = ({intervalTime}) => {
     const [stp, setStp] = useState('');
     const [cct, setCct] = useState('');
     const [rmt, setRmt] = useState('');
+    const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     const initialValuesState = {
         pos: ''
@@ -47,37 +49,37 @@ const Ampv1Form = ({intervalTime}) => {
 
     useEffect(() => {
         const fetchData = () => {
-        const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            unit_type: "water_treatment",
-            company_name: userData.company_name,
-            componant_name: "ampv1"
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                unit_type: "water_treatment",
+                company_name: userData.company_name,
+                componant_name: "ampv1"
+            }
+
+            axios.post("/topicapi/updated_treat_ampv1/", newData).then((resp) => {
+                console.log("res in get_rwp_setting", resp.data);
+                setPos(resp.data[0].data.pos)
+                setBkt(resp.data[0].data.bkt)
+                setIp1(resp.data[0].data.ip1)
+                setIp2(resp.data[0].data.ip2)
+                setIp3(resp.data[0].data.ip3)
+                setMot(resp.data[0].data.mot)
+                setOp1(resp.data[0].data.op1)
+                setOp2(resp.data[0].data.op2)
+                setOp3(resp.data[0].data.op3)
+                setPsi(resp.data[0].data.psi)
+                setRst(resp.data[0].data.rst)
+                setSrt1(resp.data[0].data.srt1)
+                setSrt2(resp.data[0].data.srt2)
+                setStp(resp.data[0].data.stp)
+                setCct(resp.data[0].data.cct)
+                setRmt(resp.data[0].data.rmt)
+                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+            }).catch((err) => {
+                console.log("err", err);
+            })
         }
-        
-        axios.post("/topicapi/updated_treat_ampv1/", newData).then((resp) => {
-            console.log("res in get_rwp_setting", resp.data);
-            setPos(resp.data[0].data.pos)
-            setBkt(resp.data[0].data.bkt)
-            setIp1(resp.data[0].data.ip1)
-            setIp2(resp.data[0].data.ip2)
-            setIp3(resp.data[0].data.ip3)
-            setMot(resp.data[0].data.mot)
-            setOp1(resp.data[0].data.op1)
-            setOp2(resp.data[0].data.op2)
-            setOp3(resp.data[0].data.op3)
-            setPsi(resp.data[0].data.psi)
-            setRst(resp.data[0].data.rst)
-            setSrt1(resp.data[0].data.srt1)
-            setSrt2(resp.data[0].data.srt2)
-            setStp(resp.data[0].data.stp)
-            setCct(resp.data[0].data.cct)
-            setRmt(resp.data[0].data.rmt)
-            localStorage.setItem('updated_time', resp.data[0].data.updated_at);
-        }).catch((err) => {
-            console.log("err", err);
-        })
-    }
-    fetchData();
+        fetchData();
         const intervalId = setInterval(fetchData, intervalTime);
         return () => {
             clearInterval(intervalId);
@@ -113,11 +115,15 @@ const Ampv1Form = ({intervalTime}) => {
                 }, 70000);
             }).catch((err) => {
                 console.log("err", err);
+                if (err.response.statusText === "Unauthorized") {
+                    navigate("/");
+                    alert("Please enter valid credentials")
+                }
             })
         }).catch((error) => {
             console.log("error", error);
         })
-        
+
     }
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
@@ -175,11 +181,15 @@ const Ampv1Form = ({intervalTime}) => {
                 }, 10000);
             }).catch((err) => {
                 console.log("err", err);
+                if (err.response.statusText === "Unauthorized") {
+                    navigate("/");
+                    alert("Please enter valid credentials")
+                }
             })
         }).catch((error) => {
             console.log("error", error);
         })
-        
+
     }
     return (
         <>

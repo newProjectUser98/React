@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 
 
 let statusData = [
@@ -37,6 +38,8 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
     const [ntt, setNtt] = React.useState({ value: "", label: "" });
     const [nta, setNta] = React.useState("");
     const [tmp, setTmp] = React.useState("");
+    const navigate = useNavigate();
+
     let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
@@ -50,11 +53,6 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 company_name: userData.company_name,
                 componant_name: "atm"
             }
-            axios.post("", newData).then((resp) => {
-                console.log("resp", resp);
-            }).catch((error) => {
-                console.log("error", error);
-            })
             axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
                 console.log("res in get_atm", resp.data[0].data);
                 setNov(resp.data[0].data.nov)
@@ -122,11 +120,13 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
             re1: re1,
             re2: re2,
             re3: re3,
-            re4: re4,
-        }
+            re4: re4
+        };
+
         axios.post("/topicapi/get_device_id/", newData)
             .then((resp) => {
                 console.log("resp", resp);
+
                 let newData = {
                     company_name: userData.company_name,
                     unit_type: "water_dispense",
@@ -141,27 +141,38 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                     re2: re2,
                     re3: re3,
                     re4: re4,
+                    ntt: "",
                     device_id: resp?.data[0]?.data?.Device_id
-                }
-                axios.post('/topicapi/atm_setting/', newData, {
-                    headers: {
-                        'Authorization': 'Bearer ' + access_token
-                    }
-                }).then((res) => {
-                    console.log("res", res);
-                    setIsLoading(true);
-                    setOpen(true);
-                    setTimeout(() => {
-                        setIsLoading(false)
-                        setOpen(false);
-                    }, 10000);
-                }).catch((err) => {
-                    console.log("err", err);
-                })
-            }).catch((err) => {
-                console.log("err", err);
-            })
+                };
 
+                setTimeout(() => {
+                    axios.post('/topicapi/atm_setting/', newData, {
+                        headers: {
+                            'Authorization': 'Bearer ' + access_token
+                        }
+                    })
+                        .then((res) => {
+                            console.log("res", res);
+                            setIsLoading(true);
+                            setOpen(true);
+                            setTimeout(() => {
+                                setIsLoading(false)
+                                setOpen(false);
+                            }, 10000);
+                        })
+                        .catch((err) => {
+                            console.log("err", err);
+                            if (err.response.statusText === "Unauthorized"){
+                                navigate("/");
+                                alert("Please enter valid credentials")
+                            }
+                        });
+                }, 3000); // Delay of 3 seconds
+
+            })
+            .catch((err) => {
+                console.log("err", err);
+            });
     }
     return (
         <>
@@ -206,7 +217,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>New Transaction Type</p>
                 <select name="ntt" id="ntt" className='my-2 w-52 px-5 py-2 border rounded'>
-                    <option value={ntt.value}>{ntt.label}</option>
+                    <option value={ntt?.value}>{ntt?.label}</option>
                     {/* <option value="cn">Coin</option>
                 <option value="cd">Card</option>
                 <option value="qr">QR</option> */}

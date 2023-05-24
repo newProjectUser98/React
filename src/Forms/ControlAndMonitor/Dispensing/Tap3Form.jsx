@@ -3,6 +3,7 @@ import { Field, Form, Formik } from 'formik';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 
 
 const Tap3Form = ({ intervalTime }) => {
@@ -13,6 +14,7 @@ const Tap3Form = ({ intervalTime }) => {
     const [p2, setP2] = React.useState("");
     const [p3, setP3] = React.useState("");
     const [p4, setP4] = React.useState("");
+    const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
 
     useEffect(() => {
@@ -65,7 +67,7 @@ const Tap3Form = ({ intervalTime }) => {
           let newData = {
             company_name: userData.company_name,
             unit_type: "water_dispense",
-            componant_name: "tap1",
+            componant_name: "tap3",
             p1: p1,
             p2: p2,
             p3: p3,
@@ -88,6 +90,10 @@ const Tap3Form = ({ intervalTime }) => {
               }, 10000);
             }).catch((err) => {
               console.log("err", err);
+              if (err.response.statusText === "Unauthorized"){
+                navigate("/");
+                alert("Please enter valid credentials")
+            }
             });
           }, 3000);
         })

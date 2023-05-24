@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 
 const Ampv2Form = ({ intervalTime }) => {
     const [editState, setEditState] = useState(false)
@@ -25,6 +26,7 @@ const Ampv2Form = ({ intervalTime }) => {
     const [stp, setStp] = useState('');
     const [cct, setCct] = useState('');
     const [rmt, setRmt] = useState('');
+    const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     useEffect(() => {
         const fetchData = () => {
@@ -96,7 +98,7 @@ const Ampv2Form = ({ intervalTime }) => {
         }
         console.log("newData", newData);
         axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp);
+            console.log("resp for device id", resp?.data);
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
@@ -104,6 +106,7 @@ const Ampv2Form = ({ intervalTime }) => {
                 pos: pos,
                 device_id: resp?.data[0]?.data?.Device_id
             }
+            console.log("newData in state++>", newData);
             axios.post('/topicapi/ampv2_state/', newData, {
                 headers: {
                     'Authorization': 'Bearer ' + access_token
@@ -119,6 +122,10 @@ const Ampv2Form = ({ intervalTime }) => {
                 }, 70000);
             }).catch((err) => {
                 console.log("err", err);
+                if (err.response.statusText === "Unauthorized"){
+                    navigate("/");
+                    alert("Please enter valid credentials")
+                }
             })
         }).catch((error) => {
             console.log("error", error);

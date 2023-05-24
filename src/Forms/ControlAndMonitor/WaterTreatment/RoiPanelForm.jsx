@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 
 let ErrorData = [
     { value: "opl", label: "Operational" },
@@ -44,6 +45,7 @@ const RoiPanelForm = ({ intervalTime }) => {
     const [dgp, setDgp] = React.useState("");
     const [ipv, setIpv] = React.useState("");
     const [err, setErr] = React.useState({ value: "", label: "" });
+    const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
@@ -126,46 +128,61 @@ const RoiPanelForm = ({ intervalTime }) => {
             spn: spn,
             srt: srt,
             bkt: bkt,
-            rst: rst,
-        }
-        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp?.data[0]?.data?.Device_id);
-            let newData = {
-                company_name: userData.company_name,
-                unit_type: "water_treatment",
-                componant_name: "panel",
-                mod: mod,
-                nmv: nmv,
-                stp: stp,
-                srt1: srt1,
-                srt2: srt2,
-                unv: unv,
-                ovv: ovv,
-                spn: spn,
-                srt: srt,
-                bkt: bkt,
-                rst: rst,
-                device_id: resp?.data[0]?.data?.Device_id
-            }
-            axios.post('/topicapi/panel_setting/', newData, {
-                headers: {
-                    'Authorization': 'Bearer ' + access_token
-                }
-            }).then((res) => {
-                console.log("res", res);
-                setIsLoading(true);
-                setOpen(true);
+            rst: rst
+        };
+        console.log("newData in panels", newData);
+        axios.post("/topicapi/get_device_id/", newData)
+            .then((resp) => {
+                console.log("resp", resp?.data[0]?.data?.Device_id);
+
+                let newData = {
+                    company_name: userData.company_name,
+                    unit_type: "water_treatment",
+                    componant_name: "panel",
+                    mod: mod,
+                    nmv: nmv,
+                    stp: stp,
+                    srt1: srt1,
+                    srt2: srt2,
+                    unv: unv,
+                    ovv: ovv,
+                    spn: spn,
+                    srt: srt,
+                    bkt: bkt,
+                    rst: rst,
+                    device_id: resp?.data[0]?.data?.Device_id
+                };
+
                 setTimeout(() => {
-                    setIsLoading(false)
-                    setOpen(false);
-                }, 10000);
-            }).catch((err) => {
-                console.log("err", err);
+                    axios.post('/topicapi/panel_setting/', newData, {
+                        headers: {
+                            'Authorization': 'Bearer ' + access_token
+                        }
+                    })
+                        .then((res) => {
+                            console.log("res", res);
+                            setIsLoading(true);
+                            setOpen(true);
+                            setTimeout(() => {
+                                setIsLoading(false)
+                                setOpen(false);
+                            }, 10000);
+                        })
+                        .catch((err) => {
+                            console.log("err", err);
+                            if (err.response.statusText === "Unauthorized") {
+                                navigate("/");
+                                alert("Please enter valid credentials")
+                            }
+                        });
+                }, 3000); // Delay of 3 seconds
+
             })
-        }).catch((error) => {
-            console.log("error", error);
-        })
-        
+            .catch((error) => {
+                console.log("error", error);
+            });
+
+
     }
     return (
         <>

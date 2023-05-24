@@ -3,6 +3,7 @@ import { Field, Form, Formik } from 'formik';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 
 
 const Tap1Form = ({ intervalTime }) => {
@@ -13,6 +14,7 @@ const Tap1Form = ({ intervalTime }) => {
     const [p2, setP2] = React.useState("");
     const [p3, setP3] = React.useState("");
     const [p4, setP4] = React.useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = () => {
@@ -63,40 +65,45 @@ const Tap1Form = ({ intervalTime }) => {
         }
         let access_token = localStorage.getItem("access_token")
         axios.post("/topicapi/get_device_id/", newData)
-        .then((resp) => {
-          console.log("resp", resp);
-          let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_dispense",
-            componant_name: "tap1",
-            p1: p1,
-            p2: p2,
-            p3: p3,
-            p4: p4,
-            device_id: resp?.data[0]?.data?.Device_id
-          };
-      
-          setTimeout(() => {
-            axios.post('/topicapi/tap1_setting/', newData, {
-              headers: {
-                'Authorization': 'Bearer ' + access_token
-              }
-            }).then((res) => {
-              console.log("res in tap1 get", res.data);
-              setIsLoading(true);
-              setOpen(true);
-              setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-              }, 10000);
-            }).catch((err) => {
-              console.log("err", err);
+            .then((resp) => {
+                console.log("resp", resp);
+                let newData = {
+                    company_name: userData.company_name,
+                    unit_type: "water_dispense",
+                    componant_name: "tap1",
+                    p1: p1,
+                    p2: p2,
+                    p3: p3,
+                    p4: p4,
+                    device_id: resp?.data[0]?.data?.Device_id
+                };
+
+                setTimeout(() => {
+                    axios.post('/topicapi/tap1_setting/', newData, {
+                        headers: {
+                            'Authorization': 'Bearer ' + access_token
+                        }
+                    }).then((res) => {
+                        console.log("res in tap1 get", res.data);
+                        setIsLoading(true);
+                        setOpen(true);
+                        setTimeout(() => {
+                            setIsLoading(false)
+                            setOpen(false);
+                        }, 10000);
+                    }).catch((err) => {
+                        console.log("err", err);
+                        if (err.response.statusText === "Unauthorized") {
+                            navigate("/");
+                            alert("Please enter valid credentials")
+                        }
+
+                    });
+                }, 3000);
+            })
+            .catch((error) => {
+                console.log("error", error);
             });
-          }, 3000);
-        })
-        .catch((error) => {
-          console.log("error", error);
-        });      
 
     }
 
