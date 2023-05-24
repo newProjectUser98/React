@@ -175,17 +175,19 @@ export default ChartComp;
 const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, variable, deviceID, graphData, initialColor, updatedColor}) => {
 
   return (
-    <Grid width={300} container key={index}>
-      <Grid>
+    <Grid width={600} 
+    container 
+    key={index}>
+      {/* <Grid>
         <Typography
           fontWeight={400}
           color="#464E5F"
           fontSize={"16px"}
           fontFamily={"Poppins"}
-        >
+        > */}
           {/* {item.title} {index} */}
-        </Typography>
-      </Grid>
+        {/* </Typography>
+      </Grid> */}
       <Grid height={1600} mt={"30px"}>
         {checked ? (
           <LineChartComp 

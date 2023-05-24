@@ -4,10 +4,7 @@ import {
   Box,
   Grid,
   IconButton,
-  Typography,
 } from "@mui/material";
-import Popup from "../../../hoc/Popup/Popup";
-import SelectColorIcon from "../../../assets/icons/ReportsIcon/SelectColorIcon.png";
 import { XAxis, BarChart, Bar, YAxis, Tooltip, Legend } from "recharts";
 
 const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index, setUpdatedColor, setUpdatedIndex, updatedColor }) => {
@@ -16,17 +13,10 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
   const [monthlyData, setMonthlyData] = useState([])
   const [dailyData, setDailyData] = useState([])
   const [yearlyData, setYearlyData] = useState([])
-  const [openPopup, setOpenPopup] = useState(false);
-  const [updatedColor1, setUpdatedColor1] = useState(false)
-  const [updatedColor2, setUpdatedColor2] = useState(false)
-  const [updatedColor3, setUpdatedColor3] = useState(false)
-  const [updatedColor4, setUpdatedColor4] = useState(false)
-  const [index1, setIndex1] = useState(false)
-  const [index2, setIndex2] = useState(false)
-  const [index3, setIndex3] = useState(false)
-  const [index4, setIndex4] = useState(false)
-
-
+  const [updatedColor1, setUpdatedColor1] = useState('#F3C82F')
+  const [updatedColor2, setUpdatedColor2] = useState('#F3C82F')
+  const [updatedColor3, setUpdatedColor3] = useState('#F3C82F')
+  const [updatedColor4, setUpdatedColor4] = useState('#F3C82F')
 
   const PopupColors = [
     { color: "#6CCED9" },
@@ -115,9 +105,9 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
         .catch(err => console.log(err))
 
     }
-  }, 
-  // eslint-disable-next-line
-  [variable])
+  },
+    // eslint-disable-next-line
+    [variable])
 
 
   return (
@@ -137,15 +127,15 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
               <Legend />
 
               <defs>
-                <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                  <stop offset="0" stopColor={index1 ? updatedColor1 : color} />
+                <linearGradient id={"chartLG" + updatedColor1} x2="0" y2="100%">
+                  <stop offset="0" stopColor={updatedColor1} />
                   <stop offset="1" stopColor="#FFFFFF" />
                 </linearGradient>
               </defs>
 
               <Bar
                 dataKey={`${variable}.${graphData}`}
-                fill={`url("#${"chartLG" + color}")`}
+                fill={`url("#${"chartLG" + updatedColor1}")`}
                 barSize={35}
                 radius={50}
               />
@@ -157,44 +147,19 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
             justifyContent="center"
             alignItems="center"
             mt={"30px"}
+            container={false}
           >
-            <Typography
-              fontWeight={500}
-              color="#464E5F"
-              fontSize={"16px"}
-              fontFamily={"Poppins"}
-            >
-              Select Color
-            </Typography>
-
-            <Grid>
-              <IconButton
-                type="button"
-                aria-label="search"
-                onClick={() => {
-                  setOpenPopup(true);
-                  setIndex1(true)
-                  // setUpdatedIndex(index1);
-                }}
-              >
-                <img src={SelectColorIcon} alt="selectColor" />
-              </IconButton>
-            </Grid>
-            <Popup
-              openPopup={openPopup}
-              setOpenPopup={setOpenPopup}
-              title={"Select Color"}
-            >
-              <Grid container justifyContent={"center"}>
-                <Grid item md={3.5}>
-                  {PopupColors.map((item, index) => (
+            <Grid container justifyContent={"center"}>
+              <Grid item md={12}>
+                {PopupColors.map((item, index) => {
+                  return (
                     <IconButton
                       key={index}
                       type="button"
                       value={1}
-                      onClick={(e) => {
+                      onClick={() => {
                         setUpdatedColor1(item.color);
-                        setOpenPopup(false);
+                        alert("In first color pallate")
                       }}
                     >
                       <Box
@@ -204,14 +169,14 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
                         bgcolor={item.color}
                       />
                     </IconButton>
-                  ))}
-                </Grid>
+                  )
+                })}
               </Grid>
-            </Popup>
+            </Grid>
           </Grid>
         </div>
       }
-      {console.log("checking index1", index1)}
+      {console.log("updated Color", updatedColor1)}
       {(dailyData.length !== 0) &&
         <div>
           <p>Daily data</p>
@@ -225,15 +190,15 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
               <Legend />
 
               <defs>
-                <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                  <stop offset="0" stopColor={index2 ? color : updatedColor2} />
+                <linearGradient id={"chartLG" + updatedColor2} x2="0" y2="100%">
+                  <stop offset="0" stopColor={updatedColor2} />
                   <stop offset="1" stopColor="#FFFFFF" />
                 </linearGradient>
               </defs>
 
               <Bar
                 dataKey={`${variable}.${graphData}`}
-                fill={`url("#${"chartLG" + color}")`}
+                fill={`url("#${"chartLG" + updatedColor2}")`}
                 barSize={35}
                 radius={50}
               />
@@ -247,42 +212,17 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
             alignItems="center"
             mt={"30px"}
           >
-            <Typography
-              fontWeight={500}
-              color="#464E5F"
-              fontSize={"16px"}
-              fontFamily={"Poppins"}
-            >
-              Select Color
-            </Typography>
-
-            <Grid>
-              <IconButton
-                type="button"
-                aria-label="search"
-                onClick={() => {
-                  setOpenPopup(true);
-                  // setUpdatedIndex(0);
-                }}
-              >
-                <img src={SelectColorIcon} alt="selectColor" />
-              </IconButton>
-            </Grid>
-            <Popup
-              openPopup={openPopup}
-              setOpenPopup={setOpenPopup}
-              title={"Select Color"}
-            >
-              <Grid container justifyContent={"center"}>
-                <Grid item md={3.5}>
-                  {PopupColors.map((item, index) => (
+            <Grid container justifyContent={"center"}>
+              <Grid item md={12}>
+                {PopupColors.map((item, index) => {
+                  return (
                     <IconButton
                       key={index}
                       type="button"
+                      value={1}
                       onClick={() => {
                         setUpdatedColor2(item.color);
-                        setOpenPopup(false);
-                        setIndex2(true)
+                        alert("In second color pallate")
                       }}
                     >
                       <Box
@@ -292,10 +232,11 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
                         bgcolor={item.color}
                       />
                     </IconButton>
-                  ))}
-                </Grid>
+                  )
+                })}
               </Grid>
-            </Popup>
+            </Grid>
+
           </Grid>
         </div>
       }
@@ -314,15 +255,15 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
               <Legend />
 
               <defs>
-                <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                  <stop offset="0" stopColor={index3 ? color : updatedColor3} />
+                <linearGradient id={"chartLG" + updatedColor3} x2="0" y2="100%">
+                  <stop offset="0" stopColor={updatedColor3} />
                   <stop offset="1" stopColor="#FFFFFF" />
                 </linearGradient>
               </defs>
 
               <Bar
                 dataKey={`${variable}.${graphData}`}
-                fill={`url("#${"chartLG" + color}")`}
+                fill={`url("#${"chartLG" + updatedColor3}")`}
                 barSize={35}
                 radius={50}
               />
@@ -337,55 +278,27 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
             alignItems="center"
             mt={"30px"}
           >
-            <Typography
-              fontWeight={500}
-              color="#464E5F"
-              fontSize={"16px"}
-              fontFamily={"Poppins"}
-            >
-              Select Color
-            </Typography>
-
-            <Grid>
-              <IconButton
-                type="button"
-                aria-label="search"
-                onClick={() => {
-                  setOpenPopup(true);
-                  // setUpdatedIndex(0);
-                }}
-              >
-                <img src={SelectColorIcon} alt="selectColor" />
-              </IconButton>
-            </Grid>
-            <Popup
-              openPopup={openPopup}
-              setOpenPopup={setOpenPopup}
-              title={"Select Color"}
-            >
-              <Grid container justifyContent={"center"}>
-                <Grid item md={3.5}>
-                  {PopupColors.map((item, index) => (
-                    <IconButton
+            <Grid container justifyContent={"center"}>
+              <Grid item md={12}>
+                {PopupColors.map((item, index) => (
+                  <IconButton
+                    key={index}
+                    type="button"
+                    onClick={() => {
+                      setUpdatedColor3(item.color);
+                      alert("In third color pallate")
+                    }}
+                  >
+                    <Box
                       key={index}
-                      type="button"
-                      onClick={() => {
-                        setUpdatedColor3(item.color);
-                        setOpenPopup(false);
-                        setIndex3(true)
-                      }}
-                    >
-                      <Box
-                        key={index}
-                        height={"24px"}
-                        width={"24px"}
-                        bgcolor={item.color}
-                      />
-                    </IconButton>
-                  ))}
-                </Grid>
+                      height={"24px"}
+                      width={"24px"}
+                      bgcolor={item.color}
+                    />
+                  </IconButton>
+                ))}
               </Grid>
-            </Popup>
+            </Grid>
           </Grid>
         </div>
       }
@@ -405,15 +318,15 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
               <Legend />
 
               <defs>
-                <linearGradient id={"chartLG" + color} x2="0" y2="100%">
-                  <stop offset="0" stopColor={index4 ? color : updatedColor4} />
+                <linearGradient id={"chartLG" + updatedColor4} x2="0" y2="100%">
+                  <stop offset="0" stopColor={updatedColor4} />
                   <stop offset="1" stopColor="#FFFFFF" />
                 </linearGradient>
               </defs>
 
               <Bar
                 dataKey={`${variable}.${graphData}`}
-                fill={`url("#${"chartLG" + color}")`}
+                fill={`url("#${"chartLG" + updatedColor4}")`}
                 barSize={35}
                 radius={50}
               />
@@ -427,55 +340,28 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
             alignItems="center"
             mt={"30px"}
           >
-            <Typography
-              fontWeight={500}
-              color="#464E5F"
-              fontSize={"16px"}
-              fontFamily={"Poppins"}
-            >
-              Select Color
-            </Typography>
-
-            <Grid>
-              <IconButton
-                type="button"
-                aria-label="search"
-                onClick={() => {
-                  setOpenPopup(true);
-                  // setUpdatedIndex(0);
-                }}
-              >
-                <img src={SelectColorIcon} alt="selectColor" />
-              </IconButton>
-            </Grid>
-            <Popup
-              openPopup={openPopup}
-              setOpenPopup={setOpenPopup}
-              title={"Select Color"}
-            >
-              <Grid container justifyContent={"center"}>
-                <Grid item md={3.5}>
-                  {PopupColors.map((item, index) => (
-                    <IconButton
+            <Grid container justifyContent={"center"}>
+              <Grid item md={12}>
+                {PopupColors.map((item, index) => (
+                  <IconButton
+                    key={index}
+                    type="button"
+                    onClick={() => {
+                      setUpdatedColor4(item.color);
+                      alert("In fourth color pallate")
+                    }}
+                  >
+                    <Box
                       key={index}
-                      type="button"
-                      onClick={() => {
-                        setUpdatedColor4(item.color);
-                        setOpenPopup(false);
-                        setIndex4(true)
-                      }}
-                    >
-                      <Box
-                        key={index}
-                        height={"24px"}
-                        width={"24px"}
-                        bgcolor={item.color}
-                      />
-                    </IconButton>
-                  ))}
-                </Grid>
+                      height={"24px"}
+                      width={"24px"}
+                      bgcolor={item.color}
+                    />
+                  </IconButton>
+                ))}
               </Grid>
-            </Popup>
+            </Grid>
+
           </Grid>
         </div>
       }
