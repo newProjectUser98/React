@@ -11,7 +11,6 @@ let statusData = [
     { value: "tke", label: "Tank Empty" },
     { value: "tpl", label: "Tap Low" },
     { value: "nof", label: "noflow" },
-    { value: "nof", label: "noflow" },
     { value: "tpd", label: "Tempared" },
 ]
 let newTransactionTypeData = [

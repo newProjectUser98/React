@@ -103,8 +103,13 @@ const RoiPanelForm = ({ intervalTime }) => {
                     setMod(resp.data[0].data.mod)
                     setNmv(resp.data[0].data.nmv)
                     setStp(resp.data[0].data.stp)
-                    setSrt1(resp.data[0].data.srt1)
-                    setSrt2(resp.data[0].data.srt2)
+                    let time = resp.data[0].data.srt
+                    // let time = "99:56";
+                    let SplitTime = time?.toString().split(':')
+                    console.log("SplitTime0", SplitTime[0]);
+                    console.log("SplitTime1", SplitTime[1]);
+                    setSrt1(parseInt(SplitTime[0]))
+                    setSrt2(parseInt(SplitTime[1]))
                     setUnv(resp.data[0].data.unv)
                     setOvv(resp.data[0].data.ovv)
                     setSpn(resp.data[0].data.spn)
@@ -134,12 +139,10 @@ const RoiPanelForm = ({ intervalTime }) => {
             mod: mod,
             nmv: nmv,
             stp: stp,
-            srt1: srt1,
-            srt2: srt2,
+            srt: `${srt1}:${srt2}`,
             unv: unv,
             ovv: ovv,
             spn: spn,
-            srt: srt,
             bkt: bkt,
             rst: rst
         };
@@ -155,12 +158,10 @@ const RoiPanelForm = ({ intervalTime }) => {
                     mod: mod,
                     nmv: nmv,
                     stp: stp,
-                    srt1: srt1,
-                    srt2: srt2,
                     unv: unv,
                     ovv: ovv,
                     spn: spn,
-                    srt: srt,
+                    srt: `${srt1}:${srt2}`,
                     bkt: bkt,
                     rst: rst,
                     device_id: resp?.data[0]?.data?.Device_id

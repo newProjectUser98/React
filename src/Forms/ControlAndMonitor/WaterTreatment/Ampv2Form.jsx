@@ -13,7 +13,7 @@ let positionData = [
 let stpData = [
     { value: "tme", label: "Time" },
     { value: "vol", label: "Volume" },
-    { value: "fr", label: "Flowrate" },
+    { value: "frt", label: "Flowrate" },
     { value: "non", label: "None" },
 ]
 let OutputData = [
@@ -30,8 +30,8 @@ let OutputData = [
 
 let InputData = [
     { value: "Off", label: "Off" },
-    { value: "Twlvl", label: "Treated Water Tank Level" },
-    { value: "Rwlvl", label: "Raw Water Tank Level" },
+    { value: "Twl", label: "Treated Water Tank Level" },
+    { value: "Rwl", label: "Raw Water Tank Level" },
     { value: "pls", label: "Pulse" },
     { value: "dsl", label: "Dosing Level" },
 ]
@@ -90,8 +90,13 @@ const Ampv2Form = ({ intervalTime }) => {
                     setOp3(resp.data[0].data.op3)
                     setPsi(resp.data[0].data.psi)
                     setRst(resp.data[0].data.rst)
-                    setSrt1(resp.data[0].data.srt1)
-                    setSrt2(resp.data[0].data.srt2)
+                    let time = resp.data[0].data.srt
+                    // let time = "99:56";
+                    let SplitTime = time?.toString().split(':')
+                    console.log("SplitTime0", SplitTime[0]);
+                    console.log("SplitTime1", SplitTime[1]);
+                    setSrt1(parseInt(SplitTime[0]))
+                    setSrt2(parseInt(SplitTime[1]))
                     setStp(resp.data[0].data.stp)
                 }
                 localStorage.setItem('updated_time', resp.data[0].data.updated_at);
@@ -184,6 +189,7 @@ const Ampv2Form = ({ intervalTime }) => {
             ip2: ip2,
             ip3: ip3,
             psi: psi,
+            srt: `${srt1}:${srt2}`,
             srt1: srt1,
             srt2: srt2,
             bkt: bkt,
@@ -205,6 +211,7 @@ const Ampv2Form = ({ intervalTime }) => {
                 ip2: ip2,
                 ip3: ip3,
                 psi: psi,
+                srt: `${srt1}:${srt2}`,
                 srt1: srt1,
                 srt2: srt2,
                 bkt: bkt,
