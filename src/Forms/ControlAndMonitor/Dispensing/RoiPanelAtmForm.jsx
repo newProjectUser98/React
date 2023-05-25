@@ -66,7 +66,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 setre3(resp.data[0].data.re3)
                 setre4(resp.data[0].data.re4)
                 setNdv(resp.data[0].data.ndv)
-                setNtt(resp.data[0].data.ntt)
+                setNtt({value:resp.data[0].data.ntt})
                 setNta(resp.data[0].data.nta)
                 setTmp(resp.data[0].data.tmp)
                 console.log("sts in data", resp.data[0].data.sts);
@@ -141,7 +141,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                     re2: re2,
                     re3: re3,
                     re4: re4,
-                    ntt: "",
+                    ntt: ntt.value,
                     device_id: resp?.data[0]?.data?.Device_id
                 };
 

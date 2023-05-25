@@ -5,6 +5,44 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 
+
+let positionData = [
+    { value: "ser", label: "Service" },
+    { value: "bck", label: "Backwash" },
+    { value: "rns", label: "Rinse" },
+    { value: "mot", label: "Motor on delay time" },
+]
+let stpData = [
+    { value: "tme", label: "Time" },
+    { value: "vol", label: "Volume" },
+    { value: "fr", label: "Flowrate" },
+    { value: "non", label: "None" },
+]
+let OutputData = [
+    { value: "m1", label: "Mode 1" },
+    { value: "m2", label: "Mode 2" },
+    { value: "m3", label: "Mode 3" },
+    { value: "m4", label: "Mode 4" },
+    { value: "m5", label: "Mode 5" },
+    { value: "m6", label: "Mode 6" },
+    { value: "m7", label: "Mode 7" },
+    { value: "m8", label: "Mode 8" },
+    { value: "m9", label: "Mode 9" },
+]
+
+let InputData = [
+    { value: "Off", label: "Off" },
+    { value: "Twlvl", label: "Treated Water Tank Level" },
+    { value: "Rwlvl", label: "Raw Water Tank Level" },
+    { value: "pls", label: "Pulse" },
+    { value: "dsl", label: "Dosing Level" },
+]
+
+let PSIData = [
+    { value: "ena", label: "Enable" },
+    { value: "dis", label: "Disable" },
+
+]
 const Ampv1Form = ({ intervalTime }) => {
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -224,13 +262,20 @@ const Ampv1Form = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-yellow-300 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Position</p>
-                                    <Field as="select" disabled={!editState} name="pos" className='w-52 my-2 p-2 border rounded' value={pos}
-                                        onChange={(e) => setPos(e.target.value)}>
+                                    <Field
+                                        as="select"
+                                        disabled={!editState}
+                                        name="pos"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={pos}
+                                        onChange={(e) => setPos(e.target.value)}
+                                    >
                                         <option value="" disabled>Select Position</option>
-                                        <option value="ser">Service</option>
-                                        <option value="bck">Backwash</option>
-                                        <option value="rns">Rinse</option>
-                                        <option value="mot">Motor on delay time</option>
+                                        {positionData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
                                     </Field>
                                 </div>
                                 <div className="flex items-center py-3">
@@ -307,37 +352,93 @@ const Ampv1Form = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Sensor Type</p>
-                                    <Field as="select" disabled={!editSetting} name="stp" className='w-52 my-2 p-2 border rounded' value={stp}
-                                        onChange={(e) => setStp(e.target.value)}>
-                                        <option value="" disabled>Select Sensor Type</option>
-                                        <option value="tme">Time</option>
-                                        <option value="vol">Volume</option>
-                                        <option value="fr">Flowrate</option>
-                                        <option value="non">None</option>
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="stp"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={stp}
+                                        onChange={(e) => setStp(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {stpData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
                                     </Field>
+
+
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 1</p>
-                                    <Field disabled={!editSetting} type="text" name="op1" id="op1" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 1" value={op1}
-                                        onChange={(e) => setOp1(e.target.value)} />
+                                    {/* <Field disabled={!editSetting} type="text" name="op1" id="op1" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 1" value={op1}
+                                        onChange={(e) => setOp1(e.target.value)} /> */}
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="op1"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={op1}
+                                        onChange={(e) => setOp1(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {OutputData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </Field>
+
+
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 2</p>
-                                    <Field disabled={!editSetting} type="text" name="op2" id="op2" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 2" value={op2}
-                                        onChange={(e) => setOp2(e.target.value)} />
+                                    {/* <Field disabled={!editSetting} type="text" name="op2" id="op2" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 2" value={op2}
+                                        onChange={(e) => setOp2(e.target.value)} /> */}
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="op2"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={op2}
+                                        onChange={(e) => setOp2(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {OutputData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </Field>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 3</p>
-                                    <Field disabled={!editSetting} type="text" name="op3" id="op3" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 3" value={op3}
-                                        onChange={(e) => setOp3(e.target.value)} />
+                                    {/* <Field disabled={!editSetting} type="text" name="op3" id="op3" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 3" value={op3}
+                                        onChange={(e) => setOp3(e.target.value)} /> */}
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="op3"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={op3}
+                                        onChange={(e) => setOp3(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {OutputData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
+                                    </Field>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Input 1</p>
-                                    <Field as="select" disabled={!editSetting} name="ip1" className='w-52 my-2 p-2 border rounded' value={ip1}
+                                    {/* <Field as="select" disabled={!editSetting} name="ip1" className='w-52 my-2 p-2 border rounded' value={ip1}
                                         onChange={(e) => setIp1(e.target.value)}>
                                         <option value="" disabled>Select Input 1</option>
                                         <option value="Off">Off</option>
@@ -345,12 +446,27 @@ const Ampv1Form = ({ intervalTime }) => {
                                         <option value="Rwlvl">Raw Water Tank Level</option>
                                         <option value="pls">Pulse</option>
                                         <option value="dsl">Dosing Level</option>
+                                    </Field> */}
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="ip1"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={ip1}
+                                        onChange={(e) => setIp1(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {InputData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
                                     </Field>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Input 2</p>
-                                    <Field as="select" disabled={!editSetting} name="ip2" className='w-52 my-2 p-2 border rounded' value={ip2}
+                                    {/* <Field as="select" disabled={!editSetting} name="ip2" className='w-52 my-2 p-2 border rounded' value={ip2}
                                         onChange={(e) => setIp2(e.target.value)}>
                                         <option value="" disabled>Select Input 2</option>
                                         <option value="Off">Off</option>
@@ -358,12 +474,27 @@ const Ampv1Form = ({ intervalTime }) => {
                                         <option value="Rwlvl">Raw Water Tank Level</option>
                                         <option value="pls">Pulse</option>
                                         <option value="dsl">Dosing Level</option>
+                                    </Field> */}
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="ip2"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={ip2}
+                                        onChange={(e) => setIp2(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {InputData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
                                     </Field>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Input 3</p>
-                                    <Field as="select" disabled={!editSetting} name="ip3" className='w-52 my-2 p-2 border rounded' value={ip3}
+                                    {/* <Field as="select" disabled={!editSetting} name="ip3" className='w-52 my-2 p-2 border rounded' value={ip3}
                                         onChange={(e) => setIp3(e.target.value)}>
                                         <option value="" disabled>Select Input 3</option>
                                         <option value="Off">Off</option>
@@ -371,16 +502,46 @@ const Ampv1Form = ({ intervalTime }) => {
                                         <option value="Rwlvl">Raw Water Tank Level</option>
                                         <option value="pls">Pulse</option>
                                         <option value="dsl">Dosing Level</option>
+                                    </Field> */}
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="ip3"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={ip3}
+                                        onChange={(e) => setIp3(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {InputData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
                                     </Field>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Pressure Switch Input</p>
-                                    <Field as="select" disabled={!editSetting} name="psi" className='w-auto my-2 p-2 border rounded' value={psi}
+                                    {/* <Field as="select" disabled={!editSetting} name="psi" className='w-auto my-2 p-2 border rounded' value={psi}
                                         onChange={(e) => setPsi(e.target.value)}>
                                         <option value="" disabled>Select Pressure Switch Input</option>
                                         <option value="ena">Enable</option>
                                         <option value="dis">Disable</option>
+                                    </Field> */}
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="psi"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={psi}
+                                        onChange={(e) => setPsi(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {PSIData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
                                     </Field>
                                 </div>
                                 {
