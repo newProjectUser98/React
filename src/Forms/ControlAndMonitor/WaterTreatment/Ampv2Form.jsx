@@ -75,22 +75,25 @@ const Ampv2Form = ({ intervalTime }) => {
             }
             axios.post("/topicapi/updated_treat_ampv2/", newData).then((resp) => {
                 console.log("res in get_ampv2_setting", resp.data);
-                setPos(resp.data[0].data.pos)
-                setBkt(resp.data[0].data.bkt)
-                setIp1(resp.data[0].data.ip1)
-                setIp2(resp.data[0].data.ip2)
-                setIp3(resp.data[0].data.ip3)
-                setMot(resp.data[0].data.mot)
-                setOp1(resp.data[0].data.op1)
-                setOp2(resp.data[0].data.op2)
-                setOp3(resp.data[0].data.op3)
-                setPsi(resp.data[0].data.psi)
-                setRst(resp.data[0].data.rst)
-                setSrt1(resp.data[0].data.srt1)
-                setSrt2(resp.data[0].data.srt2)
-                setStp(resp.data[0].data.stp)
-                setCct(resp.data[0].data.cct)
-                setRmt(resp.data[0].data.rmt)
+                if (resp.data[0].data.message_type === "updsta") {
+                    setPos(resp.data[0].data.pos)
+                    setRmt(resp.data[0].data.rmt)
+                    setCct(resp.data[0].data.cct)
+                } else if (resp.data[0].data.message_type === "updset") {
+                    setBkt(resp.data[0].data.bkt)
+                    setIp1(resp.data[0].data.ip1)
+                    setIp2(resp.data[0].data.ip2)
+                    setIp3(resp.data[0].data.ip3)
+                    setMot(resp.data[0].data.mot)
+                    setOp1(resp.data[0].data.op1)
+                    setOp2(resp.data[0].data.op2)
+                    setOp3(resp.data[0].data.op3)
+                    setPsi(resp.data[0].data.psi)
+                    setRst(resp.data[0].data.rst)
+                    setSrt1(resp.data[0].data.srt1)
+                    setSrt2(resp.data[0].data.srt2)
+                    setStp(resp.data[0].data.stp)
+                }
                 localStorage.setItem('updated_time', resp.data[0].data.updated_at);
 
             }).catch((err) => {

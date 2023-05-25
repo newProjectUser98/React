@@ -28,11 +28,14 @@ const HppForm = ({ intervalTime }) => {
             }
             axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
                 console.log("resp in hpp", resp.data[0].data);
-                setStatusVal(resp.data[0].data.sts == "on" ? true : false)
-                setOlc(resp.data[0].data.olc)
-                setDrc(resp.data[0].data.drc)
-                setSpn(resp.data[0].data.spn)
-                setCrt(resp.data[0].data.crt)
+                if (resp.data[0].data.message_type === "updsta") {
+                    setStatusVal(resp.data[0].data.sts == "on" ? true : false)
+                    setCrt(resp.data[0].data.crt)
+                } else if (resp.data[0].data.message_type === "updset") {
+                    setOlc(resp.data[0].data.olc)
+                    setDrc(resp.data[0].data.drc)
+                    setSpn(resp.data[0].data.spn)
+                }
                 localStorage.setItem('updated_time', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err in rwp state", err);
@@ -92,7 +95,7 @@ const HppForm = ({ intervalTime }) => {
                         })
                         .catch((err) => {
                             console.log("err", err);
-                            if (err.response.statusText === "Unauthorized"){
+                            if (err.response.statusText === "Unauthorized") {
                                 navigate("/");
                                 alert("Please enter valid credentials")
                             }
@@ -145,7 +148,7 @@ const HppForm = ({ intervalTime }) => {
                         })
                         .catch((err) => {
                             console.log("err", err);
-                            if (err.response.statusText === "Unauthorized"){
+                            if (err.response.statusText === "Unauthorized") {
                                 navigate("/");
                                 alert("Please enter valid credentials")
                             }

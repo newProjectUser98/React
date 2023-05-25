@@ -55,31 +55,33 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
             }
             axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
                 console.log("res in get_atm", resp.data[0].data);
-                setNov(resp.data[0].data.nov)
-                setNtp(resp.data[0].data.ntp)
-                setvl1(resp.data[0].data.vl1)
-                setvl2(resp.data[0].data.vl2)
-                setvl3(resp.data[0].data.vl3)
-                setvl4(resp.data[0].data.vl4)
-                setre1(resp.data[0].data.re1)
-                setre2(resp.data[0].data.re2)
-                setre3(resp.data[0].data.re3)
-                setre4(resp.data[0].data.re4)
-                setNdv(resp.data[0].data.ndv)
-                setNtt({value:resp.data[0].data.ntt})
-                setNta(resp.data[0].data.nta)
-                setTmp(resp.data[0].data.tmp)
+                if (resp.data[0].data.message_type === "updsta") {
+                    statusData.map((item, id) => {
+                        if (item.value === resp.data[0].data.sts) {
+                            setSts({ value: item.value, label: item.label })
+                        }
+                    })
+                    newTransactionTypeData.map((item, id) => {
+                        if (item.value === resp.data[0].data.ntt) {
+                            setNtt({ value: item.value, label: item.label })
+                        }
+                    })
+                    setNdv(resp.data[0].data.ndv)
+                    setNta(resp.data[0].data.nta)
+                    setTmp(resp.data[0].data.tmp)
+                } else if (resp.data[0].data.message_type === "updset") {
+                    setNov(resp.data[0].data.nov)
+                    setNtp(resp.data[0].data.ntp)
+                    setvl1(resp.data[0].data.vl1)
+                    setvl2(resp.data[0].data.vl2)
+                    setvl3(resp.data[0].data.vl3)
+                    setvl4(resp.data[0].data.vl4)
+                    setre1(resp.data[0].data.re1)
+                    setre2(resp.data[0].data.re2)
+                    setre3(resp.data[0].data.re3)
+                    setre4(resp.data[0].data.re4)
+                }
                 console.log("sts in data", resp.data[0].data.sts);
-                statusData.map((item, id) => {
-                    if (item.value === resp.data[0].data.sts) {
-                        setSts({ value: item.value, label: item.label })
-                    }
-                })
-                newTransactionTypeData.map((item, id) => {
-                    if (item.value === resp.data[0].data.ntt) {
-                        setNtt({ value: item.value, label: item.label })
-                    }
-                })
                 localStorage.setItem('updated_time', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err", err);
@@ -162,7 +164,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                         })
                         .catch((err) => {
                             console.log("err", err);
-                            if (err.response.statusText === "Unauthorized"){
+                            if (err.response.statusText === "Unauthorized") {
                                 navigate("/");
                                 alert("Please enter valid credentials")
                             }

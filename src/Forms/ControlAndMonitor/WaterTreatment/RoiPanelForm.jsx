@@ -23,7 +23,10 @@ let ModeData = [
     { value: "aut", label: "Auto" },
     { value: "sem", label: "Semi auto" },
     { value: "man", label: "Manual" },
-
+]
+let TimeFlowData = [
+    { value: "t", label: "Time" },
+    { value: "f", label: "Flow" },
 ]
 const RoiPanelForm = ({ intervalTime }) => {
     // eslint-disable-next-line
@@ -83,29 +86,32 @@ const RoiPanelForm = ({ intervalTime }) => {
             axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
 
                 console.log("res in get_panel", resp.data[0].data);
-                setMod(resp.data[0].data.mod)
-                setNmv(resp.data[0].data.nmv)
-                setStp(resp.data[0].data.stp)
-                setSrt1(resp.data[0].data.srt1)
-                setSrt2(resp.data[0].data.srt2)
-                setUnv(resp.data[0].data.unv)
-                setOvv(resp.data[0].data.ovv)
-                setSpn(resp.data[0].data.spn)
-                setSrt(resp.data[0].data.srt)
-                setBkt(resp.data[0].data.bkt)
-                setRst(resp.data[0].data.rst)
-                setSts(resp.data[0].data.sts)
-                setRtl(resp.data[0].data.rtl)
-                setTtl(resp.data[0].data.ttl)
-                setLps(resp.data[0].data.lps)
-                setHps(resp.data[0].data.hps)
-                setDgp(resp.data[0].data.dgp)
-                setIpv(resp.data[0].data.ipv)
-                ErrorData.map((item, id) => {
-                    if (item.value === resp.data[0].data.err) {
-                        setErr({ value: item.value, label: item.label })
-                    }
-                })
+                if (resp.data[0].data.message_type === "updsta") {
+                    setSts(resp.data[0].data.sts)
+                    setTtl(resp.data[0].data.ttl)
+                    setRtl(resp.data[0].data.rtl)
+                    setLps(resp.data[0].data.lps)
+                    setHps(resp.data[0].data.hps)
+                    setDgp(resp.data[0].data.dgp)
+                    setIpv(resp.data[0].data.ipv)
+                    ErrorData.map((item, id) => {
+                        if (item.value === resp.data[0].data.err) {
+                            setErr({ value: item.value, label: item.label })
+                        }
+                    })
+                } else if (resp.data[0].data.message_type === "updset") {
+                    setMod(resp.data[0].data.mod)
+                    setNmv(resp.data[0].data.nmv)
+                    setStp(resp.data[0].data.stp)
+                    setSrt1(resp.data[0].data.srt1)
+                    setSrt2(resp.data[0].data.srt2)
+                    setUnv(resp.data[0].data.unv)
+                    setOvv(resp.data[0].data.ovv)
+                    setSpn(resp.data[0].data.spn)
+                    setSrt(resp.data[0].data.srt)
+                    setBkt(resp.data[0].data.bkt)
+                    setRst(resp.data[0].data.rst)
+                }
                 localStorage.setItem('updated_time', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err", err);
@@ -274,9 +280,9 @@ const RoiPanelForm = ({ intervalTime }) => {
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Error</p>
-                <select name="stp" id="stp" className='my-2 w-52 p-2 border rounded'>
+                <select name="err" id="err" className='my-2 w-52 p-2 border rounded'>
 
-                    <option value={err.value}>{err.label}</option>
+                    <option value={err?.value}>{err?.label}</option>
 
                 </select>
             </div>
@@ -351,10 +357,25 @@ const RoiPanelForm = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Sensor Type</p>
-                                    <Field as="select" disabled={!editSetting} value={stp} onChange={(e) => setStp(e.target.value)} name="stp" className='w-52 my-2 p-2 border rounded'>
+                                    {/* <Field as="select" disabled={!editSetting} value={stp} onChange={(e) => setStp(e.target.value)} name="stp" className='w-52 my-2 p-2 border rounded'>
                                         <option value="" disabled>Select Sensor Type</option>
                                         <option value="t">Time</option>
                                         <option value="f">Flow</option>
+                                    </Field> */}
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="stp"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={stp}
+                                        onChange={(e) => setStp(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {TimeFlowData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
                                     </Field>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">

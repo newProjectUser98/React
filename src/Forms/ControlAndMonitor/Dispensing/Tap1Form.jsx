@@ -28,10 +28,12 @@ const Tap1Form = ({ intervalTime }) => {
             axios.post("/topicapi/updated_disp_tap1/", newData)
                 .then((resp) => {
                     console.log("res in get_rwp", resp.data);
+                    if (resp.data[0].data.message_type === "updset") {
                     setP1(resp.data[0].data.p1);
                     setP2(resp.data[0].data.p2);
                     setP3(resp.data[0].data.p3);
                     setP4(resp.data[0].data.p4);
+                    }
                     localStorage.setItem('updated_time', resp.data[0].data.updated_at);
                 })
                 .catch((err) => {

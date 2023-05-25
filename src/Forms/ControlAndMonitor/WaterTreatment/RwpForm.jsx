@@ -34,11 +34,14 @@ const RwpForm = ({ intervalTime }) => {
             axios.post("/topicapi/updated_treat_rwp/", newData)
                 .then((resp) => {
                     console.log("rwpVal", resp.data);
-                    setStatusVal(resp.data[0].data.sts === "on");
-                    setOlc(resp.data[0].data.olc);
-                    setDrc(resp.data[0].data.drc);
-                    setSpn(resp.data[0].data.spn);
-                    setCrt(resp.data[0].data.crt);
+                    if (resp.data[0].data.message_type === "updsta") {
+                        setStatusVal(resp.data[0].data.sts == "on" ? true : false)
+                        setCrt(resp.data[0].data.crt)
+                    } else if (resp.data[0].data.message_type === "updset") {
+                        setOlc(resp.data[0].data.olc)
+                        setDrc(resp.data[0].data.drc)
+                        setSpn(resp.data[0].data.spn)
+                    }
                     localStorage.setItem('updated_time', resp.data[0].data.updated_at);
                 })
                 .catch((err) => {
@@ -76,55 +79,55 @@ const RwpForm = ({ intervalTime }) => {
     const onSubmitState = (values, submitProps) => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
-let newData = {
-    company_name: userData.company_name,
-    unit_type: "water_treatment",
-    componant_name: "rwp",
-    sts: statusVal === true ? "on" : "off"
-};
-
-axios.post("/topicapi/get_device_id/", newData)
-    .then((resp) => {
-        console.log("resp", resp);
-
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: "rwp",
-            sts: statusVal === true ? "on" : "off",
-            device_id: resp?.data[0]?.data?.Device_id
+            sts: statusVal === true ? "on" : "off"
         };
 
-        setTimeout(() => {
-            axios.post('/topicapi/Rwp_state/', newData, {
-                headers: {
-                    'Authorization': 'Bearer ' + access_token,
-                    'Content-Type': 'application/json'
-                }
+        axios.post("/topicapi/get_device_id/", newData)
+            .then((resp) => {
+                console.log("resp", resp);
+
+                let newData = {
+                    company_name: userData.company_name,
+                    unit_type: "water_treatment",
+                    componant_name: "rwp",
+                    sts: statusVal === true ? "on" : "off",
+                    device_id: resp?.data[0]?.data?.Device_id
+                };
+
+                setTimeout(() => {
+                    axios.post('/topicapi/Rwp_state/', newData, {
+                        headers: {
+                            'Authorization': 'Bearer ' + access_token,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then((res) => {
+                            setIsLoading(true);
+                            setOpen(true);
+                            setTimeout(() => {
+                                setIsLoading(false)
+                                setOpen(false);
+                            }, 20000);
+                        })
+                        .catch((err) => {
+                            console.log("err", err);
+                            if (err.response.statusText === "Unauthorized") {
+                                navigate("/");
+                                alert("Please enter valid credentials");
+                            }
+                        });
+                }, 3000); // Delay of 3 seconds
+
             })
-                .then((res) => {
-                    setIsLoading(true);
-                    setOpen(true);
-                    setTimeout(() => {
-                        setIsLoading(false)
-                        setOpen(false);
-                    }, 20000);
-                })
-                .catch((err) => {
-                    console.log("err", err);
-                    if (err.response.statusText === "Unauthorized") {
-                        navigate("/");
-                        alert("Please enter valid credentials");
-                    }
-                });
-        }, 3000); // Delay of 3 seconds
+            .catch((error) => {
+                console.log("error", error);
+            });
 
-    })
-    .catch((error) => {
-        console.log("error", error);
-    });
 
-        
     }
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
@@ -137,11 +140,11 @@ axios.post("/topicapi/get_device_id/", newData)
             drc: drc
         };
         let access_token = localStorage.getItem("access_token");
-        
+
         axios.post("/topicapi/get_device_id/", newData)
             .then((resp) => {
                 console.log("resp getdeviceId", resp.data[0].data.Device_id);
-        
+
                 let newData = {
                     company_name: userData.company_name,
                     unit_type: "water_treatment",
@@ -151,7 +154,7 @@ axios.post("/topicapi/get_device_id/", newData)
                     drc: drc,
                     device_id: resp?.data[0]?.data?.Device_id
                 };
-        
+
                 setTimeout(() => {
                     axios.post('/topicapi/rwp_setting/', newData, {
                         headers: {
@@ -175,12 +178,12 @@ axios.post("/topicapi/get_device_id/", newData)
                             }
                         });
                 }, 3000); // Delay of 3 seconds
-        
+
             })
             .catch((error) => {
                 console.log("error", error);
             });
-        
+
     }
     return (
         <>

@@ -42,10 +42,13 @@ const ConductivityForm = ({ intervalTime }) => {
             console.log(newData);
             axios.post("/topicapi/updated_treat_cnd_tds_sen/", newData).then((resp) => {
                 console.log("res in get_cnd", resp.data[0].data);
-                setSpn(resp.data[0].data.spn)
-                setTsp(resp.data[0].data.tsp)
-                setAsp(resp.data[0].data.asp)
-                setCnd(resp.data[0].data.cnd)
+                if (resp.data[0].data.message_type === "updsta") {
+                    setCnd(resp.data[0].data.cnd)
+                } else if (resp.data[0].data.message_type === "updset") {
+                    setSpn(resp.data[0].data.spn)
+                    setTsp(resp.data[0].data.tsp)
+                    setAsp(resp.data[0].data.asp)
+                }
                 localStorage.setItem('updated_time', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err", err);
@@ -79,40 +82,40 @@ const ConductivityForm = ({ intervalTime }) => {
                 device_id: resp?.data[0]?.data?.Device_id
             }
             components[0].cnd.cnd === 'conductivity' ?
-            axios.post('/topicapi/cnd_setting/', newData, {
-                headers: {
-                    'Authorization': 'Bearer ' + access_token
-                }
-            }).then((res) => {
-                console.log("res in cnd", res);
-                setIsLoading(true);
-                setOpen(true);
-                setTimeout(() => {
-                    setIsLoading(false)
-                    setOpen(false);
-                }, 10000);
-            }).catch((err) => {
-                console.log("err", err);
-                if (err.response.statusText === "Unauthorized"){
-                    navigate("/");
-                    alert("Please enter valid credentials")
-                }
-            }) :
-            axios.post('/topicapi/tds_setting/', newData).then((res) => {
-                console.log("res in tds", res);
-                setIsLoading(true);
-                setOpen(true);
-                setTimeout(() => {
-                    setIsLoading(false)
-                    setOpen(false);
-                }, 10000);
-            }).catch((err) => {
-                console.log("err", err);
-            })
+                axios.post('/topicapi/cnd_setting/', newData, {
+                    headers: {
+                        'Authorization': 'Bearer ' + access_token
+                    }
+                }).then((res) => {
+                    console.log("res in cnd", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 10000);
+                }).catch((err) => {
+                    console.log("err", err);
+                    if (err.response.statusText === "Unauthorized") {
+                        navigate("/");
+                        alert("Please enter valid credentials")
+                    }
+                }) :
+                axios.post('/topicapi/tds_setting/', newData).then((res) => {
+                    console.log("res in tds", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 10000);
+                }).catch((err) => {
+                    console.log("err", err);
+                })
         }).catch((error) => {
             console.log("error", error);
         })
-        
+
     }
     return (
         <>
