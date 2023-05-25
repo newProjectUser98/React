@@ -18,6 +18,13 @@ let ErrorData = [
     { value: "ovl", label: "Over Voltage Trip" },
     { value: "cont", label: "Conductivity Trip" },
 ]
+
+let ModeData = [
+    { value: "aut", label: "Auto" },
+    { value: "sem", label: "Semi auto" },
+    { value: "man", label: "Manual" },
+
+]
 const RoiPanelForm = ({ intervalTime }) => {
     // eslint-disable-next-line
     const [statusVal, setStatusVal] = useState(false)
@@ -287,11 +294,26 @@ const RoiPanelForm = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Mode</p>
-                                    <Field as="select" disabled={!editSetting} value={mod} onChange={(e) => setMod(e.target.value)} name="mod" className='w-52 my-2 p-2 border rounded'>
+                                    {/* <Field as="select" disabled={!editSetting} value={mod} onChange={(e) => setMod(e.target.value)} name="mod" className='w-52 my-2 p-2 border rounded'>
                                         <option value="" disabled>Select Mode</option>
                                         <option value="aut">Auto</option>
                                         <option value="sem">Semi Auto</option>
                                         <option value="man">Manual</option>
+                                    </Field> */}
+                                    <Field
+                                        as="select"
+                                        disabled={!editSetting}
+                                        name="mod"
+                                        className="w-52 my-2 p-2 border rounded"
+                                        value={mod}
+                                        onChange={(e) => setMod(e.target.value)}
+                                    >
+                                        <option value="" disabled>Select Position</option>
+                                        {ModeData.map((option) => (
+                                            <option key={option.value} value={option.value}>
+                                                {option.label}
+                                            </option>
+                                        ))}
                                     </Field>
                                 </div>
 
