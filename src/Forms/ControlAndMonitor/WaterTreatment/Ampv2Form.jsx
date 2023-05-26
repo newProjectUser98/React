@@ -99,7 +99,12 @@ const Ampv2Form = ({ intervalTime }) => {
                     setSrt2(parseInt(SplitTime[1]))
                     setStp(resp.data[0].data.stp)
                 }
-                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                let updated_Time = localStorage.getItem("updated_time_ampv2")
+                if (updated_Time != resp.data[0].data.updated_at) {
+                    setIsLoading(false);
+                    alert("Device Setting Updated Successfully")
+                }
+                localStorage.setItem('updated_time_ampv2', resp.data[0].data.updated_at);
 
             }).catch((err) => {
                 console.log("err", err);

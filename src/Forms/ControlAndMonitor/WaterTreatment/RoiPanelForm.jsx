@@ -124,7 +124,12 @@ const RoiPanelForm = ({ intervalTime }) => {
                     setBkt(resp.data[0].data.bkt)
                     setRst(resp.data[0].data.rst)
                 }
-                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                let updated_Time = localStorage.getItem("updated_time_panel")
+                if (updated_Time != resp.data[0].data.updated_at) {
+                    setIsLoading(false);
+                    alert("Device Setting Updated Successfully")
+                }
+                localStorage.setItem('updated_time_panel', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err", err);
             })

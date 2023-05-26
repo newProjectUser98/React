@@ -24,7 +24,7 @@ const Conductivity2Form = ({ intervalTime }) => {
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
-            if (components[0].cnd.cnd === "conductivity") {
+            if (components[0].cnd.cnd !== "conductivity") {
                 let newData = {
                     unit_type: "water_dispense",
                     company_name: userData.company_name,
@@ -38,7 +38,12 @@ const Conductivity2Form = ({ intervalTime }) => {
                         setSpn(resp.data[0].data.spn)
                         setAsp(resp.data[0].data.asp)
                     }
-                    localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                    let updated_Time = localStorage.getItem("updated_time_cnd_consen")
+                    if (updated_Time != resp.data[0].data.updated_at) {
+                        setIsLoading(false);
+                        alert("Device Setting Updated Successfully")
+                    }
+                    localStorage.setItem('updated_time_cnd_consen', resp.data[0].data.updated_at);
                 }).catch((err) => {
                     console.log("err in rwp state", err);
                 })
@@ -56,7 +61,12 @@ const Conductivity2Form = ({ intervalTime }) => {
                         setSpn(resp.data[0].data.spn)
                         setAsp(resp.data[0].data.asp)
                     }
-                    localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                    let updated_Time = localStorage.getItem("updated_time_tds_consen")
+                    if (updated_Time != resp.data[0].data.updated_at) {
+                        setIsLoading(false);
+                        alert("Device Setting Updated Successfully")
+                    }
+                    localStorage.setItem('updated_time_tds_consen', resp.data[0].data.updated_at);
                 }).catch((err) => {
                     console.log("err in rwp state", err);
                 })

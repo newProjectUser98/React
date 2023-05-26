@@ -36,7 +36,12 @@ const HppForm = ({ intervalTime }) => {
                     setDrc(resp.data[0].data.drc)
                     setSpn(resp.data[0].data.spn)
                 }
-                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                let updated_Time = localStorage.getItem("updated_time_hpp")
+                if (updated_Time != resp.data[0].data.updated_at) {
+                    setIsLoading(false);
+                    alert("Device Setting Updated Successfully")
+                }
+                localStorage.setItem('updated_time_hpp', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err in rwp state", err);
             })

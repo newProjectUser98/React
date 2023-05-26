@@ -28,12 +28,17 @@ const Tap3Form = ({ intervalTime }) => {
             axios.post("/topicapi/updated_disp_tap3/", newData).then((resp) => {
                 console.log("res in get_tap3", resp.data[0].data);
                 if (resp.data[0].data.message_type === "updset") {
-                setP1(resp.data[0].data.p1)
-                setP2(resp.data[0].data.p2)
-                setP3(resp.data[0].data.p3)
-                setP4(resp.data[0].data.p4)
+                    setP1(resp.data[0].data.p1)
+                    setP2(resp.data[0].data.p2)
+                    setP3(resp.data[0].data.p3)
+                    setP4(resp.data[0].data.p4)
                 }
-                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                let updated_Time = localStorage.getItem("updated_time_tap3")
+                if (updated_Time != resp.data[0].data.updated_at) {
+                    setIsLoading(false);
+                    alert("Device Setting Updated Successfully")
+                }
+                localStorage.setItem('updated_time_tap3', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err", err);
             })
@@ -64,44 +69,44 @@ const Tap3Form = ({ intervalTime }) => {
             p4: p4
         }
         axios.post("/topicapi/get_device_id/", newData)
-        .then((resp) => {
-          console.log("resp", resp);
-          let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_dispense",
-            componant_name: "tap3",
-            p1: p1,
-            p2: p2,
-            p3: p3,
-            p4: p4,
-            device_id: resp?.data[0]?.data?.Device_id
-          };
-      
-          setTimeout(() => {
-            axios.post('/topicapi/tap3_setting/', newData, {
-              headers: {
-                'Authorization': 'Bearer ' + access_token
-              }
-            }).then((res) => {
-              console.log("res in tap3 get", res.data);
-              setIsLoading(true);
-              setOpen(true);
-              setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-              }, 10000);
-            }).catch((err) => {
-              console.log("err", err);
-              if (err.response.statusText === "Unauthorized"){
-                navigate("/");
-                alert("Please enter valid credentials")
-            }
+            .then((resp) => {
+                console.log("resp", resp);
+                let newData = {
+                    company_name: userData.company_name,
+                    unit_type: "water_dispense",
+                    componant_name: "tap3",
+                    p1: p1,
+                    p2: p2,
+                    p3: p3,
+                    p4: p4,
+                    device_id: resp?.data[0]?.data?.Device_id
+                };
+
+                setTimeout(() => {
+                    axios.post('/topicapi/tap3_setting/', newData, {
+                        headers: {
+                            'Authorization': 'Bearer ' + access_token
+                        }
+                    }).then((res) => {
+                        console.log("res in tap3 get", res.data);
+                        setIsLoading(true);
+                        setOpen(true);
+                        setTimeout(() => {
+                            setIsLoading(false)
+                            setOpen(false);
+                        }, 10000);
+                    }).catch((err) => {
+                        console.log("err", err);
+                        if (err.response.statusText === "Unauthorized") {
+                            navigate("/");
+                            alert("Please enter valid credentials")
+                        }
+                    });
+                }, 3000);
+            })
+            .catch((error) => {
+                console.log("error", error);
             });
-          }, 3000);
-        })
-        .catch((error) => {
-          console.log("error", error);
-        });
     }
     return (
         <>

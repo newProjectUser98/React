@@ -50,7 +50,12 @@ const ConductivityForm = ({ intervalTime }) => {
                         setTsp(resp.data[0].data.tsp)
                         setAsp(resp.data[0].data.asp)
                     }
-                    localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                    let updated_Time = localStorage.getItem("updated_time_cnd_sen")
+                    if (updated_Time != resp.data[0].data.updated_at) {
+                        setIsLoading(false);
+                        alert("Device Setting Updated Successfully")
+                    }
+                    localStorage.setItem('updated_time_cnd_sen', resp.data[0].data.updated_at);
                 }).catch((err) => {
                     console.log("err", err);
                 })
@@ -73,7 +78,12 @@ const ConductivityForm = ({ intervalTime }) => {
                         setTsp(resp.data[0].data.tsp)
                         setAsp(resp.data[0].data.asp)
                     }
-                    localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                    let updated_Time = localStorage.getItem("updated_time_tds_sen")
+                    if (updated_Time != resp.data[0].data.updated_at) {
+                        setIsLoading(false);
+                        alert("Device Setting Updated Successfully")
+                    }
+                    localStorage.setItem('updated_time_tds_sen', resp.data[0].data.updated_at);
                 }).catch((err) => {
                     console.log("err", err);
                 })
@@ -90,7 +100,7 @@ const ConductivityForm = ({ intervalTime }) => {
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "cnd_tds_sen",
+            componant_name: "cnd_sen",
             spn: spn,
             tsp: tsp,
             asp: asp,
@@ -100,7 +110,7 @@ const ConductivityForm = ({ intervalTime }) => {
             let newData = {
                 company_name: userData.company_name,
                 unit_type: "water_treatment",
-                componant_name: "cnd_tds_sen",
+                componant_name: "cnd_sen",
                 spn: spn,
                 tsp: tsp,
                 asp: asp,
