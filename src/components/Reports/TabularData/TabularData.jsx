@@ -21,11 +21,11 @@ const TabularData = () => {
   const waterTreatmentDetails = ['Water Treatment Unit', 'Water Dispensing Unit']
 
   const WaterTreatmentcomponentDetails = [
-    'rwp', 'cnd_tds', 'hpp', 'flowsen', 'panel', 'ampv1', 'ampv2', 'ampv3', 'ampv4', 'ampv5'
+    'rwp', 'cnd_tds', 'hpp', 'F_flowsen', 'P_flowsen' ,'panel', 'ampv1', 'ampv2', 'ampv3', 'ampv4', 'ampv5'
   ]
 
   const WaterDispensecomponentDetails = [
-    'atm', 'tap1', 'tap2', 'tap3', 'tap4', 'consen'
+    'atm', 'tap1', 'tap2', 'tap3', 'tap4', 'cnd_consen', 'tds_consen'
   ]
 
   const selectWaterTereatment = (event) => {

@@ -1,22 +1,15 @@
 import {
-  Box,
   Grid,
-  IconButton,
-  Typography,
   useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
-import Popup from "../../../hoc/Popup/Popup";
 import SelectOverviewSection from "./SelectOverviewSection";
-import SelectColorIcon from "../../../assets/icons/ReportsIcon/SelectColorIcon.png";
 import BarChartComp from "./BarChartComp";
 import LineChartComp from "./LineChartComp";
-import { useEffect } from "react";
 import { ReactComponent as LeftArrow } from "../../../assets/icons/ReportsIcon/CaretLeft.svg";
 import ReactSimplyCarousel from "react-simply-carousel";
-import axios from "axios";
 
-const ChartComp = ({deviceID, value}) => {
+const ChartComp = ({deviceID, value, fromDate, toDate}) => {
   const [checked, setChecked] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [Yaxis, setYaxis] = useState("");
@@ -27,35 +20,11 @@ const ChartComp = ({deviceID, value}) => {
     setChecked(!checked);
   };
 
-  // const [ChartColors, setChartColors] = useState([
-  //   // { title: "5 YEARS", color: "#6CCED9" },
-  //   // { title: "MONTHLY", color: "#BA4DBC" },
-  //   // { title: "DAILY", color: "#F3C82F" },
-  //   { 
-  //     //title: "HOURLY", 
-  //     color: "#539D31" 
-  //   },
-  // ]);
+  // eslint-disable-next-line
   const [initialColor, setInitialColor] = useState('#F3C82F')
   const [updatedColor, setUpdatedColor] = useState("");
+  // eslint-disable-next-line
   const [updatedIndex, setUpdatedIndex] = useState();
-
-  // useEffect(() => {
-  //   if (updatedColor) {
-  //     // const newArr = ChartColors.map((item, i) => {
-  //     //   if (updatedIndex === i) {
-  //     //     return { ...item, color: updatedColor };
-  //     //   } else {
-  //     //     return item;
-  //     //   }
-  //     // });
-  //     // setChartColors(newArr);
-  //     return updatedColor ;
-  //   }
-  // }, [updatedColor, updatedIndex]);
-
-  // console.log("Yaxis in ChartComp", Yaxis);
-  // console.log("variable in ChartComp", variable);
 
   const matches = useMediaQuery("(min-width: 960px)");
 
@@ -89,7 +58,8 @@ const ChartComp = ({deviceID, value}) => {
             // key={index} item={item} index={index} 
             setUpdatedColor={setUpdatedColor} setUpdatedIndex={setUpdatedIndex} checked={checked}
             Yaxis={Yaxis} variable={variable} deviceID={deviceID} graphData={graphData}
-            initialColor={initialColor} updatedColor={updatedColor}/>
+            initialColor={initialColor} updatedColor={updatedColor}
+            fromDate={fromDate} toDate={toDate}/>
           {/* ))} */}
         </Grid>
       )}
@@ -162,6 +132,7 @@ const ChartComp = ({deviceID, value}) => {
               graphData={graphData}
               initialColor={initialColor}
               updatedColor={updatedColor}
+              fromDate={fromDate} toDate={toDate}
             />
           {/* ))} */}
         </ReactSimplyCarousel>
@@ -172,7 +143,8 @@ const ChartComp = ({deviceID, value}) => {
 
 export default ChartComp;
 
-const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, variable, deviceID, graphData, initialColor, updatedColor}) => {
+const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, variable, 
+  deviceID, graphData, initialColor, updatedColor, fromDate, toDate}) => {
 
   return (
     <Grid width={600} 
@@ -201,6 +173,7 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, 
           setUpdatedColor={setUpdatedColor}
           setUpdatedIndex={setUpdatedIndex}
           updatedColor={updatedColor}
+          fromDate={fromDate} toDate={toDate}
           />
         ) : (
           <BarChartComp 
@@ -214,6 +187,7 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, 
           setUpdatedColor={setUpdatedColor}
           setUpdatedIndex={setUpdatedIndex}
           updatedColor={updatedColor}
+          fromDate={fromDate} toDate={toDate}
           />
         )}
       </Grid>
