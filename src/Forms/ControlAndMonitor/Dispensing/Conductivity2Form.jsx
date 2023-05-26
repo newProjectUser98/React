@@ -1,87 +1,163 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Field, Form, Formik } from 'formik';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 
 
-const Conductivity2Form = () => {
+const Conductivity2Form = ({ intervalTime }) => {
     const [changeConductivityDis, setChangeConductivityDis] = useState('conductivity')
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
     const [spn, setSpn] = React.useState("");
     const [asp, setAsp] = React.useState("");
+    const [cnd, setCnd] = React.useState("");
 
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
     console.log("components ==>", components[0].cnd.cnd);
 
-
-    // useEffect(() => {
-    //     let userData = JSON.parse(localStorage.getItem('user'));
-    //     let newData = {
-    //         unit_type: "water_dispense",
-    //         company_name: userData.company_name,
-    //         componant_name: "consen_cnd"
-    //     }
-    //     components[0].cnd.cnd === 'conductivity' ?
-    //         axios.post("/topicapi/updated_disp_consen/", newData).then((resp) => {
-    //             console.log("res in get_consen", resp.data);
-    //             setSpn(resp.data[0].fields?.spn)
-    //             setAsp(resp.data[0].fields?.asp)
-    //         }).catch((err) => {
-    //             console.log("err", err);
-    //         })
-    //         :
-    //         axios.post("/topicapi/updated_disp_consen/", newData).then((resp) => {
-    //             console.log("res in get_rwp", resp.data[0].fields);
-    //             setSpn(resp.data[0].fields?.spn)
-    //             setAsp(resp.data[0].fields?.asp)
-    //         }).catch((err) => {
-    //             console.log("err", err);
-    //         })
-    // },
-        // eslint-disable-next-line
-        // [])
+    const navigate = useNavigate();
+    let access_token = localStorage.getItem("access_token")
+    useEffect(() => {
+        const fetchData = () => {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            if (components[0].cnd.cnd === "conductivity") {
+                let newData = {
+                    unit_type: "water_dispense",
+                    company_name: userData.company_name,
+                    componant_name: "cnd_consen"
+                }
+                axios.post("/topicapi/updated_disp_cnd_consen/", newData).then((resp) => {
+                    console.log("resp in disp_cnd_consen", resp.data[0].data);
+                    if (resp.data[0].data.message_type === "updsta") {
+                        setCnd(resp.data[0].data.cnd)
+                    } else if (resp.data[0].data.message_type === "updset") {
+                        setSpn(resp.data[0].data.spn)
+                        setAsp(resp.data[0].data.asp)
+                    }
+                    localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                }).catch((err) => {
+                    console.log("err in rwp state", err);
+                })
+            } else if (components[0].cnd.cnd === "tds") {
+                let newData = {
+                    unit_type: "water_dispense",
+                    company_name: userData.company_name,
+                    componant_name: "tds_consen"
+                }
+                axios.post("/topicapi/updated_disp_tds_consen/", newData).then((resp) => {
+                    console.log("resp in disp_tds_consen", resp.data[0].data);
+                    if (resp.data[0].data.message_type === "updsta") {
+                        setCnd(resp.data[0].data.cnd)
+                    } else if (resp.data[0].data.message_type === "updset") {
+                        setSpn(resp.data[0].data.spn)
+                        setAsp(resp.data[0].data.asp)
+                    }
+                    localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                }).catch((err) => {
+                    console.log("err in rwp state", err);
+                })
+            }
+        };
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime]);
 
     const initialValues = {
         spn: "",
         asp: "",
     };
+
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_dispense",
-            componant_name: components[0].cnd.cnd ? "consen_cnd" : "consen_tds",
-            spn: spn,
-            asp: asp
-        }
+            componant_name: "cnd_consen"
+        };
+        console.log("newData", newData);
 
-        components[0].cnd.cnd === 'conductivity' ?
-            axios.post('/topicapi/consen_cnd_setting/', newData).then((res) => {
-                console.log("res in cnd", res);
-                setIsLoading(true);
-                setOpen(true);
-                setTimeout(() => {
-                    setIsLoading(false)
-                    setOpen(false);
-                }, 10000);
-            }).catch((err) => {
-                console.log("err", err);
-            }) :
-            axios.post('/topicapi/consen_setting/', newData).then((res) => {
-                console.log("res in tds", res);
-                setIsLoading(true);
-                setOpen(true);
-                setTimeout(() => {
-                    setIsLoading(false)
-                    setOpen(false);
-                }, 10000);
-            }).catch((err) => {
-                console.log("err", err);
+        axios.post("/topicapi/get_device_id/", newData)
+            .then((resp) => {
+                console.log("resp in cnd_consen set device id", resp.data[0].data.Device_id);
+
+                if (components[0].cnd.cnd === "conductivity") {
+                    let newData = {
+                        company_name: userData.company_name,
+                        unit_type: "water_dispense",
+                        componant_name: "cnd_consen",
+                        spn: spn,
+                        asp: asp,
+                        device_id: resp?.data[0]?.data?.Device_id
+                    };
+                    setTimeout(() => {
+                        axios.post('/topicapi/cnd_consen_setting/', newData, {
+                            headers: {
+                                'Authorization': 'Bearer ' + access_token,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then((res) => {
+                                console.log("res", res);
+                                setIsLoading(true);
+                                setOpen(true);
+                                setTimeout(() => {
+                                    setIsLoading(false)
+                                    setOpen(false);
+                                }, 10000);
+                            })
+                            .catch((err) => {
+                                console.log("err", err);
+                                if (err.response.statusText === "Unauthorized") {
+                                    navigate("/");
+                                    alert("Please enter valid credentials")
+                                }
+                            });
+                    }, 3000); // Delay of 3 seconds
+                } else if (components[0].cnd.cnd === "tds") {
+                    let newData = {
+                        company_name: userData.company_name,
+                        unit_type: "water_dispense",
+                        componant_name: "tds_consen",
+                        spn: spn,
+                        asp: asp,
+                        device_id: resp?.data[0]?.data?.Device_id
+                    };
+                    setTimeout(() => {
+                        axios.post('/topicapi/tds_consen_setting/', newData, {
+                            headers: {
+                                'Authorization': 'Bearer ' + access_token,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then((res) => {
+                                console.log("res", res);
+                                setIsLoading(true);
+                                setOpen(true);
+                                setTimeout(() => {
+                                    setIsLoading(false)
+                                    setOpen(false);
+                                }, 10000);
+                            })
+                            .catch((err) => {
+                                console.log("err", err);
+                                if (err.response.statusText === "Unauthorized") {
+                                    navigate("/");
+                                    alert("Please enter valid credentials")
+                                }
+                            });
+                    }, 3000); // Delay of 3 seconds
+                }
             })
+            .catch((error) => {
+                console.log("error", error);
+            });
     }
     return (
         <>

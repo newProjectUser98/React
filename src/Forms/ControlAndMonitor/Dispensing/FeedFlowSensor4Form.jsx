@@ -1,8 +1,33 @@
-import {Form, Formik } from 'formik'
-import React from 'react'
+import axios from 'axios';
+import { Form, Formik } from 'formik'
+import React, { useEffect, useState } from 'react'
 
-const FeedFlowSensor4Form = () => {
-
+const FeedFlowSensor4Form = ({intervalTime}) => {
+    const [fr, setFr] = useState("")
+    useEffect(() => {
+        const fetchData = () => {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                unit_type: "water_dispense",
+                company_name: userData.company_name,
+                componant_name: "flowsen4"
+            }
+            axios.post("/topicapi/updated_treat_P_flowsen/", newData).then((resp) => {
+                console.log("resp in treat_P_flowsen", resp.data[0].data);
+                if (resp.data[0].data.message_type === "updsta") {
+                    setFr(resp.data[0].data.fr)
+                }
+                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+            }).catch((err) => {
+                console.log("err in rwp state", err);
+            })
+        };
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime]);
     const initialValues = {
         flowrate: '',
         ff: "003.00",
@@ -27,7 +52,7 @@ const FeedFlowSensor4Form = () => {
                                 <div className="flex items-center py-3">
                                     <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40'>Flow Rate</p>
-                                    <p className=''>0.54</p>
+                                    <p className=''>{fr}</p>
                                     <span className='mx-1'>m3/hr</span>
                                 </div>
                             </Form>

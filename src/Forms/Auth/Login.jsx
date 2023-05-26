@@ -13,8 +13,10 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
 
 const initialValuesEmail = {
-  email: "test@gmail.com",
-  password: "Test@123",
+  email: "",
+  password: "",
+  // email: "test@gmail.com",
+  // password: "Test@123",
 };
 const validationSchemaEmail = Yup.object({
   email: Yup.string()

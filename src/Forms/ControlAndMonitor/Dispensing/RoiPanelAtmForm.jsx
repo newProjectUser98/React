@@ -32,9 +32,9 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
     const [re2, setre2] = React.useState("");
     const [re3, setre3] = React.useState("");
     const [re4, setre4] = React.useState("");
-    const [sts, setSts] = React.useState({ value: "", label: "" });
+    const [sts, setSts] = React.useState("");
     const [ndv, setNdv] = React.useState("");
-    const [ntt, setNtt] = React.useState({ value: "", label: "" });
+    const [ntt, setNtt] = React.useState("");
     const [nta, setNta] = React.useState("");
     const [tmp, setTmp] = React.useState("");
     const navigate = useNavigate();
@@ -55,16 +55,8 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
             axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
                 console.log("res in get_atm", resp.data[0].data);
                 if (resp.data[0].data.message_type === "updsta") {
-                    statusData.map((item, id) => {
-                        if (item.value === resp.data[0].data.sts) {
-                            setSts({ value: item.value, label: item.label })
-                        }
-                    })
-                    newTransactionTypeData.map((item, id) => {
-                        if (item.value === resp.data[0].data.ntt) {
-                            setNtt({ value: item.value, label: item.label })
-                        }
-                    })
+                    setSts(resp.data[0].data.sts)
+                    setNtt(resp.data[0].data.ntt)
                     setNdv(resp.data[0].data.ndv)
                     setNta(resp.data[0].data.nta)
                     setTmp(resp.data[0].data.tmp)
@@ -142,7 +134,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                     re2: re2,
                     re3: re3,
                     re4: re4,
-                    ntt: ntt.value,
+                    ntt: ntt,
                     device_id: resp?.data[0]?.data?.Device_id
                 };
 
@@ -197,7 +189,16 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Status</p>
                 <select name="sts" id="sts" className='my-2 w-52 px-5 py-2 border rounded'>
-                    <option value={sts.value}>{sts.label}</option>
+                    {/* <option value={sts}>{sts}</option> */}
+                    {
+                        statusData.map((item, id) => {
+                            if (item.value === sts) {
+                                return (
+                                    <option value={item.value}>{item.label}</option>
+                                )
+                            }
+                        })
+                    }
                     {/* <option value="nml">Normal</option>
                 <option value="tke">tank_empty</option>
                 <option value="tpl">Tap_Low</option>
@@ -218,7 +219,16 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>New Transaction Type</p>
                 <select name="ntt" id="ntt" className='my-2 w-52 px-5 py-2 border rounded'>
-                    <option value={ntt?.value}>{ntt?.label}</option>
+                    {/* <option value={ntt}>{ntt}</option> */}
+                    {
+                        newTransactionTypeData.map((item, id) => {
+                            if (item.value === ntt) {
+                                return (
+                                    <option value={item.value}>{item.label}</option>
+                                )
+                            }
+                        })
+                    }
                     {/* <option value="cn">Coin</option>
                 <option value="cd">Card</option>
                 <option value="qr">QR</option> */}

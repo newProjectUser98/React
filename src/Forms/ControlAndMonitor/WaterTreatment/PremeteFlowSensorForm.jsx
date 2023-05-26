@@ -3,32 +3,48 @@ import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
+import { useNavigate } from 'react-router-dom';
 
-const PremeteFlowSensorForm = () => {
+const FeedFlowSensorForm = ({ intervalTime }) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [ff, setFF] = React.useState("");
+    const [ff2, setff2] = React.useState("");
+    const [fr2, setfr2] = React.useState("");
 
 
-    // useEffect(() => {
-    //     let userData = JSON.parse(localStorage.getItem('user'));
-    //     let newData = {
-    //         unit_type: "water_treatment",
-    //         company_name: userData.company_name,
-    //         componant_name: "P_flowsen"
-    //     }
-    //     axios.post("/topicapi/updated_treat_P_flowsen/",newData).then((resp) => {
-    //         console.log("res in get_p_flowsen", resp.data);
-    //         // setFF(resp.data[0].ff)
-    //     }).catch((err) => {
-    //         console.log("err", err);
-    //     })
-    // }, [])
+    const navigate = useNavigate();
+    let access_token = localStorage.getItem("access_token")
+    useEffect(() => {
+        const fetchData = () => {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                unit_type: "water_treatment",
+                company_name: userData.company_name,
+                componant_name: "P_flowsen"
+            }
+            axios.post("/topicapi/updated_treat_P_flowsen/", newData).then((resp) => {
+                console.log("resp in treat_P_flowsen", resp.data[0].data);
+                if (resp.data[0].data.message_type === "updsta") {
+                    setfr2(resp.data[0].data.fr2)
+                } else if (resp.data[0].data.message_type === "updset") {
+                    setff2(resp.data[0].data.ff2)
+                }
+                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+            }).catch((err) => {
+                console.log("err in rwp state", err);
+            })
+        };
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime]);
 
     const initialValues = {
-        flowrate: '',
-        ff: "settingData.ff",
+        fr2: 3.0,
+        ff2: " ",
     };
 
     const onSubmitSetting = (values, submitProps) => {
@@ -36,20 +52,52 @@ const PremeteFlowSensorForm = () => {
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "P_flowsen",
-            ff:ff
-        }
-        axios.post('/topicapi/P_flowsen_setting/', newData).then((res) => {
-            console.log("res", res);
-            setIsLoading(true);
-            setOpen(true);
-            setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-            }, 10000);
-        }).catch((err) => {
-            console.log("err", err);
-        })
+            componant_name: "P_flowsen"
+        };
+        console.log("newData", newData);
+
+        axios.post("/topicapi/get_device_id/", newData)
+            .then((resp) => {
+                console.log("resp in treat_P_flowsen set device id", resp.data[0].data.Device_id);
+
+                let newData = {
+                    company_name: userData.company_name,
+                    unit_type: "water_treatment",
+                    componant_name: "P_flowsen",
+                    ff: ff2,
+                    device_id: resp?.data[0]?.data?.Device_id
+                };
+
+                setTimeout(() => {
+                    axios.post('/topicapi/P_flowsen_setting/', newData, {
+                        headers: {
+                            'Authorization': 'Bearer ' + access_token,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then((res) => {
+                            console.log("res", res);
+                            setIsLoading(true);
+                            setOpen(true);
+                            setTimeout(() => {
+                                setIsLoading(false)
+                                setOpen(false);
+                            }, 10000);
+                        })
+                        .catch((err) => {
+                            console.log("err", err);
+                            if (err.response.statusText === "Unauthorized") {
+                                navigate("/");
+                                alert("Please enter valid credentials")
+                            }
+                        });
+                }, 3000); // Delay of 3 seconds
+
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
+
     }
     return (
         <>
@@ -77,7 +125,7 @@ const PremeteFlowSensorForm = () => {
                                 <div className="flex items-center py-3">
                                     <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40'>Flow Rate</p>
-                                    <p className=''>0.54</p>
+                                    <p className=''>{fr2}</p>
                                     <span className='mx-1'>m3/hr</span>
                                 </div>
                                 <div className="flex items-center mt-5 mx-2">
@@ -90,8 +138,7 @@ const PremeteFlowSensorForm = () => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Flow Factor</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="ff" id="ff" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Flow Factor" value={ff}
-                                        onChange={(e) => setFF(e.target.value)} />
+                                        <Field disabled={!editSetting} type="text" name="ff" id="ff" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Flow Factor" value={ff2} onChange={(e) => setff2(e.target.value)} />
                                         <span className='mx-2 my-2'>ml/pulse</span>
                                     </div>
                                 </div>
@@ -108,4 +155,4 @@ const PremeteFlowSensorForm = () => {
     )
 }
 
-export default PremeteFlowSensorForm
+export default FeedFlowSensorForm

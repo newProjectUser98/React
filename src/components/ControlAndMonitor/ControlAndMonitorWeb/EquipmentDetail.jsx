@@ -101,7 +101,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <FeedFlowSensorForm />
+                                <FeedFlowSensorForm intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <Ampv1Form intervalTime={intervalTime}/>
+                                <Ampv1Form intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <Ampv2Form intervalTime={intervalTime}/>
+                                <Ampv2Form intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -269,7 +269,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <RoiPanelForm intervalTime={intervalTime}/>
+                                <RoiPanelForm intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -414,7 +414,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <HppForm intervalTime={intervalTime}/>
+                                <HppForm intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -496,7 +496,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <PremeteFlowSensorForm />
+                                <PremeteFlowSensorForm intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -509,7 +509,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <ConductivityForm intervalTime={intervalTime}/>
+                                <ConductivityForm intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -558,7 +558,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <RoiPanelAtmForm intervalTime={intervalTime}/>
+                                <RoiPanelAtmForm intervalTime={intervalTime} />
                             </div>
                         </div>
                     </div>
@@ -652,7 +652,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <Conductivity2Form />
+                                <Conductivity2Form intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -693,7 +693,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <FeedFlowSensor1Form />
+                                <FeedFlowSensor1Form intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -706,7 +706,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <FeedFlowSensor2Form />
+                                <FeedFlowSensor2Form intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -719,7 +719,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <FeedFlowSensor3Form />
+                                <FeedFlowSensor3Form intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>
@@ -732,7 +732,7 @@ px-md-18 px-lg-28 py-12
                         </div>
                         <div className=" w-1/2 divider relative m-5">
                             <div className="p-5">
-                                <FeedFlowSensor4Form />
+                                <FeedFlowSensor4Form intervalTime={intervalTime}/>
                             </div>
                         </div>
                     </div>

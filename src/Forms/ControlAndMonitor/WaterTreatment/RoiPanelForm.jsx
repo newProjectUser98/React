@@ -28,6 +28,17 @@ let TimeFlowData = [
     { value: "t", label: "Time" },
     { value: "f", label: "Flow" },
 ]
+
+
+let LOWHIGH = [
+    { value: "low", label: "Low" },
+    { value: "high", label: "High" },
+]
+let FULLEMP = [
+    { value: "full", label: "Full" },
+    { value: "emp", label: "Empty" },
+    { value: "emp", label: "Empty" },
+]
 const RoiPanelForm = ({ intervalTime }) => {
     // eslint-disable-next-line
     const [statusVal, setStatusVal] = useState(false)
@@ -54,13 +65,13 @@ const RoiPanelForm = ({ intervalTime }) => {
     const [hps, setHps] = React.useState("");
     const [dgp, setDgp] = React.useState("");
     const [ipv, setIpv] = React.useState("");
-    const [err, setErr] = React.useState({ value: "", label: "" });
+    const [err, setErr] = React.useState("");
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
     console.log("components ==>", components[0].panel.dosing_pump);
-
+    console.log("hps", hps);
     const initialValues = {
         mod: '',
         nmv: '',
@@ -94,11 +105,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                     setHps(resp.data[0].data.hps)
                     setDgp(resp.data[0].data.dgp)
                     setIpv(resp.data[0].data.ipv)
-                    ErrorData.map((item, id) => {
-                        if (item.value === resp.data[0].data.err) {
-                            setErr({ value: item.value, label: item.label })
-                        }
-                    })
+                    setErr(resp.data[0].data.err)
                 } else if (resp.data[0].data.message_type === "updset") {
                     setMod(resp.data[0].data.mod)
                     setNmv(resp.data[0].data.nmv)
@@ -232,7 +239,15 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <select name="rtl" id="rtl" className='w-52 p-2 border my-2 rounded'>
                     {/* <option value="full">Full</option>
                 <option value="full">Full</option> */}
-                    <option value={rtl}>{rtl}</option>
+                    {
+                        FULLEMP.map((item, id) => {
+                            if (item.value === rtl) {
+                                return (
+                                    <option value={item.value}>{item.label}</option>
+                                )
+                            }
+                        })
+                    }
                 </select>
             </div>
             <div className="flex items-center py-3 flex-wrap">
@@ -241,7 +256,16 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <select name="ttl" id="ttl" className='w-52 p-2 border my-2 rounded'>
                     {/* <option value="full">Full</option>
                 <option value="emp">Empty</option> */}
-                    <option value={ttl}>{ttl}</option>
+                    {
+                        FULLEMP.map((item, id) => {
+                            console.log("item in hps", item.value);
+                            if (item.value === ttl) {
+                                return (
+                                    <option value={item.value}>{item.label}</option>
+                                )
+                            }
+                        })
+                    }
                 </select>
             </div>
             <div className="flex items-center py-3 flex-wrap">
@@ -250,16 +274,33 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <select name="lps" id="lps" className='w-52 p-2 border my-2  rounded'>
                     {/* <option value="low">Low</option>
                 <option value="high">High</option> */}
-                    <option value={lps}>{lps}</option>
+                    {
+                        LOWHIGH.map((item, id) => {
+                            if (item.value === lps) {
+                                return (
+                                    <option value={item.value}>{item.label}</option>
+                                )
+                            }
+                        })
+                    }
                 </select>
             </div>
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>High Pressure Switch</p>
                 <select name="hps" id="hps" className='w-52 p-2 border my-2 rounded'>
-                    <option value={hps}>{hps}</option>
+                    {/* <option value={hps}>{hps}</option> */}
                     {/* <option value="low">Low</option>
                 <option value="high">High</option> */}
+                    {
+                        LOWHIGH.map((item, id) => {
+                            if (item.value === hps) {
+                                return (
+                                    <option value={item?.value}>{item?.label}</option>
+                                )
+                            }
+                        })
+                    }
                 </select>
             </div>
             <div className="flex items-center py-3 flex-wrap">
@@ -282,8 +323,15 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Error</p>
                 <select name="err" id="err" className='my-2 w-52 p-2 border rounded'>
-
-                    <option value={err?.value}>{err?.label}</option>
+                    {
+                        ErrorData.map((item, id) => {
+                            if (item.value === err) {
+                                return (
+                                    <option value={item?.value}>{item?.label}</option>
+                                )
+                            }
+                        })
+                    }
 
                 </select>
             </div>
