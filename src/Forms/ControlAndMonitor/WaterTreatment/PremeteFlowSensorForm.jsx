@@ -30,7 +30,12 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                 } else if (resp.data[0].data.message_type === "updset") {
                     setff2(resp.data[0].data.ff2)
                 }
-                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                let updated_Time = localStorage.getItem("updated_time_P_flowsen")
+                    if (updated_Time != resp.data[0].data.updated_at) {
+                        setIsLoading(false);
+                        alert("Device Setting Updated Successfully")
+                    }
+                localStorage.setItem('updated_time_P_flowsen', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err in rwp state", err);
             })

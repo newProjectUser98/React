@@ -72,8 +72,13 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                     setre3(resp.data[0].data.re3)
                     setre4(resp.data[0].data.re4)
                 }
+                let updated_Time = localStorage.getItem("updated_time_atm")
+                if (updated_Time != resp.data[0].data.updated_at) {
+                    setIsLoading(false);
+                    alert("Device Setting Updated Successfully")
+                }
                 console.log("sts in data", resp.data[0].data.sts);
-                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                localStorage.setItem('updated_time_atm', resp.data[0].data.updated_at);
             }).catch((err) => {
                 console.log("err", err);
             })
