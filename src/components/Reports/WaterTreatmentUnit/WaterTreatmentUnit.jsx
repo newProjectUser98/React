@@ -12,7 +12,7 @@ import { ReactComponent as TotalVolumeProducedIcon } from "../../../assets/icons
 import { ReactComponent as NumberOfFaultsIcon } from "../../../assets/icons/ReportsIcon/NumberOfFaultsIcon.svg";
 import { ReactComponent as PermeateFlowRateIcon } from "../../../assets/icons/ReportsIcon/PermeateFlowRateIcon.svg";
 
-const WaterTreatmentUnit = ({ deviceID }) => {
+const WaterTreatmentUnit = ({ deviceID, fromDate, toDate }) => {
   const [value, setValue] = React.useState(0);
 
 
@@ -163,7 +163,7 @@ const WaterTreatmentUnit = ({ deviceID }) => {
             />
           </Grid>
           <Grid>
-            <ChartComp deviceID={deviceID} value={value} />
+            <ChartComp deviceID={deviceID} value={value} fromDate={fromDate} toDate={toDate}/>
           </Grid>
         </Grid>
       </TabPanel>
@@ -213,7 +213,7 @@ const WaterTreatmentUnit = ({ deviceID }) => {
             />
           </Grid>
           <Grid>
-            <ChartComp deviceID={deviceID} value={value} />
+            <ChartComp deviceID={deviceID} value={value} fromDate={fromDate} toDate={toDate}/>
           </Grid>
         </Grid>
       </TabPanel>

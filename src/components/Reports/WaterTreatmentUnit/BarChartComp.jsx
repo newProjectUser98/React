@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { XAxis, BarChart, Bar, YAxis, Tooltip, Legend } from "recharts";
 
-const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index, setUpdatedColor, setUpdatedIndex, updatedColor }) => {
+const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }) => {
 
   const [hourlyData, setHourlyData] = useState([])
   const [monthlyData, setMonthlyData] = useState([])
@@ -37,43 +37,17 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
 
   useEffect(() => {
 
-    if (Yaxis === 'cnd_tds') {
-      axios.get("/topicapi/cnd_hourly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          console.log('hourlyData', filteredData)
-          setHourlyData(filteredData)
-        })
-        .catch(err => console.log(err))
 
-      axios.get("/topicapi/cnd_daily/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          console.log('dailyData', filteredData)
-          setDailyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("/topicapi/cnd_monthly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          console.log('monthlyData', filteredData)
-          setMonthlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-
-      axios.get("/topicapi/cnd_yearly/")
-        .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
-          console.log('yearlyData', filteredData)
-          setYearlyData(filteredData)
-        })
-        .catch(err => console.log(err))
-    } else {
+    if (fromDate && toDate) {
+      const fromDateObj = new Date(fromDate);
+      const toDateObj = new Date(toDate);
 
       axios.get(`/topicapi/${Yaxis}_hourly/`)
         .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
+          const filteredData = res.data.filter((obj) => {
+            const docDate = new Date(obj.year, obj.month - 1, obj.day);
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+          })
           console.log('hourlyData', filteredData)
           setHourlyData(filteredData)
         })
@@ -81,7 +55,10 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
 
       axios.get(`/topicapi/${Yaxis}_daily/`)
         .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
+          const filteredData = res.data.filter((obj) => {
+            const docDate = new Date(obj.year, obj.month - 1, obj.day);
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+          })
           console.log('dailyData', filteredData)
           // console.log('finalData in daily', data)
           setDailyData(filteredData)
@@ -90,7 +67,10 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
 
       axios.get(`/topicapi/${Yaxis}_monthly/`)
         .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
+          const filteredData = res.data.filter((obj) => {
+            const docDate = new Date(obj.year, obj.month - 1, obj.day);
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+          })
           console.log('monthlyData', filteredData)
           setMonthlyData(filteredData)
         })
@@ -98,16 +78,22 @@ const BarChartComp = ({ color, Yaxis, variable, deviceID, graphData, item, index
 
       axios.get(`/topicapi/${Yaxis}_yearly/`)
         .then(res => {
-          const filteredData = res.data.filter(obj => obj.service === Yaxis && obj.device_id === deviceID)
+          const filteredData = res.data.filter((obj) => {
+            const docDate = new Date(obj.year, obj.month - 1, obj.day);
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+          })
           console.log('yearlyData', filteredData)
           setYearlyData(filteredData)
         })
         .catch(err => console.log(err))
 
+
+
+
     }
   },
     // eslint-disable-next-line
-    [variable])
+    [variable, fromDate, toDate])
 
 
   return (

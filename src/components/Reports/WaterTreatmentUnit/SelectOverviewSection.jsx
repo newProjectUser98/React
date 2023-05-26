@@ -29,11 +29,11 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
 
 
   const WaterTreatmentcomponentDetails = [
-    'rwp', 'cnd_tds', 'hpp', 'flowsen', 'panel', 'ampv1', 'ampv2', 'ampv3', 'ampv4', 'ampv5'
+    'rwp', 'cnd_tds', 'hpp', 'F_flowsen', 'P_flowsen', 'panel', 'ampv1', 'ampv2', 'ampv3', 'ampv4', 'ampv5'
   ]
 
   const WaterDispensecomponentDetails = [
-    'atm', 'tap1', 'tap2', 'tap3', 'tap4', 'consen'
+    'atm', 'tap1', 'tap2', 'tap3', 'tap4', 'cnd_consen', 'tds_consen'
   ]
 
   const handleChange = (event) => {
@@ -52,37 +52,39 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
   }
 
   const component_variable_data = {
-    cnd_tds: ["spn","tsp","asp","cnd"],
+    cnd_tds: ["spn", "tsp", "asp", "cnd"],
 
-    rwp: ["crt","olc","drc","spn"],
+    rwp: ["crt", "olc", "drc", "spn"],
 
-    hpp: ["crt","olc","drc","spn"],
+    hpp: ["crt", "olc", "drc", "spn"],
 
-    panel: ["ipv","unv","ovv","nmv","spn","srt","bkt","rst"],
+    panel: ["ipv", "unv", "ovv", "nmv", "spn", "srt", "bkt", "rst"],
 
-    ampv1: ["rmt","cct","srt","bkt","rst","mot"],
+    ampv1: ["rmt", "cct", "srt", "bkt", "rst", "mot"],
 
-    ampv2: ["rmt","cct","srt","bkt","rst","mot"],
+    // ampv2: ["rmt","cct","srt","bkt","rst","mot"],
 
-    ampv3: ["rmt","cct","srt","bkt","rst","mot"],
+    // ampv3: ["rmt","cct","srt","bkt","rst","mot"],
 
-    ampv4: ["rmt","cct","srt","bkt","rst","mot"],
+    // ampv4: ["rmt","cct","srt","bkt","rst","mot"],
 
-    ampv5: ["rmt","cct","srt","bkt","rst","mot"],
+    // ampv5: ["rmt","cct","srt","bkt","rst","mot"],
 
-    flowsen: ["fr1","fr2","ff1","ff2"],
+    F_flowsen: ["fr1", "ff1"],
 
-    tap1: ["p1","p2","p3","p4"],
+    P_flowsen: ["fr2", "ff2"],
 
-    tap2: ["p1","p2","p3","p4"],
+    tap1: ["p1", "p2", "p3", "p4"],
 
-    tap3: ["p1","p2","p3","p4"],
+    // tap2: ["p1","p2","p3","p4"],
 
-    tap4: ["p1","p2","p3","p4"],
+    // tap3: ["p1","p2","p3","p4"],
 
-    consen: ["cnd","spn","asp"],
+    // tap4: ["p1","p2","p3","p4"],
 
-    atm: ["ndv","nta","tmp","ntp","nov","vl1","vl2","vl3","vl4","re1","re2","re3","re4"]
+    consen: ["cnd", "spn", "asp"],
+
+    atm: ["ndv", "nta", "tmp", "ntp", "nov", "vl1", "vl2", "vl3", "vl4", "re1", "re2", "re3", "re4"]
   }
 
   useEffect(() => {
@@ -96,35 +98,37 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
       setCompVariables(component_variable_data.panel)
     } else if (Yaxis === 'ampv1' || Yaxis === 'ampv2' || Yaxis === 'ampv3' || Yaxis === 'ampv4' || Yaxis === 'ampv5') {
       setCompVariables(component_variable_data.ampv1)
-    } else if (Yaxis === 'flowsen') {
-      setCompVariables(component_variable_data.flowsen)
+    } else if (Yaxis === 'F_flowsen') {
+      setCompVariables(component_variable_data.F_flowsen)
+    } else if (Yaxis === 'P_flowsen') {
+      setCompVariables(component_variable_data.P_flowsen)
     } else if (Yaxis === 'tap1' || Yaxis === 'tap2' || Yaxis === 'tap3' || Yaxis === 'tap4') {
       setCompVariables(component_variable_data.tap1)
-    } else if (Yaxis === 'consen') {
+    } else if (Yaxis === 'cnd_consen' || Yaxis === 'tds_consen') {
       setCompVariables(component_variable_data.consen)
     } else if (Yaxis === 'atm') {
       setCompVariables(component_variable_data.atm)
     } else {
       setCompVariables([])
     }
-  }, 
-  // eslint-disable-next-line
-  [Yaxis])
+  },
+    // eslint-disable-next-line
+    [Yaxis])
 
   console.log('component_variable', comp_variables);
 
   useEffect(() => {
 
-    if(value === 0){
+    if (value === 0) {
       setComponent(WaterTreatmentcomponentDetails)
     }
-    if(value === 1){
+    if (value === 1) {
       setComponent(WaterDispensecomponentDetails)
     }
 
-  }, 
-  // eslint-disable-next-line
-  [])
+  },
+    // eslint-disable-next-line
+    [])
 
 
   return (

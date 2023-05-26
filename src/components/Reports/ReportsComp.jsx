@@ -8,14 +8,18 @@ const ReportsComp = () => {
 
   const [deviceID, setDeviceID] = useState("")
   const [selectSiteName, setSelectSiteName] = useState("")
+  const [fromDate, setFromDate] = useState(null)
+  const [toDate, setToDate] = useState(null)
 
   return (
     <Grid className="sm:p-[30px] p-5">
       <Grid>
-        <Search deviceID={deviceID} setDeviceID={setDeviceID} selectSiteName={selectSiteName} setSelectSiteName={setSelectSiteName}/>
+        <Search deviceID={deviceID} setDeviceID={setDeviceID} selectSiteName={selectSiteName} setSelectSiteName={setSelectSiteName}
+        fromDate={fromDate} setFromDate={setFromDate}
+        toDate={toDate} setToDate={setToDate}/>
       </Grid>
       <Grid pt={"40px"}>
-        <WaterTreatmentUnit deviceID={deviceID}/>
+        <WaterTreatmentUnit deviceID={deviceID} fromDate={fromDate} toDate={toDate}/>
       </Grid>
       <Grid pt={"40px"}>
         <TabularData />
