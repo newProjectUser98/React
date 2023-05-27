@@ -49,8 +49,12 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
           })
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date in descending order
+
+          const recentDocuments = filteredData.slice(-24); // Get a maximum of 24 most recent documents
+
           console.log('hourlyData', filteredData)
-          setHourlyData1(filteredData)
+          setHourlyData1(recentDocuments)
         })
         .catch(err => console.log(err))
 
@@ -60,9 +64,13 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
           })
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date in descending order
+
+          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+
           console.log('dailyData', filteredData)
           // console.log('finalData in daily', data)
-          setDailyData1(filteredData)
+          setDailyData1(recentDocuments)
         })
         .catch(err => console.log(err))
 
@@ -72,8 +80,12 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
           })
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date in descending order
+
+          const recentDocuments = filteredData.slice(-12); // Get a maximum of 12 most recent documents
+
           console.log('monthlyData', filteredData)
-          setMonthlyData1(filteredData)
+          setMonthlyData1(recentDocuments)
         })
         .catch(err => console.log(err))
 
@@ -83,8 +95,12 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
           })
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date in descending order
+
+          const recentDocuments = filteredData.slice(-3); // Get a maximum of 3 most recent documents
+
           console.log('yearlyData', filteredData)
-          setYearlyData1(filteredData)
+          setYearlyData1(recentDocuments)
         })
         .catch(err => console.log(err))
 
