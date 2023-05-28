@@ -48,11 +48,12 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
           })
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date in descending order
-          
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
+          .reverse(); // Reverse the order to get ascending order
+
           const recentDocuments = filteredData.slice(-24); // Get a maximum of 24 most recent documents
 
-          console.log('filtered data in date search', recentDocuments);
+          console.log('recent data in hourly date search in bar', recentDocuments);
           
           console.log('hourlyData', filteredData)
           setHourlyData(recentDocuments)
@@ -65,10 +66,13 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
           })
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date in descending order
-          
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
+          .reverse(); // Reverse the order to get ascending order
+
           const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
 
+          console.log('recent data in daily date search in bar', recentDocuments);
+          
           console.log('dailyData', filteredData)
           // console.log('finalData in daily', data)
           setDailyData(recentDocuments)
@@ -81,9 +85,12 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
           })
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date in descending order
-          
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
+          .reverse(); // Reverse the order to get ascending order
+
           const recentDocuments = filteredData.slice(-12); // Get a maximum of 12 most recent documents
+
+          console.log('recent data in monthly date search in bar', recentDocuments);
 
           console.log('monthlyData', filteredData)
           setMonthlyData(recentDocuments)
@@ -96,9 +103,12 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
           })
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // Sort by date in descending order
-          
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
+          .reverse(); // Reverse the order to get ascending order
+
           const recentDocuments = filteredData.slice(-3); // Get a maximum of 3 most recent documents
+
+          console.log('recent data in yearly date search in bar', recentDocuments);
 
           console.log('yearlyData', filteredData)
           setYearlyData(recentDocuments)
@@ -163,7 +173,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                       value={1}
                       onClick={() => {
                         setUpdatedColor1(item.color);
-                        alert("In first color pallate")
+                        // alert("In first color pallate")
                       }}
                     >
                       <Box
@@ -226,7 +236,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                       value={1}
                       onClick={() => {
                         setUpdatedColor2(item.color);
-                        alert("In second color pallate")
+                        // alert("In second color pallate")
                       }}
                     >
                       <Box
@@ -290,7 +300,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                     type="button"
                     onClick={() => {
                       setUpdatedColor3(item.color);
-                      alert("In third color pallate")
+                      // alert("In third color pallate")
                     }}
                   >
                     <Box
@@ -352,7 +362,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                     type="button"
                     onClick={() => {
                       setUpdatedColor4(item.color);
-                      alert("In fourth color pallate")
+                      // alert("In fourth color pallate")
                     }}
                   >
                     <Box

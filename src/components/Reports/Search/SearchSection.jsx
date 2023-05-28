@@ -25,6 +25,9 @@ const SearchSection = ({ deviceID, setDeviceID, selectSiteName, setSelectSiteNam
     const timer = setTimeout(() => {
       axios.get("/topicapi/device_info/")
         .then(res => {
+
+          console.log('site res data', res.data);
+
           const uniqueCompanyNames = [...new Set(res.data.map(device => device.company_name))];
 
           setCompany(uniqueCompanyNames)
@@ -34,11 +37,20 @@ const SearchSection = ({ deviceID, setDeviceID, selectSiteName, setSelectSiteNam
           // const companyName = JSON.parse(localStorage.getItem("user")).company_name;
 
           const sitefilteredData = res.data.filter(obj => obj.company_name === selectCompany)
+
           console.log('siteData', sitefilteredData)
-          setSite(sitefilteredData)
-          console.log('site res data', res.data);
+
+          // Extract unique site names
+          const uniqueSiteNames = [...new Set(sitefilteredData.map(obj => obj.site_name))];
+
+          console.log('Unique siteData', uniqueSiteNames);
+
+          setSite(uniqueSiteNames)
+
           const devicefilteredData = res.data.filter(obj => obj.site_name === selectSiteName)
-          console.log('deviceData', devicefilteredData)
+
+          console.log('deviceData due to unique site', devicefilteredData)
+
           setDeviceID(devicefilteredData[0].Device_id)
         })
         .catch(err => console.log(err));
@@ -46,9 +58,9 @@ const SearchSection = ({ deviceID, setDeviceID, selectSiteName, setSelectSiteNam
 
     // Clear the timer if the component is unmounted or the dependency changes
     return () => clearTimeout(timer);
-  }, 
-  // eslint-disable-next-line
-  [selectCompany , selectSiteName]);
+  },
+    // eslint-disable-next-line
+    [selectCompany, selectSiteName]);
 
   const handleSiteChange = (event) => {
     setSelectSiteName(event.target.value);
@@ -57,7 +69,7 @@ const SearchSection = ({ deviceID, setDeviceID, selectSiteName, setSelectSiteNam
 
   const handleCompanyChange = (event) => {
     setSelectCompany(event.target.value);
-    console.log('selected company name' ,event.target.value);
+    console.log('selected company name', event.target.value);
   };
 
   return (
@@ -165,8 +177,8 @@ const SearchSection = ({ deviceID, setDeviceID, selectSiteName, setSelectSiteNam
 
             {site.map((unit) => {
               return (
-                <MenuItem value={unit.site_name}>
-                  {unit.site_name}
+                <MenuItem value={unit}>
+                  {unit}
                 </MenuItem>
               )
             })}
