@@ -18,6 +18,55 @@ const tableHeadData = [
   { name: "Over Load Current" },
 ];
 
+
+const component_variable_data = {
+  cnd: ["spn", "tsp", "asp", "cnd"],
+
+  tds: ["spn", "tsp", "asp", "tds"],
+
+  rwp: ["crt", "olc", "drc", "spn"],
+
+  hpp: ["crt", "olc", "drc", "spn"],
+
+  panel: ["ipv", "unv", "ovv", "nmv", "spn", "srt", "bkt", "rst"],
+
+  ampv1: ["rmt", "cct", "srt", "bkt", "rst", "mot"],
+
+  ampv2: ["rmt", "cct", "srt", "bkt", "rst", "mot"],
+
+  ampv3: ["rmt", "cct", "srt", "bkt", "rst", "mot"],
+
+  ampv4: ["rmt", "cct", "srt", "bkt", "rst", "mot"],
+
+  ampv5: ["rmt", "cct", "srt", "bkt", "rst", "mot"],
+
+  F_flowsen: ["fr1", "ff1"],
+
+  P_flowsen: ["fr2", "ff2"],
+
+  tap1: ["p1", "p2", "p3", "p4"],
+
+  tap2: ["p1", "p2", "p3", "p4"],
+
+  tap3: ["p1", "p2", "p3", "p4"],
+
+  tap4: ["p1", "p2", "p3", "p4"],
+
+  flowsen1: ["fr"],
+
+  flowsen2: ["fr"],
+
+  flowsen3: ["fr"],
+
+  flowsen4: ["fr"],
+
+  cnd_consen: ["cnd", "spn", "asp"],
+
+  tds_consen: ["tds", "spn", "asp"],
+
+  atm: ["ndv", "nta", "tmp", "ntp", "nov", "vl1", "vl2", "vl3", "vl4", "re1", "re2", "re3", "re4"]
+}
+
 // const rwpData = [{
 //   "_id": {
 //     "$oid": "644d4ed74f77a4ea479d4418"
@@ -107,14 +156,21 @@ const tableHeadData = [
 //   }
 // }]
 
+// const rows = [
+//   createData("10:00 AM", "---------", "---------", "---------", "---------"),
+//   createData("10:15 AM", "---------", "---------", "---------", "---------"),
+//   createData("10:30 AM", "---------", "---------", "---------", "---------"),
+//   createData("10:45 AM", "---------", "---------", "---------", "---------"),
+// ];
+
 const rows = [
-  createData("10:00 AM", "---------", "---------", "---------", "---------"),
-  createData("10:15 AM", "---------", "---------", "---------", "---------"),
-  createData("10:30 AM", "---------", "---------", "---------", "---------"),
-  createData("10:45 AM", "---------", "---------", "---------", "---------"),
+  createData("10:00 AM", "----", "----", "----", "----"),
+  // createData("10:15 AM", "----", "----", "----", "----"),
+  // createData("10:30 AM", "----", "----", "----", "----"),
+  // createData("10:45 AM", "----", "----", "----", "----"),
 ];
 
-export default function BasicTable({ component }) {
+export default function BasicTable({ component, Yaxis }) {
   return (
     <Grid>
       <Grid p={"30px"}>
@@ -123,7 +179,8 @@ export default function BasicTable({ component }) {
             <TableHead className="sm:bg-white bg-none">
               <TableRow>
                 <TableCell></TableCell>
-                {tableHeadData.map((item, index) => (
+                {/* {tableHeadData.map((item, index) => ( */}
+                {component_variable_data[Yaxis]?.map((item, index) => (
                   <TableCell key={index}>
                     <Typography
                       fontWeight={600}
@@ -131,7 +188,7 @@ export default function BasicTable({ component }) {
                       fontSize={"14px"}
                       fontFamily={"Poppins"}
                     >
-                      {item.name}
+                      {item}
                     </Typography>
                   </TableCell>
                 ))}
@@ -139,24 +196,29 @@ export default function BasicTable({ component }) {
             </TableHead>
 
             <TableBody>
-              {rows.map((row, index) => (
-                <TableRow key={index} sx={{ height: "80px" }}>
-                  <TableCell>
-                    <Typography
-                      fontWeight={600}
-                      color={"#55A0A9"}
-                      fontSize={"12px"}
-                      fontFamily={"Poppins"}
-                    >
-                      {row.time}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>{row.status}</TableCell>
+              {/* {rows.map((row, index) => ( */}
+              <TableRow sx={{ height: "80px" }}>
+                <TableCell>
+                  <Typography
+                    fontWeight={600}
+                    color={"#55A0A9"}
+                    fontSize={"12px"}
+                    fontFamily={"Poppins"}
+                  >
+                    10:00 AM
+                  </Typography>
+                </TableCell>
+                {component_variable_data[Yaxis]?.map(() => {
+                  return (
+                    <TableCell>----</TableCell>
+                  )
+                })}
+                {/* <TableCell>{row.status}</TableCell>
                   <TableCell>{row.current}</TableCell>
                   <TableCell>{row.dryRunCurrent}</TableCell>
-                  <TableCell>{row.overLoadCurrent}</TableCell>
-                </TableRow>
-              ))}
+                  <TableCell>{row.overLoadCurrent}</TableCell> */}
+              </TableRow>
+              {/* ))} */}
             </TableBody>
 
             {/* {(component === 'rwp') &&

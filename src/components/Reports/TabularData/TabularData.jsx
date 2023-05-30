@@ -13,7 +13,7 @@ import { ReactComponent as AlertsIcon } from "../../../assets/icons/ReportsIcon/
 import { ReactComponent as DownloadIcon } from "../../../assets/icons/ReportsIcon/DownloadIcon.svg";
 import TableComp from "./TableComp";
 
-const TabularData = () => {
+const TabularData = ({Yaxis}) => {
   const [waterTreatmentUnit, setWaterTreatmentUnit] = useState("");
   const [rwp, setRwp] = useState("");
   const [component, setComponent] = useState("")
@@ -301,7 +301,7 @@ const TabularData = () => {
         </Box> */}
 
 
-        <TableComp component={component}/>
+        <TableComp component={component} Yaxis={Yaxis}/>
       </Grid>
     </Paper>
   );
