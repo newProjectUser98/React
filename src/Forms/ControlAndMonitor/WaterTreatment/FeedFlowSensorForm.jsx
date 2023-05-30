@@ -6,16 +6,19 @@ import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 
 const FeedFlowSensorForm = ({ intervalTime }) => {
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [ff1, setff1] = React.useState(0.54);
-    const [fr1, setfr1] = React.useState("");
+    const [ff1, setff1] = React.useState(localStorageData?.ff1);
+    const [fr1, setfr1] = React.useState(localStorageData?.fr1);
 
 
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
+
     useEffect(() => {
+        localStorage.removeItem("localStorage_data");
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
             let newData = {
@@ -24,20 +27,30 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                 componant_name: "F_flowsen"
             }
             axios.post("/topicapi/updated_treat_F_flowsen/", newData).then((resp) => {
-                console.log("resp in treat_F_flowsen", resp.data[0].data);
-                if (resp.data[0].data.message_type === "updsta") {
-                    setfr1(resp.data[0].data.fr1)
-                } else if (resp.data[0].data.message_type === "updset") {
-                    setff1(resp.data[0].data.ff1)
+                if (!localStorage.getItem('localStorage_data')) {
+                    let localStorage_data = {
+                        fr1: resp.data[0].data.data_sta.fr1,
+                        ff1: resp.data[0].data.data_sta.ff1,
+                    }
+                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                 }
-                let updated_Time = localStorage.getItem("updated_time_F_flowsen")
-                if (updated_Time != resp.data[0].data.updated_at) {
+                console.log("resp in F_flowsen", resp.data[0].data);
+                let updated_Time_state = localStorage.getItem("updated_time_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_settings")
+                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        setfr1(resp.data[0].data.data_sta.fr1)
+                    }
+                    if (resp.data[0].data.data_set.message_type === "updset") {
+                        setff1(resp.data[0].data.data_sta.ff1)
+                    }
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }
-                localStorage.setItem('updated_time_F_flowsen', resp.data[0].data.updated_at);
+                localStorage.setItem('updated_time_state', resp.data[0].data.data_sta.updated_at);
+                localStorage.setItem('updated_time_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
-                console.log("err in rwp state", err);
+                console.log("err in F_flowsen state", err);
             })
         };
         fetchData();
