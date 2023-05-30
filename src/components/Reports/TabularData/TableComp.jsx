@@ -8,9 +8,9 @@ import TableRow from "@mui/material/TableRow";
 
 import { Grid, Typography } from "@mui/material";
 
-// function createData(time, status, current, dryRunCurrent, overLoadCurrent) {
-//   return { time, status, current, dryRunCurrent, overLoadCurrent };
-// }
+function createData(time, status, current, dryRunCurrent, overLoadCurrent) {
+  return { time, status, current, dryRunCurrent, overLoadCurrent };
+}
 const tableHeadData = [
   { name: "Status" },
   { name: "Current" },
@@ -18,101 +18,101 @@ const tableHeadData = [
   { name: "Over Load Current" },
 ];
 
-const rwpData = [{
-  "_id": {
-    "$oid": "644d4ed74f77a4ea479d4418"
-  },
-  "id": 1,
-  "device_id": "123",
-  "message_type": "updsta",
-  "sts": "on",
-  "crt": 1050,
-  "olc": 1250,
-  "drc": 150,
-  "spn": 100,
-  "year": "2023",
-  "month": "04",
-  "day": "29",
-  "hour": "22",
-  "minit": "37",
-  "second": "35",
-  "is_active": true,
-  "created_at": {
-    "$date": {
-      "$numberLong": "1682788055445"
-    }
-  },
-  "updated_at": {
-    "$date": {
-      "$numberLong": "1682788055458"
-    }
-  }
-}, {
-  "_id": {
-    "$oid": "644d518c4571cb22491bf69f"
-  },
-  "id": 2,
-  "device_id": "123",
-  "message_type": "updsta",
-  "sts": "on",
-  "crt": 1050,
-  "olc": 1250,
-  "drc": 150,
-  "spn": 100,
-  "year": "2023",
-  "month": "04",
-  "day": "29",
-  "hour": "22",
-  "minit": "49",
-  "second": "08",
-  "is_active": true,
-  "created_at": {
-    "$date": {
-      "$numberLong": "1682788748928"
-    }
-  },
-  "updated_at": {
-    "$date": {
-      "$numberLong": "1682788748940"
-    }
-  }
-}, {
-  "_id": {
-    "$oid": "644d639f5a1ec3b8f454318a"
-  },
-  "id": 3,
-  "device_id": "123",
-  "message_type": "updsta",
-  "sts": "on",
-  "crt": 1050,
-  "olc": 1250,
-  "drc": 150,
-  "spn": 100,
-  "year": "2023",
-  "month": "04",
-  "day": "30",
-  "hour": "00",
-  "minit": "06",
-  "second": "15",
-  "is_active": true,
-  "created_at": {
-    "$date": {
-      "$numberLong": "1682793375055"
-    }
-  },
-  "updated_at": {
-    "$date": {
-      "$numberLong": "1682793375074"
-    }
-  }
-}]
+// const rwpData = [{
+//   "_id": {
+//     "$oid": "644d4ed74f77a4ea479d4418"
+//   },
+//   "id": 1,
+//   "device_id": "123",
+//   "message_type": "updsta",
+//   "sts": "on",
+//   "crt": 1050,
+//   "olc": 1250,
+//   "drc": 150,
+//   "spn": 100,
+//   "year": "2023",
+//   "month": "04",
+//   "day": "29",
+//   "hour": "22",
+//   "minit": "37",
+//   "second": "35",
+//   "is_active": true,
+//   "created_at": {
+//     "$date": {
+//       "$numberLong": "1682788055445"
+//     }
+//   },
+//   "updated_at": {
+//     "$date": {
+//       "$numberLong": "1682788055458"
+//     }
+//   }
+// }, {
+//   "_id": {
+//     "$oid": "644d518c4571cb22491bf69f"
+//   },
+//   "id": 2,
+//   "device_id": "123",
+//   "message_type": "updsta",
+//   "sts": "on",
+//   "crt": 1050,
+//   "olc": 1250,
+//   "drc": 150,
+//   "spn": 100,
+//   "year": "2023",
+//   "month": "04",
+//   "day": "29",
+//   "hour": "22",
+//   "minit": "49",
+//   "second": "08",
+//   "is_active": true,
+//   "created_at": {
+//     "$date": {
+//       "$numberLong": "1682788748928"
+//     }
+//   },
+//   "updated_at": {
+//     "$date": {
+//       "$numberLong": "1682788748940"
+//     }
+//   }
+// }, {
+//   "_id": {
+//     "$oid": "644d639f5a1ec3b8f454318a"
+//   },
+//   "id": 3,
+//   "device_id": "123",
+//   "message_type": "updsta",
+//   "sts": "on",
+//   "crt": 1050,
+//   "olc": 1250,
+//   "drc": 150,
+//   "spn": 100,
+//   "year": "2023",
+//   "month": "04",
+//   "day": "30",
+//   "hour": "00",
+//   "minit": "06",
+//   "second": "15",
+//   "is_active": true,
+//   "created_at": {
+//     "$date": {
+//       "$numberLong": "1682793375055"
+//     }
+//   },
+//   "updated_at": {
+//     "$date": {
+//       "$numberLong": "1682793375074"
+//     }
+//   }
+// }]
 
-// const rows = [
-//   createData("10:00 AM", "---------", "---------", "---------", "---------"),
-//   createData("10:15 AM", "---------", "---------", "---------", "---------"),
-//   createData("10:30 AM", "---------", "---------", "---------", "---------"),
-//   createData("10:45 AM", "---------", "---------", "---------", "---------"),
-// ];
+const rows = [
+  createData("10:00 AM", "---------", "---------", "---------", "---------"),
+  createData("10:15 AM", "---------", "---------", "---------", "---------"),
+  createData("10:30 AM", "---------", "---------", "---------", "---------"),
+  createData("10:45 AM", "---------", "---------", "---------", "---------"),
+];
 
 export default function BasicTable({ component }) {
   return (
@@ -138,7 +138,7 @@ export default function BasicTable({ component }) {
               </TableRow>
             </TableHead>
 
-            {/* <TableBody>
+            <TableBody>
               {rows.map((row, index) => (
                 <TableRow key={index} sx={{ height: "80px" }}>
                   <TableCell>
@@ -157,9 +157,9 @@ export default function BasicTable({ component }) {
                   <TableCell>{row.overLoadCurrent}</TableCell>
                 </TableRow>
               ))}
-            </TableBody> */}
+            </TableBody>
 
-            {(component === 'rwp') &&
+            {/* {(component === 'rwp') &&
               <TableBody>
                 {rwpData.map((row, index) => (
                   <TableRow key={index} sx={{ height: "80px" }}>
@@ -180,7 +180,7 @@ export default function BasicTable({ component }) {
                   </TableRow>
                 ))}
               </TableBody>
-            }
+            } */}
 
 
           </Table>

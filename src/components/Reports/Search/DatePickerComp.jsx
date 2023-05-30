@@ -7,7 +7,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { ReactComponent as CalendarIcon } from "../../../assets/images/calendar-icon.svg";
 import { parseISO, format } from "date-fns";
 
-const DatePickerComp = ({ valueDate, setValueDate }) => {
+const DatePickerComp = ({ valueDate, setValueDate,minDate, maxDate }) => {
 
     const handleChange = (newValue) => {
       setValueDate(newValue);
@@ -22,7 +22,9 @@ const DatePickerComp = ({ valueDate, setValueDate }) => {
             components={{
               OpenPickerIcon: CalendarIcon,
             }}
+            minDate={minDate}
             maxDate={new Date()}
+            // maxDate={maxDate}
             value={valueDate}
             onChange={handleChange}
             renderInput={({ inputRef, inputProps, InputProps }) => {

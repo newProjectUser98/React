@@ -62,7 +62,7 @@ const TabularData = () => {
           background: "linear-gradient(270deg, #BBE2E4 8.66%, #B68FE7 103.05%)",
         }}
       >
-        <Box className="sm:hidden flex justify-between items-center w-full">
+        {/* <Box className="sm:hidden flex justify-between items-center w-full">
           <Typography
             fontWeight={600}
             fontSize="13px"
@@ -78,7 +78,7 @@ const TabularData = () => {
           >
             Water Dispensing Unit
           </Typography>
-        </Box>
+        </Box> */}
         <Grid
           justifyContent="space-between"
           alignItems="center"
@@ -92,7 +92,7 @@ const TabularData = () => {
           >
             Tabular Data
           </Typography>
-          <Grid>
+          {/* <Grid>
             <Grid pl={"60px"}>
               <FormControl
                 sx={{
@@ -111,11 +111,11 @@ const TabularData = () => {
                     textAlign: "center",
                     alignContent: "center",
                   }}
-                >
+                > */}
                   {/* Water Treatment Unit */}
-                  Select Unit
-                </InputLabel>
-                <Select
+                  {/* Select Unit
+                </InputLabel> */}
+                {/* <Select
                   id="waterTreatmentUnit"
                   value={waterTreatmentUnit}
                   label="Water Treatment Unit"
@@ -124,10 +124,10 @@ const TabularData = () => {
                 >
                   <MenuItem value="">
                     <em>None</em>
-                  </MenuItem>
+                  </MenuItem> */}
                   {/* <MenuItem value={1}>Water Treatment Unit</MenuItem>
                   <MenuItem value={2}>Water Dispensing Unit</MenuItem> */}
-                  {waterTreatmentDetails.map((unit) => {
+                  {/* {waterTreatmentDetails.map((unit) => {
                     return (
                       <MenuItem value={unit}>
                         {unit}
@@ -135,9 +135,9 @@ const TabularData = () => {
                     )
                   })}
                 </Select>
-              </FormControl>
+              </FormControl> */}
 
-              <FormControl
+              {/* <FormControl
                 sx={{
                   m: 1,
                   minWidth: "200px",
@@ -154,9 +154,9 @@ const TabularData = () => {
                     textAlign: "center",
                     alignContent: "center",
                   }}
-                >
+                > */}
                   {/* RWP */}
-                  Select Component
+                  {/* Select Component
                 </InputLabel>
                 {(waterTreatmentUnit === "Water Treatment Unit") &&
                   <Select
@@ -197,8 +197,8 @@ const TabularData = () => {
                         </MenuItem>
                       )
                     })}
-                  </Select>
-                }
+                  </Select> */}
+                {/* } */}
                 {/* <Select
                   id="rwp"
                   value={rwp}
@@ -213,9 +213,9 @@ const TabularData = () => {
                   <MenuItem value={2}>HPP</MenuItem>
                   <MenuItem value={3}>Panel</MenuItem>
                 </Select> */}
-              </FormControl>
+              {/* </FormControl>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Grid className="sm:flex hidden">
@@ -262,7 +262,7 @@ const TabularData = () => {
           </Box>
           <DownloadIcon className="iw-tabular-data__download" />
         </Box>
-        <Box className="sm:hidden flex items-center justify-between px-3 mt-5">
+        {/* <Box className="sm:hidden flex items-center justify-between px-3 mt-5">
           <Typography fontWeight={400} fontSize={"13px"}>
             Select device
           </Typography>
@@ -298,7 +298,7 @@ const TabularData = () => {
               <MenuItem value={3}>Panel</MenuItem>
             </Select>
           </FormControl>
-        </Box>
+        </Box> */}
 
 
         <TableComp component={component}/>

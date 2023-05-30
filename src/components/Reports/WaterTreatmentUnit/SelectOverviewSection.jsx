@@ -29,11 +29,12 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
 
 
   const WaterTreatmentcomponentDetails = [
-    'rwp', 'cnd_tds', 'hpp', 'F_flowsen', 'P_flowsen', 'panel', 'ampv1', 'ampv2', 'ampv3', 'ampv4', 'ampv5'
+    'rwp', 'cnd', 'tds', 'hpp', 'F_flowsen', 'P_flowsen', 'panel', 'ampv1', 'ampv2', 'ampv3', 'ampv4', 'ampv5'
   ]
 
   const WaterDispensecomponentDetails = [
-    'atm', 'tap1', 'tap2', 'tap3', 'tap4', 'cnd_consen', 'tds_consen'
+    'atm', 'tap1', 'tap2', 'tap3', 'tap4', 'cnd_consen', 'tds_consen',
+    'flowsen1', 'flowsen2', 'flowsen3', 'flowsen4'
   ]
 
   const handleChange = (event) => {
@@ -52,7 +53,9 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
   }
 
   const component_variable_data = {
-    cnd_tds: ["spn", "tsp", "asp", "cnd"],
+    cnd: ["spn", "tsp", "asp", "cnd"],
+
+    tds: ["spn", "tsp", "asp", "tds"],
 
     rwp: ["crt", "olc", "drc", "spn"],
 
@@ -76,20 +79,26 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
 
     tap1: ["p1", "p2", "p3", "p4"],
 
+    flowsen1: ["fr"],
+
     // tap2: ["p1","p2","p3","p4"],
 
     // tap3: ["p1","p2","p3","p4"],
 
     // tap4: ["p1","p2","p3","p4"],
 
-    consen: ["cnd", "spn", "asp"],
+    cnd_consen: ["cnd", "spn", "asp"],
+
+    tds_consen: ["tds", "spn", "asp"],
 
     atm: ["ndv", "nta", "tmp", "ntp", "nov", "vl1", "vl2", "vl3", "vl4", "re1", "re2", "re3", "re4"]
   }
 
   useEffect(() => {
-    if (Yaxis === 'cnd_tds') {
-      setCompVariables(component_variable_data.cnd_tds)
+    if (Yaxis === 'cnd') {
+      setCompVariables(component_variable_data.cnd)
+    } else if (Yaxis === 'tds') {
+      setCompVariables(component_variable_data.tds)
     } else if (Yaxis === 'rwp') {
       setCompVariables(component_variable_data.rwp)
     } else if (Yaxis === 'hpp') {
@@ -104,10 +113,14 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
       setCompVariables(component_variable_data.P_flowsen)
     } else if (Yaxis === 'tap1' || Yaxis === 'tap2' || Yaxis === 'tap3' || Yaxis === 'tap4') {
       setCompVariables(component_variable_data.tap1)
-    } else if (Yaxis === 'cnd_consen' || Yaxis === 'tds_consen') {
-      setCompVariables(component_variable_data.consen)
+    } else if (Yaxis === 'cnd_consen') {
+      setCompVariables(component_variable_data.cnd_consen)
+    } else if (Yaxis === 'tds_consen') {
+      setCompVariables(component_variable_data.tds_consen)
     } else if (Yaxis === 'atm') {
       setCompVariables(component_variable_data.atm)
+    } else if (Yaxis === 'flowsen1' || Yaxis === 'flowsen2' || Yaxis === 'flowsen3' || Yaxis === 'flowsen4') {
+      setCompVariables(component_variable_data.flowsen1)
     } else {
       setCompVariables([])
     }

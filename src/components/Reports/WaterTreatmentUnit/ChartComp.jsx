@@ -9,10 +9,9 @@ import LineChartComp from "./LineChartComp";
 import { ReactComponent as LeftArrow } from "../../../assets/icons/ReportsIcon/CaretLeft.svg";
 import ReactSimplyCarousel from "react-simply-carousel";
 
-const ChartComp = ({deviceID, value, fromDate, toDate}) => {
+const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
   const [checked, setChecked] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
-  const [Yaxis, setYaxis] = useState("");
   const [variable, setVariable] = useState("")
   const [graphData, setGraphData] = useState("")
 

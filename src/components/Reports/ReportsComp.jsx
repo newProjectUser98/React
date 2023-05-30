@@ -10,6 +10,7 @@ const ReportsComp = () => {
   const [selectSiteName, setSelectSiteName] = useState("")
   const [fromDate, setFromDate] = useState(null)
   const [toDate, setToDate] = useState(null)
+  const [Yaxis, setYaxis] = useState("");
 
   return (
     <Grid className="sm:p-[30px] p-5">
@@ -19,7 +20,8 @@ const ReportsComp = () => {
         toDate={toDate} setToDate={setToDate}/>
       </Grid>
       <Grid pt={"40px"}>
-        <WaterTreatmentUnit deviceID={deviceID} fromDate={fromDate} toDate={toDate}/>
+        <WaterTreatmentUnit deviceID={deviceID} fromDate={fromDate} toDate={toDate}
+        Yaxis={Yaxis} setYaxis={setYaxis}/>
       </Grid>
       <Grid pt={"40px"}>
         <TabularData />

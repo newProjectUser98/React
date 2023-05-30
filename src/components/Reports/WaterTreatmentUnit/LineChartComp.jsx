@@ -47,7 +47,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
             .reverse(); // Reverse the order to get ascending order
@@ -65,7 +65,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
             .reverse(); // Reverse the order to get ascending order
@@ -84,12 +84,12 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
             .reverse(); // Reverse the order to get ascending order
 
-          const recentDocuments = filteredData.slice(-12); // Get a maximum of 12 most recent documents
+          const recentDocuments = filteredData.slice(-36); // Get a maximum of 36 most recent documents
 
           console.log('recent data in monthly date search in Line', recentDocuments);
 
@@ -102,7 +102,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
             .reverse(); // Reverse the order to get ascending order

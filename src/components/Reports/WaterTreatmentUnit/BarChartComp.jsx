@@ -46,7 +46,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
           .reverse(); // Reverse the order to get ascending order
@@ -64,7 +64,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
           .reverse(); // Reverse the order to get ascending order
@@ -83,12 +83,12 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
           .reverse(); // Reverse the order to get ascending order
 
-          const recentDocuments = filteredData.slice(-12); // Get a maximum of 12 most recent documents
+          const recentDocuments = filteredData.slice(-36); // Get a maximum of 36 most recent documents
 
           console.log('recent data in monthly date search in bar', recentDocuments);
 
@@ -101,7 +101,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.service === Yaxis && obj.device_id === deviceID
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
           .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
           .reverse(); // Reverse the order to get ascending order
@@ -132,7 +132,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
           <p>Hourly data</p>
 
           {variable && (
-            <BarChart width={300} height={300} data={hourlyData}>
+            <BarChart width={600} height={300} data={hourlyData}>
               <XAxis dataKey="hour" fontSize={10} axisLine={false} tickLine={false} />
 
               <YAxis fontSize={10} axisLine={false} tickLine={false} />
@@ -196,7 +196,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
           <p>Daily data</p>
 
           {variable && (
-            <BarChart width={300} height={300} data={dailyData}>
+            <BarChart width={600} height={300} data={dailyData}>
               <XAxis dataKey="day" fontSize={10} axisLine={false} tickLine={false} />
               <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
@@ -261,7 +261,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
 
           {variable && (
 
-            <BarChart width={300} height={300} data={monthlyData}>
+            <BarChart width={600} height={300} data={monthlyData}>
               <XAxis dataKey="month" fontSize={10} axisLine={false} tickLine={false} />
               <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
@@ -324,7 +324,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
 
           {variable && (
 
-            <BarChart width={300} height={300} data={yearlyData}>
+            <BarChart width={600} height={300} data={yearlyData}>
               <XAxis dataKey="year" fontSize={10} axisLine={false} tickLine={false} />
               <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
