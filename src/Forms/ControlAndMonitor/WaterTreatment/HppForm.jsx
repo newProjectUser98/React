@@ -7,15 +7,17 @@ import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 
 const HppForm = ({ intervalTime }) => {
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    console.log("localStorageData", localStorageData)
     const [statusVal, setStatusVal] = useState(false)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [olc, setOlc] = React.useState("");
-    const [drc, setDrc] = React.useState("");
-    const [spn, setSpn] = React.useState("");
-    const [crt, setCrt] = React.useState("");
+    const [olc, setOlc] = React.useState(localStorageData?.olc);
+    const [drc, setDrc] = React.useState(localStorageData?.drc);
+    const [spn, setSpn] = React.useState(localStorageData?.spn);
+    const [crt, setCrt] = React.useState(localStorageData?.crt);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     useEffect(() => {
@@ -27,21 +29,35 @@ const HppForm = ({ intervalTime }) => {
                 componant_name: "hpp"
             }
             axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
-                console.log("resp in hpp", resp.data[0].data);
-                if (resp.data[0].data.message_type === "updsta") {
-                    setStatusVal(resp.data[0].data.sts == "on" ? true : false)
-                    setCrt(resp.data[0].data.crt)
-                } else if (resp.data[0].data.message_type === "updset") {
-                    setOlc(resp.data[0].data.olc)
-                    setDrc(resp.data[0].data.drc)
-                    setSpn(resp.data[0].data.spn)
+                if (!localStorage.getItem('localStorage_data')) {
+                    let localStorage_data = {
+                        statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
+                        crt: resp.data[0].data.data_sta.crt,
+                        olc: resp.data[0].data.data_set.olc,
+                        drc: resp.data[0].data.data_set.drc,
+                        spn: resp.data[0].data.data_set.spn,
+                    }
+                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                 }
-                let updated_Time = localStorage.getItem("updated_time_hpp")
-                if (updated_Time != resp.data[0].data.updated_at) {
+                console.log("resp in hpp", resp.data[0].data);
+                let updated_Time_state = localStorage.getItem("updated_time_hpp_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_hpp_settings")
+                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                    alert("hello")
+                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
+                        setCrt(resp.data[0].data.data_sta.crt)
+                    }
+                    if (resp.data[0].data.data_set.message_type === "updset") {
+                        setOlc(resp.data[0].data.data_set.olc)
+                        setDrc(resp.data[0].data.data_set.drc)
+                        setSpn(resp.data[0].data.data_set.spn)
+                    }
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }
-                localStorage.setItem('updated_time_hpp', resp.data[0].data.updated_at);
+                localStorage.setItem('updated_time_hpp_state', resp.data[0].data.data_sta.updated_at);
+                localStorage.setItem('updated_time_hpp_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
                 console.log("err in rwp state", err);
             })

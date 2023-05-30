@@ -96,7 +96,7 @@ const RoiPanelForm = ({ intervalTime }) => {
             }
             axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
 
-                console.log("res in get_panel", resp.data[0].data);
+                console.log("res in get_panel", resp.data);
                 if (resp.data[0].data.message_type === "updsta") {
                     setSts(resp.data[0].data.sts)
                     setTtl(resp.data[0].data.ttl)

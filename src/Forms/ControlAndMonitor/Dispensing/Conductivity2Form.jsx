@@ -5,26 +5,26 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 
-
+let CNDTDS = [
+    { value: "cnd", label: "Conductivity" },
+    { value: "tds", label: "TDS" }
+]
 const Conductivity2Form = ({ intervalTime }) => {
-    const [changeConductivityDis, setChangeConductivityDis] = useState('conductivity')
+    const [changeConductivityDis, setChangeConductivityDis] = useState('cnd')
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
     const [spn, setSpn] = React.useState("");
     const [asp, setAsp] = React.useState("");
     const [cnd, setCnd] = React.useState("");
-
-    let componentsJSON = localStorage.getItem("components");
-    let components = JSON.parse(componentsJSON);
-    console.log("components ==>", components[0].cnd.cnd);
+    const [tds, setTds] = React.useState("");
 
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
-            if (components[0].cnd.cnd !== "conductivity") {
+            if (changeConductivityDis === "cnd") {
                 let newData = {
                     unit_type: "water_dispense",
                     company_name: userData.company_name,
@@ -47,7 +47,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                 }).catch((err) => {
                     console.log("err in rwp state", err);
                 })
-            } else if (components[0].cnd.cnd === "tds") {
+            } else if (changeConductivityDis === "tds") {
                 let newData = {
                     unit_type: "water_dispense",
                     company_name: userData.company_name,
@@ -68,7 +68,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                     }
                     localStorage.setItem('updated_time_tds_consen', resp.data[0].data.updated_at);
                 }).catch((err) => {
-                    console.log("err in rwp state", err);
+                    console.log("err in tds state", err);
                 })
             }
         };
@@ -77,7 +77,7 @@ const Conductivity2Form = ({ intervalTime }) => {
         return () => {
             clearInterval(intervalId);
         };
-    }, [intervalTime]);
+    }, [intervalTime, changeConductivityDis]);
 
     const initialValues = {
         spn: "",
@@ -97,7 +97,7 @@ const Conductivity2Form = ({ intervalTime }) => {
             .then((resp) => {
                 console.log("resp in cnd_consen set device id", resp.data[0].data.Device_id);
 
-                if (components[0].cnd.cnd === "conductivity") {
+                if (changeConductivityDis === "cnd") {
                     let newData = {
                         company_name: userData.company_name,
                         unit_type: "water_dispense",
@@ -130,7 +130,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                                 }
                             });
                     }, 3000); // Delay of 3 seconds
-                } else if (components[0].cnd.cnd === "tds") {
+                } else if (changeConductivityDis === "tds") {
                     let newData = {
                         company_name: userData.company_name,
                         unit_type: "water_dispense",
@@ -190,16 +190,20 @@ const Conductivity2Form = ({ intervalTime }) => {
             <div className="flex items-center py-3">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <select name="ntp" id="ntp" className='w-40 px-2 py-2 border rounded' value={changeConductivityDis} onChange={(e) => setChangeConductivityDis(e.target.value)}>
-                    <option value={components[0].cnd.cnd}>{components[0].cnd.cnd}</option>
-                    {/* <option value="conductivity">Conductivity</option>
-                <option value="tds">TDS</option> */}
+                    {
+                        CNDTDS.map((options) => {
+                            return (
+                                <option value={options.value}>{options.label}</option>
+                            )
+                        })
+                    }
                 </select>
+
                 {
-                    // changeConductivityDis === 'conductivity' ? 
-                    components[0].cnd.cnd === 'conductivity' ?
-                        <p className='w-30 mx-3'>100.0 uS</p>
+                    changeConductivityDis == 'cnd' ?
+                        <p className='w-30 mx-3'>{cnd} uS</p>
                         :
-                        <p className='w-30 mx-3'>100.0 ppm</p>
+                        <p className='w-30 mx-3'>{tds} ppm</p>
                 }
             </div>
             <Formik initialValues={initialValues} onSubmit={onSubmitSetting}>
@@ -228,7 +232,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                                     <Field disabled={!editSetting} type="text" name="asp" value={asp} onChange={(e) => setAsp(e.target.value)} id="asp" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Atert Setpoint" />
                                     {
                                         // changeConductivityDis === 'conductivity' ? 
-                                        components[0].cnd.cnd === 'conductivity' ?
+                                        changeConductivityDis === 'cnd' ?
                                             <span className='mx-5'>uS</span>
                                             :
                                             <span className='mx-5'>ppm</span>
