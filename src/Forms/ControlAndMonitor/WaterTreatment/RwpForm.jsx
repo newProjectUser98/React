@@ -9,7 +9,15 @@ import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 const RwpForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
-    console.log("localStorageData", localStorageData)
+    let updated_Time_state = localStorage.getItem("updated_time_rwp_state")
+    let updated_Time_settng = localStorage.getItem("updated_time_rwp_settings")
+    localStorage.setItem("component_Name", "rwp");
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "rwp") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     const [statusVal, setStatusVal] = useState(localStorageData?.statusVal)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -33,7 +41,7 @@ const RwpForm = ({ intervalTime }) => {
                 componant_name: "rwp"
             }
             axios.post("/topicapi/updated_treat_rwp/", newData).then((resp) => {
-                if (!localStorage.getItem('localStorage_data')) {
+                if (olc === undefined && drc === undefined && spn === undefined && crt === undefined) {
                     let localStorage_data = {
                         statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
                         crt: resp.data[0].data.data_sta.crt,
@@ -44,23 +52,17 @@ const RwpForm = ({ intervalTime }) => {
                     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                 }
                 console.log("resp in rwp", resp.data[0].data);
-                let updated_Time_state = localStorage.getItem("updated_time_state")
-                let updated_Time_settng = localStorage.getItem("updated_time_settings")
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
-                        setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
-                        setCrt(resp.data[0].data.data_sta.crt)
-                    }
-                    if (resp.data[0].data.data_set.message_type === "updset") {
-                        setOlc(resp.data[0].data.data_set.olc)
-                        setDrc(resp.data[0].data.data_set.drc)
-                        setSpn(resp.data[0].data.data_set.spn)
-                    }
+                    setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
+                    setCrt(resp.data[0].data.data_sta.crt)
+                    setOlc(resp.data[0].data.data_set.olc)
+                    setDrc(resp.data[0].data.data_set.drc)
+                    setSpn(resp.data[0].data.data_set.spn)
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }
-                localStorage.setItem('updated_time_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_settings', resp.data[0].data.data_set.updated_at);
+                localStorage.setItem('updated_time_rwp_state', resp.data[0].data.data_sta.updated_at);
+                localStorage.setItem('updated_time_rwp_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
                 console.log("err in rwp state", err);
             })

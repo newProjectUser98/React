@@ -7,13 +7,22 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Tap1Form = ({ intervalTime }) => {
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let updated_Time_settng = localStorage.getItem("updated_time_tap1_settings")
+    localStorage.setItem("component_Name", "tap1");
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "tap1") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [p1, setP1] = React.useState("");
-    const [p2, setP2] = React.useState("");
-    const [p3, setP3] = React.useState("");
-    const [p4, setP4] = React.useState("");
+    const [p1, setP1] = React.useState(localStorageData.p1);
+    const [p2, setP2] = React.useState(localStorageData.p2);
+    const [p3, setP3] = React.useState(localStorageData.p3);
+    const [p4, setP4] = React.useState(localStorageData.p4);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,26 +33,30 @@ const Tap1Form = ({ intervalTime }) => {
                 company_name: userData.company_name,
                 componant_name: "tap1"
             }
-            console.log("localStorage_value", localStorage.getItem("access_token"));
-            axios.post("/topicapi/updated_disp_tap1/", newData)
-                .then((resp) => {
-                    console.log("res in get_rwp", resp.data);
-                    if (resp.data[0].data.message_type === "updset") {
-                        setP1(resp.data[0].data.p1);
-                        setP2(resp.data[0].data.p2);
-                        setP3(resp.data[0].data.p3);
-                        setP4(resp.data[0].data.p4);
+            axios.post("/topicapi/updated_disp_tap1/", newData).then((resp) => {
+                if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
+                    let localStorage_data = {
+                        statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
+                        p1: resp.data[0].data.data_sta.p1,
+                        p2: resp.data[0].data.data_set.p2,
+                        p3: resp.data[0].data.data_set.p3,
+                        p4: resp.data[0].data.data_set.p4,
                     }
-                    let updated_Time = localStorage.getItem("updated_time_tap1")
-                    if (updated_Time != resp.data[0].data.updated_at) {
-                        setIsLoading(false);
-                        alert("Device Setting Updated Successfully")
-                    }
-                    localStorage.setItem('updated_time_tap1', resp.data[0].data.updated_at);
-                })
-                .catch((err) => {
-                    console.log("err", err);
-                });
+                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                }
+                console.log("resp in tap1", resp.data[0].data);
+                if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                    setP1(resp.data[0].data.data_set.p1);
+                    setP2(resp.data[0].data.data_set.p2);
+                    setP3(resp.data[0].data.data_set.p3);
+                    setP4(resp.data[0].data.data_set.p4);
+                    setIsLoading(false);
+                    alert("Device Setting Updated Successfully")
+                }
+                localStorage.setItem('updated_time_tap1_settings', resp.data[0].data.data_set.updated_at);
+            }).catch((err) => {
+                console.log("err in rwp state", err);
+            })
         };
         fetchData();
         const intervalId = setInterval(fetchData, intervalTime);

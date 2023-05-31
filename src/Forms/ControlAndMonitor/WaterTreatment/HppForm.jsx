@@ -8,7 +8,15 @@ import { useNavigate } from 'react-router-dom';
 
 const HppForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
-    console.log("localStorageData", localStorageData)
+    let updated_Time_state = localStorage.getItem("updated_time_hpp_state")
+    let updated_Time_settng = localStorage.getItem("updated_time_hpp_settings")
+    localStorage.setItem("component_Name", "hpp");
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "hpp") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     const [statusVal, setStatusVal] = useState(false)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -18,8 +26,13 @@ const HppForm = ({ intervalTime }) => {
     const [drc, setDrc] = React.useState(localStorageData?.drc);
     const [spn, setSpn] = React.useState(localStorageData?.spn);
     const [crt, setCrt] = React.useState(localStorageData?.crt);
+    console.log("olc", olc);
+    console.log("drc", drc);
+    console.log("spn", spn);
+    console.log("crt", crt);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
+
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
@@ -29,7 +42,7 @@ const HppForm = ({ intervalTime }) => {
                 componant_name: "hpp"
             }
             axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
-                if (!localStorage.getItem('localStorage_data')) {
+                if (olc === undefined && drc === undefined && spn === undefined && crt === undefined) {
                     let localStorage_data = {
                         statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
                         crt: resp.data[0].data.data_sta.crt,
@@ -40,19 +53,12 @@ const HppForm = ({ intervalTime }) => {
                     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                 }
                 console.log("resp in hpp", resp.data[0].data);
-                let updated_Time_state = localStorage.getItem("updated_time_hpp_state")
-                let updated_Time_settng = localStorage.getItem("updated_time_hpp_settings")
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                    alert("hello")
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
-                        setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
-                        setCrt(resp.data[0].data.data_sta.crt)
-                    }
-                    if (resp.data[0].data.data_set.message_type === "updset") {
-                        setOlc(resp.data[0].data.data_set.olc)
-                        setDrc(resp.data[0].data.data_set.drc)
-                        setSpn(resp.data[0].data.data_set.spn)
-                    }
+                    setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
+                    setCrt(resp.data[0].data.data_sta.crt)
+                    setOlc(resp.data[0].data.data_set.olc)
+                    setDrc(resp.data[0].data.data_set.drc)
+                    setSpn(resp.data[0].data.data_set.spn)
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }

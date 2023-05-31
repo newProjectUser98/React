@@ -7,6 +7,15 @@ import { useNavigate } from 'react-router-dom';
 
 const FeedFlowSensorForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let updated_Time_state = localStorage.getItem("updated_time_P_flowsen_state")
+    let updated_Time_settng = localStorage.getItem("updated_time_P_flowsen_settings")
+    localStorage.setItem("component_Name", "P_flowsen");
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "P_flowsen") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -25,30 +34,24 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                 componant_name: "P_flowsen"
             }
             axios.post("/topicapi/updated_treat_P_flowsen/", newData).then((resp) => {
-                if (!localStorage.getItem('localStorage_data')) {
+                if (fr2 === undefined && ff2 === undefined) {
                     let localStorage_data = {
                         fr2: resp.data[0].data.data_sta.fr2,
-                        ff2: resp.data[0].data.data_sta.ff2,
+                        ff2: resp.data[0].data.data_set.ff2,
                     }
                     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                 }
-                console.log("resp in F_flowsen", resp.data[0].data);
-                let updated_Time_state = localStorage.getItem("updated_time_state")
-                let updated_Time_settng = localStorage.getItem("updated_time_settings")
+                console.log("resp in P_flowsen", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
-                        setfr2(resp.data[0].data.data_sta.fr2)
-                    }
-                    if (resp.data[0].data.data_set.message_type === "updset") {
-                        setff2(resp.data[0].data.data_sta.ff2)
-                    }
+                    setfr2(resp.data[0].data.data_sta.fr2)
+                    setff2(resp.data[0].data.data_sta.ff2)
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }
-                localStorage.setItem('updated_time_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_settings', resp.data[0].data.data_set.updated_at);
+                localStorage.setItem('updated_time_P_flowsen_state', resp.data[0].data.data_sta.updated_at);
+                localStorage.setItem('updated_time_P_flowsen_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
-                console.log("err in P_flowsen state", err);
+                console.log("err in rwp state", err);
             })
         };
         fetchData();

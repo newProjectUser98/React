@@ -44,6 +44,16 @@ let PSIData = [
 
 ]
 const Ampv1Form = ({ intervalTime }) => {
+    // let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    // let updated_Time_state = localStorage.getItem("updated_time_ampv1_state")
+    // let updated_Time_settng = localStorage.getItem("updated_time_ampv1_settings")
+    // localStorage.setItem("component_Name", "ampv1");
+    // useEffect(() => {
+    //     let component_Name = localStorage.getItem("component_Name")
+    //     if (component_Name != "ampv1") {
+    //         localStorage.removeItem("localStorage_data")
+    //     }
+    // }, [])
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -85,6 +95,7 @@ const Ampv1Form = ({ intervalTime }) => {
         op3: 'ml-9',
     };
 
+
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
@@ -95,7 +106,7 @@ const Ampv1Form = ({ intervalTime }) => {
             }
 
             axios.post("/topicapi/updated_treat_ampv1/", newData).then((resp) => {
-                console.log("res in get_rwp_setting", resp.data);
+                console.log("res in get_ampv1_setting", resp.data);
                 if (resp.data[0].data.message_type === "updsta") {
                     setPos(resp.data[0].data.pos)
                     setRmt(resp.data[0].data.rmt)

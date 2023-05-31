@@ -7,13 +7,22 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Tap2Form = ({ intervalTime }) => {
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let updated_Time_settng = localStorage.getItem("updated_time_tap2_settings")
+    localStorage.setItem("component_Name", "tap2");
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "tap2") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [p1, setP1] = React.useState("");
-    const [p2, setP2] = React.useState("");
-    const [p3, setP3] = React.useState("");
-    const [p4, setP4] = React.useState("");
+    const [p1, setP1] = React.useState(localStorageData.p1);
+    const [p2, setP2] = React.useState(localStorageData.p2);
+    const [p3, setP3] = React.useState(localStorageData.p3);
+    const [p4, setP4] = React.useState(localStorageData.p4);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     useEffect(() => {
@@ -24,28 +33,29 @@ const Tap2Form = ({ intervalTime }) => {
                 company_name: userData.company_name,
                 componant_name: "tap2"
             }
-            axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-                console.log("resp", resp);
-            }).catch((error) => {
-                console.log("error", error);
-            })
-            axios.post("/topicapi/updated-disp_tap2/", newData).then((resp) => {
-                console.log("res in get_tap2", resp.data[0].data);
-                if (resp.data[0].data.message_type === "updset") {
-                setP1(resp.data[0].data.p1)
-                setP2(resp.data[0].data.p2)
-                setP3(resp.data[0].data.p3)
-                setP4(resp.data[0].data.p4)
-                }
-                let updated_Time = localStorage.getItem("updated_time_tap2")
-                    if (updated_Time != resp.data[0].data.updated_at) {
-                        setIsLoading(false);
-                        alert("Device Setting Updated Successfully")
+            axios.post("/topicapi/updated_disp_tap2/", newData).then((resp) => {
+                if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
+                    let localStorage_data = {
+                        statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
+                        p1: resp.data[0].data.data_sta.p1,
+                        p2: resp.data[0].data.data_set.p2,
+                        p3: resp.data[0].data.data_set.p3,
+                        p4: resp.data[0].data.data_set.p4,
                     }
-                localStorage.setItem('updated_time_tap2', resp.data[0].data.updated_at);
-                console.log("resp.data[0].data.updated_at", resp.data[0].data.updated_at);
+                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                }
+                console.log("resp in tap2", resp.data[0].data);
+                if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                    setP1(resp.data[0].data.data_set.p1);
+                    setP2(resp.data[0].data.data_set.p2);
+                    setP3(resp.data[0].data.data_set.p3);
+                    setP4(resp.data[0].data.data_set.p4);
+                    setIsLoading(false);
+                    alert("Device Setting Updated Successfully")
+                }
+                localStorage.setItem('updated_time_tap2_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
-                console.log("err", err);
+                console.log("err in rwp state", err);
             })
         };
         fetchData();
