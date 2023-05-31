@@ -52,8 +52,15 @@ const HppForm = ({ intervalTime }) => {
                     }
                     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                 }
+
+                localStorage.setItem('updated_time_hpp_state', resp.data[0].data.data_sta.updated_at);
+                localStorage.setItem('updated_time_hpp_settings', resp.data[0].data.data_set.updated_at);
+                
                 console.log("resp in hpp", resp.data[0].data);
-                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                console.log("updated_Time_state", updated_Time_state);
+                console.log("current time data", resp.data[0].data.data_sta.updated_at);
+
+                if (updated_Time_state !== resp.data[0].data.data_sta.updated_at) {
                     setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
                     setCrt(resp.data[0].data.data_sta.crt)
                     setOlc(resp.data[0].data.data_set.olc)
@@ -62,8 +69,16 @@ const HppForm = ({ intervalTime }) => {
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }
-                localStorage.setItem('updated_time_hpp_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_hpp_settings', resp.data[0].data.data_set.updated_at);
+                // if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                //     setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
+                //     setCrt(resp.data[0].data.data_sta.crt)
+                //     setOlc(resp.data[0].data.data_set.olc)
+                //     setDrc(resp.data[0].data.data_set.drc)
+                //     setSpn(resp.data[0].data.data_set.spn)
+                //     setIsLoading(false);
+                //     alert("Device Setting Updated Successfully")
+                // }
+
             }).catch((err) => {
                 console.log("err in rwp state", err);
             })

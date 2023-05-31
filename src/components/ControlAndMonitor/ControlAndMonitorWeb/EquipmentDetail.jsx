@@ -40,7 +40,7 @@ import FeedFlowSensor3Form from '../../../Forms/ControlAndMonitor/Dispensing/Fee
 import FeedFlowSensor4Form from '../../../Forms/ControlAndMonitor/Dispensing/FeedFlowSensor4Form'
 
 const EquipmentDetail = ({ proTitle }) => {
-    let intervalTime = 5000;
+    let intervalTime = 10000;
     return (
         <div className='equipment-detail relative my-20'>
 

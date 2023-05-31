@@ -45,7 +45,7 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                 console.log("resp in F_flowsen", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     setfr1(resp.data[0].data.data_sta.fr1)
-                    setff1(resp.data[0].data.data_sta.ff1)
+                    setff1(resp.data[0].data.data_set.ff1)
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }
