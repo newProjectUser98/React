@@ -43,26 +43,36 @@ let PSIData = [
 ]
 
 const Ampv2Form = ({ intervalTime }) => {
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let updated_Time_state = localStorage.getItem("updated_time_ampv2_state")
+    let updated_Time_settng = localStorage.getItem("updated_time_ampv2_settings")
+    localStorage.setItem("component_Name", "ampv2");
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "ampv2") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [pos, setPos] = useState('');
-    const [bkt, setBkt] = useState('');
-    const [ip1, setIp1] = useState('');
-    const [ip2, setIp2] = useState('');
-    const [ip3, setIp3] = useState('');
-    const [mot, setMot] = useState('');
-    const [op1, setOp1] = useState('');
-    const [op2, setOp2] = useState('');
-    const [op3, setOp3] = useState('');
-    const [psi, setPsi] = useState('');
-    const [rst, setRst] = useState('');
-    const [srt1, setSrt1] = useState('');
-    const [srt2, setSrt2] = useState('');
-    const [stp, setStp] = useState('');
-    const [cct, setCct] = useState('');
-    const [rmt, setRmt] = useState('');
+    const [pos, setPos] = useState(localStorageData.pos);
+    const [bkt, setBkt] = useState(localStorageData.bkt);
+    const [ip1, setIp1] = useState(localStorageData.ip1);
+    const [ip2, setIp2] = useState(localStorageData.ip2);
+    const [ip3, setIp3] = useState(localStorageData.ip3);
+    const [mot, setMot] = useState(localStorageData.mot);
+    const [op1, setOp1] = useState(localStorageData.op1);
+    const [op2, setOp2] = useState(localStorageData.op2);
+    const [op3, setOp3] = useState(localStorageData.op3);
+    const [psi, setPsi] = useState(localStorageData.psi);
+    const [rst, setRst] = useState(localStorageData.rst);
+    const [srt1, setSrt1] = useState(localStorageData.srt1);
+    const [srt2, setSrt2] = useState(localStorageData.srt2);
+    const [stp, setStp] = useState(localStorageData.stp);
+    const [cct, setCct] = useState(localStorageData.cct);
+    const [rmt, setRmt] = useState(localStorageData.rmt);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     useEffect(() => {
@@ -74,48 +84,67 @@ const Ampv2Form = ({ intervalTime }) => {
                 componant_name: "ampv2"
             }
             axios.post("/topicapi/updated_treat_ampv2/", newData).then((resp) => {
-                console.log("res in get_ampv2_setting", resp.data);
-                if (resp.data[0].data.message_type === "updsta") {
-                    setPos(resp.data[0].data.pos)
-                    setRmt(resp.data[0].data.rmt)
-                    setCct(resp.data[0].data.cct)
-                } else if (resp.data[0].data.message_type === "updset") {
-                    setBkt(resp.data[0].data.bkt)
-                    setIp1(resp.data[0].data.ip1)
-                    setIp2(resp.data[0].data.ip2)
-                    setIp3(resp.data[0].data.ip3)
-                    setMot(resp.data[0].data.mot)
-                    setOp1(resp.data[0].data.op1)
-                    setOp2(resp.data[0].data.op2)
-                    setOp3(resp.data[0].data.op3)
-                    setPsi(resp.data[0].data.psi)
-                    setRst(resp.data[0].data.rst)
-                    let time = resp.data[0].data.srt
+                if (rmt === undefined && cct === undefined && stp === undefined && ip1 === undefined) {
+                    let time = resp.data[0].data.data_set.srt
+                    let SplitTime = time?.toString().split(':')
+                    let localStorage_data = {
+                        pos: resp.data[0].data.data_sta.pos,
+                        rmt: resp.data[0].data.data_sta.rmt,
+                        cct: resp.data[0].data.data_sta.cct,
+                        stp: resp.data[0].data.data_set.stp,
+                        ip1: resp.data[0].data.data_set.ip1,
+                        ip2: resp.data[0].data.data_set.ip2,
+                        ip3: resp.data[0].data.data_set.ip3,
+                        psi: resp.data[0].data.data_set.psi,
+                        srt1: SplitTime[0],
+                        srt2: SplitTime[1],
+                        bkt: resp.data[0].data.data_set.bkt,
+                        rst: resp.data[0].data.data_set.rst,
+                        mot: resp.data[0].data.data_set.mot,
+                        op1: resp.data[0].data.data_set.op1,
+                        op2: resp.data[0].data.data_set.op2,
+                        op3: resp.data[0].data.data_set.op3,
+                    }
+                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                }
+                console.log("resp in ampv2", resp.data[0].data);
+                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                    setPos(resp.data[0].data.data_sta.pos)
+                    setRmt(resp.data[0].data.data_sta.rmt)
+                    setCct(resp.data[0].data.data_sta.cct)
+                    setBkt(resp.data[0].data.data_set.bkt)
+                    setIp1(resp.data[0].data.data_set.ip1)
+                    setIp2(resp.data[0].data.data_set.ip2)
+                    setIp3(resp.data[0].data.data_set.ip3)
+                    setMot(resp.data[0].data.data_set.mot)
+                    setOp1(resp.data[0].data.data_set.op1)
+                    setOp2(resp.data[0].data.data_set.op2)
+                    setOp3(resp.data[0].data.data_set.op3)
+                    setPsi(resp.data[0].data.data_set.psi)
+                    setRst(resp.data[0].data.data_set.rst)
+                    let time = resp.data[0].data.data_set.srt
                     // let time = "99:56";
                     let SplitTime = time?.toString().split(':')
                     console.log("SplitTime0", SplitTime[0]);
                     console.log("SplitTime1", SplitTime[1]);
                     setSrt1(parseInt(SplitTime[0]))
                     setSrt2(parseInt(SplitTime[1]))
-                    setStp(resp.data[0].data.stp)
-                }
-                let updated_Time = localStorage.getItem("updated_time_ampv2")
-                if (updated_Time != resp.data[0].data.updated_at) {
+                    setStp(resp.data[0].data.data_set.stp)
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }
-                localStorage.setItem('updated_time_ampv2', resp.data[0].data.updated_at);
-
+                localStorage.setItem('updated_time_ampv2_state', resp.data[0].data.data_sta.updated_at);
+                localStorage.setItem('updated_time_ampv2_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
-                console.log("err", err);
+                console.log("err in ampv2 state", err);
             })
-        }
+        };
         fetchData();
         const intervalId = setInterval(fetchData, intervalTime);
         return () => {
             clearInterval(intervalId);
         };
-    }, [intervalTime])
+    }, [intervalTime]);
 
 
     const initialValuesState = {

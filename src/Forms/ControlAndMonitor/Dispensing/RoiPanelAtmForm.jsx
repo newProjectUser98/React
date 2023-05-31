@@ -19,24 +19,34 @@ let newTransactionTypeData = [
     { value: "qr", label: "QR" }
 ]
 const RoiPanelAtmForm = ({ intervalTime }) => {
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let updated_Time_state = localStorage.getItem("updated_time_atm_state")
+    let updated_Time_settng = localStorage.getItem("updated_time_atm_settings")
+    localStorage.setItem("component_Name", "atm");
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "atm") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [ntp, setNtp] = React.useState("");
-    const [nov, setNov] = React.useState("");
-    const [vl1, setvl1] = React.useState("");
-    const [vl2, setvl2] = React.useState("");
-    const [vl3, setvl3] = React.useState("");
-    const [vl4, setvl4] = React.useState("");
-    const [re1, setre1] = React.useState("");
-    const [re2, setre2] = React.useState("");
-    const [re3, setre3] = React.useState("");
-    const [re4, setre4] = React.useState("");
-    const [sts, setSts] = React.useState("");
-    const [ndv, setNdv] = React.useState("");
-    const [ntt, setNtt] = React.useState("");
-    const [nta, setNta] = React.useState("");
-    const [tmp, setTmp] = React.useState("");
+    const [ntp, setNtp] = React.useState(localStorageData.ntp);
+    const [nov, setNov] = React.useState(localStorageData.nov);
+    const [vl1, setvl1] = React.useState(localStorageData.vl1);
+    const [vl2, setvl2] = React.useState(localStorageData.vl2);
+    const [vl3, setvl3] = React.useState(localStorageData.vl3);
+    const [vl4, setvl4] = React.useState(localStorageData.vl4);
+    const [re1, setre1] = React.useState(localStorageData.re1);
+    const [re2, setre2] = React.useState(localStorageData.re2);
+    const [re3, setre3] = React.useState(localStorageData.re3);
+    const [re4, setre4] = React.useState(localStorageData.re4);
+    const [sts, setSts] = React.useState(localStorageData.sts);
+    const [ndv, setNdv] = React.useState(localStorageData.ndv);
+    const [ntt, setNtt] = React.useState(localStorageData.ntt);
+    const [nta, setNta] = React.useState(localStorageData.nta);
+    const [tmp, setTmp] = React.useState(localStorageData.tmp);
     const navigate = useNavigate();
 
     let access_token = localStorage.getItem("access_token")
@@ -53,34 +63,50 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 componant_name: "atm"
             }
             axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
-                console.log("res in get_atm", resp.data[0].data);
-                if (resp.data[0].data.message_type === "updsta") {
-                    setSts(resp.data[0].data.sts)
-                    setNtt(resp.data[0].data.ntt)
-                    setNdv(resp.data[0].data.ndv)
-                    setNta(resp.data[0].data.nta)
-                    setTmp(resp.data[0].data.tmp)
-                } else if (resp.data[0].data.message_type === "updset") {
-                    setNov(resp.data[0].data.nov)
-                    setNtp(resp.data[0].data.ntp)
-                    setvl1(resp.data[0].data.vl1)
-                    setvl2(resp.data[0].data.vl2)
-                    setvl3(resp.data[0].data.vl3)
-                    setvl4(resp.data[0].data.vl4)
-                    setre1(resp.data[0].data.re1)
-                    setre2(resp.data[0].data.re2)
-                    setre3(resp.data[0].data.re3)
-                    setre4(resp.data[0].data.re4)
+                if (ndv === undefined && ntt === undefined && vl1 === undefined && re1 === undefined) {
+                    let localStorage_data = {
+                        sts: resp.data[0].data.data_sta.sts,
+                        ndv: resp.data[0].data.data_sta.ndv,
+                        ntt: resp.data[0].data.data_sta.ntt,
+                        nta: resp.data[0].data.data_sta.nta,
+                        tmp: resp.data[0].data.data_sta.tmp,
+                        ntp: resp.data[0].data.data_set.ntp,
+                        nov: resp.data[0].data.data_set.nov,
+                        vl1: resp.data[0].data.data_set.vl1,
+                        vl2: resp.data[0].data.data_set.vl2,
+                        vl3: resp.data[0].data.data_set.vl3,
+                        vl4: resp.data[0].data.data_set.vl4,
+                        re1: resp.data[0].data.data_set.re1,
+                        re2: resp.data[0].data.data_set.re2,
+                        re3: resp.data[0].data.data_set.re3,
+                        re4: resp.data[0].data.data_set.re4,
+                    }
+                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                 }
-                let updated_Time = localStorage.getItem("updated_time_atm")
-                if (updated_Time != resp.data[0].data.updated_at) {
+                console.log("resp in atm", resp.data[0].data);
+                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                    setSts(resp.data[0].data.data_sta.sts)
+                    setNtt(resp.data[0].data.data_sta.ntt)
+                    setNdv(resp.data[0].data.data_sta.ndv)
+                    setNta(resp.data[0].data.data_sta.nta)
+                    setTmp(resp.data[0].data.data_sta.tmp)
+                    setNov(resp.data[0].data.data_set.nov)
+                    setNtp(resp.data[0].data.data_set.ntp)
+                    setvl1(resp.data[0].data.data_set.vl1)
+                    setvl2(resp.data[0].data.data_set.vl2)
+                    setvl3(resp.data[0].data.data_set.vl3)
+                    setvl4(resp.data[0].data.data_set.vl4)
+                    setre1(resp.data[0].data.data_set.re1)
+                    setre2(resp.data[0].data.data_set.re2)
+                    setre3(resp.data[0].data.data_set.re3)
+                    setre4(resp.data[0].data.data_set.re4)
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }
-                console.log("sts in data", resp.data[0].data.sts);
-                localStorage.setItem('updated_time_atm', resp.data[0].data.updated_at);
+                localStorage.setItem('updated_time_atm_state', resp.data[0].data.data_sta.updated_at);
+                localStorage.setItem('updated_time_atm_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
-                console.log("err", err);
+                console.log("err in atm state", err);
             })
         };
         fetchData();

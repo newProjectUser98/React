@@ -13,7 +13,12 @@ let CNDTDS = [
 const ConductivityForm = ({ intervalTime }) => {
     // eslint-disable-next-line
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
-    console.log("localStorageData", localStorageData)
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "cnd_sen") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     const [changeConductivity, setChangeConductivity] = useState('cnd')
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -40,66 +45,71 @@ const ConductivityForm = ({ intervalTime }) => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
             if (changeConductivity === "cnd") {
+                localStorage.setItem("component_Name", "cnd_sen")
                 let newData = {
                     "unit_type": "water_treatment",
                     "company_name": userData.company_name,
                     "componant_name": "cnd_sen",
                 }
-
-                // let newData =JSON.stringify(obj);
                 console.log(newData);
                 axios.post("/topicapi/updated_treat_cnd_sen/", newData).then((resp) => {
-                    let updated_Time_sta = localStorage.getItem("updated_time_cnd_sen_updsta")
-                    let updated_Time_set = localStorage.getItem("updated_time_cnd_sen_updset")
-                    let updated_Time = resp.data[0].data[0].message_type == "updsta" ? updated_Time_sta : updated_Time_set
-                    if (resp.data[0].data[0].message_type == "updsta" ? resp.data[0].data[0].updated_at : resp.data[0].data[1].updated_at == updated_Time && !localStorageData) {
+                    if (cnd === undefined && spn === undefined && tsp === undefined && asp === undefined) {
                         let localStorage_data = {
-                            cnd: resp.data[0].data[0].cnd,
-                            spn: resp.data[0].data[1].spn,
-                            tsp: resp.data[0].data[1].tsp,
-                            asp: resp.data[0].data[1].asp,
+                            cnd: resp.data[0].data.data_sta.cnd,
+                            spn: resp.data[0].data.data_set.spn,
+                            tsp: resp.data[0].data.data_set.tsp,
+                            asp: resp.data[0].data.data_set.asp,
                         }
                         localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                     }
-                    console.log("current_Time", resp.data[0].data[0].updated_at)
-                    if (updated_Time != resp.data[0].data[0].message_type == "updsta" ? resp.data[0].data[0].updated_at : resp.data[0].data[1].updated_at) {
-                        setCnd(resp.data[0].data[0].cnd)
-                        setSpn(resp.data[0].data[1].spn)
-                        setTsp(resp.data[0].data[1].tsp)
-                        setAsp(resp.data[0].data[1].asp)
+                    let updated_Time_state = localStorage.getItem("updated_time_cnd_sen_state")
+                    let updated_Time_settng = localStorage.getItem("updated_time_cnd_sen_settings")
+                    
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                        setCnd(resp.data[0].data.data_sta.cnd)
+                        setSpn(resp.data[0].data.data_set.spn)
+                        setTsp(resp.data[0].data.data_set.tsp)
+                        setAsp(resp.data[0].data.data_set.asp)
                         setIsLoading(false);
                         alert("Device Setting Updated Successfully")
                     }
-                    localStorage.setItem('updated_time_cnd_sen_updsta', resp.data[0].data[0].updated_at);
-                    localStorage.setItem('updated_time_cnd_sen_updset', resp.data[0].data[1].updated_at);
+                    localStorage.setItem('updated_time_cnd_sen_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_cnd_sen_settings', resp.data[0].data.data_set.updated_at);
                 }).catch((err) => {
                     console.log("err", err);
                 })
 
             } else if (changeConductivity === "tds") {
+                localStorage.setItem("component_Name", "tds_sen");
                 let newData = {
                     "unit_type": "water_treatment",
                     "company_name": userData.company_name,
                     "componant_name": "tds_sen",
                 }
-
-                // let newData =JSON.stringify(obj);
                 console.log(newData);
-                axios.post("/topicapi/updated_treat_cnd_tds_sen/", newData).then((resp) => {
-                    console.log("res in get_tds", resp.data[0].data[0].cnd);
-                    if (resp.data[0].data[0].message_type === "updsta") {
-                        setCnd(resp.data[0].data[0].cnd)
-                    } else if (resp.data[0].data[0].message_type === "updset") {
-                        setSpn(resp.data[0].data[0].spn)
-                        setTsp(resp.data[0].data[0].tsp)
-                        setAsp(resp.data[0].data[0].asp)
+                axios.post("/topicapi/updated_treat_tds_sen/", newData).then((resp) => {
+                    if (tds === undefined && spn === undefined && tsp === undefined && asp === undefined) {
+                        let localStorage_data = {
+                            tds: resp.data[0].data.data_sta.tds,
+                            spn: resp.data[0].data.data_set.spn,
+                            tsp: resp.data[0].data.data_set.tsp,
+                            asp: resp.data[0].data.data_set.asp,
+                        }
+                        localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                     }
-                    let updated_Time = localStorage.getItem("updated_time_tds_sen")
-                    if (updated_Time != resp.data[0].data[0].updated_at) {
+                    let updated_Time_state = localStorage.getItem("updated_time_tds_sen_state")
+                    let updated_Time_settng = localStorage.getItem("updated_time_tds_sen_settings")
+                    
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                        setTds(resp.data[0].data.data_sta.tds)
+                        setSpn(resp.data[0].data.data_set.spn)
+                        setTsp(resp.data[0].data.data_set.tsp)
+                        setAsp(resp.data[0].data.data_set.asp)
                         setIsLoading(false);
                         alert("Device Setting Updated Successfully")
                     }
-                    localStorage.setItem('updated_time_tds_sen', resp.data[0].data[0].updated_at);
+                    localStorage.setItem('updated_time_tds_sen_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_tds_sen_settings', resp.data[0].data.data_set.updated_at);
                 }).catch((err) => {
                     console.log("err", err);
                 })

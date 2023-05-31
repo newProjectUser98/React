@@ -40,6 +40,16 @@ let FULLEMP = [
     { value: "emp", label: "Empty" },
 ]
 const RoiPanelForm = ({ intervalTime }) => {
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let updated_Time_state = localStorage.getItem("updated_time_panel_state")
+    let updated_Time_settng = localStorage.getItem("updated_time_panel_settings")
+    localStorage.setItem("component_Name", "panel");
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "panel") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     // eslint-disable-next-line
     const [statusVal, setStatusVal] = useState(false)
     // eslint-disable-next-line
@@ -47,25 +57,25 @@ const RoiPanelForm = ({ intervalTime }) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [mod, setMod] = React.useState("");
-    const [nmv, setNmv] = React.useState("");
-    const [stp, setStp] = React.useState("");
-    const [srt1, setSrt1] = React.useState("");
-    const [srt2, setSrt2] = React.useState("");
-    const [unv, setUnv] = React.useState("");
-    const [ovv, setOvv] = React.useState("");
-    const [spn, setSpn] = React.useState("");
-    const [srt, setSrt] = React.useState("");
-    const [bkt, setBkt] = React.useState("");
-    const [rst, setRst] = React.useState("");
-    const [sts, setSts] = React.useState("");
-    const [rtl, setRtl] = React.useState("");
-    const [ttl, setTtl] = React.useState("");
-    const [lps, setLps] = React.useState("");
-    const [hps, setHps] = React.useState("");
-    const [dgp, setDgp] = React.useState("");
-    const [ipv, setIpv] = React.useState("");
-    const [err, setErr] = React.useState("");
+    const [mod, setMod] = React.useState(localStorageData.mod);
+    const [nmv, setNmv] = React.useState(localStorageData.nmv);
+    const [stp, setStp] = React.useState(localStorageData.stp);
+    const [srt1, setSrt1] = React.useState(localStorageData.srt1);
+    const [srt2, setSrt2] = React.useState(localStorageData.srt2);
+    const [unv, setUnv] = React.useState(localStorageData.unv);
+    const [ovv, setOvv] = React.useState(localStorageData.ovv);
+    const [spn, setSpn] = React.useState(localStorageData.spn);
+    const [srt, setSrt] = React.useState(localStorageData.srt);
+    const [bkt, setBkt] = React.useState(localStorageData.bkt);
+    const [rst, setRst] = React.useState(localStorageData.rst);
+    const [sts, setSts] = React.useState(localStorageData.sts);
+    const [rtl, setRtl] = React.useState(localStorageData.rtl);
+    const [ttl, setTtl] = React.useState(localStorageData.ttl);
+    const [lps, setLps] = React.useState(localStorageData.lps);
+    const [hps, setHps] = React.useState(localStorageData.hps);
+    const [dgp, setDgp] = React.useState(localStorageData.dgp);
+    const [ipv, setIpv] = React.useState(localStorageData.ipv);
+    const [err, setErr] = React.useState(localStorageData.err);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
@@ -95,43 +105,62 @@ const RoiPanelForm = ({ intervalTime }) => {
                 componant_name: "panel"
             }
             axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
-
-                console.log("res in get_panel", resp.data);
-                if (resp.data[0].data.message_type === "updsta") {
-                    setSts(resp.data[0].data.sts)
-                    setTtl(resp.data[0].data.ttl)
-                    setRtl(resp.data[0].data.rtl)
-                    setLps(resp.data[0].data.lps)
-                    setHps(resp.data[0].data.hps)
-                    setDgp(resp.data[0].data.dgp)
-                    setIpv(resp.data[0].data.ipv)
-                    setErr(resp.data[0].data.err)
-                } else if (resp.data[0].data.message_type === "updset") {
-                    setMod(resp.data[0].data.mod)
-                    setNmv(resp.data[0].data.nmv)
-                    setStp(resp.data[0].data.stp)
-                    let time = resp.data[0].data.srt
-                    // let time = "99:56";
+                if (rtl === undefined && dgp === undefined && ovv === undefined && stp === undefined) {
+                    let time = resp.data[0].data.data_set.srt
+                    let SplitTime = time?.toString().split(':')
+                    let localStorage_data = {
+                        sts: resp.data[0].data.data_sta.sts,
+                        rtl: resp.data[0].data.data_sta.rtl,
+                        ttl: resp.data[0].data.data_sta.ttl,
+                        lps: resp.data[0].data.data_sta.lps,
+                        dgp: resp.data[0].data.data_sta.dgp,
+                        ipv: resp.data[0].data.data_sta.ipv,
+                        err: resp.data[0].data.data_sta.err,
+                        mod: resp.data[0].data.data_set.mod,
+                        unv: resp.data[0].data.data_set.unv,
+                        ovv: resp.data[0].data.data_set.ovv,
+                        spn: resp.data[0].data.data_set.spn,
+                        nmv: resp.data[0].data.data_set.nmv,
+                        stp: resp.data[0].data.data_set.stp,
+                        srt1: SplitTime[0],
+                        srt2: SplitTime[1],
+                        bkt: resp.data[0].data.data_set.bkt,
+                        rst: resp.data[0].data.data_set.rst,
+                    }
+                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                }
+                console.log("resp in panel", resp.data[0].data);
+                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                    setSts(resp.data[0].data.data_sta.sts)
+                    setTtl(resp.data[0].data.data_sta.ttl)
+                    setRtl(resp.data[0].data.data_sta.rtl)
+                    setLps(resp.data[0].data.data_sta.lps)
+                    setHps(resp.data[0].data.data_sta.hps)
+                    setDgp(resp.data[0].data.data_sta.dgp)
+                    setIpv(resp.data[0].data.data_sta.ipv)
+                    setErr(resp.data[0].data.data_sta.err)
+                    setMod(resp.data[0].data.data_set.mod)
+                    setNmv(resp.data[0].data.data_set.nmv)
+                    setStp(resp.data[0].data.data_set.stp)
+                    let time = resp.data[0].data.data_set.srt
                     let SplitTime = time?.toString().split(':')
                     console.log("SplitTime0", SplitTime[0]);
                     console.log("SplitTime1", SplitTime[1]);
                     setSrt1(parseInt(SplitTime[0]))
                     setSrt2(parseInt(SplitTime[1]))
-                    setUnv(resp.data[0].data.unv)
-                    setOvv(resp.data[0].data.ovv)
-                    setSpn(resp.data[0].data.spn)
-                    setSrt(resp.data[0].data.srt)
-                    setBkt(resp.data[0].data.bkt)
-                    setRst(resp.data[0].data.rst)
-                }
-                let updated_Time = localStorage.getItem("updated_time_panel")
-                if (updated_Time != resp.data[0].data.updated_at) {
+                    setUnv(resp.data[0].data.data_set.unv)
+                    setOvv(resp.data[0].data.data_set.ovv)
+                    setSpn(resp.data[0].data.data_set.spn)
+                    setSrt(resp.data[0].data.data_set.srt)
+                    setBkt(resp.data[0].data.data_set.bkt)
+                    setRst(resp.data[0].data.data_set.rst)
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }
-                localStorage.setItem('updated_time_panel', resp.data[0].data.updated_at);
+                localStorage.setItem('updated_time_panel_state', resp.data[0].data.data_sta.updated_at);
+                localStorage.setItem('updated_time_panel_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
-                console.log("err", err);
+                console.log("err in panel state", err);
             })
         };
         fetchData();
@@ -140,7 +169,7 @@ const RoiPanelForm = ({ intervalTime }) => {
             clearInterval(intervalId);
         };
     }, [intervalTime]);
-
+   
     const onSubmitSetting = (values, submitProps) => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));

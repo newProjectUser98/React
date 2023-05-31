@@ -10,14 +10,21 @@ let CNDTDS = [
     { value: "tds", label: "TDS" }
 ]
 const Conductivity2Form = ({ intervalTime }) => {
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "consen_cnd") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
     const [changeConductivityDis, setChangeConductivityDis] = useState('cnd')
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [spn, setSpn] = React.useState("");
-    const [asp, setAsp] = React.useState("");
-    const [cnd, setCnd] = React.useState("");
-    const [tds, setTds] = React.useState("");
+    const [spn, setSpn] = React.useState(localStorageData?.spn);
+    const [asp, setAsp] = React.useState(localStorageData?.asp);
+    const [cnd, setCnd] = React.useState(localStorageData?.cnd);
+    const [tds, setTds] = React.useState(localStorageData?.tds);
 
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
@@ -25,53 +32,73 @@ const Conductivity2Form = ({ intervalTime }) => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
             if (changeConductivityDis === "cnd") {
+                localStorage.setItem("component_Name", "consen_cnd")
                 let newData = {
-                    unit_type: "water_dispense",
-                    company_name: userData.company_name,
-                    componant_name: "cnd_consen"
+                    "unit_type": "water_dispense",
+                    "company_name": userData.company_name,
+                    "componant_name": "consen_cnd",
                 }
+                console.log(newData);
                 axios.post("/topicapi/updated_disp_cnd_consen/", newData).then((resp) => {
-                    console.log("resp in disp_cnd_consen", resp.data[0].data);
-                    if (resp.data[0].data.message_type === "updsta") {
-                        setCnd(resp.data[0].data.cnd)
-                    } else if (resp.data[0].data.message_type === "updset") {
-                        setSpn(resp.data[0].data.spn)
-                        setAsp(resp.data[0].data.asp)
+                    if (cnd === undefined && spn === undefined && asp === undefined) {
+                        let localStorage_data = {
+                            cnd: resp.data[0].data.data_sta.cnd,
+                            spn: resp.data[0].data.data_set.spn,
+                            tsp: resp.data[0].data.data_set.tsp,
+                            asp: resp.data[0].data.data_set.asp,
+                        }
+                        localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                     }
-                    let updated_Time = localStorage.getItem("updated_time_cnd_consen")
-                    if (updated_Time != resp.data[0].data.updated_at) {
+                    let updated_Time_state = localStorage.getItem("updated_time_consen_cnd_state")
+                    let updated_Time_settng = localStorage.getItem("updated_time_consen_cnd_settings")
+
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                        setCnd(resp.data[0].data.data_sta.cnd)
+                        setSpn(resp.data[0].data.data_set.spn)
+                        setAsp(resp.data[0].data.data_set.asp)
                         setIsLoading(false);
                         alert("Device Setting Updated Successfully")
                     }
-                    localStorage.setItem('updated_time_cnd_consen', resp.data[0].data.updated_at);
+                    localStorage.setItem('updated_time_consen_cnd_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_consen_cnd_settings', resp.data[0].data.data_set.updated_at);
                 }).catch((err) => {
-                    console.log("err in rwp state", err);
+                    console.log("err", err);
                 })
+
             } else if (changeConductivityDis === "tds") {
+                localStorage.setItem("component_Name", "consen_tds");
                 let newData = {
-                    unit_type: "water_dispense",
-                    company_name: userData.company_name,
-                    componant_name: "tds_consen"
+                    "unit_type": "water_dispense",
+                    "company_name": userData.company_name,
+                    "componant_name": "consen_tds",
                 }
+                console.log(newData);
                 axios.post("/topicapi/updated_disp_tds_consen/", newData).then((resp) => {
-                    console.log("resp in disp_tds_consen", resp.data[0].data);
-                    if (resp.data[0].data.message_type === "updsta") {
-                        setCnd(resp.data[0].data.cnd)
-                    } else if (resp.data[0].data.message_type === "updset") {
-                        setSpn(resp.data[0].data.spn)
-                        setAsp(resp.data[0].data.asp)
+                    if (tds === undefined && spn === undefined && asp === undefined) {
+                        let localStorage_data = {
+                            tds: resp.data[0].data.data_sta.tds,
+                            spn: resp.data[0].data.data_set.spn,
+                            asp: resp.data[0].data.data_set.asp,
+                        }
+                        localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                     }
-                    let updated_Time = localStorage.getItem("updated_time_tds_consen")
-                    if (updated_Time != resp.data[0].data.updated_at) {
+                    let updated_Time_state = localStorage.getItem("updated_time_consen_tds_state")
+                    let updated_Time_settng = localStorage.getItem("updated_time_consen_tds_settings")
+
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                        setTds(resp.data[0].data.data_sta.tds)
+                        setSpn(resp.data[0].data.data_set.spn)
+                        setAsp(resp.data[0].data.data_set.asp)
                         setIsLoading(false);
                         alert("Device Setting Updated Successfully")
                     }
-                    localStorage.setItem('updated_time_tds_consen', resp.data[0].data.updated_at);
+                    localStorage.setItem('updated_time_consen_tds_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_consen_tds_settings', resp.data[0].data.data_set.updated_at);
                 }).catch((err) => {
-                    console.log("err in tds state", err);
+                    console.log("err", err);
                 })
             }
-        };
+        }
         fetchData();
         const intervalId = setInterval(fetchData, intervalTime);
         return () => {
