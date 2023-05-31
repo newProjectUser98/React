@@ -47,14 +47,15 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
+            // && obj.device_id === deviceID
           })
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-          .reverse(); // Reverse the order to get ascending order
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
+            .reverse(); // Reverse the order to get ascending order
 
           const recentDocuments = filteredData.slice(-24); // Get a maximum of 24 most recent documents
 
           console.log('recent data in hourly date search in bar', recentDocuments);
-          
+
           console.log('hourlyData', filteredData)
           setHourlyData(recentDocuments)
         })
@@ -66,13 +67,13 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-          .reverse(); // Reverse the order to get ascending order
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
+            .reverse(); // Reverse the order to get ascending order
 
           const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
 
           console.log('recent data in daily date search in bar', recentDocuments);
-          
+
           console.log('dailyData', filteredData)
           // console.log('finalData in daily', data)
           setDailyData(recentDocuments)
@@ -85,8 +86,8 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-          .reverse(); // Reverse the order to get ascending order
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
+            .reverse(); // Reverse the order to get ascending order
 
           const recentDocuments = filteredData.slice(-36); // Get a maximum of 36 most recent documents
 
@@ -103,8 +104,8 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-          .reverse(); // Reverse the order to get ascending order
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
+            .reverse(); // Reverse the order to get ascending order
 
           const recentDocuments = filteredData.slice(-3); // Get a maximum of 3 most recent documents
 
@@ -132,8 +133,13 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
           <p>Hourly data</p>
 
           {variable && (
-            <BarChart width={600} height={300} data={hourlyData}>
-              <XAxis dataKey="hour" fontSize={10} axisLine={false} tickLine={false} />
+            <BarChart width={1000} height={300} data={hourlyData}>
+              <XAxis dataKey="hour" fontSize={10} axisLine={false} tickLine={false}
+              // tickFormatter={(hour) => {
+              //   const day = hourlyData.find(data => data.hour === hour)?.day;
+              //   return `${hour}/${day}`;
+              // }} 
+              />
 
               <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
@@ -196,8 +202,13 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
           <p>Daily data</p>
 
           {variable && (
-            <BarChart width={600} height={300} data={dailyData}>
-              <XAxis dataKey="day" fontSize={10} axisLine={false} tickLine={false} />
+            <BarChart width={1000} height={300} data={dailyData}>
+              <XAxis dataKey="day" fontSize={10} axisLine={false} tickLine={false}
+                tickFormatter={(day) => {
+                  const month = dailyData.find(data => data.day === day)?.month;
+                  return `${day}/${month}`;
+                }}
+              />
               <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
               <Tooltip />
@@ -261,8 +272,13 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
 
           {variable && (
 
-            <BarChart width={600} height={300} data={monthlyData}>
-              <XAxis dataKey="month" fontSize={10} axisLine={false} tickLine={false} />
+            <BarChart width={1000} height={300} data={monthlyData}>
+              <XAxis dataKey="month" fontSize={10} axisLine={false} tickLine={false}
+                tickFormatter={(month) => {
+                  const year = monthlyData.find(data => data.month === month)?.year;
+                  return `${month}/${year}`;
+                }}
+              />
               <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
               <Tooltip />
@@ -324,7 +340,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
 
           {variable && (
 
-            <BarChart width={600} height={300} data={yearlyData}>
+            <BarChart width={1000} height={300} data={yearlyData}>
               <XAxis dataKey="year" fontSize={10} axisLine={false} tickLine={false} />
               <YAxis fontSize={10} axisLine={false} tickLine={false} />
 

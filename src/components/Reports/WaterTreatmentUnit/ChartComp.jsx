@@ -146,7 +146,7 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, 
   deviceID, graphData, initialColor, updatedColor, fromDate, toDate}) => {
 
   return (
-    <Grid width={600} 
+    <Grid width={1000} 
     container 
     key={index}>
       {/* <Grid>
