@@ -53,7 +53,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             .reverse(); // Reverse the order to get ascending order
 
           const recentDocuments = filteredData.slice(-24) // Get a maximum of 24 most recent documents
-          
+
           console.log('recent data in hourly date search in Line', recentDocuments);
 
           console.log('hourlyData', filteredData)
@@ -133,7 +133,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
 
           {variable && (
 
-            <LineChart width={300} height={300} data={hourlyData1}>
+            <LineChart width={1000} height={300} data={hourlyData1}>
               <XAxis dataKey="hour" fontSize={10} tickLine={false} />
               <YAxis fontSize={10} tickLine={false} />
               <Tooltip />
@@ -185,8 +185,13 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
 
           {variable && (
 
-            <LineChart width={300} height={300} data={dailyData1}>
-              <XAxis dataKey="day" fontSize={10} tickLine={false} />
+            <LineChart width={1000} height={300} data={dailyData1}>
+              <XAxis dataKey="day" fontSize={10} tickLine={false}
+                tickFormatter={(day) => {
+                  const month = dailyData1.find(data => data.day === day)?.month;
+                  return `${day}/${month}`;
+                }}
+              />
               <YAxis fontSize={10} tickLine={false} />
               <Tooltip />
               <Legend />
@@ -236,8 +241,13 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
 
           {variable && (
 
-            <LineChart width={300} height={300} data={monthlyData1}>
-              <XAxis dataKey="month" fontSize={10} tickLine={false} />
+            <LineChart width={1000} height={300} data={monthlyData1}>
+              <XAxis dataKey="month" fontSize={10} tickLine={false}
+                tickFormatter={(month) => {
+                  const year = monthlyData1.find(data => data.month === month)?.year;
+                  return `${month}/${year}`;
+                }}
+              />
               <YAxis fontSize={10} tickLine={false} />
               <Tooltip />
               <Legend />
@@ -287,7 +297,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
 
           {variable && (
 
-            <LineChart width={300} height={300} data={monthlyData1}>
+            <LineChart width={1000} height={300} data={monthlyData1}>
               <XAxis dataKey="year" fontSize={10} tickLine={false} />
               <YAxis fontSize={10} tickLine={false} />
               <Tooltip />

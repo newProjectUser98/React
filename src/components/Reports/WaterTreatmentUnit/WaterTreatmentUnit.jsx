@@ -96,7 +96,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
         .catch(err => console.log(err))
 
 
-      axios.get(`/topicapi/all_minit_tablespannel/`)
+      axios.get(`/topicapi/all_panel/`)
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
@@ -158,7 +158,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
         .catch(err => console.log(err))
 
 
-      axios.get(`/topicapi/all_minit_tablesatm/`)
+      axios.get(`/topicapi/all_atm/`)
         .then(res => {
 
           //Coin collection code starts
