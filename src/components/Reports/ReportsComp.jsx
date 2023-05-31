@@ -24,7 +24,7 @@ const ReportsComp = () => {
         Yaxis={Yaxis} setYaxis={setYaxis}/>
       </Grid>
       <Grid pt={"40px"}>
-        <TabularData Yaxis={Yaxis}/>
+        <TabularData Yaxis={Yaxis} deviceID={deviceID}/>
       </Grid>
     </Grid>
   );

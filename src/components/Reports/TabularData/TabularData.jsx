@@ -13,7 +13,7 @@ import { ReactComponent as AlertsIcon } from "../../../assets/icons/ReportsIcon/
 import { ReactComponent as DownloadIcon } from "../../../assets/icons/ReportsIcon/DownloadIcon.svg";
 import TableComp from "./TableComp";
 
-const TabularData = ({Yaxis}) => {
+const TabularData = ({Yaxis,deviceID}) => {
 
   return (
     <Paper
@@ -91,7 +91,7 @@ const TabularData = ({Yaxis}) => {
           </Box>
           <DownloadIcon className="iw-tabular-data__download" />
         </Box>
-        <TableComp Yaxis={Yaxis}/>
+        <TableComp Yaxis={Yaxis} deviceID={deviceID}/>
       </Grid>
     </Paper>
   );
