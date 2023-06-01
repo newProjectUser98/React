@@ -19,8 +19,8 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [ff2, setff2] = React.useState("");
-    const [fr2, setfr2] = React.useState("");
+    const [ff2, setff2] = React.useState(localStorageData?.ff2);
+    const [fr2, setfr2] = React.useState(localStorageData?.fr2);
 
 
     const navigate = useNavigate();
@@ -44,7 +44,7 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                 console.log("resp in P_flowsen", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     setfr2(resp.data[0].data.data_sta.fr2)
-                    setff2(resp.data[0].data.data_sta.ff2)
+                    setff2(resp.data[0].data.data_set.ff2)
                     setIsLoading(false);
                     alert("Device Setting Updated Successfully")
                 }

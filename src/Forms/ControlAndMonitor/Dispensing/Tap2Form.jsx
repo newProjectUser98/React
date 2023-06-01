@@ -33,10 +33,9 @@ const Tap2Form = ({ intervalTime }) => {
                 company_name: userData.company_name,
                 componant_name: "tap2"
             }
-            axios.post("/topicapi/updated_disp_tap2/", newData).then((resp) => {
+            axios.post("/topicapi/updated-disp_tap2/", newData).then((resp) => {
                 if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
                     let localStorage_data = {
-                        statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
                         p1: resp.data[0].data.data_sta.p1,
                         p2: resp.data[0].data.data_set.p2,
                         p3: resp.data[0].data.data_set.p3,

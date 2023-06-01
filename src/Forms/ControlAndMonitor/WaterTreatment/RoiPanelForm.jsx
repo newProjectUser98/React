@@ -57,25 +57,29 @@ const RoiPanelForm = ({ intervalTime }) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [mod, setMod] = React.useState(localStorageData.mod);
-    const [nmv, setNmv] = React.useState(localStorageData.nmv);
-    const [stp, setStp] = React.useState(localStorageData.stp);
-    const [srt1, setSrt1] = React.useState(localStorageData.srt1);
-    const [srt2, setSrt2] = React.useState(localStorageData.srt2);
-    const [unv, setUnv] = React.useState(localStorageData.unv);
-    const [ovv, setOvv] = React.useState(localStorageData.ovv);
-    const [spn, setSpn] = React.useState(localStorageData.spn);
-    const [srt, setSrt] = React.useState(localStorageData.srt);
-    const [bkt, setBkt] = React.useState(localStorageData.bkt);
-    const [rst, setRst] = React.useState(localStorageData.rst);
-    const [sts, setSts] = React.useState(localStorageData.sts);
-    const [rtl, setRtl] = React.useState(localStorageData.rtl);
-    const [ttl, setTtl] = React.useState(localStorageData.ttl);
-    const [lps, setLps] = React.useState(localStorageData.lps);
-    const [hps, setHps] = React.useState(localStorageData.hps);
-    const [dgp, setDgp] = React.useState(localStorageData.dgp);
-    const [ipv, setIpv] = React.useState(localStorageData.ipv);
-    const [err, setErr] = React.useState(localStorageData.err);
+    const [mod, setMod] = React.useState(localStorageData?.mod);
+    const [nmv, setNmv] = React.useState(localStorageData?.nmv);
+    const [stp, setStp] = React.useState(localStorageData?.stp);
+    const [srt1, setSrt1] = React.useState(localStorageData?.srt1);
+    const [srt2, setSrt2] = React.useState(localStorageData?.srt2);
+    const [unv, setUnv] = React.useState(localStorageData?.unv);
+    const [ovv, setOvv] = React.useState(localStorageData?.ovv);
+    const [spn, setSpn] = React.useState(localStorageData?.spn);
+    const [srt, setSrt] = React.useState(localStorageData?.srt);
+    const [bkt, setBkt] = React.useState(localStorageData?.bkt);
+    const [rst, setRst] = React.useState(localStorageData?.rst);
+    const [sts, setSts] = React.useState(localStorageData?.sts);
+    const [rtl, setRtl] = React.useState(localStorageData?.rtl);
+    const [ttl, setTtl] = React.useState(localStorageData?.ttl);
+    const [lps, setLps] = React.useState(localStorageData?.lps);
+    const [hps, setHps] = React.useState(localStorageData?.hps);
+    const [dgp, setDgp] = React.useState(localStorageData?.dgp);
+    const [ipv, setIpv] = React.useState(localStorageData?.ipv);
+    const [err, setErr] = React.useState(localStorageData?.err);
+    console.log("rtl", rtl);
+    console.log("dgp", dgp);
+    console.log("ovv", ovv);
+    console.log("stp", stp);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
@@ -106,6 +110,7 @@ const RoiPanelForm = ({ intervalTime }) => {
             }
             axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
                 if (rtl === undefined && dgp === undefined && ovv === undefined && stp === undefined) {
+                    alert("hello")
                     let time = resp.data[0].data.data_set.srt
                     let SplitTime = time?.toString().split(':')
                     let localStorage_data = {
@@ -169,7 +174,7 @@ const RoiPanelForm = ({ intervalTime }) => {
             clearInterval(intervalId);
         };
     }, [intervalTime]);
-   
+
     const onSubmitSetting = (values, submitProps) => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
