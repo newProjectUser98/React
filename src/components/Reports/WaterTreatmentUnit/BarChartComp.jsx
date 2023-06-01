@@ -130,269 +130,266 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
 
       {(hourlyData.length !== 0) &&
         <div>
-          <p>Hourly data</p>
+          {graphData && (
+            <>
+              <p>Hourly data</p>
+              <BarChart width={1000} height={300} data={hourlyData}>
+                <XAxis dataKey="hour" fontSize={10} axisLine={false} tickLine={false}
+                // tickFormatter={(hour) => {
+                //   const day = hourlyData.find(data => data.hour === hour)?.day;
+                //   return `${hour}/${day}`;
+                // }} 
+                />
 
-          {variable && (
-            <BarChart width={1000} height={300} data={hourlyData}>
-              <XAxis dataKey="hour" fontSize={10} axisLine={false} tickLine={false}
-              // tickFormatter={(hour) => {
-              //   const day = hourlyData.find(data => data.hour === hour)?.day;
-              //   return `${hour}/${day}`;
-              // }} 
-              />
+                <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
-              <YAxis fontSize={10} axisLine={false} tickLine={false} />
+                <Tooltip />
+                <Legend />
 
-              <Tooltip />
-              <Legend />
+                <defs>
+                  <linearGradient id={"chartLG" + updatedColor1} x2="0" y2="100%">
+                    <stop offset="0" stopColor={updatedColor1} />
+                    <stop offset="1" stopColor="#FFFFFF" />
+                  </linearGradient>
+                </defs>
 
-              <defs>
-                <linearGradient id={"chartLG" + updatedColor1} x2="0" y2="100%">
-                  <stop offset="0" stopColor={updatedColor1} />
-                  <stop offset="1" stopColor="#FFFFFF" />
-                </linearGradient>
-              </defs>
+                <Bar
+                  dataKey={`${variable}.${graphData}`}
+                  fill={`url("#${"chartLG" + updatedColor1}")`}
+                  barSize={35}
+                  radius={50}
+                />
+              </BarChart>
 
-              <Bar
-                dataKey={`${variable}.${graphData}`}
-                fill={`url("#${"chartLG" + updatedColor1}")`}
-                barSize={35}
-                radius={50}
-              />
-            </BarChart>
-          )}
-
-          <Grid
-            display={"flex"}
-            justifyContent="center"
-            alignItems="center"
-            mt={"30px"}
-            container={false}
-          >
-            <Grid container justifyContent={"center"}>
-              <Grid item md={12}>
-                {PopupColors.map((item, index) => {
-                  return (
-                    <IconButton
-                      key={index}
-                      type="button"
-                      value={1}
-                      onClick={() => {
-                        setUpdatedColor1(item.color);
-                        // alert("In first color pallate")
-                      }}
-                    >
-                      <Box
-                        key={index}
-                        height={"24px"}
-                        width={"24px"}
-                        bgcolor={item.color}
-                      />
-                    </IconButton>
-                  )
-                })}
+              <Grid
+                display={"flex"}
+                justifyContent="center"
+                alignItems="center"
+                mt={"30px"}
+                container={false}
+              >
+                <Grid container justifyContent={"center"}>
+                  <Grid item md={12}>
+                    {PopupColors.map((item, index) => {
+                      return (
+                        <IconButton
+                          key={index}
+                          type="button"
+                          value={1}
+                          onClick={() => {
+                            setUpdatedColor1(item.color);
+                            // alert("In first color pallate")
+                          }}
+                        >
+                          <Box
+                            key={index}
+                            height={"24px"}
+                            width={"24px"}
+                            bgcolor={item.color}
+                          />
+                        </IconButton>
+                      )
+                    })}
+                  </Grid>
+                </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+            </>
+          )}
         </div>
       }
-      {console.log("updated Color", updatedColor1)}
+
       {(dailyData.length !== 0) &&
         <div>
-          <p>Daily data</p>
+          {graphData && (
+            <>
+              <p>Daily data</p>
+              <BarChart width={1000} height={300} data={dailyData}>
+                <XAxis dataKey="day" fontSize={10} axisLine={false} tickLine={false}
+                  tickFormatter={(day) => {
+                    const month = dailyData.find(data => data.day === day)?.month;
+                    return `${day}/${month}`;
+                  }}
+                />
+                <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
-          {variable && (
-            <BarChart width={1000} height={300} data={dailyData}>
-              <XAxis dataKey="day" fontSize={10} axisLine={false} tickLine={false}
-                tickFormatter={(day) => {
-                  const month = dailyData.find(data => data.day === day)?.month;
-                  return `${day}/${month}`;
-                }}
-              />
-              <YAxis fontSize={10} axisLine={false} tickLine={false} />
+                <Tooltip />
+                <Legend />
 
-              <Tooltip />
-              <Legend />
+                <defs>
+                  <linearGradient id={"chartLG" + updatedColor2} x2="0" y2="100%">
+                    <stop offset="0" stopColor={updatedColor2} />
+                    <stop offset="1" stopColor="#FFFFFF" />
+                  </linearGradient>
+                </defs>
 
-              <defs>
-                <linearGradient id={"chartLG" + updatedColor2} x2="0" y2="100%">
-                  <stop offset="0" stopColor={updatedColor2} />
-                  <stop offset="1" stopColor="#FFFFFF" />
-                </linearGradient>
-              </defs>
+                <Bar
+                  dataKey={`${variable}.${graphData}`}
+                  fill={`url("#${"chartLG" + updatedColor2}")`}
+                  barSize={35}
+                  radius={50}
+                />
+              </BarChart>
 
-              <Bar
-                dataKey={`${variable}.${graphData}`}
-                fill={`url("#${"chartLG" + updatedColor2}")`}
-                barSize={35}
-                radius={50}
-              />
-            </BarChart>
-          )}
+              <Grid
+                display={"flex"}
+                justifyContent="center"
+                alignItems="center"
+                mt={"30px"}
+              >
+                <Grid container justifyContent={"center"}>
+                  <Grid item md={12}>
+                    {PopupColors.map((item, index) => {
+                      return (
+                        <IconButton
+                          key={index}
+                          type="button"
+                          value={1}
+                          onClick={() => {
+                            setUpdatedColor2(item.color);
+                            // alert("In second color pallate")
+                          }}
+                        >
+                          <Box
+                            key={index}
+                            height={"24px"}
+                            width={"24px"}
+                            bgcolor={item.color}
+                          />
+                        </IconButton>
+                      )
+                    })}
+                  </Grid>
+                </Grid>
 
-
-          <Grid
-            display={"flex"}
-            justifyContent="center"
-            alignItems="center"
-            mt={"30px"}
-          >
-            <Grid container justifyContent={"center"}>
-              <Grid item md={12}>
-                {PopupColors.map((item, index) => {
-                  return (
-                    <IconButton
-                      key={index}
-                      type="button"
-                      value={1}
-                      onClick={() => {
-                        setUpdatedColor2(item.color);
-                        // alert("In second color pallate")
-                      }}
-                    >
-                      <Box
-                        key={index}
-                        height={"24px"}
-                        width={"24px"}
-                        bgcolor={item.color}
-                      />
-                    </IconButton>
-                  )
-                })}
               </Grid>
-            </Grid>
-
-          </Grid>
+            </>
+          )}
         </div>
       }
 
       {(monthlyData.length !== 0) &&
         <div>
-          <p>Monthly data</p>
+          {graphData && (
+            <>
+              <p>Monthly data</p>
+              <BarChart width={1000} height={300} data={monthlyData}>
+                <XAxis dataKey="month" fontSize={10} axisLine={false} tickLine={false}
+                  tickFormatter={(month) => {
+                    const year = monthlyData.find(data => data.month === month)?.year;
+                    return `${month}/${year}`;
+                  }}
+                />
+                <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
-          {variable && (
+                <Tooltip />
+                <Legend />
 
-            <BarChart width={1000} height={300} data={monthlyData}>
-              <XAxis dataKey="month" fontSize={10} axisLine={false} tickLine={false}
-                tickFormatter={(month) => {
-                  const year = monthlyData.find(data => data.month === month)?.year;
-                  return `${month}/${year}`;
-                }}
-              />
-              <YAxis fontSize={10} axisLine={false} tickLine={false} />
+                <defs>
+                  <linearGradient id={"chartLG" + updatedColor3} x2="0" y2="100%">
+                    <stop offset="0" stopColor={updatedColor3} />
+                    <stop offset="1" stopColor="#FFFFFF" />
+                  </linearGradient>
+                </defs>
 
-              <Tooltip />
-              <Legend />
+                <Bar
+                  dataKey={`${variable}.${graphData}`}
+                  fill={`url("#${"chartLG" + updatedColor3}")`}
+                  barSize={35}
+                  radius={50}
+                />
+              </BarChart>
 
-              <defs>
-                <linearGradient id={"chartLG" + updatedColor3} x2="0" y2="100%">
-                  <stop offset="0" stopColor={updatedColor3} />
-                  <stop offset="1" stopColor="#FFFFFF" />
-                </linearGradient>
-              </defs>
-
-              <Bar
-                dataKey={`${variable}.${graphData}`}
-                fill={`url("#${"chartLG" + updatedColor3}")`}
-                barSize={35}
-                radius={50}
-              />
-            </BarChart>
-
-          )}
-
-
-          <Grid
-            display={"flex"}
-            justifyContent="center"
-            alignItems="center"
-            mt={"30px"}
-          >
-            <Grid container justifyContent={"center"}>
-              <Grid item md={12}>
-                {PopupColors.map((item, index) => (
-                  <IconButton
-                    key={index}
-                    type="button"
-                    onClick={() => {
-                      setUpdatedColor3(item.color);
-                      // alert("In third color pallate")
-                    }}
-                  >
-                    <Box
-                      key={index}
-                      height={"24px"}
-                      width={"24px"}
-                      bgcolor={item.color}
-                    />
-                  </IconButton>
-                ))}
+              <Grid
+                display={"flex"}
+                justifyContent="center"
+                alignItems="center"
+                mt={"30px"}
+              >
+                <Grid container justifyContent={"center"}>
+                  <Grid item md={12}>
+                    {PopupColors.map((item, index) => (
+                      <IconButton
+                        key={index}
+                        type="button"
+                        onClick={() => {
+                          setUpdatedColor3(item.color);
+                          // alert("In third color pallate")
+                        }}
+                      >
+                        <Box
+                          key={index}
+                          height={"24px"}
+                          width={"24px"}
+                          bgcolor={item.color}
+                        />
+                      </IconButton>
+                    ))}
+                  </Grid>
+                </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+            </>
+          )}
         </div>
       }
 
 
       {(yearlyData.length !== 0) &&
         <div>
-          <p>Yearly data</p>
+          {graphData && (
+            <>
+              <p>Yearly data</p>
+              <BarChart width={1000} height={300} data={yearlyData}>
+                <XAxis dataKey="year" fontSize={10} axisLine={false} tickLine={false} />
+                <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
-          {variable && (
+                <Tooltip />
+                <Legend />
 
-            <BarChart width={1000} height={300} data={yearlyData}>
-              <XAxis dataKey="year" fontSize={10} axisLine={false} tickLine={false} />
-              <YAxis fontSize={10} axisLine={false} tickLine={false} />
+                <defs>
+                  <linearGradient id={"chartLG" + updatedColor4} x2="0" y2="100%">
+                    <stop offset="0" stopColor={updatedColor4} />
+                    <stop offset="1" stopColor="#FFFFFF" />
+                  </linearGradient>
+                </defs>
 
-              <Tooltip />
-              <Legend />
+                <Bar
+                  dataKey={`${variable}.${graphData}`}
+                  fill={`url("#${"chartLG" + updatedColor4}")`}
+                  barSize={35}
+                  radius={50}
+                />
+              </BarChart>
 
-              <defs>
-                <linearGradient id={"chartLG" + updatedColor4} x2="0" y2="100%">
-                  <stop offset="0" stopColor={updatedColor4} />
-                  <stop offset="1" stopColor="#FFFFFF" />
-                </linearGradient>
-              </defs>
-
-              <Bar
-                dataKey={`${variable}.${graphData}`}
-                fill={`url("#${"chartLG" + updatedColor4}")`}
-                barSize={35}
-                radius={50}
-              />
-            </BarChart>
-
-          )}
-
-          <Grid
-            display={"flex"}
-            justifyContent="center"
-            alignItems="center"
-            mt={"30px"}
-          >
-            <Grid container justifyContent={"center"}>
-              <Grid item md={12}>
-                {PopupColors.map((item, index) => (
-                  <IconButton
-                    key={index}
-                    type="button"
-                    onClick={() => {
-                      setUpdatedColor4(item.color);
-                      // alert("In fourth color pallate")
-                    }}
-                  >
-                    <Box
-                      key={index}
-                      height={"24px"}
-                      width={"24px"}
-                      bgcolor={item.color}
-                    />
-                  </IconButton>
-                ))}
+              <Grid
+                display={"flex"}
+                justifyContent="center"
+                alignItems="center"
+                mt={"30px"}
+              >
+                <Grid container justifyContent={"center"}>
+                  <Grid item md={12}>
+                    {PopupColors.map((item, index) => (
+                      <IconButton
+                        key={index}
+                        type="button"
+                        onClick={() => {
+                          setUpdatedColor4(item.color);
+                          // alert("In fourth color pallate")
+                        }}
+                      >
+                        <Box
+                          key={index}
+                          height={"24px"}
+                          width={"24px"}
+                          bgcolor={item.color}
+                        />
+                      </IconButton>
+                    ))}
+                  </Grid>
+                </Grid>
               </Grid>
-            </Grid>
-
-          </Grid>
+            </>
+          )}
         </div>
       }
     </>

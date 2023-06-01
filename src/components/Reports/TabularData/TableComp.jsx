@@ -93,7 +93,7 @@ export default function BasicTable({ Yaxis, deviceID }) {
 
             const selectedFields = {};
             Object.keys(recentDocument).forEach((key) => {
-              if (component_variable_data.ampv1.includes(key)) {
+              if (component_variable_data[Yaxis].includes(key)) {
                 selectedFields[key] = recentDocument[key];
               }
             });
