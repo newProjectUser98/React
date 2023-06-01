@@ -13,7 +13,7 @@ const Conductivity2Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
     useEffect(() => {
         let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "consen_cnd") {
+        if (component_Name != "cnd_consen") {
             localStorage.removeItem("localStorage_data")
         }
     }, [])
@@ -32,11 +32,11 @@ const Conductivity2Form = ({ intervalTime }) => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
             if (changeConductivityDis === "cnd") {
-                localStorage.setItem("component_Name", "consen_cnd")
+                localStorage.setItem("component_Name", "cnd_consen")
                 let newData = {
                     "unit_type": "water_dispense",
                     "company_name": userData.company_name,
-                    "componant_name": "consen_cnd",
+                    "componant_name": "cnd_consen",
                 }
                 console.log(newData);
                 axios.post("/topicapi/updated_disp_cnd_consen/", newData).then((resp) => {
@@ -49,8 +49,8 @@ const Conductivity2Form = ({ intervalTime }) => {
                         }
                         localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                     }
-                    let updated_Time_state = localStorage.getItem("updated_time_consen_cnd_state")
-                    let updated_Time_settng = localStorage.getItem("updated_time_consen_cnd_settings")
+                    let updated_Time_state = localStorage.getItem("updated_time_cnd_consen_state")
+                    let updated_Time_settng = localStorage.getItem("updated_time_cnd_consen_settings")
 
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         setCnd(resp.data[0].data.data_sta.cnd)
@@ -59,8 +59,8 @@ const Conductivity2Form = ({ intervalTime }) => {
                         setIsLoading(false);
                         alert("Device Setting Updated Successfully")
                     }
-                    localStorage.setItem('updated_time_consen_cnd_state', resp.data[0].data.data_sta.updated_at);
-                    localStorage.setItem('updated_time_consen_cnd_settings', resp.data[0].data.data_set.updated_at);
+                    localStorage.setItem('updated_time_cnd_consen_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_cnd_consen_settings', resp.data[0].data.data_set.updated_at);
                 }).catch((err) => {
                     console.log("err", err);
                 })
@@ -70,7 +70,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                 let newData = {
                     "unit_type": "water_dispense",
                     "company_name": userData.company_name,
-                    "componant_name": "consen_tds",
+                    "componant_name": "tds_consen",
                 }
                 console.log(newData);
                 axios.post("/topicapi/updated_disp_tds_consen/", newData).then((resp) => {
@@ -82,8 +82,8 @@ const Conductivity2Form = ({ intervalTime }) => {
                         }
                         localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                     }
-                    let updated_Time_state = localStorage.getItem("updated_time_consen_tds_state")
-                    let updated_Time_settng = localStorage.getItem("updated_time_consen_tds_settings")
+                    let updated_Time_state = localStorage.getItem("updated_time_tds_consen_state")
+                    let updated_Time_settng = localStorage.getItem("updated_time_tds_consen_settings")
 
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         setTds(resp.data[0].data.data_sta.tds)
@@ -92,8 +92,8 @@ const Conductivity2Form = ({ intervalTime }) => {
                         setIsLoading(false);
                         alert("Device Setting Updated Successfully")
                     }
-                    localStorage.setItem('updated_time_consen_tds_state', resp.data[0].data.data_sta.updated_at);
-                    localStorage.setItem('updated_time_consen_tds_settings', resp.data[0].data.data_set.updated_at);
+                    localStorage.setItem('updated_time_tds_consen_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_tds_consen_settings', resp.data[0].data.data_set.updated_at);
                 }).catch((err) => {
                     console.log("err", err);
                 })

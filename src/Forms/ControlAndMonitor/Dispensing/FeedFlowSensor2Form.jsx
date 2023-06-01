@@ -3,8 +3,17 @@ import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 
 const FeedFlowSensor2Form = ({intervalTime}) => {
-
-    const [fr, setFr] = useState("")
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let updated_Time_state = localStorage.getItem("updated_time_flowsen2_state")
+    localStorage.setItem("component_Name", "flowsen2");
+    useEffect(() => {
+        let component_Name = localStorage.getItem("component_Name")
+        if (component_Name != "flowsen2") {
+            localStorage.removeItem("localStorage_data")
+        }
+    }, [])
+    const [fr, setFr] = useState(localStorageData.fr)
+    
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
@@ -13,12 +22,19 @@ const FeedFlowSensor2Form = ({intervalTime}) => {
                 company_name: userData.company_name,
                 componant_name: "flowsen2"
             }
-            axios.post("/topicapi/updated_treat_P_flowsen/", newData).then((resp) => {
-                console.log("resp in treat_P_flowsen", resp.data[0].data);
-                if (resp.data[0].data.message_type === "updsta") {
-                    setFr(resp.data[0].data.fr)
+            axios.post("/topicapi/updated_disp_flowsen2/", newData).then((resp) => {
+                if (fr === undefined) {
+                    let localStorage_data = {
+                        fr: resp.data[0].data.data_sta.fr,
+                    }
+                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
                 }
-                localStorage.setItem('updated_time', resp.data[0].data.updated_at);
+                console.log("resp in flowsen2", resp.data[0].data);
+                if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
+                    setFr(resp.data[0].data.data_sta.fr)
+                    alert("Device Setting Updated Successfully")
+                }
+                localStorage.setItem('updated_time_flowsen2_state', resp.data[0].data.data_sta.updated_at);
             }).catch((err) => {
                 console.log("err in rwp state", err);
             })

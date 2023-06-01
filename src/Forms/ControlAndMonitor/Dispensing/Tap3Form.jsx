@@ -19,10 +19,10 @@ const Tap3Form = ({ intervalTime }) => {
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [p1, setP1] = React.useState(localStorageData.p1);
-    const [p2, setP2] = React.useState(localStorageData.p2);
-    const [p3, setP3] = React.useState(localStorageData.p3);
-    const [p4, setP4] = React.useState(localStorageData.p4);
+    const [p1, setP1] = React.useState(localStorageData?.p1);
+    const [p2, setP2] = React.useState(localStorageData?.p2);
+    const [p3, setP3] = React.useState(localStorageData?.p3);
+    const [p4, setP4] = React.useState(localStorageData?.p4);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
 
