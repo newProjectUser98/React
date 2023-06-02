@@ -44,10 +44,18 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                 }
                 console.log("resp in F_flowsen", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                    setfr1(resp.data[0].data.data_sta.fr1)
-                    setff1(resp.data[0].data.data_set.ff1)
+                    if (resp.data[0].data.data_sta.fr1 != "") {
+                        setfr1(resp.data[0].data.data_sta.fr1)
+                    }
+                    if (resp.data[0].data.data_set.ff1 != 0) {
+                        setff1(resp.data[0].data.data_set.ff1)
+                    }
                     setIsLoading(false);
-                    alert("Device Setting Updated Successfully")
+                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        alert("Device State Data Updated Successfully")
+                    } else {
+                        alert("Device Setting Data Updated Successfully")
+                    }
                 }
                 localStorage.setItem('updated_time_F_flowsen_state', resp.data[0].data.data_sta.updated_at);
                 localStorage.setItem('updated_time_F_flowsen_settings', resp.data[0].data.data_set.updated_at);
