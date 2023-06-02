@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 
-const FeedFlowSensor4Form = ({intervalTime}) => {
+const FeedFlowSensor4Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
     let updated_Time_state = localStorage.getItem("updated_time_flowsen4_state")
     localStorage.setItem("component_Name", "flowsen4");
@@ -13,7 +13,7 @@ const FeedFlowSensor4Form = ({intervalTime}) => {
         }
     }, [])
     const [fr, setFr] = useState(localStorageData.fr)
-    
+
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
@@ -31,8 +31,14 @@ const FeedFlowSensor4Form = ({intervalTime}) => {
                 }
                 console.log("resp in flowsen4", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                    setFr(resp.data[0].data.data_sta.fr)
-                    alert("Device Setting Updated Successfully")
+                    if (resp.data[0].data.data_sta.fr != 0) {
+                        setFr(resp.data[0].data.data_sta.fr)
+                    }
+                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        alert("Device State Data Updated Successfully")
+                    } else {
+                        alert("Device Setting Data Updated Successfully")
+                    }
                 }
                 localStorage.setItem('updated_time_flowsen4_state', resp.data[0].data.data_sta.updated_at);
             }).catch((err) => {

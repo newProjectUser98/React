@@ -47,12 +47,24 @@ const Tap4Form = ({ intervalTime }) => {
                 }
                 console.log("resp in tap4", resp.data[0].data);
                 if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                    setP1(resp.data[0].data.data_set.p1);
-                    setP2(resp.data[0].data.data_set.p2);
-                    setP3(resp.data[0].data.data_set.p3);
-                    setP4(resp.data[0].data.data_set.p4);
+                    if (resp.data[0].data.data_set.p1 != 0) {
+                        setP1(resp.data[0].data.data_set.p1)
+                    }
+                    if (resp.data[0].data.data_set.p2 != 0) {
+                        setP2(resp.data[0].data.data_set.p2)
+                    }
+                    if (resp.data[0].data.data_set.p3 != 0) {
+                        setP3(resp.data[0].data.data_set.p3)
+                    }
+                    if (resp.data[0].data.data_set.p4 != 0) {
+                        setP4(resp.data[0].data.data_set.p4)
+                    }
                     setIsLoading(false);
-                    alert("Device Setting Updated Successfully")
+                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        alert("Device State Data Updated Successfully")
+                    } else {
+                        alert("Device Setting Data Updated Successfully")
+                    }
                 }
                 localStorage.setItem('updated_time_tap4_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {

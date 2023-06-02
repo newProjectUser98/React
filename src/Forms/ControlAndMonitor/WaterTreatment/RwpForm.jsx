@@ -53,14 +53,30 @@ const RwpForm = ({ intervalTime }) => {
                 }
                 console.log("resp in rwp", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                    setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
-                    setCrt(resp.data[0].data.data_sta.crt)
-                    setOlc(resp.data[0].data.data_set.olc)
-                    setDrc(resp.data[0].data.data_set.drc)
-                    setSpn(resp.data[0].data.data_set.spn)
+
+                    if (resp.data[0].data.data_sta.sts != "") {
+                        setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
+                    }
+                    if (resp.data[0].data.data_sta.crt != 0) {
+                        setCrt(resp.data[0].data.data_sta.crt)
+                    }
+                    if (resp.data[0].data.data_set.olc != 0) {
+                        setOlc(resp.data[0].data.data_set.olc)
+                    }
+                    if (resp.data[0].data.data_set.drc != 0) {
+                        setDrc(resp.data[0].data.data_set.drc)
+                    }
+                    if (resp.data[0].data.data_set.spn != 0) {
+                        setSpn(resp.data[0].data.data_set.spn)
+                    }
+                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        alert("Device State Data Updated Successfully")
+                    } else {
+                        alert("Device Setting Data Updated Successfully")
+                    }
                     setIsLoading(false);
-                    alert("Device Setting Updated Successfully")
                 }
+
                 localStorage.setItem('updated_time_rwp_state', resp.data[0].data.data_sta.updated_at);
                 localStorage.setItem('updated_time_rwp_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {

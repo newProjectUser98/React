@@ -109,29 +109,63 @@ const Ampv2Form = ({ intervalTime }) => {
                 }
                 console.log("resp in ampv2", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                    setPos(resp.data[0].data.data_sta.pos)
-                    setRmt(resp.data[0].data.data_sta.rmt)
-                    setCct(resp.data[0].data.data_sta.cct)
-                    setBkt(resp.data[0].data.data_set.bkt)
-                    setIp1(resp.data[0].data.data_set.ip1)
-                    setIp2(resp.data[0].data.data_set.ip2)
-                    setIp3(resp.data[0].data.data_set.ip3)
-                    setMot(resp.data[0].data.data_set.mot)
-                    setOp1(resp.data[0].data.data_set.op1)
-                    setOp2(resp.data[0].data.data_set.op2)
-                    setOp3(resp.data[0].data.data_set.op3)
-                    setPsi(resp.data[0].data.data_set.psi)
-                    setRst(resp.data[0].data.data_set.rst)
-                    let time = resp.data[0].data.data_set.srt
-                    // let time = "99:56";
-                    let SplitTime = time?.toString().split(':')
-                    console.log("SplitTime0", SplitTime[0]);
-                    console.log("SplitTime1", SplitTime[1]);
-                    setSrt1(parseInt(SplitTime[0]))
-                    setSrt2(parseInt(SplitTime[1]))
-                    setStp(resp.data[0].data.data_set.stp)
+                    if (resp.data[0].data.data_sta.pos != "") {
+                        setPos(resp.data[0].data.data_sta.pos)
+                    }
+                    if (resp.data[0].data.data_sta.rmt != 0) {
+                        setRmt(resp.data[0].data.data_sta.rmt)
+                    }
+                    if (resp.data[0].data.data_sta.cct != 0) {
+                        setCct(resp.data[0].data.data_sta.cct)
+                    }
+                    if (resp.data[0].data.data_set.bkt != 0) {
+                        setBkt(resp.data[0].data.data_set.bkt)
+                    }
+                    if (resp.data[0].data.data_set.ip1 != "") {
+                        setIp1(resp.data[0].data.data_set.ip1)
+                    }
+                    if (resp.data[0].data.data_set.ip2 != "") {
+                        setIp2(resp.data[0].data.data_set.ip2)
+                    }
+                    if (resp.data[0].data.data_set.ip3 != "") {
+                        setIp3(resp.data[0].data.data_set.ip3)
+                    }
+                    if (resp.data[0].data.data_set.mot != "") {
+                        setMot(resp.data[0].data.data_set.mot)
+                    }
+                    if (resp.data[0].data.data_set.op1 != "") {
+                        setOp1(resp.data[0].data.data_set.op1)
+                    }
+                    if (resp.data[0].data.data_set.op2 != "") {
+                        setOp2(resp.data[0].data.data_set.op2)
+                    }
+                    if (resp.data[0].data.data_set.op3 != "") {
+                        setOp3(resp.data[0].data.data_set.op3)
+                    }
+                    if (resp.data[0].data.data_set.psi != "") {
+                        setPsi(resp.data[0].data.data_set.psi)
+                    }
+                    if (resp.data[0].data.data_set.rst != 0) {
+                        setRst(resp.data[0].data.data_set.rst)
+                    }
+                    if (resp.data[0].data.data_set.srt != 0) {
+                        let time = resp.data[0].data.data_set.srt
+                        // let time = "99:56";
+                        let SplitTime = time?.toString().split(':')
+                        console.log("SplitTime0", SplitTime[0]);
+                        console.log("SplitTime1", SplitTime[1]);
+                        setSrt1(parseInt(SplitTime[0]))
+                        setSrt2(parseInt(SplitTime[1]))
+                    }
+                    if (resp.data[0].data.data_set.stp != "") {
+                        setStp(resp.data[0].data.data_set.stp)
+                    }
                     setIsLoading(false);
-                    alert("Device Setting Updated Successfully")
+                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        alert("Device State Data Updated Successfully")
+                    } else {
+                        alert("Device Setting Data Updated Successfully")
+                    }
                 }
                 localStorage.setItem('updated_time_ampv2_state', resp.data[0].data.data_sta.updated_at);
                 localStorage.setItem('updated_time_ampv2_settings', resp.data[0].data.data_set.updated_at);

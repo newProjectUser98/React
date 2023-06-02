@@ -64,14 +64,26 @@ const ConductivityForm = ({ intervalTime }) => {
                     }
                     let updated_Time_state = localStorage.getItem("updated_time_cnd_sen_state")
                     let updated_Time_settng = localStorage.getItem("updated_time_cnd_sen_settings")
-                    
+
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        setCnd(resp.data[0].data.data_sta.cnd)
-                        setSpn(resp.data[0].data.data_set.spn)
-                        setTsp(resp.data[0].data.data_set.tsp)
-                        setAsp(resp.data[0].data.data_set.asp)
+                        if (resp.data[0].data.data_sta.cnd != 0) {
+                            setCnd(resp.data[0].data.data_sta.cnd)
+                        }
+                        if (resp.data[0].data.data_set.spn != 0) {
+                            setSpn(resp.data[0].data.data_set.spn)
+                        }
+                        if (resp.data[0].data.data_set.tsp != 0) {
+                            setTsp(resp.data[0].data.data_set.tsp)
+                        }
+                        if (resp.data[0].data.data_set.asp != 0) {
+                            setAsp(resp.data[0].data.data_set.asp)
+                        }
                         setIsLoading(false);
-                        alert("Device Setting Updated Successfully")
+                        if (resp.data[0].data.data_sta.message_type === "updsta") {
+                            alert("Device State Data Updated Successfully")
+                        } else {
+                            alert("Device Setting Data Updated Successfully")
+                        }
                     }
                     localStorage.setItem('updated_time_cnd_sen_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_cnd_sen_settings', resp.data[0].data.data_set.updated_at);
@@ -99,7 +111,7 @@ const ConductivityForm = ({ intervalTime }) => {
                     }
                     let updated_Time_state = localStorage.getItem("updated_time_tds_sen_state")
                     let updated_Time_settng = localStorage.getItem("updated_time_tds_sen_settings")
-                    
+
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         setTds(resp.data[0].data.data_sta.tds)
                         setSpn(resp.data[0].data.data_set.spn)
