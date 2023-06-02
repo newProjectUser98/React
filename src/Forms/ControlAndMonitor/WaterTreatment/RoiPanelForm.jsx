@@ -95,11 +95,12 @@ const RoiPanelForm = ({ intervalTime }) => {
         unv: 180,
         ovv: 280,
         spn: 330,
-        srt: 9959,
+        srt: "99:59",
         bkt: 99,
         rst: 99,
     };
-
+    console.log("srt1", srt1);
+    console.log("srt2", srt2);
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
@@ -110,9 +111,11 @@ const RoiPanelForm = ({ intervalTime }) => {
             }
             axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
                 if (rtl === undefined && dgp === undefined && ovv === undefined && stp === undefined) {
-                    alert("hello")
+
                     let time = resp.data[0].data.data_set.srt
-                    let SplitTime = time?.toString().split(':')
+                    console.log("time", time);
+                    let SplitTime = time.split(':')
+                    console.log("srt++", srt);
                     let localStorage_data = {
                         sts: resp.data[0].data.data_sta.sts,
                         rtl: resp.data[0].data.data_sta.rtl,
@@ -136,31 +139,71 @@ const RoiPanelForm = ({ intervalTime }) => {
                 }
                 console.log("resp in panel", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                    setSts(resp.data[0].data.data_sta.sts)
-                    setTtl(resp.data[0].data.data_sta.ttl)
-                    setRtl(resp.data[0].data.data_sta.rtl)
-                    setLps(resp.data[0].data.data_sta.lps)
-                    setHps(resp.data[0].data.data_sta.hps)
-                    setDgp(resp.data[0].data.data_sta.dgp)
-                    setIpv(resp.data[0].data.data_sta.ipv)
-                    setErr(resp.data[0].data.data_sta.err)
-                    setMod(resp.data[0].data.data_set.mod)
-                    setNmv(resp.data[0].data.data_set.nmv)
-                    setStp(resp.data[0].data.data_set.stp)
-                    let time = resp.data[0].data.data_set.srt
-                    let SplitTime = time?.toString().split(':')
-                    console.log("SplitTime0", SplitTime[0]);
-                    console.log("SplitTime1", SplitTime[1]);
-                    setSrt1(parseInt(SplitTime[0]))
-                    setSrt2(parseInt(SplitTime[1]))
-                    setUnv(resp.data[0].data.data_set.unv)
-                    setOvv(resp.data[0].data.data_set.ovv)
-                    setSpn(resp.data[0].data.data_set.spn)
-                    setSrt(resp.data[0].data.data_set.srt)
-                    setBkt(resp.data[0].data.data_set.bkt)
-                    setRst(resp.data[0].data.data_set.rst)
+                    if (resp.data[0].data.data_sta.sts != "") {
+                        setSts(resp.data[0].data.data_sta.sts)
+                    }
+                    if (resp.data[0].data.data_sta.ttl != "") {
+                        setTtl(resp.data[0].data.data_sta.ttl)
+                    }
+                    if (resp.data[0].data.data_sta.rtl != "") {
+                        setRtl(resp.data[0].data.data_sta.rtl)
+                    }
+                    if (resp.data[0].data.data_sta.lps != "") {
+                        setLps(resp.data[0].data.data_sta.lps)
+                    }
+                    if (resp.data[0].data.data_sta.hps != "") {
+                        setHps(resp.data[0].data.data_sta.hps)
+                    }
+                    if (resp.data[0].data.data_sta.dgp != "") {
+                        setDgp(resp.data[0].data.data_sta.dgp)
+                    }
+                    if (resp.data[0].data.data_sta.ipv != 0) {
+                        setIpv(resp.data[0].data.data_sta.ipv)
+                    }
+                    if (resp.data[0].data.data_sta.err != "") {
+                        setErr(resp.data[0].data.data_sta.err)
+                    }
+                    if (resp.data[0].data.data_set.mod != "") {
+                        setMod(resp.data[0].data.data_set.mod)
+                    }
+                    if (resp.data[0].data.data_set.nmv != 0) {
+                        setNmv(resp.data[0].data.data_set.nmv)
+                    }
+                    if (resp.data[0].data.data_set.stp != "") {
+                        setStp(resp.data[0].data.data_set.stp)
+                    }
+                    if (resp.data[0].data.data_set.srt != "") {
+                        let time = resp.data[0].data.data_set.srt
+                        let SplitTime = time?.toString().split(':')
+                        console.log("SplitTime0", SplitTime[0]);
+                        console.log("SplitTime1", SplitTime[1]);
+                        setSrt1(parseInt(SplitTime[0]))
+                        setSrt2(parseInt(SplitTime[1]))
+                    }
+                    if (resp.data[0].data.data_set.unv != 0) {
+                        setUnv(resp.data[0].data.data_set.unv)
+                    }
+                    if (resp.data[0].data.data_set.ovv != 0) {
+                        setOvv(resp.data[0].data.data_set.ovv)
+                    }
+                    if (resp.data[0].data.data_set.spn != 0) {
+                        setSpn(resp.data[0].data.data_set.spn)
+                    }
+                    if (resp.data[0].data.data_set.srt != "") {
+                        setSrt(resp.data[0].data.data_set.srt)
+                    }
+                    if (resp.data[0].data.data_set.bkt != 0) {
+                        setBkt(resp.data[0].data.data_set.bkt)
+                    }
+                    if (resp.data[0].data.data_set.rst != 0) {
+                        setRst(resp.data[0].data.data_set.rst)
+                    }
                     setIsLoading(false);
-                    alert("Device Setting Updated Successfully")
+                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        alert("Device State Data Updated Successfully")
+                    } else {
+                        alert("Device Setting Data Updated Successfully")
+                    }
                 }
                 localStorage.setItem('updated_time_panel_state', resp.data[0].data.data_sta.updated_at);
                 localStorage.setItem('updated_time_panel_settings', resp.data[0].data.data_set.updated_at);

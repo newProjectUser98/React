@@ -85,23 +85,57 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 }
                 console.log("resp in atm", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                    setSts(resp.data[0].data.data_sta.sts)
-                    setNtt(resp.data[0].data.data_sta.ntt)
-                    setNdv(resp.data[0].data.data_sta.ndv)
-                    setNta(resp.data[0].data.data_sta.nta)
-                    setTmp(resp.data[0].data.data_sta.tmp)
-                    setNov(resp.data[0].data.data_set.nov)
-                    setNtp(resp.data[0].data.data_set.ntp)
-                    setvl1(resp.data[0].data.data_set.vl1)
-                    setvl2(resp.data[0].data.data_set.vl2)
-                    setvl3(resp.data[0].data.data_set.vl3)
-                    setvl4(resp.data[0].data.data_set.vl4)
-                    setre1(resp.data[0].data.data_set.re1)
-                    setre2(resp.data[0].data.data_set.re2)
-                    setre3(resp.data[0].data.data_set.re3)
-                    setre4(resp.data[0].data.data_set.re4)
+                    if (resp.data[0].data.data_sta.sts != "") {
+                        setSts(resp.data[0].data.data_sta.sts)
+                    }
+                    if (resp.data[0].data.data_sta.ntt != "") {
+                        setNtt(resp.data[0].data.data_sta.ntt)
+                    }
+                    if (resp.data[0].data.data_sta.ndv != 0) {
+                        setNdv(resp.data[0].data.data_sta.ndv)
+                    }
+                    if (resp.data[0].data.data_sta.nta != 0) {
+                        setNta(resp.data[0].data.data_sta.nta)
+                    }
+                    if (resp.data[0].data.data_sta.tmp != 0) {
+                        setTmp(resp.data[0].data.data_sta.tmp)
+                    }
+                    if (resp.data[0].data.data_set.nov != 0) {
+                        setNov(resp.data[0].data.data_set.nov)
+                    }
+                    if (resp.data[0].data.data_set.ntp != 0) {
+                        setNtp(resp.data[0].data.data_set.ntp)
+                    }
+                    if (resp.data[0].data.data_set.vl1 != 0) {
+                        setvl1(resp.data[0].data.data_set.vl1)
+                    }
+                    if (resp.data[0].data.data_set.vl2 != 0) {
+                        setvl2(resp.data[0].data.data_set.vl2)
+                    }
+                    if (resp.data[0].data.data_set.vl3 != 0) {
+                        setvl3(resp.data[0].data.data_set.vl3)
+                    }
+                    if (resp.data[0].data.data_set.vl4 != 0) {
+                        setvl4(resp.data[0].data.data_set.vl4)
+                    }
+                    if (resp.data[0].data.data_set.re1 != 0) {
+                        setre1(resp.data[0].data.data_set.re1)
+                    }
+                    if (resp.data[0].data.data_set.re2 != 0) {
+                        setre2(resp.data[0].data.data_set.re2)
+                    }
+                    if (resp.data[0].data.data_set.re3 != 0) {
+                        setre3(resp.data[0].data.data_set.re3)
+                    }
+                    if (resp.data[0].data.data_set.re4 != 0) {
+                        setre4(resp.data[0].data.data_set.re4)
+                    }
                     setIsLoading(false);
-                    alert("Device Setting Updated Successfully")
+                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        alert("Device State Data Updated Successfully")
+                    } else {
+                        alert("Device Setting Data Updated Successfully")
+                    }
                 }
                 localStorage.setItem('updated_time_atm_state', resp.data[0].data.data_sta.updated_at);
                 localStorage.setItem('updated_time_atm_settings', resp.data[0].data.data_set.updated_at);

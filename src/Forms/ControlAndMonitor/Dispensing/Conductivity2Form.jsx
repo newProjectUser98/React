@@ -53,11 +53,22 @@ const Conductivity2Form = ({ intervalTime }) => {
                     let updated_Time_settng = localStorage.getItem("updated_time_cnd_consen_settings")
 
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        setCnd(resp.data[0].data.data_sta.cnd)
-                        setSpn(resp.data[0].data.data_set.spn)
-                        setAsp(resp.data[0].data.data_set.asp)
+                        if (resp.data[0].data.data_sta.cnd != 0) {
+                            setCnd(resp.data[0].data.data_sta.cnd)
+                        }
+                        if (resp.data[0].data.data_set.spn != 0) {
+                            setSpn(resp.data[0].data.data_set.spn)
+                        }
+                        if (resp.data[0].data.data_set.asp != 0) {
+                            setAsp(resp.data[0].data.data_set.asp)
+                        }
+
                         setIsLoading(false);
-                        alert("Device Setting Updated Successfully")
+                        if (resp.data[0].data.data_sta.message_type === "updsta") {
+                            alert("Device State Data Updated Successfully")
+                        } else {
+                            alert("Device Setting Data Updated Successfully")
+                        }
                     }
                     localStorage.setItem('updated_time_cnd_consen_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_cnd_consen_settings', resp.data[0].data.data_set.updated_at);
@@ -65,8 +76,20 @@ const Conductivity2Form = ({ intervalTime }) => {
                     console.log("err", err);
                 })
 
-            } else if (changeConductivityDis === "tds") {
-                localStorage.setItem("component_Name", "consen_tds");
+            }
+        }
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime, changeConductivityDis]);
+
+    useEffect(() => {
+        const fetchData = () => {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            if (changeConductivityDis === "tds") {
+                localStorage.setItem("component_Name", "tds_consen")
                 let newData = {
                     "unit_type": "water_dispense",
                     "company_name": userData.company_name,
@@ -78,6 +101,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                         let localStorage_data = {
                             tds: resp.data[0].data.data_sta.tds,
                             spn: resp.data[0].data.data_set.spn,
+                            tsp: resp.data[0].data.data_set.tsp,
                             asp: resp.data[0].data.data_set.asp,
                         }
                         localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
@@ -86,17 +110,29 @@ const Conductivity2Form = ({ intervalTime }) => {
                     let updated_Time_settng = localStorage.getItem("updated_time_tds_consen_settings")
 
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        setTds(resp.data[0].data.data_sta.tds)
-                        setSpn(resp.data[0].data.data_set.spn)
-                        setAsp(resp.data[0].data.data_set.asp)
+                        if (resp.data[0].data.data_sta.tds != 0) {
+                            setTds(resp.data[0].data.data_sta.tds)
+                        }
+                        if (resp.data[0].data.data_set.spn != 0) {
+                            setSpn(resp.data[0].data.data_set.spn)
+                        }
+                        if (resp.data[0].data.data_set.asp != 0) {
+                            setAsp(resp.data[0].data.data_set.asp)
+                        }
+
                         setIsLoading(false);
-                        alert("Device Setting Updated Successfully")
+                        if (resp.data[0].data.data_sta.message_type === "updsta") {
+                            alert("Device State Data Updated Successfully")
+                        } else {
+                            alert("Device Setting Data Updated Successfully")
+                        }
                     }
                     localStorage.setItem('updated_time_tds_consen_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_tds_consen_settings', resp.data[0].data.data_set.updated_at);
                 }).catch((err) => {
                     console.log("err", err);
                 })
+
             }
         }
         fetchData();

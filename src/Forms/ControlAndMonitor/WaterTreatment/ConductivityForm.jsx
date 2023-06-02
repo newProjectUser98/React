@@ -90,9 +90,20 @@ const ConductivityForm = ({ intervalTime }) => {
                 }).catch((err) => {
                     console.log("err", err);
                 })
+            }
+        }
+        fetchData();
+        const intervalId = setInterval(fetchData, intervalTime);
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [intervalTime, changeConductivity]);
 
-            } else if (changeConductivity === "tds") {
-                localStorage.setItem("component_Name", "tds_sen");
+    useEffect(() => {
+        const fetchData = () => {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            if (changeConductivity === "tds") {
+                localStorage.setItem("component_Name", "tds_sen")
                 let newData = {
                     "unit_type": "water_treatment",
                     "company_name": userData.company_name,
@@ -100,9 +111,9 @@ const ConductivityForm = ({ intervalTime }) => {
                 }
                 console.log(newData);
                 axios.post("/topicapi/updated_treat_tds_sen/", newData).then((resp) => {
-                    if (tds === undefined && spn === undefined && tsp === undefined && asp === undefined) {
+                    if (cnd === undefined && spn === undefined && tsp === undefined && asp === undefined) {
                         let localStorage_data = {
-                            tds: resp.data[0].data.data_sta.tds,
+                            cnd: resp.data[0].data.data_sta.cnd,
                             spn: resp.data[0].data.data_set.spn,
                             tsp: resp.data[0].data.data_set.tsp,
                             asp: resp.data[0].data.data_set.asp,
@@ -113,12 +124,24 @@ const ConductivityForm = ({ intervalTime }) => {
                     let updated_Time_settng = localStorage.getItem("updated_time_tds_sen_settings")
 
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        setTds(resp.data[0].data.data_sta.tds)
-                        setSpn(resp.data[0].data.data_set.spn)
-                        setTsp(resp.data[0].data.data_set.tsp)
-                        setAsp(resp.data[0].data.data_set.asp)
+                        if (resp.data[0].data.data_sta.tds != 0) {
+                            setTds(resp.data[0].data.data_sta.tds)
+                        }
+                        if (resp.data[0].data.data_set.spn != 0) {
+                            setSpn(resp.data[0].data.data_set.spn)
+                        }
+                        if (resp.data[0].data.data_set.tsp != 0) {
+                            setTsp(resp.data[0].data.data_set.tsp)
+                        }
+                        if (resp.data[0].data.data_set.asp != 0) {
+                            setAsp(resp.data[0].data.data_set.asp)
+                        }
                         setIsLoading(false);
-                        alert("Device Setting Updated Successfully")
+                        if (resp.data[0].data.data_sta.message_type === "updsta") {
+                            alert("Device State Data Updated Successfully")
+                        } else {
+                            alert("Device Setting Data Updated Successfully")
+                        }
                     }
                     localStorage.setItem('updated_time_tds_sen_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_tds_sen_settings', resp.data[0].data.data_set.updated_at);
@@ -132,7 +155,8 @@ const ConductivityForm = ({ intervalTime }) => {
         return () => {
             clearInterval(intervalId);
         };
-    }, [intervalTime]);
+    }, [intervalTime, changeConductivity]);
+
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
         let newData = {
