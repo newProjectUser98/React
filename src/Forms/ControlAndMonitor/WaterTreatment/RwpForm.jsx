@@ -113,23 +113,23 @@ const RwpForm = ({ intervalTime }) => {
     const onSubmitState = (values, submitProps) => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_treatment",
-            componant_name: "rwp",
-            sts: statusVal === true ? "on" : "off"
-        };
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_treatment",
+        //     componant_name: "rwp",
+        //     sts: statusVal === true ? "on" : "off"
+        // };
 
-        axios.post("/topicapi/get_device_id/", newData)
-            .then((resp) => {
-                console.log("resp", resp);
+        // axios.post("/topicapi/get_device_id/", newData)
+        //     .then((resp) => {
+        //         console.log("resp", resp);
 
                 let newData = {
                     company_name: userData.company_name,
                     unit_type: "water_treatment",
                     componant_name: "rwp",
                     sts: statusVal === true ? "on" : "off",
-                    device_id: resp?.data[0]?.data?.Device_id
+                    // device_id: resp?.data[0]?.data?.Device_id
                 };
 
                 setTimeout(() => {
@@ -156,28 +156,28 @@ const RwpForm = ({ intervalTime }) => {
                         });
                 }, 3000); // Delay of 3 seconds
 
-            })
-            .catch((error) => {
-                console.log("error", error);
-            });
+            // })
+            // .catch((error) => {
+            //     console.log("error", error);
+            // });
 
 
     }
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_treatment",
-            componant_name: "rwp",
-            olc: olc,
-            spn: spn,
-            drc: drc
-        };
-        let access_token = localStorage.getItem("access_token");
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_treatment",
+        //     componant_name: "rwp",
+        //     olc: olc,
+        //     spn: spn,
+        //     drc: drc
+        // };
+        // let access_token = localStorage.getItem("access_token");
 
-        axios.post("/topicapi/get_device_id/", newData)
-            .then((resp) => {
-                console.log("resp getdeviceId", resp.data[0].data.Device_id);
+        // axios.post("/topicapi/get_device_id/", newData)
+        //     .then((resp) => {
+        //         console.log("resp getdeviceId", resp.data[0].data.Device_id);
 
                 let newData = {
                     company_name: userData.company_name,
@@ -186,7 +186,7 @@ const RwpForm = ({ intervalTime }) => {
                     olc: olc,
                     spn: spn,
                     drc: drc,
-                    device_id: resp?.data[0]?.data?.Device_id
+                    // device_id: resp?.data[0]?.data?.Device_id
                 };
 
                 setTimeout(() => {
@@ -213,10 +213,10 @@ const RwpForm = ({ intervalTime }) => {
                         });
                 }, 3000); // Delay of 3 seconds
 
-            })
-            .catch((error) => {
-                console.log("error", error);
-            });
+            // })
+            // .catch((error) => {
+            //     console.log("error", error);
+            // });
 
     }
     return (

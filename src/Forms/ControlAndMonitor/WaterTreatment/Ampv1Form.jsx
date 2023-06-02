@@ -254,19 +254,19 @@ const Ampv1Form = ({ intervalTime }) => {
     // }, [intervalTime])
     const onSubmitState = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_treatment",
-            componant_name: "ampv1",
-        }
-        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp);
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_treatment",
+        //     componant_name: "ampv1",
+        // }
+        // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+        //     console.log("resp", resp);
             let newData = {
                 company_name: userData.company_name,
                 unit_type: "water_treatment",
                 componant_name: "ampv1",
                 pos: pos,
-                device_id: resp?.data[0]?.data?.Device_id,
+                // device_id: resp?.data[0]?.data?.Device_id,
             }
             axios.post('/topicapi/ampv1_state/', newData, {
                 headers: {
@@ -287,34 +287,34 @@ const Ampv1Form = ({ intervalTime }) => {
                     alert("Please enter valid credentials")
                 }
             })
-        }).catch((error) => {
-            console.log("error", error);
-        })
+        // }).catch((error) => {
+        //     console.log("error", error);
+        // })
 
     }
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_treatment",
-            componant_name: "ampv1",
-            stp: stp,
-            ip1: ip1,
-            ip2: ip2,
-            ip3: ip3,
-            psi: psi,
-            srt: `${srt1}:${srt2}`,
-            srt1: srt1,
-            srt2: srt2,
-            bkt: bkt,
-            rst: rst,
-            mot: mot,
-            op1: op1,
-            op2: op2,
-            op3: op3,
-        }
-        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp);
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_treatment",
+        //     componant_name: "ampv1",
+        //     stp: stp,
+        //     ip1: ip1,
+        //     ip2: ip2,
+        //     ip3: ip3,
+        //     psi: psi,
+        //     srt: `${srt1}:${srt2}`,
+        //     srt1: srt1,
+        //     srt2: srt2,
+        //     bkt: bkt,
+        //     rst: rst,
+        //     mot: mot,
+        //     op1: op1,
+        //     op2: op2,
+        //     op3: op3,
+        // }
+        // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+        //     console.log("resp", resp);
             let newData = {
                 company_name: userData.company_name,
                 unit_type: "water_treatment",
@@ -333,7 +333,7 @@ const Ampv1Form = ({ intervalTime }) => {
                 op1: op1,
                 op2: op2,
                 op3: op3,
-                device_id: resp?.data[0]?.data?.Device_id
+                // device_id: resp?.data[0]?.data?.Device_id
             }
             axios.post('/topicapi/ampv1_setting/', newData, {
                 headers: {
@@ -355,9 +355,9 @@ const Ampv1Form = ({ intervalTime }) => {
                     alert("Please enter valid credentials")
                 }
             })
-        }).catch((error) => {
-            console.log("error", error);
-        })
+        // }).catch((error) => {
+        //     console.log("error", error);
+        // })
 
     }
     return (

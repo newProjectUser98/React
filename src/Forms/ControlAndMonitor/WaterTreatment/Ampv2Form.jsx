@@ -203,21 +203,21 @@ const Ampv2Form = ({ intervalTime }) => {
     const onSubmitState = (values, submitProps) => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            unit_type: "water_treatment",
-            company_name: userData.company_name,
-            componant_name: "ampv2",
-            pos: pos
-        }
-        console.log("newData", newData);
-        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp for device id", resp?.data);
+        // let newData = {
+        //     unit_type: "water_treatment",
+        //     company_name: userData.company_name,
+        //     componant_name: "ampv2",
+        //     pos: pos
+        // }
+        // console.log("newData", newData);
+        // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+        //     console.log("resp for device id", resp?.data);
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
                 componant_name: "ampv2",
                 pos: pos,
-                device_id: resp?.data[0]?.data?.Device_id
+                // device_id: resp?.data[0]?.data?.Device_id
             }
             console.log("newData in state++>", newData);
             axios.post('/topicapi/ampv2_state/', newData, {
@@ -240,36 +240,36 @@ const Ampv2Form = ({ intervalTime }) => {
                     alert("Please enter valid credentials")
                 }
             })
-        }).catch((error) => {
-            console.log("error", error);
-        })
+        // }).catch((error) => {
+        //     console.log("error", error);
+        // })
 
     }
     const onSubmitSetting = (values, submitProps) => {
         console.log("values in ampv 2 setting", values);
         const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_treatment",
-            componant_name: "ampv2",
-            stp: stp,
-            ip1: ip1,
-            ip2: ip2,
-            ip3: ip3,
-            psi: psi,
-            srt: `${srt1}:${srt2}`,
-            srt1: srt1,
-            srt2: srt2,
-            bkt: bkt,
-            rst: rst,
-            mot: mot,
-            op1: op1,
-            op2: op2,
-            op3: op3,
-        }
-        console.log("newData", newData);
-        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp);
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_treatment",
+        //     componant_name: "ampv2",
+        //     stp: stp,
+        //     ip1: ip1,
+        //     ip2: ip2,
+        //     ip3: ip3,
+        //     psi: psi,
+        //     srt: `${srt1}:${srt2}`,
+        //     srt1: srt1,
+        //     srt2: srt2,
+        //     bkt: bkt,
+        //     rst: rst,
+        //     mot: mot,
+        //     op1: op1,
+        //     op2: op2,
+        //     op3: op3,
+        // }
+        // console.log("newData", newData);
+        // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+        //     console.log("resp", resp);
             let newData = {
                 company_name: userData.company_name,
                 unit_type: "water_treatment",
@@ -288,7 +288,7 @@ const Ampv2Form = ({ intervalTime }) => {
                 op1: op1,
                 op2: op2,
                 op3: op3,
-                device_id: resp?.data[0]?.data?.Device_id
+                // device_id: resp?.data[0]?.data?.Device_id
             }
             axios.post('/topicapi/ampv2_setting/', newData, {
                 headers: {
@@ -306,9 +306,9 @@ const Ampv2Form = ({ intervalTime }) => {
             }).catch((err) => {
                 console.log("err", err);
             })
-        }).catch((error) => {
-            console.log("error", error);
-        })
+        // }).catch((error) => {
+        //     console.log("error", error);
+        // })
     }
     return (
         <>

@@ -159,59 +159,60 @@ const ConductivityForm = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_treatment",
+        //     componant_name: "cnd_sen",
+        //     spn: spn,
+        //     tsp: tsp,
+        //     asp: asp,
+        // }
+        // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
+        //     console.log("resp", resp);
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
-            componant_name: "cnd_sen",
+            componant_name: changeConductivity === 'cnd' ? "cnd_sen" : "tds_sen",
             spn: spn,
             tsp: tsp,
             asp: asp,
+            // device_id: resp?.data[0]?.data?.Device_id
         }
-        axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-            console.log("resp", resp);
-            let newData = {
-                company_name: userData.company_name,
-                unit_type: "water_treatment",
-                componant_name: "cnd_sen",
-                spn: spn,
-                tsp: tsp,
-                asp: asp,
-                device_id: resp?.data[0]?.data?.Device_id
-            }
-            changeConductivity === 'cnd' ?
-                axios.post('/topicapi/cnd_setting/', newData, {
-                    headers: {
-                        'Authorization': 'Bearer ' + access_token
-                    }
-                }).then((res) => {
-                    console.log("res in cnd", res);
-                    setIsLoading(true);
-                    setOpen(true);
-                    setTimeout(() => {
-                        setIsLoading(false)
-                        setOpen(false);
-                    }, 10000);
-                }).catch((err) => {
-                    console.log("err", err);
-                    if (err.response.statusText === "Unauthorized") {
-                        navigate("/");
-                        alert("Please enter valid credentials")
-                    }
-                }) :
-                axios.post('/topicapi/tds_setting/', newData).then((res) => {
-                    console.log("res in tds", res);
-                    setIsLoading(true);
-                    setOpen(true);
-                    setTimeout(() => {
-                        setIsLoading(false)
-                        setOpen(false);
-                    }, 10000);
-                }).catch((err) => {
-                    console.log("err", err);
-                })
-        }).catch((error) => {
-            console.log("error", error);
-        })
+        changeConductivity === 'cnd' ?
+            axios.post('/topicapi/cnd_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            }).then((res) => {
+                console.log("res in cnd", res);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
+            }).catch((err) => {
+                console.log("err", err);
+                if (err.response.statusText === "Unauthorized") {
+                    navigate("/");
+                    alert("Please enter valid credentials")
+                }
+            }) :
+
+            axios.post('/topicapi/tds_setting/', newData).then((res) => {
+                console.log("res in tds", res);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
+            }).catch((err) => {
+                console.log("err", err);
+            })
+        // }).catch((error) => {
+        //     console.log("error", error);
+        // })
 
     }
     return (

@@ -165,25 +165,25 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_dispense",
-            componant_name: "atm",
-            ntp: ntp,
-            nov: nov,
-            vl1: vl1,
-            vl2: vl2,
-            vl3: vl3,
-            vl4: vl4,
-            re1: re1,
-            re2: re2,
-            re3: re3,
-            re4: re4
-        };
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_dispense",
+        //     componant_name: "atm",
+        //     ntp: ntp,
+        //     nov: nov,
+        //     vl1: vl1,
+        //     vl2: vl2,
+        //     vl3: vl3,
+        //     vl4: vl4,
+        //     re1: re1,
+        //     re2: re2,
+        //     re3: re3,
+        //     re4: re4
+        // };
 
-        axios.post("/topicapi/get_device_id/", newData)
-            .then((resp) => {
-                console.log("resp", resp);
+        // axios.post("/topicapi/get_device_id/", newData)
+        //     .then((resp) => {
+        //         console.log("resp", resp);
 
                 let newData = {
                     company_name: userData.company_name,
@@ -200,7 +200,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                     re3: re3,
                     re4: re4,
                     ntt: ntt,
-                    device_id: resp?.data[0]?.data?.Device_id
+                    // device_id: resp?.data[0]?.data?.Device_id
                 };
 
                 setTimeout(() => {
@@ -227,10 +227,10 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                         });
                 }, 3000); // Delay of 3 seconds
 
-            })
-            .catch((err) => {
-                console.log("err", err);
-            });
+            // })
+            // .catch((err) => {
+            //     console.log("err", err);
+            // });
     }
     return (
         <>

@@ -1,10 +1,20 @@
 import { Grid, } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Paper } from '@mui/material';
+import axios from 'axios';
 
 const Notification = () => {
-
+    const [data, setData] = useState([])
+    const userData = JSON.parse(localStorage.getItem('user'));
+    useEffect(() => {
+        axios.get("/api/last-records/").then((resp) => {
+            console.log("resp", resp.data);
+            setData(resp.data)
+        }).catch((err) => {
+            console.log("err", err);
+        })
+    }, [])
     let ErrorMSgJSON = localStorage.getItem("ErrorMSg");
     let ErrorMsg = JSON.parse(ErrorMSgJSON);
     console.log("ErrorMsg", ErrorMsg);
@@ -19,7 +29,7 @@ const Notification = () => {
                         </div>
                         <Grid container spacing={5} className="my-5">
                             {
-                                ErrorMsg.map((item, index) => {
+                                data.map((item, index) => {
                                     return (
                                         <>
                                             <Grid item xs={12}>
@@ -34,14 +44,14 @@ const Notification = () => {
                                                                     <div className="flex">
                                                                         {/* <p className='text-xs font-semibold mb-2'>Site name</p>
                                                                         <p className='text-xs font-semibold mb-2'>3 min ago</p> */}
-                                                                        <p className='text-xs font-semibold mb-2'>{item.site_Name}</p>
-                                                                        <p className='text-xs font-semibold mb-2'> {item.time}</p>
+                                                                        <p className='text-xs font-semibold mb-2'>{userData.company_name}&nbsp;</p>
+                                                                        <p className='text-xs font-semibold mb-2'> {item.created_at.slice(0, 10)} &nbsp;{`${item.hour}:${item.minit}:${item.second}`}</p>
                                                                     </div>
                                                                     <div className="flex">
                                                                         <p className='text-sm font-normal my-2'>Alert</p>
                                                                     </div>
                                                                     <div className="flex">
-                                                                        <p className='text-sm font-normal mt-2'>{item.site_Name} - {item.component_name} - {item.error_msg}</p>
+                                                                        <p className='text-sm font-normal mt-2'>{userData.company_name} - {item.service} - {item.e_discriptions}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -88,18 +88,18 @@ const Tap4Form = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_dispense",
-            componant_name: "tap4",
-            p1: p1,
-            p2: p2,
-            p3: p3,
-            p4: p4
-        }
-        axios.post("/topicapi/get_device_id/", newData)
-            .then((resp) => {
-                console.log("resp", resp);
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_dispense",
+        //     componant_name: "tap4",
+        //     p1: p1,
+        //     p2: p2,
+        //     p3: p3,
+        //     p4: p4
+        // }
+        // axios.post("/topicapi/get_device_id/", newData)
+        //     .then((resp) => {
+        //         console.log("resp", resp);
                 let newData = {
                     company_name: userData.company_name,
                     unit_type: "water_dispense",
@@ -108,7 +108,7 @@ const Tap4Form = ({ intervalTime }) => {
                     p2: p2,
                     p3: p3,
                     p4: p4,
-                    device_id: resp?.data[0]?.data?.Device_id
+                    // device_id: resp?.data[0]?.data?.Device_id
                 };
 
                 setTimeout(() => {
@@ -132,10 +132,10 @@ const Tap4Form = ({ intervalTime }) => {
                         }
                     });
                 }, 3000);
-            })
-            .catch((error) => {
-                console.log("error", error);
-            });
+            // })
+            // .catch((error) => {
+            //     console.log("error", error);
+            // });
     }
     return (
         <>

@@ -221,6 +221,25 @@ const RoiPanelForm = ({ intervalTime }) => {
     const onSubmitSetting = (values, submitProps) => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_treatment",
+        //     componant_name: "panel",
+        //     mod: mod,
+        //     nmv: nmv,
+        //     stp: stp,
+        //     srt: `${srt1}:${srt2}`,
+        //     unv: unv,
+        //     ovv: ovv,
+        //     spn: spn,
+        //     bkt: bkt,
+        //     rst: rst
+        // };
+        // console.log("newData in panels", newData);
+        // axios.post("/topicapi/get_device_id/", newData)
+        //     .then((resp) => {
+        //         console.log("resp", resp?.data[0]?.data?.Device_id);
+
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
@@ -228,62 +247,43 @@ const RoiPanelForm = ({ intervalTime }) => {
             mod: mod,
             nmv: nmv,
             stp: stp,
-            srt: `${srt1}:${srt2}`,
             unv: unv,
             ovv: ovv,
             spn: spn,
+            srt: `${srt1}:${srt2}`,
             bkt: bkt,
-            rst: rst
+            rst: rst,
+            // device_id: resp?.data[0]?.data?.Device_id
         };
-        console.log("newData in panels", newData);
-        axios.post("/topicapi/get_device_id/", newData)
-            .then((resp) => {
-                console.log("resp", resp?.data[0]?.data?.Device_id);
 
-                let newData = {
-                    company_name: userData.company_name,
-                    unit_type: "water_treatment",
-                    componant_name: "panel",
-                    mod: mod,
-                    nmv: nmv,
-                    stp: stp,
-                    unv: unv,
-                    ovv: ovv,
-                    spn: spn,
-                    srt: `${srt1}:${srt2}`,
-                    bkt: bkt,
-                    rst: rst,
-                    device_id: resp?.data[0]?.data?.Device_id
-                };
-
-                setTimeout(() => {
-                    axios.post('/topicapi/panel_setting/', newData, {
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token
-                        }
-                    })
-                        .then((res) => {
-                            console.log("res", res);
-                            setIsLoading(true);
-                            setOpen(true);
-                            setTimeout(() => {
-                                setIsLoading(false)
-                                setOpen(false);
-                            }, 10000);
-                        })
-                        .catch((err) => {
-                            console.log("err", err);
-                            if (err.response.statusText === "Unauthorized") {
-                                navigate("/");
-                                alert("Please enter valid credentials")
-                            }
-                        });
-                }, 3000); // Delay of 3 seconds
-
+        setTimeout(() => {
+            axios.post('/topicapi/panel_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
             })
-            .catch((error) => {
-                console.log("error", error);
-            });
+                .then((res) => {
+                    console.log("res", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 10000);
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    if (err.response.statusText === "Unauthorized") {
+                        navigate("/");
+                        alert("Please enter valid credentials")
+                    }
+                });
+        }, 3000); // Delay of 3 seconds
+
+        // })
+        // .catch((error) => {
+        //     console.log("error", error);
+        // });
 
 
     }

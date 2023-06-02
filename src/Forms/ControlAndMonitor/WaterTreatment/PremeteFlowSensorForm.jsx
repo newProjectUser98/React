@@ -76,23 +76,23 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        let newData = {
-            company_name: userData.company_name,
-            unit_type: "water_treatment",
-            componant_name: "P_flowsen"
-        };
-        console.log("newData", newData);
+        // let newData = {
+        //     company_name: userData.company_name,
+        //     unit_type: "water_treatment",
+        //     componant_name: "P_flowsen"
+        // };
+        // console.log("newData", newData);
 
-        axios.post("/topicapi/get_device_id/", newData)
-            .then((resp) => {
-                console.log("resp in treat_P_flowsen set device id", resp.data[0].data.Device_id);
+        // axios.post("/topicapi/get_device_id/", newData)
+        //     .then((resp) => {
+        //         console.log("resp in treat_P_flowsen set device id", resp.data[0].data.Device_id);
 
                 let newData = {
                     company_name: userData.company_name,
                     unit_type: "water_treatment",
                     componant_name: "P_flowsen",
                     ff: ff2,
-                    device_id: resp?.data[0]?.data?.Device_id
+                    // device_id: resp?.data[0]?.data?.Device_id
                 };
 
                 setTimeout(() => {
@@ -120,10 +120,10 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                         });
                 }, 3000); // Delay of 3 seconds
 
-            })
-            .catch((error) => {
-                console.log("error", error);
-            });
+            // })
+            // .catch((error) => {
+            //     console.log("error", error);
+            // });
 
     }
     return (
