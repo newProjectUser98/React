@@ -59,11 +59,9 @@ const Tap1Form = ({ intervalTime }) => {
                         setP4(resp.data[0].data.data_set.p4)
                     }
                     setIsLoading(false);
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
-                        alert("Device State Data Updated Successfully")
-                    } else {
-                        alert("Device Setting Data Updated Successfully")
-                    }
+
+                    alert("Device Setting Data Updated Successfully")
+
                 }
                 localStorage.setItem('updated_time_tap1_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
@@ -99,43 +97,43 @@ const Tap1Form = ({ intervalTime }) => {
         // axios.post("/topicapi/get_device_id/", newData)
         //     .then((resp) => {
         //         console.log("resp", resp);
-                let newData = {
-                    company_name: userData.company_name,
-                    unit_type: "water_dispense",
-                    componant_name: "tap1",
-                    p1: p1,
-                    p2: p2,
-                    p3: p3,
-                    p4: p4,
-                    // device_id: resp?.data[0]?.data?.Device_id
-                };
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_dispense",
+            componant_name: "tap1",
+            p1: p1,
+            p2: p2,
+            p3: p3,
+            p4: p4,
+            // device_id: resp?.data[0]?.data?.Device_id
+        };
 
+        setTimeout(() => {
+            axios.post('/topicapi/tap1_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            }).then((res) => {
+                console.log("res in tap1 get", res.data);
+                setIsLoading(true);
+                setOpen(true);
                 setTimeout(() => {
-                    axios.post('/topicapi/tap1_setting/', newData, {
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token
-                        }
-                    }).then((res) => {
-                        console.log("res in tap1 get", res.data);
-                        setIsLoading(true);
-                        setOpen(true);
-                        setTimeout(() => {
-                            setIsLoading(false)
-                            setOpen(false);
-                        }, 10000);
-                    }).catch((err) => {
-                        console.log("err", err);
-                        if (err.response.statusText === "Unauthorized") {
-                            navigate("/");
-                            alert("Please enter valid credentials")
-                        }
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
+            }).catch((err) => {
+                console.log("err", err);
+                if (err.response.statusText === "Unauthorized") {
+                    navigate("/");
+                    alert("Please enter valid credentials")
+                }
 
-                    });
-                }, 3000);
-            // })
-            // .catch((error) => {
-            //     console.log("error", error);
-            // });
+            });
+        }, 3000);
+        // })
+        // .catch((error) => {
+        //     console.log("error", error);
+        // });
 
     }
 

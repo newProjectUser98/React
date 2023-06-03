@@ -60,11 +60,7 @@ const Tap4Form = ({ intervalTime }) => {
                         setP4(resp.data[0].data.data_set.p4)
                     }
                     setIsLoading(false);
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
-                        alert("Device State Data Updated Successfully")
-                    } else {
-                        alert("Device Setting Data Updated Successfully")
-                    }
+                    alert("Device Setting Data Updated Successfully")
                 }
                 localStorage.setItem('updated_time_tap4_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {

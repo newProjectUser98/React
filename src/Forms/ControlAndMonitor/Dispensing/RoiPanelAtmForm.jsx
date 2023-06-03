@@ -133,7 +133,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                     setIsLoading(false);
                     if (resp.data[0].data.data_sta.message_type === "updsta") {
                         alert("Device State Data Updated Successfully")
-                    } else {
+                    } else if(resp.data[0].data.data_set.message_type === "updset") {
                         alert("Device Setting Data Updated Successfully")
                     }
                 }

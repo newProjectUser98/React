@@ -34,11 +34,7 @@ const FeedFlowSensor1Form = ({ intervalTime }) => {
                     if (resp.data[0].data.data_sta.fr != 0) {
                         setFr(resp.data[0].data.data_sta.fr)
                     }
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
-                        alert("Device State Data Updated Successfully")
-                    } else {
-                        alert("Device Setting Data Updated Successfully")
-                    }
+                    alert("Device state Data Updated Successfully")
                 }
                 localStorage.setItem('updated_time_flowsen1_state', resp.data[0].data.data_sta.updated_at);
             }).catch((err) => {
