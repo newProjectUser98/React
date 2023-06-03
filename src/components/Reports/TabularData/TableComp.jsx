@@ -141,16 +141,21 @@ export default function BasicTable({ Yaxis, deviceID }) {
   };
 
   useEffect(() => {
+    // Fetch data initially when the component mounts
     fetchMostRecentData();
-    console.log(tabData);
+    console.log('tabData in useEffect', tabData);
 
-    // const interval = setInterval(fetchMostRecentData
-    //   , 6000
-    // );
+    // Set up the interval to fetch data every 10 minutes
+    const interval = setInterval(fetchMostRecentData
+      , 10 * 60 * 1000
+      // , 30000
+    );
 
-    // return () => {
-    //   clearInterval(interval);
-    // };
+    // Clean up the interval when the component unmounts or Yaxis changes
+    return () => {
+      clearInterval(interval);
+    };
+
   }, [Yaxis, deviceID]);
 
   return (
