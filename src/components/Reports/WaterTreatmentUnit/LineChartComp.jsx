@@ -43,42 +43,69 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
       const fromDateObj = new Date(fromDate);
       const toDateObj = new Date(toDate);
 
-      axios.get(`/topicapi/${Yaxis}_hourly/`)
-        .then(res => {
+      //New code for hourlyData starts here
+      axios
+        .get(`/topicapi/${Yaxis}_hourly/`)
+        .then((res) => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
-          })
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            .reverse(); // Reverse the order to get ascending order
+            return (
+              docDate >= fromDateObj &&
+              docDate <= toDateObj &&
+              obj.device_id === deviceID
+            );
+          });
 
-          const recentDocuments = filteredData.slice(-24) // Get a maximum of 24 most recent documents
+          const hourArray = Array.from({ length: 24 }, (_, i) => i+1);
 
-          console.log('recent data in hourly date search in Line', recentDocuments);
+          const hourlyDataArray = hourArray.map((hour) => {
+            const hourData = filteredData.find((obj) => {
+              const objDate = new Date(obj.year, obj.month - 1, obj.day);
+              return objDate.getTime() === toDateObj.getTime() && obj.hour === String(hour);
+            });
+            return hourData ? hourData : { hour: String(hour) };
+          });
 
-          console.log('hourlyData', filteredData)
-          setHourlyData1(recentDocuments)
+          setHourlyData1(hourlyDataArray);
         })
-        .catch(err => console.log(err))
+        .catch((err) => console.log(err));
+      //New code for hourlyData ends
 
+
+      //New code for dailyData starts
       axios.get(`/topicapi/${Yaxis}_daily/`)
         .then(res => {
-          const filteredData = res.data.filter((obj) => {
+          const filteredData = res.data.filter(obj => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
-          })
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            .reverse(); // Reverse the order to get ascending order
+            return (
+              docDate >= fromDateObj &&
+              docDate <= toDateObj &&
+              obj.device_id === deviceID &&
+              docDate.getMonth() + 1 === parseInt(toDateObj.getMonth()) + 1
+            );
+          });
 
-          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const dailyDataArray = Array.from({ length: 31 }, (_, i) => {
+            const day = i + 1;
+            const dayData = filteredData.find(obj => {
+              const docDate = new Date(obj.year, obj.month - 1, obj.day);
+              return (
+                docDate.getDate() === day &&
+                docDate.getMonth() === toDateObj.getMonth() &&
+                docDate.getFullYear() === toDateObj.getFullYear()
+              );
+            });
 
-          console.log('recent data in daily date search in Line', recentDocuments);
+            return dayData ? dayData : { day: String(day) };
+          });
 
-          console.log('dailyData', filteredData)
-          // console.log('finalData in daily', data)
-          setDailyData1(recentDocuments)
+          console.log('dailyData', dailyDataArray);
+          console.log('filteredData', filteredData);
+
+          setDailyData1(dailyDataArray);
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
+      //New code for dailyData ends
 
       axios.get(`/topicapi/${Yaxis}_monthly/`)
         .then(res => {
@@ -184,10 +211,10 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
               <p>Daily Data</p>
               <LineChart width={1000} height={300} data={dailyData1}>
                 <XAxis dataKey="day" fontSize={10} tickLine={false}
-                  tickFormatter={(day) => {
-                    const month = dailyData1.find(data => data.day === day)?.month;
-                    return `${day}/${month}`;
-                  }}
+                  // tickFormatter={(day) => {
+                  //   const month = dailyData1.find(data => data.day === day)?.month;
+                  //   return `${day}/${month}`;
+                  // }}
                 />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
