@@ -55,7 +55,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
             );
           });
 
-          const hourArray = Array.from({ length: 24 }, (_, i) => i+1);
+          const hourArray = Array.from({ length: 24 }, (_, i) => i + 1);
 
           const hourlyDataArray = hourArray.map((hour) => {
             const hourData = filteredData.find((obj) => {
@@ -99,7 +99,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
           });
 
           console.log('dailyData', dailyDataArray);
-          console.log('filteredData', filteredData);
+          console.log('filteredData in dailyData', filteredData);
 
           setDailyData(dailyDataArray);
         })
@@ -107,46 +107,98 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
       //New code for dailyData ends
 
 
-      axios.get(`/topicapi/${Yaxis}_monthly/`)
-        .then(res => {
+      // New code for monthlyData starts here
+      const startYear = fromDateObj.getFullYear();
+      const endYear = toDateObj.getFullYear();
+
+      const allMonthsData = [];
+
+      for (let year = startYear; year <= endYear; year++) {
+        for (let month = 1; month <= 12; month++) {
+          allMonthsData.push({ year, month });
+        }
+      }
+
+      axios
+        .get(`/topicapi/${Yaxis}_monthly/`)
+        .then((res) => {
           const filteredData = res.data.filter((obj) => {
-            const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
-          })
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            .reverse(); // Reverse the order to get ascending order
+            const docDate = new Date(obj.year, obj.month - 1, 1);
+            return (
+              docDate >= fromDateObj &&
+              docDate <= toDateObj &&
+              obj.device_id === deviceID
+            );
+          });
 
-          const recentDocuments = filteredData.slice(-36); // Get a maximum of 36 most recent documents
+          const mergedData = allMonthsData.map((monthData) => {
+            const { year, month } = monthData;
+            const foundData = filteredData.find(
+              (obj) => Number(obj.year) === year && Number(obj.month) === month
+            );
+            if (foundData) {
+              return foundData;
+            } else {
+              return { year, month, value: 0 };
+            }
+          });
 
-          console.log('recent data in monthly date search in bar', recentDocuments);
-
-          console.log('monthlyData', filteredData)
-          setMonthlyData(recentDocuments)
+          setMonthlyData(mergedData);
+          console.log('mergedData in monthlyData', mergedData);
+          console.log('filteredData in monthlyData', filteredData);
+          console.log('res.data', res.data);
         })
-        .catch(err => console.log(err))
+        .catch((error) => {
+          console.log(error);
+        });
+      // New code for monthlyData ends here
 
+
+      // New code for yearlyData starts here
       axios.get(`/topicapi/${Yaxis}_yearly/`)
         .then(res => {
-          const filteredData = res.data.filter((obj) => {
+          const filteredData = res.data.filter(obj => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID;
           })
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            .reverse(); // Reverse the order to get ascending order
+            .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day));
 
-          const recentDocuments = filteredData.slice(-3); // Get a maximum of 3 most recent documents
+          const allYearsData = [];
+          const currentDate = new Date(fromDateObj.getFullYear(), 0, 1); // Start from January 1st of the start year
 
-          console.log('recent data in yearly date search in bar', recentDocuments);
+          while (currentDate.getFullYear() <= endYear) {
+            allYearsData.push({ year: currentDate.getFullYear() });
+            currentDate.setFullYear(currentDate.getFullYear() + 1); // Move to the next year
+          }
 
-          console.log('yearlyData', filteredData)
-          setYearlyData(recentDocuments)
+          const dataByYear = {}; // Dictionary to store data objects by year
+
+          filteredData.forEach(obj => {
+            dataByYear[obj.year] = obj; // Store data object with year as key
+          });
+
+          const mergedData = allYearsData.map(yearData => {
+            const { year } = yearData;
+            const foundData = dataByYear[year];
+
+            if (foundData) {
+              return foundData;
+            } else {
+              return { year, value: 0 };
+            }
+          })
+
+          setYearlyData(mergedData);
+          console.log('mergedData in yearlyData', mergedData);
+          console.log('filteredData in yearlyData', filteredData);
         })
         .catch(err => console.log(err))
+      // New code for yearlyData ends here
     }
   },
     // eslint-disable-next-line
     [variable, fromDate, toDate])
-    
+
 
 
   return (
@@ -298,10 +350,10 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
               <p>Monthly data</p>
               <BarChart width={1000} height={300} data={monthlyData}>
                 <XAxis dataKey="month" fontSize={10} axisLine={false} tickLine={false}
-                  tickFormatter={(month) => {
-                    const year = monthlyData.find(data => data.month === month)?.year;
-                    return `${month}/${year}`;
-                  }}
+                // tickFormatter={(month) => {
+                //   const year = monthlyData.find(data => data.month === month)?.year;
+                //   return `${month}/${year}`;
+                // }}
                 />
                 <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
