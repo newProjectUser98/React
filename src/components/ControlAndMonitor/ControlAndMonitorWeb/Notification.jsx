@@ -44,14 +44,14 @@ const Notification = () => {
                                                                     <div className="flex">
                                                                         {/* <p className='text-xs font-semibold mb-2'>Site name</p>
                                                                         <p className='text-xs font-semibold mb-2'>3 min ago</p> */}
-                                                                        <p className='text-xs font-semibold mb-2'>{userData.company_name}&nbsp;</p>
+                                                                        <p className='text-xs font-semibold mb-2'>{userData?.company_name}&nbsp;</p>
                                                                         <p className='text-xs font-semibold mb-2'> {item.created_at.slice(0, 10)} &nbsp;{`${item.hour}:${item.minit}:${item.second}`}</p>
                                                                     </div>
                                                                     <div className="flex">
                                                                         <p className='text-sm font-normal my-2'>Alert</p>
                                                                     </div>
                                                                     <div className="flex">
-                                                                        <p className='text-sm font-normal mt-2'>{userData.company_name} - {item.service} - {item.e_discriptions}</p>
+                                                                        <p className='text-sm font-normal mt-2'>{userData?.company_name} - {item.service} - {item.e_discriptions}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>

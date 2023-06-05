@@ -40,16 +40,10 @@ let FULLEMP = [
     { value: "emp", label: "Empty" },
 ]
 const RoiPanelForm = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_panel'))
     let updated_Time_state = localStorage.getItem("updated_time_panel_state")
     let updated_Time_settng = localStorage.getItem("updated_time_panel_settings")
-    localStorage.setItem("component_Name", "panel");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "panel") {
-            localStorage.removeItem("localStorage_data")
-        }
-    }, [])
+
     // eslint-disable-next-line
     const [statusVal, setStatusVal] = useState(false)
     // eslint-disable-next-line
@@ -76,16 +70,13 @@ const RoiPanelForm = ({ intervalTime }) => {
     const [dgp, setDgp] = React.useState(localStorageData?.dgp);
     const [ipv, setIpv] = React.useState(localStorageData?.ipv);
     const [err, setErr] = React.useState(localStorageData?.err);
-    console.log("rtl", rtl);
-    console.log("dgp", dgp);
-    console.log("ovv", ovv);
-    console.log("stp", stp);
+
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
     console.log("components ==>", components[0].panel.dosing_pump);
-    console.log("hps", hps);
+
     const initialValues = {
         mod: '',
         nmv: '',
@@ -99,8 +90,6 @@ const RoiPanelForm = ({ intervalTime }) => {
         bkt: 99,
         rst: 99,
     };
-    console.log("srt1", srt1);
-    console.log("srt2", srt2);
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
@@ -110,33 +99,116 @@ const RoiPanelForm = ({ intervalTime }) => {
                 componant_name: "panel"
             }
             axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
-                if (rtl === undefined && dgp === undefined && ovv === undefined && stp === undefined) {
+                // if (rtl === undefined && dgp === undefined && ovv === undefined && stp === undefined) {
 
-                    let time = resp.data[0].data.data_set.srt
-                    console.log("time", time);
-                    let SplitTime = time.split(':')
-                    console.log("srt++", srt);
-                    let localStorage_data = {
-                        sts: resp.data[0].data.data_sta.sts,
-                        rtl: resp.data[0].data.data_sta.rtl,
-                        ttl: resp.data[0].data.data_sta.ttl,
-                        lps: resp.data[0].data.data_sta.lps,
-                        dgp: resp.data[0].data.data_sta.dgp,
-                        ipv: resp.data[0].data.data_sta.ipv,
-                        err: resp.data[0].data.data_sta.err,
-                        mod: resp.data[0].data.data_set.mod,
-                        unv: resp.data[0].data.data_set.unv,
-                        ovv: resp.data[0].data.data_set.ovv,
-                        spn: resp.data[0].data.data_set.spn,
-                        nmv: resp.data[0].data.data_set.nmv,
-                        stp: resp.data[0].data.data_set.stp,
-                        srt1: SplitTime[0],
-                        srt2: SplitTime[1],
-                        bkt: resp.data[0].data.data_set.bkt,
-                        rst: resp.data[0].data.data_set.rst,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                //     let time = resp.data[0].data.data_set.srt
+                //     let SplitTime = time.split(':')
+                //     let localStorage_data_panel = {
+                //         sts: resp.data[0].data.data_sta.sts,
+                //         rtl: resp.data[0].data.data_sta.rtl,
+                //         ttl: resp.data[0].data.data_sta.ttl,
+                //         lps: resp.data[0].data.data_sta.lps,
+                //         dgp: resp.data[0].data.data_sta.dgp,
+                //         ipv: resp.data[0].data.data_sta.ipv,
+                //         err: resp.data[0].data.data_sta.err,
+                //         mod: resp.data[0].data.data_set.mod,
+                //         unv: resp.data[0].data.data_set.unv,
+                //         ovv: resp.data[0].data.data_set.ovv,
+                //         spn: resp.data[0].data.data_set.spn,
+                //         nmv: resp.data[0].data.data_set.nmv,
+                //         stp: resp.data[0].data.data_set.stp,
+                //         srt1: SplitTime[0],
+                //         srt2: SplitTime[1],
+                //         bkt: resp.data[0].data.data_set.bkt,
+                //         rst: resp.data[0].data.data_set.rst,
+                //     }
+                //     localStorage.setItem("localStorage_data_panel", JSON.stringify(localStorage_data_panel));
+                // }
+
+                // Retrieve data from localStorage
+                let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_panel"));
+
+                // Check if localStorageData exists and has values
+                if (!localStorageData) {
+                    localStorageData = {};
                 }
+
+                // Update the variables with new values if they are not zero
+                if (resp.data[0].data.data_sta.sts !== "") {
+                    localStorageData.sts = resp.data[0].data.data_sta.sts;
+                }
+
+                if (resp.data[0].data.data_sta.rtl !== "") {
+                    localStorageData.rtl = resp.data[0].data.data_sta.rtl;
+                }
+
+                if (resp.data[0].data.data_sta.ttl !== "") {
+                    localStorageData.ttl = resp.data[0].data.data_sta.ttl;
+                }
+
+                if (resp.data[0].data.data_sta.lps !== "") {
+                    localStorageData.lps = resp.data[0].data.data_sta.lps;
+                }
+                if (resp.data[0].data.data_sta.hps !== "") {
+                    localStorageData.hps = resp.data[0].data.data_sta.hps;
+                }
+
+                if (resp.data[0].data.data_sta.dgp !== "") {
+                    localStorageData.dgp = resp.data[0].data.data_sta.dgp;
+                }
+
+                if (resp.data[0].data.data_sta.ipv !== 0) {
+                    localStorageData.ipv = resp.data[0].data.data_sta.ipv;
+                }
+
+                if (resp.data[0].data.data_sta.err !== "") {
+                    localStorageData.err = resp.data[0].data.data_sta.err;
+                }
+
+                if (resp.data[0].data.data_set.mod !== "") {
+                    localStorageData.mod = resp.data[0].data.data_set.mod;
+                }
+
+                if (resp.data[0].data.data_set.unv !== 0) {
+                    localStorageData.unv = resp.data[0].data.data_set.unv;
+                }
+
+                if (resp.data[0].data.data_set.ovv !== 0) {
+                    localStorageData.ovv = resp.data[0].data.data_set.ovv;
+                }
+
+                if (resp.data[0].data.data_set.spn !== 0) {
+                    localStorageData.spn = resp.data[0].data.data_set.spn;
+                }
+
+                if (resp.data[0].data.data_set.nmv !== "") {
+                    localStorageData.nmv = resp.data[0].data.data_set.nmv;
+                }
+
+                if (resp.data[0].data.data_set.stp !== "") {
+                    localStorageData.stp = resp.data[0].data.data_set.stp;
+                }
+                if (resp.data[0].data.data_set.srt !== "") {
+                    let time = resp.data[0].data.data_set.srt;
+                    let SplitTime = time.split(':');
+                    localStorageData.srt1 = SplitTime[0];
+                    localStorageData.srt2 = SplitTime[1];
+                }
+
+                if (resp.data[0].data.data_set.bkt !== 0) {
+                    localStorageData.bkt = resp.data[0].data.data_set.bkt;
+                }
+
+                if (resp.data[0].data.data_set.rst !== 0) {
+                    localStorageData.rst = resp.data[0].data.data_set.rst;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_panel", JSON.stringify(localStorageData));
+
+
+
+
                 console.log("resp in panel", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.sts != "") {

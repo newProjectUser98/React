@@ -43,14 +43,14 @@ let PSIData = [
 ]
 
 const Ampv2Form = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_ampv2'))
     let updated_Time_state = localStorage.getItem("updated_time_ampv2_state")
     let updated_Time_settng = localStorage.getItem("updated_time_ampv2_settings")
     localStorage.setItem("component_Name", "ampv2");
     useEffect(() => {
         let component_Name = localStorage.getItem("component_Name")
         if (component_Name != "ampv2") {
-            localStorage.removeItem("localStorage_data")
+            localStorage.removeItem("localStorage_data_ampv2")
         }
     }, [])
     const [editState, setEditState] = useState(false)
@@ -84,29 +84,103 @@ const Ampv2Form = ({ intervalTime }) => {
                 componant_name: "ampv2"
             }
             axios.post("/topicapi/updated_treat_ampv2/", newData).then((resp) => {
-                if (rmt === undefined && cct === undefined && stp === undefined && ip1 === undefined) {
-                    let time = resp.data[0].data.data_set.srt
-                    let SplitTime = time?.toString().split(':')
-                    let localStorage_data = {
-                        pos: resp.data[0].data.data_sta.pos,
-                        rmt: resp.data[0].data.data_sta.rmt,
-                        cct: resp.data[0].data.data_sta.cct,
-                        stp: resp.data[0].data.data_set.stp,
-                        ip1: resp.data[0].data.data_set.ip1,
-                        ip2: resp.data[0].data.data_set.ip2,
-                        ip3: resp.data[0].data.data_set.ip3,
-                        psi: resp.data[0].data.data_set.psi,
-                        srt1: SplitTime[0],
-                        srt2: SplitTime[1],
-                        bkt: resp.data[0].data.data_set.bkt,
-                        rst: resp.data[0].data.data_set.rst,
-                        mot: resp.data[0].data.data_set.mot,
-                        op1: resp.data[0].data.data_set.op1,
-                        op2: resp.data[0].data.data_set.op2,
-                        op3: resp.data[0].data.data_set.op3,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                // if (rmt === undefined && cct === undefined && stp === undefined && ip1 === undefined) {
+                //     let time = resp.data[0].data.data_set.srt
+                //     let SplitTime = time?.toString().split(':')
+                //     let localStorage_data_ampv2 = {
+                //         pos: resp.data[0].data.data_sta.pos,
+                //         rmt: resp.data[0].data.data_sta.rmt,
+                //         cct: resp.data[0].data.data_sta.cct,
+                //         stp: resp.data[0].data.data_set.stp,
+                //         ip1: resp.data[0].data.data_set.ip1,
+                //         ip2: resp.data[0].data.data_set.ip2,
+                //         ip3: resp.data[0].data.data_set.ip3,
+                //         psi: resp.data[0].data.data_set.psi,
+                //         srt1: SplitTime[0],
+                //         srt2: SplitTime[1],
+                //         bkt: resp.data[0].data.data_set.bkt,
+                //         rst: resp.data[0].data.data_set.rst,
+                //         mot: resp.data[0].data.data_set.mot,
+                //         op1: resp.data[0].data.data_set.op1,
+                //         op2: resp.data[0].data.data_set.op2,
+                //         op3: resp.data[0].data.data_set.op3,
+                //     }
+                //     localStorage.setItem("localStorage_data_ampv2", JSON.stringify(localStorage_data_ampv2));
+                // }
+                // Retrieve data from localStorage
+                let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_ampv2"));
+
+                // Check if localStorageData exists and has values
+                if (!localStorageData) {
+                    localStorageData = {};
                 }
+
+                // Update the variables with new values if they are not zero
+                if (resp.data[0].data.data_sta.pos !== "") {
+                    localStorageData.pos = resp.data[0].data.data_sta.pos;
+                }
+
+                if (resp.data[0].data.data_sta.rmt !== 0) {
+                    localStorageData.rmt = resp.data[0].data.data_sta.rmt;
+                }
+
+                if (resp.data[0].data.data_sta.cct !== 0) {
+                    localStorageData.cct = resp.data[0].data.data_sta.cct;
+                }
+
+                if (resp.data[0].data.data_set.stp !== "") {
+                    localStorageData.stp = resp.data[0].data.data_set.stp;
+                }
+
+                if (resp.data[0].data.data_set.ip1 !== "") {
+                    localStorageData.ip1 = resp.data[0].data.data_set.ip1;
+                }
+
+                if (resp.data[0].data.data_set.ip2 !== "") {
+                    localStorageData.ip2 = resp.data[0].data.data_set.ip2;
+                }
+
+                if (resp.data[0].data.data_set.ip3 !== "") {
+                    localStorageData.ip3 = resp.data[0].data.data_set.ip3;
+                }
+
+                if (resp.data[0].data.data_set.psi !== "") {
+                    localStorageData.psi = resp.data[0].data.data_set.psi;
+                }
+                if (resp.data[0].data.data_set.srt !== "") {
+                    let time = resp.data[0].data.data_set.srt;
+                    let SplitTime = time?.toString().split(':')
+                    localStorageData.srt1 = SplitTime[0];
+                    localStorageData.srt2 = SplitTime[1];
+                }
+
+                if (resp.data[0].data.data_set.bkt !== 0) {
+                    localStorageData.bkt = resp.data[0].data.data_set.bkt;
+                }
+
+                if (resp.data[0].data.data_set.rst !== 0) {
+                    localStorageData.rst = resp.data[0].data.data_set.rst;
+                }
+
+                if (resp.data[0].data.data_set.mot !== 0) {
+                    localStorageData.mot = resp.data[0].data.data_set.mot;
+                }
+
+                if (resp.data[0].data.data_set.op1 !== "") {
+                    localStorageData.op1 = resp.data[0].data.data_set.op1;
+                }
+
+                if (resp.data[0].data.data_set.op2 !== "") {
+                    localStorageData.op2 = resp.data[0].data.data_set.op2;
+                }
+
+                if (resp.data[0].data.data_set.op3 !== "") {
+                    localStorageData.op3 = resp.data[0].data.data_set.op3;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_ampv2", JSON.stringify(localStorageData));
+
                 console.log("resp in ampv2", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.pos != "") {
@@ -163,7 +237,7 @@ const Ampv2Form = ({ intervalTime }) => {
                     setIsLoading(false);
                     if (resp.data[0].data.data_sta.message_type === "updsta") {
                         alert("Device State Data Updated Successfully")
-                    } else if(resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (resp.data[0].data.data_set.message_type === "updset") {
                         alert("Device Setting Data Updated Successfully")
                     }
                 }
@@ -212,34 +286,34 @@ const Ampv2Form = ({ intervalTime }) => {
         // console.log("newData", newData);
         // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
         //     console.log("resp for device id", resp?.data);
-            let newData = {
-                unit_type: "water_treatment",
-                company_name: userData.company_name,
-                componant_name: "ampv2",
-                pos: pos,
-                // device_id: resp?.data[0]?.data?.Device_id
+        let newData = {
+            unit_type: "water_treatment",
+            company_name: userData.company_name,
+            componant_name: "ampv2",
+            pos: pos,
+            // device_id: resp?.data[0]?.data?.Device_id
+        }
+        console.log("newData in state++>", newData);
+        axios.post('/topicapi/ampv2_state/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token
             }
-            console.log("newData in state++>", newData);
-            axios.post('/topicapi/ampv2_state/', newData, {
-                headers: {
-                    'Authorization': 'Bearer ' + access_token
-                }
+        }
+        ).then((res) => {
+            console.log("res", res);
+            setIsLoading(true);
+            setOpen(true);
+            setTimeout(() => {
+                setIsLoading(false)
+                setOpen(false);
+            }, 70000);
+        }).catch((err) => {
+            console.log("err", err);
+            if (err.response.statusText === "Unauthorized") {
+                navigate("/");
+                alert("Please enter valid credentials")
             }
-            ).then((res) => {
-                console.log("res", res);
-                setIsLoading(true);
-                setOpen(true);
-                setTimeout(() => {
-                    setIsLoading(false)
-                    setOpen(false);
-                }, 70000);
-            }).catch((err) => {
-                console.log("err", err);
-                if (err.response.statusText === "Unauthorized") {
-                    navigate("/");
-                    alert("Please enter valid credentials")
-                }
-            })
+        })
         // }).catch((error) => {
         //     console.log("error", error);
         // })
@@ -270,42 +344,42 @@ const Ampv2Form = ({ intervalTime }) => {
         // console.log("newData", newData);
         // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
         //     console.log("resp", resp);
-            let newData = {
-                company_name: userData.company_name,
-                unit_type: "water_treatment",
-                componant_name: "ampv2",
-                stp: stp,
-                ip1: ip1,
-                ip2: ip2,
-                ip3: ip3,
-                psi: psi,
-                srt: `${srt1}:${srt2}`,
-                srt1: srt1,
-                srt2: srt2,
-                bkt: bkt,
-                rst: rst,
-                mot: mot,
-                op1: op1,
-                op2: op2,
-                op3: op3,
-                // device_id: resp?.data[0]?.data?.Device_id
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_treatment",
+            componant_name: "ampv2",
+            stp: stp,
+            ip1: ip1,
+            ip2: ip2,
+            ip3: ip3,
+            psi: psi,
+            srt: `${srt1}:${srt2}`,
+            srt1: srt1,
+            srt2: srt2,
+            bkt: bkt,
+            rst: rst,
+            mot: mot,
+            op1: op1,
+            op2: op2,
+            op3: op3,
+            // device_id: resp?.data[0]?.data?.Device_id
+        }
+        axios.post('/topicapi/ampv2_setting/', newData, {
+            headers: {
+                'Authorization': 'Bearer ' + access_token,
+                'Content-Type': 'application/json'
             }
-            axios.post('/topicapi/ampv2_setting/', newData, {
-                headers: {
-                    'Authorization': 'Bearer ' + access_token,
-                    'Content-Type': 'application/json'
-                }
-            }).then((res) => {
-                console.log("res", res);
-                setIsLoading(true);
-                setOpen(true);
-                setTimeout(() => {
-                    setIsLoading(false)
-                    setOpen(false);
-                }, 10000);
-            }).catch((err) => {
-                console.log("err", err);
-            })
+        }).then((res) => {
+            console.log("res", res);
+            setIsLoading(true);
+            setOpen(true);
+            setTimeout(() => {
+                setIsLoading(false)
+                setOpen(false);
+            }, 10000);
+        }).catch((err) => {
+            console.log("err", err);
+        })
         // }).catch((error) => {
         //     console.log("error", error);
         // })

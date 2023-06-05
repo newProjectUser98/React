@@ -3,16 +3,16 @@ import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 
 const FeedFlowSensor2Form = ({intervalTime}) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_flowsen2'))
     let updated_Time_state = localStorage.getItem("updated_time_flowsen2_state")
     localStorage.setItem("component_Name", "flowsen2");
     useEffect(() => {
         let component_Name = localStorage.getItem("component_Name")
         if (component_Name != "flowsen2") {
-            localStorage.removeItem("localStorage_data")
+            localStorage.removeItem("localStorage_data_flowsen2")
         }
     }, [])
-    const [fr, setFr] = useState(localStorageData.fr)
+    const [fr, setFr] = useState(localStorageData?.fr)
     
     useEffect(() => {
         const fetchData = () => {
@@ -23,12 +23,28 @@ const FeedFlowSensor2Form = ({intervalTime}) => {
                 componant_name: "flowsen2"
             }
             axios.post("/topicapi/updated_disp_flowsen2/", newData).then((resp) => {
-                if (fr === undefined) {
-                    let localStorage_data = {
-                        fr: resp.data[0].data.data_sta.fr,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
-                }
+                // if (fr === undefined) {
+                //     let localStorage_data_flowsen2 = {
+                //         fr: resp.data[0].data.data_sta.fr,
+                //     }
+                //     localStorage.setItem("localStorage_data_flowsen2", JSON.stringify(localStorage_data_flowsen2));
+                // }
+                 // Retrieve data from localStorage
+                 let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_flowsen2_flowsen1"));
+
+                 // Check if localStorageData exists and has values
+                 if (!localStorageData) {
+                     localStorageData = {};
+                 }
+ 
+                 // Update the variable with a new value if it is not zero
+                 if (resp.data[0].data.data_sta.fr !== 0) {
+                     localStorageData.fr = resp.data[0].data.data_sta.fr;
+                 }
+ 
+                 // Store the updated data in localStorage
+                 localStorage.setItem("localStorage_data_flowsen2", JSON.stringify(localStorageData));
+ 
                 console.log("resp in flowsen2", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                     if (resp.data[0].data.data_sta.fr != 0) {

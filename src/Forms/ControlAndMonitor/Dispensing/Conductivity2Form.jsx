@@ -10,13 +10,8 @@ let CNDTDS = [
     { value: "tds", label: "TDS" }
 ]
 const Conductivity2Form = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "cnd_consen") {
-            localStorage.removeItem("localStorage_data")
-        }
-    }, [])
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_cnd_consen'))
+
     const [changeConductivityDis, setChangeConductivityDis] = useState('cnd')
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -40,15 +35,39 @@ const Conductivity2Form = ({ intervalTime }) => {
                 }
                 console.log(newData);
                 axios.post("/topicapi/updated_disp_cnd_consen/", newData).then((resp) => {
-                    if (cnd === undefined && spn === undefined && asp === undefined) {
-                        let localStorage_data = {
-                            cnd: resp.data[0].data.data_sta.cnd,
-                            spn: resp.data[0].data.data_set.spn,
-                            tsp: resp.data[0].data.data_set.tsp,
-                            asp: resp.data[0].data.data_set.asp,
-                        }
-                        localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                    // if (cnd === undefined && spn === undefined && asp === undefined) {
+                    //     let localStorage_data_cnd_consen = {
+                    //         cnd: resp.data[0].data.data_sta.cnd,
+                    //         spn: resp.data[0].data.data_set.spn,
+                    //         tsp: resp.data[0].data.data_set.tsp,
+                    //         asp: resp.data[0].data.data_set.asp,
+                    //     }
+                    //     localStorage.setItem("localStorage_data_cnd_consen", JSON.stringify(localStorage_data_cnd_consen));
+                    // }
+                    // Retrieve data from localStorage
+                    let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_cnd_consen"));
+
+                    // Check if localStorageData exists and has values
+                    if (!localStorageData) {
+                        localStorageData = {};
                     }
+
+                    // Update the variables with new values if they are not zero
+                    if (resp.data[0].data.data_sta.cnd !== 0) {
+                        localStorageData.cnd = resp.data[0].data.data_sta.cnd;
+                    }
+
+                    if (resp.data[0].data.data_set.spn !== 0) {
+                        localStorageData.spn = resp.data[0].data.data_set.spn;
+                    }
+
+                    if (resp.data[0].data.data_set.asp !== 0) {
+                        localStorageData.asp = resp.data[0].data.data_set.asp;
+                    }
+
+                    // Store the updated data in localStorage
+                    localStorage.setItem("localStorage_data_cnd_consen", JSON.stringify(localStorageData));
+
                     let updated_Time_state = localStorage.getItem("updated_time_cnd_consen_state")
                     let updated_Time_settng = localStorage.getItem("updated_time_cnd_consen_settings")
 
@@ -66,7 +85,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                         setIsLoading(false);
                         if (resp.data[0].data.data_sta.message_type === "updsta") {
                             alert("Device State Data Updated Successfully")
-                        } else if(resp.data[0].data.data_set.message_type === "updset") {
+                        } else if (resp.data[0].data.data_set.message_type === "updset") {
                             alert("Device Setting Data Updated Successfully")
                         }
                     }
@@ -97,15 +116,38 @@ const Conductivity2Form = ({ intervalTime }) => {
                 }
                 console.log(newData);
                 axios.post("/topicapi/updated_disp_tds_consen/", newData).then((resp) => {
-                    if (tds === undefined && spn === undefined && asp === undefined) {
-                        let localStorage_data = {
-                            tds: resp.data[0].data.data_sta.tds,
-                            spn: resp.data[0].data.data_set.spn,
-                            tsp: resp.data[0].data.data_set.tsp,
-                            asp: resp.data[0].data.data_set.asp,
-                        }
-                        localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                    // if (tds === undefined && spn === undefined && asp === undefined) {
+                    //     let localStorage_data = {
+                    //         tds: resp.data[0].data.data_sta.tds,
+                    //         spn: resp.data[0].data.data_set.spn,
+                    //         asp: resp.data[0].data.data_set.asp,
+                    //     }
+                    //     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                    // }
+                    // Retrieve data from localStorage
+                    let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_tds_consen"));
+
+                    // Check if localStorageData exists and has values
+                    if (!localStorageData) {
+                        localStorageData = {};
                     }
+
+                    // Update the variables with new values if they are not zero
+                    if (resp.data[0].data.data_sta.tds !== 0) {
+                        localStorageData.tds = resp.data[0].data.data_sta.tds;
+                    }
+
+                    if (resp.data[0].data.data_set.spn !== 0) {
+                        localStorageData.spn = resp.data[0].data.data_set.spn;
+                    }
+
+                    if (resp.data[0].data.data_set.asp !== 0) {
+                        localStorageData.asp = resp.data[0].data.data_set.asp;
+                    }
+
+                    // Store the updated data in localStorage
+                    localStorage.setItem("localStorage_data_tds_consen", JSON.stringify(localStorageData));
+
                     let updated_Time_state = localStorage.getItem("updated_time_tds_consen_state")
                     let updated_Time_settng = localStorage.getItem("updated_time_tds_consen_settings")
 
@@ -123,7 +165,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                         setIsLoading(false);
                         if (resp.data[0].data.data_sta.message_type === "updsta") {
                             alert("Device State Data Updated Successfully")
-                        } else if(resp.data[0].data.data_set.message_type === "updset") {
+                        } else if (resp.data[0].data.data_set.message_type === "updset") {
                             alert("Device Setting Data Updated Successfully")
                         }
                     }
@@ -157,80 +199,80 @@ const Conductivity2Form = ({ intervalTime }) => {
         // console.log("newData", newData);
 
         // axios.post("/topicapi/get_device_id/", newData)
-            // .then((resp) => {
-            //     console.log("resp in cnd_consen set device id", resp.data[0].data.Device_id);
+        // .then((resp) => {
+        //     console.log("resp in cnd_consen set device id", resp.data[0].data.Device_id);
 
-                if (changeConductivityDis === "cnd") {
-                    let newData = {
-                        company_name: userData.company_name,
-                        unit_type: "water_dispense",
-                        componant_name: "cnd_consen",
-                        spn: spn,
-                        asp: asp,
-                        // device_id: resp?.data[0]?.data?.Device_id
-                    };
-                    setTimeout(() => {
-                        axios.post('/topicapi/cnd_consen_setting/', newData, {
-                            headers: {
-                                'Authorization': 'Bearer ' + access_token,
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                            .then((res) => {
-                                console.log("res", res);
-                                setIsLoading(true);
-                                setOpen(true);
-                                setTimeout(() => {
-                                    setIsLoading(false)
-                                    setOpen(false);
-                                }, 10000);
-                            })
-                            .catch((err) => {
-                                console.log("err", err);
-                                if (err.response.statusText === "Unauthorized") {
-                                    navigate("/");
-                                    alert("Please enter valid credentials")
-                                }
-                            });
-                    }, 3000); // Delay of 3 seconds
-                } else if (changeConductivityDis === "tds") {
-                    let newData = {
-                        company_name: userData.company_name,
-                        unit_type: "water_dispense",
-                        componant_name: "tds_consen",
-                        spn: spn,
-                        asp: asp,
-                        // device_id: resp?.data[0]?.data?.Device_id
-                    };
-                    setTimeout(() => {
-                        axios.post('/topicapi/tds_consen_setting/', newData, {
-                            headers: {
-                                'Authorization': 'Bearer ' + access_token,
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                            .then((res) => {
-                                console.log("res", res);
-                                setIsLoading(true);
-                                setOpen(true);
-                                setTimeout(() => {
-                                    setIsLoading(false)
-                                    setOpen(false);
-                                }, 10000);
-                            })
-                            .catch((err) => {
-                                console.log("err", err);
-                                if (err.response.statusText === "Unauthorized") {
-                                    navigate("/");
-                                    alert("Please enter valid credentials")
-                                }
-                            });
-                    }, 3000); // Delay of 3 seconds
-                }
-            // })
-            // .catch((error) => {
-            //     console.log("error", error);
-            // });
+        if (changeConductivityDis === "cnd") {
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_dispense",
+                componant_name: "cnd_consen",
+                spn: spn,
+                asp: asp,
+                // device_id: resp?.data[0]?.data?.Device_id
+            };
+            setTimeout(() => {
+                axios.post('/topicapi/cnd_consen_setting/', newData, {
+                    headers: {
+                        'Authorization': 'Bearer ' + access_token,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then((res) => {
+                        console.log("res", res);
+                        setIsLoading(true);
+                        setOpen(true);
+                        setTimeout(() => {
+                            setIsLoading(false)
+                            setOpen(false);
+                        }, 10000);
+                    })
+                    .catch((err) => {
+                        console.log("err", err);
+                        if (err.response.statusText === "Unauthorized") {
+                            navigate("/");
+                            alert("Please enter valid credentials")
+                        }
+                    });
+            }, 3000); // Delay of 3 seconds
+        } else if (changeConductivityDis === "tds") {
+            let newData = {
+                company_name: userData.company_name,
+                unit_type: "water_dispense",
+                componant_name: "tds_consen",
+                spn: spn,
+                asp: asp,
+                // device_id: resp?.data[0]?.data?.Device_id
+            };
+            setTimeout(() => {
+                axios.post('/topicapi/tds_consen_setting/', newData, {
+                    headers: {
+                        'Authorization': 'Bearer ' + access_token,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then((res) => {
+                        console.log("res", res);
+                        setIsLoading(true);
+                        setOpen(true);
+                        setTimeout(() => {
+                            setIsLoading(false)
+                            setOpen(false);
+                        }, 10000);
+                    })
+                    .catch((err) => {
+                        console.log("err", err);
+                        if (err.response.statusText === "Unauthorized") {
+                            navigate("/");
+                            alert("Please enter valid credentials")
+                        }
+                    });
+            }, 3000); // Delay of 3 seconds
+        }
+        // })
+        // .catch((error) => {
+        //     console.log("error", error);
+        // });
     }
     return (
         <>

@@ -7,16 +7,16 @@ import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 
 const HppForm = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_hpp'))
     let updated_Time_state = localStorage.getItem("updated_time_hpp_state")
     let updated_Time_settng = localStorage.getItem("updated_time_hpp_settings")
-    localStorage.setItem("component_Name", "hpp");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "hpp") {
-            localStorage.removeItem("localStorage_data")
-        }
-    }, [])
+    // localStorage.setItem("component_Name", "hpp");
+    // useEffect(() => {
+    //     let component_Name = localStorage.getItem("component_Name")
+    //     if (component_Name != "hpp") {
+    //         localStorage.removeItem("localStorage_data_hpp")
+    //     }
+    // }, [])
     const [statusVal, setStatusVal] = useState(false)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -38,16 +38,46 @@ const HppForm = ({ intervalTime }) => {
                 componant_name: "hpp"
             }
             axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
-                if (olc === undefined && drc === undefined && spn === undefined && crt === undefined) {
-                    let localStorage_data = {
-                        statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
-                        crt: resp.data[0].data.data_sta.crt,
-                        olc: resp.data[0].data.data_set.olc,
-                        drc: resp.data[0].data.data_set.drc,
-                        spn: resp.data[0].data.data_set.spn,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                // if (olc === undefined && drc === undefined && spn === undefined && crt === undefined) {
+                //     let localStorage_data_hpp = {
+                //         statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
+                //         crt: resp.data[0].data.data_sta.crt,
+                //         olc: resp.data[0].data.data_set.olc,
+                //         drc: resp.data[0].data.data_set.drc,
+                //         spn: resp.data[0].data.data_set.spn,
+                //     }
+                //     localStorage.setItem("localStorage_data_hpp", JSON.stringify(localStorage_data_hpp));
+                // }
+                let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_hpp"));
+
+                // Check if localStorageData exists and has values
+                if (!localStorageData) {
+                    localStorageData = {};
                 }
+
+                // Update the variables with new values if they are not zero
+                if (!editState) {
+                    localStorageData.statusVal = resp.data[0].data.data_sta.sts == "on" ? true : false;
+                }
+
+                if (resp.data[0].data.data_sta.crt !== 0 && !editState) {
+                    localStorageData.crt = resp.data[0].data.data_sta.crt;
+                }
+
+                if (resp.data[0].data.data_set.olc !== 0 && !editSetting) {
+                    localStorageData.olc = resp.data[0].data.data_set.olc;
+                }
+
+                if (resp.data[0].data.data_set.drc !== 0 && !editSetting) {
+                    localStorageData.drc = resp.data[0].data.data_set.drc;
+                }
+
+                if (resp.data[0].data.data_set.spn !== 0 && !editSetting) {
+                    localStorageData.spn = resp.data[0].data.data_set.spn;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_hpp", JSON.stringify(localStorageData));
                 console.log("resp in hpp", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
 

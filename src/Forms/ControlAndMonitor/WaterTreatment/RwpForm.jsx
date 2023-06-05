@@ -8,16 +8,16 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 const RwpForm = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_rwp'))
     let updated_Time_state = localStorage.getItem("updated_time_rwp_state")
     let updated_Time_settng = localStorage.getItem("updated_time_rwp_settings")
-    localStorage.setItem("component_Name", "rwp");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "rwp") {
-            localStorage.removeItem("localStorage_data")
-        }
-    }, [])
+    // localStorage.setItem("component_Name", "rwp");
+    // useEffect(() => {
+    //     let component_Name = localStorage.getItem("component_Name")
+    //     if (component_Name != "rwp") {
+    //         localStorage.removeItem("localStorage_data_rwp")
+    //     }
+    // }, [])
     const [statusVal, setStatusVal] = useState(localStorageData?.statusVal)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -41,16 +41,48 @@ const RwpForm = ({ intervalTime }) => {
                 componant_name: "rwp"
             }
             axios.post("/topicapi/updated_treat_rwp/", newData).then((resp) => {
-                if (olc === undefined && drc === undefined && spn === undefined && crt === undefined) {
-                    let localStorage_data = {
-                        statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
-                        crt: resp.data[0].data.data_sta.crt,
-                        olc: resp.data[0].data.data_set.olc,
-                        drc: resp.data[0].data.data_set.drc,
-                        spn: resp.data[0].data.data_set.spn,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                // if (olc === undefined && drc === undefined && spn === undefined && crt === undefined) {
+                    // let localStorage_data_rwp = {
+                    //     statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
+                    //     crt: resp.data[0].data.data_sta.crt,
+                    //     olc: resp.data[0].data.data_set.olc,
+                    //     drc: resp.data[0].data.data_set.drc,
+                    //     spn: resp.data[0].data.data_set.spn,
+                    // }
+                    // localStorage.setItem("localStorage_data_rwp", JSON.stringify(localStorage_data_rwp));
+                // }
+                // Retrieve data from localStorage
+                let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_rwp"));
+
+                // Check if localStorageData exists and has values
+                if (!localStorageData) {
+                    localStorageData = {};
                 }
+
+                // Update the variables with new values if they are not zero
+                // if (!editState) {
+                localStorageData.statusVal = resp.data[0].data.data_sta.sts == "on" ? true : false;
+                // }
+
+                if (resp.data[0].data.data_sta.crt !== 0 && !editState) {
+                    localStorageData.crt = resp.data[0].data.data_sta.crt;
+                }
+
+                if (resp.data[0].data.data_set.olc !== 0 && !editSetting) {
+                    localStorageData.olc = resp.data[0].data.data_set.olc;
+                }
+
+                if (resp.data[0].data.data_set.drc !== 0 && !editSetting) {
+                    localStorageData.drc = resp.data[0].data.data_set.drc;
+                }
+
+                if (resp.data[0].data.data_set.spn !== 0 && !editSetting) {
+                    localStorageData.spn = resp.data[0].data.data_set.spn;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_rwp", JSON.stringify(localStorageData));
+
                 console.log("resp in rwp", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
 
@@ -71,7 +103,7 @@ const RwpForm = ({ intervalTime }) => {
                     }
                     if (resp.data[0].data.data_sta.message_type === "updsta") {
                         alert("Device State Data Updated Successfully")
-                    } else if(resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (resp.data[0].data.data_set.message_type === "updset") {
                         alert("Device Setting Data Updated Successfully")
                     }
                     setIsLoading(false);
@@ -124,42 +156,42 @@ const RwpForm = ({ intervalTime }) => {
         //     .then((resp) => {
         //         console.log("resp", resp);
 
-                let newData = {
-                    company_name: userData.company_name,
-                    unit_type: "water_treatment",
-                    componant_name: "rwp",
-                    sts: statusVal === true ? "on" : "off",
-                    // device_id: resp?.data[0]?.data?.Device_id
-                };
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_treatment",
+            componant_name: "rwp",
+            sts: statusVal === true ? "on" : "off",
+            // device_id: resp?.data[0]?.data?.Device_id
+        };
 
-                setTimeout(() => {
-                    axios.post('/topicapi/Rwp_state/', newData, {
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then((res) => {
-                            setIsLoading(true);
-                            setOpen(true);
-                            setTimeout(() => {
-                                setIsLoading(false)
-                                setOpen(false);
-                            }, 20000);
-                        })
-                        .catch((err) => {
-                            console.log("err", err);
-                            if (err.response.statusText === "Unauthorized") {
-                                navigate("/");
-                                alert("Please enter valid credentials");
-                            }
-                        });
-                }, 3000); // Delay of 3 seconds
+        setTimeout(() => {
+            axios.post('/topicapi/Rwp_state/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((res) => {
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 20000);
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    if (err.response.statusText === "Unauthorized") {
+                        navigate("/");
+                        alert("Please enter valid credentials");
+                    }
+                });
+        }, 3000); // Delay of 3 seconds
 
-            // })
-            // .catch((error) => {
-            //     console.log("error", error);
-            // });
+        // })
+        // .catch((error) => {
+        //     console.log("error", error);
+        // });
 
 
     }
@@ -179,44 +211,44 @@ const RwpForm = ({ intervalTime }) => {
         //     .then((resp) => {
         //         console.log("resp getdeviceId", resp.data[0].data.Device_id);
 
-                let newData = {
-                    company_name: userData.company_name,
-                    unit_type: "water_treatment",
-                    componant_name: "rwp",
-                    olc: olc,
-                    spn: spn,
-                    drc: drc,
-                    // device_id: resp?.data[0]?.data?.Device_id
-                };
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_treatment",
+            componant_name: "rwp",
+            olc: olc,
+            spn: spn,
+            drc: drc,
+            // device_id: resp?.data[0]?.data?.Device_id
+        };
 
-                setTimeout(() => {
-                    axios.post('/topicapi/rwp_setting/', newData, {
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token
-                        }
-                    })
-                        .then((res) => {
-                            console.log("res", res);
-                            setIsLoading(true);
-                            setOpen(true);
-                            setTimeout(() => {
-                                setIsLoading(false)
-                                setOpen(false);
-                            }, 10000);
-                        })
-                        .catch((err) => {
-                            console.log("err", err.response.statusText);
-                            if (err.response.statusText === "Unauthorized") {
-                                navigate("/");
-                                alert("Please enter valid credentials");
-                            }
-                        });
-                }, 3000); // Delay of 3 seconds
+        setTimeout(() => {
+            axios.post('/topicapi/rwp_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            })
+                .then((res) => {
+                    console.log("res", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 10000);
+                })
+                .catch((err) => {
+                    console.log("err", err.response.statusText);
+                    if (err.response.statusText === "Unauthorized") {
+                        navigate("/");
+                        alert("Please enter valid credentials");
+                    }
+                });
+        }, 3000); // Delay of 3 seconds
 
-            // })
-            // .catch((error) => {
-            //     console.log("error", error);
-            // });
+        // })
+        // .catch((error) => {
+        //     console.log("error", error);
+        // });
 
     }
     return (

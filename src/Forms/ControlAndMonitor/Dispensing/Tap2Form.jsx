@@ -9,20 +9,14 @@ import { useNavigate } from 'react-router-dom';
 const Tap2Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
     let updated_Time_settng = localStorage.getItem("updated_time_tap2_settings")
-    localStorage.setItem("component_Name", "tap2");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "tap2") {
-            localStorage.removeItem("localStorage_data")
-        }
-    }, [])
+
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [p1, setP1] = React.useState(localStorageData.p1);
-    const [p2, setP2] = React.useState(localStorageData.p2);
-    const [p3, setP3] = React.useState(localStorageData.p3);
-    const [p4, setP4] = React.useState(localStorageData.p4);
+    const [p1, setP1] = React.useState(localStorageData?.p1);
+    const [p2, setP2] = React.useState(localStorageData?.p2);
+    const [p3, setP3] = React.useState(localStorageData?.p3);
+    const [p4, setP4] = React.useState(localStorageData?.p4);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     useEffect(() => {
@@ -34,15 +28,42 @@ const Tap2Form = ({ intervalTime }) => {
                 componant_name: "tap2"
             }
             axios.post("/topicapi/updated-disp_tap2/", newData).then((resp) => {
-                if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
-                    let localStorage_data = {
-                        p1: resp.data[0].data.data_sta.p1,
-                        p2: resp.data[0].data.data_set.p2,
-                        p3: resp.data[0].data.data_set.p3,
-                        p4: resp.data[0].data.data_set.p4,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                // if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
+                //     let localStorage_data = {
+                //         p1: resp.data[0].data.data_sta.p1,
+                //         p2: resp.data[0].data.data_set.p2,
+                //         p3: resp.data[0].data.data_set.p3,
+                //         p4: resp.data[0].data.data_set.p4,
+                //     }
+                //     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                // }
+                // Retrieve data from localStorage
+                let localStorageDataTap2 = JSON.parse(localStorage.getItem("localStorage_data_tap2"));
+
+                // Check if localStorageDataTap2 exists and has values
+                if (!localStorageDataTap2) {
+                    localStorageDataTap2 = {};
                 }
+
+                // Update the variables with new values if they are not zero
+                if (resp.data[0].data.data_set.p1 !== 0) {
+                    localStorageDataTap2.p1 = resp.data[0].data.data_set.p1;
+                }
+
+                if (resp.data[0].data.data_set.p2 !== 0) {
+                    localStorageDataTap2.p2 = resp.data[0].data.data_set.p2;
+                }
+
+                if (resp.data[0].data.data_set.p3 !== 0) {
+                    localStorageDataTap2.p3 = resp.data[0].data.data_set.p3;
+                }
+
+                if (resp.data[0].data.data_set.p4 !== 0) {
+                    localStorageDataTap2.p4 = resp.data[0].data.data_set.p4;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_tap2", JSON.stringify(localStorageDataTap2));
                 console.log("resp in tap2", resp.data[0].data);
                 if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_set.p1 != 0) {
@@ -92,7 +113,7 @@ const Tap2Form = ({ intervalTime }) => {
         // axios.post("/topicapi/get_device_id/", newData)
         // .then((resp) => {
         //   console.log("resp", resp);
-          let newData = {
+        let newData = {
             company_name: userData.company_name,
             unit_type: "water_dispense",
             componant_name: "tap2",
@@ -101,30 +122,30 @@ const Tap2Form = ({ intervalTime }) => {
             p3: p3,
             p4: p4,
             // device_id: resp?.data[0]?.data?.Device_id
-          };
-      
-          setTimeout(() => {
+        };
+
+        setTimeout(() => {
             axios.post('/topicapi/tap2_setting/', newData, {
-              headers: {
-                'Authorization': 'Bearer ' + access_token
-              }
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
             }).then((res) => {
-              console.log("res in tap2 get", res.data);
-              setIsLoading(true);
-              setOpen(true);
-              setTimeout(() => {
-                setIsLoading(false)
-                setOpen(false);
-              }, 10000);
+                console.log("res in tap2 get", res.data);
+                setIsLoading(true);
+                setOpen(true);
+                setTimeout(() => {
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
             }).catch((err) => {
-              console.log("err", err);
-              if (err.response.statusText === "Unauthorized"){
-                navigate("/");
-                alert("Please enter valid credentials")
-            }
+                console.log("err", err);
+                if (err.response.statusText === "Unauthorized") {
+                    navigate("/");
+                    alert("Please enter valid credentials")
+                }
 
             });
-          }, 3000);
+        }, 3000);
         // })
         // .catch((error) => {
         //   console.log("error", error);
