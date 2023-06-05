@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Tap2Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
-    let updated_Time_settng = localStorage.getItem("updated_time_tap2_settings")
 
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -64,6 +63,7 @@ const Tap2Form = ({ intervalTime }) => {
 
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_tap2", JSON.stringify(localStorageDataTap2));
+                let updated_Time_settng = localStorage.getItem("updated_time_tap2_settings")
                 console.log("resp in tap2", resp.data[0].data);
                 if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_set.p1 != 0) {

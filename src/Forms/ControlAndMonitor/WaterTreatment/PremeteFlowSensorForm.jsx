@@ -7,15 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 const FeedFlowSensorForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_P_Flowsen'))
-    let updated_Time_state = localStorage.getItem("updated_time_P_flowsen_state")
-    let updated_Time_settng = localStorage.getItem("updated_time_P_flowsen_settings")
-    localStorage.setItem("component_Name", "P_flowsen");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "P_flowsen") {
-            localStorage.removeItem("localStorage_data_P_Flowsen")
-        }
-    }, [])
+
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -60,7 +52,8 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
 
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_P_Flowsen", JSON.stringify(localStorageData));
-
+                let updated_Time_state = localStorage.getItem("updated_time_P_flowsen_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_P_flowsen_settings")
                 console.log("resp in P_flowsen", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.fr2 != "") {
@@ -70,14 +63,14 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                         setff2(resp.data[0].data.data_set.ff2)
                     }
                     setIsLoading(false);
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                         alert("Device State Data Updated Successfully")
-                    } else if (resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         alert("Device Setting Data Updated Successfully")
                     }
+                    localStorage.setItem('updated_time_P_flowsen_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_P_flowsen_settings', resp.data[0].data.data_set.updated_at);
                 }
-                localStorage.setItem('updated_time_P_flowsen_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_P_flowsen_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
                 console.log("err in rwp state", err);
             })

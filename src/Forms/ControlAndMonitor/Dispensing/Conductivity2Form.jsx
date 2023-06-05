@@ -83,14 +83,14 @@ const Conductivity2Form = ({ intervalTime }) => {
                         }
 
                         setIsLoading(false);
-                        if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                             alert("Device State Data Updated Successfully")
-                        } else if (resp.data[0].data.data_set.message_type === "updset") {
+                        } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                             alert("Device Setting Data Updated Successfully")
                         }
+                        localStorage.setItem('updated_time_cnd_consen_state', resp.data[0].data.data_sta.updated_at);
+                        localStorage.setItem('updated_time_cnd_consen_settings', resp.data[0].data.data_set.updated_at);
                     }
-                    localStorage.setItem('updated_time_cnd_consen_state', resp.data[0].data.data_sta.updated_at);
-                    localStorage.setItem('updated_time_cnd_consen_settings', resp.data[0].data.data_set.updated_at);
                 }).catch((err) => {
                     console.log("err", err);
                 })
@@ -163,14 +163,14 @@ const Conductivity2Form = ({ intervalTime }) => {
                         }
 
                         setIsLoading(false);
-                        if (resp.data[0].data.data_sta.message_type === "updsta") {
+                        if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                             alert("Device State Data Updated Successfully")
-                        } else if (resp.data[0].data.data_set.message_type === "updset") {
+                        } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                             alert("Device Setting Data Updated Successfully")
                         }
+                        localStorage.setItem('updated_time_tds_consen_state', resp.data[0].data.data_sta.updated_at);
+                        localStorage.setItem('updated_time_tds_consen_settings', resp.data[0].data.data_set.updated_at);
                     }
-                    localStorage.setItem('updated_time_tds_consen_state', resp.data[0].data.data_sta.updated_at);
-                    localStorage.setItem('updated_time_tds_consen_settings', resp.data[0].data.data_set.updated_at);
                 }).catch((err) => {
                     console.log("err", err);
                 })

@@ -9,8 +9,7 @@ import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 const RwpForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_rwp'))
-    let updated_Time_state = localStorage.getItem("updated_time_rwp_state")
-    let updated_Time_settng = localStorage.getItem("updated_time_rwp_settings")
+
     // localStorage.setItem("component_Name", "rwp");
     // useEffect(() => {
     //     let component_Name = localStorage.getItem("component_Name")
@@ -42,14 +41,14 @@ const RwpForm = ({ intervalTime }) => {
             }
             axios.post("/topicapi/updated_treat_rwp/", newData).then((resp) => {
                 // if (olc === undefined && drc === undefined && spn === undefined && crt === undefined) {
-                    // let localStorage_data_rwp = {
-                    //     statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
-                    //     crt: resp.data[0].data.data_sta.crt,
-                    //     olc: resp.data[0].data.data_set.olc,
-                    //     drc: resp.data[0].data.data_set.drc,
-                    //     spn: resp.data[0].data.data_set.spn,
-                    // }
-                    // localStorage.setItem("localStorage_data_rwp", JSON.stringify(localStorage_data_rwp));
+                // let localStorage_data_rwp = {
+                //     statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
+                //     crt: resp.data[0].data.data_sta.crt,
+                //     olc: resp.data[0].data.data_set.olc,
+                //     drc: resp.data[0].data.data_set.drc,
+                //     spn: resp.data[0].data.data_set.spn,
+                // }
+                // localStorage.setItem("localStorage_data_rwp", JSON.stringify(localStorage_data_rwp));
                 // }
                 // Retrieve data from localStorage
                 let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_rwp"));
@@ -83,9 +82,10 @@ const RwpForm = ({ intervalTime }) => {
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_rwp", JSON.stringify(localStorageData));
 
-                console.log("resp in rwp", resp.data[0].data);
-                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                let updated_Time_state = localStorage.getItem("updated_time_rwp_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_rwp_settings")
 
+                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.sts != "") {
                         setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
                     }
@@ -101,16 +101,18 @@ const RwpForm = ({ intervalTime }) => {
                     if (resp.data[0].data.data_set.spn != 0) {
                         setSpn(resp.data[0].data.data_set.spn)
                     }
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                         alert("Device State Data Updated Successfully")
-                    } else if (resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         alert("Device Setting Data Updated Successfully")
                     }
                     setIsLoading(false);
+
+                    localStorage.setItem('updated_time_rwp_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_rwp_settings', resp.data[0].data.data_set.updated_at);
                 }
 
-                localStorage.setItem('updated_time_rwp_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_rwp_settings', resp.data[0].data.data_set.updated_at);
+
             }).catch((err) => {
                 console.log("err in rwp state", err);
             })

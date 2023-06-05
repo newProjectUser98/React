@@ -44,15 +44,8 @@ let PSIData = [
 
 const Ampv2Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_ampv2'))
-    let updated_Time_state = localStorage.getItem("updated_time_ampv2_state")
-    let updated_Time_settng = localStorage.getItem("updated_time_ampv2_settings")
-    localStorage.setItem("component_Name", "ampv2");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "ampv2") {
-            localStorage.removeItem("localStorage_data_ampv2")
-        }
-    }, [])
+
+
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -149,7 +142,7 @@ const Ampv2Form = ({ intervalTime }) => {
                 }
                 if (resp.data[0].data.data_set.srt !== "") {
                     let time = resp.data[0].data.data_set.srt;
-                    let SplitTime = time?.toString().split(':')
+                    let SplitTime = time.split(':');
                     localStorageData.srt1 = SplitTime[0];
                     localStorageData.srt2 = SplitTime[1];
                 }
@@ -180,6 +173,9 @@ const Ampv2Form = ({ intervalTime }) => {
 
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_ampv2", JSON.stringify(localStorageData));
+
+                let updated_Time_state = localStorage.getItem("updated_time_ampv2_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_ampv2_settings")
 
                 console.log("resp in ampv2", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
@@ -224,7 +220,6 @@ const Ampv2Form = ({ intervalTime }) => {
                     }
                     if (resp.data[0].data.data_set.srt != 0) {
                         let time = resp.data[0].data.data_set.srt
-                        // let time = "99:56";
                         let SplitTime = time?.toString().split(':')
                         console.log("SplitTime0", SplitTime[0]);
                         console.log("SplitTime1", SplitTime[1]);
@@ -235,14 +230,14 @@ const Ampv2Form = ({ intervalTime }) => {
                         setStp(resp.data[0].data.data_set.stp)
                     }
                     setIsLoading(false);
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                         alert("Device State Data Updated Successfully")
-                    } else if (resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         alert("Device Setting Data Updated Successfully")
                     }
+                    localStorage.setItem('updated_time_ampv2_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_ampv2_settings', resp.data[0].data.data_set.updated_at);
                 }
-                localStorage.setItem('updated_time_ampv2_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_ampv2_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
                 console.log("err in ampv2 state", err);
             })

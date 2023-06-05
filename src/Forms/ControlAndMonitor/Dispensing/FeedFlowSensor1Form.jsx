@@ -4,14 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 const FeedFlowSensor1Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_flowsen1'))
-    let updated_Time_state = localStorage.getItem("updated_time_flowsen1_state")
-    localStorage.setItem("component_Name", "flowsen1");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "flowsen1") {
-            localStorage.removeItem("localStorage_data_flowsen1")
-        }
-    }, [])
+
     const [fr, setFr] = useState(localStorageData?.fr)
 
     useEffect(() => {
@@ -44,7 +37,7 @@ const FeedFlowSensor1Form = ({ intervalTime }) => {
 
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_flowsen1", JSON.stringify(localStorageData));
-
+                let updated_Time_state = localStorage.getItem("updated_time_flowsen1_state")
                 console.log("resp in flowsen1", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                     if (resp.data[0].data.data_sta.fr != 0) {

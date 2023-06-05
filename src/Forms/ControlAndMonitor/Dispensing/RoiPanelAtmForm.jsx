@@ -20,8 +20,7 @@ let newTransactionTypeData = [
 ]
 const RoiPanelAtmForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_atm'))
-    let updated_Time_state = localStorage.getItem("updated_time_atm_state")
-    let updated_Time_settng = localStorage.getItem("updated_time_atm_settings")
+    
 
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -148,7 +147,8 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
 
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_atm", JSON.stringify(localStorageData));
-
+                let updated_Time_state = localStorage.getItem("updated_time_atm_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_atm_settings")
                 console.log("resp in atm", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.sts != "") {
@@ -197,14 +197,14 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                         setre4(resp.data[0].data.data_set.re4)
                     }
                     setIsLoading(false);
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                         alert("Device State Data Updated Successfully")
-                    } else if (resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         alert("Device Setting Data Updated Successfully")
                     }
+                    localStorage.setItem('updated_time_atm_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_atm_settings', resp.data[0].data.data_set.updated_at);
                 }
-                localStorage.setItem('updated_time_atm_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_atm_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
                 console.log("err in atm state", err);
             })

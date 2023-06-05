@@ -4,8 +4,6 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
-
-
 let positionData = [
     { value: "ser", label: "Service" },
     { value: "bck", label: "Backwash" },
@@ -43,10 +41,10 @@ let PSIData = [
     { value: "dis", label: "Disable" },
 
 ]
+
 const Ampv1Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_ampv1'))
-    let updated_Time_state = localStorage.getItem("updated_time_ampv1_state")
-    let updated_Time_settng = localStorage.getItem("updated_time_ampv1_settings")
+
 
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -70,26 +68,6 @@ const Ampv1Form = ({ intervalTime }) => {
     const [rmt, setRmt] = useState(localStorageData?.rmt);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
-    const initialValuesState = {
-        pos: ''
-    };
-    const initialValuesSetting = {
-        stp: '',
-        ip1: '',
-        ip2: '',
-        ip3: '',
-        psi: '',
-        srt1: 99,
-        srt2: 59,
-        bkt: 99,
-        rst: 99,
-        mot: 999,
-        op1: 'ml-9',
-        op2: 'ml-9',
-        op3: 'ml-9',
-    };
-
-
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
@@ -100,8 +78,8 @@ const Ampv1Form = ({ intervalTime }) => {
             }
             axios.post("/topicapi/updated_treat_ampv1/", newData).then((resp) => {
                 // if (rmt === undefined && cct === undefined && stp === undefined && ip1 === undefined) {
-
-
+                //     let time = resp.data[0].data.data_set.srt
+                //     let SplitTime = time?.toString().split(':')
                 //     let localStorage_data_ampv1 = {
                 //         pos: resp.data[0].data.data_sta.pos,
                 //         rmt: resp.data[0].data.data_sta.rmt,
@@ -164,7 +142,7 @@ const Ampv1Form = ({ intervalTime }) => {
                 }
                 if (resp.data[0].data.data_set.srt !== "") {
                     let time = resp.data[0].data.data_set.srt;
-                    let SplitTime = time?.toString().split(':')
+                    let SplitTime = time.split(':');
                     localStorageData.srt1 = SplitTime[0];
                     localStorageData.srt2 = SplitTime[1];
                 }
@@ -195,6 +173,9 @@ const Ampv1Form = ({ intervalTime }) => {
 
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_ampv1", JSON.stringify(localStorageData));
+
+                let updated_Time_state = localStorage.getItem("updated_time_ampv1_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_ampv1_settings")
 
                 console.log("resp in ampv1", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
@@ -237,7 +218,7 @@ const Ampv1Form = ({ intervalTime }) => {
                     if (resp.data[0].data.data_set.rst != 0) {
                         setRst(resp.data[0].data.data_set.rst)
                     }
-                    if (resp.data[0].data.data_set.srt != "") {
+                    if (resp.data[0].data.data_set.srt != 0) {
                         let time = resp.data[0].data.data_set.srt
                         let SplitTime = time?.toString().split(':')
                         console.log("SplitTime0", SplitTime[0]);
@@ -249,14 +230,14 @@ const Ampv1Form = ({ intervalTime }) => {
                         setStp(resp.data[0].data.data_set.stp)
                     }
                     setIsLoading(false);
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                         alert("Device State Data Updated Successfully")
-                    } else if (resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         alert("Device Setting Data Updated Successfully")
                     }
+                    localStorage.setItem('updated_time_ampv1_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_ampv1_settings', resp.data[0].data.data_set.updated_at);
                 }
-                localStorage.setItem('updated_time_ampv1_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_ampv1_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
                 console.log("err in ampv1 state", err);
             })
@@ -268,78 +249,52 @@ const Ampv1Form = ({ intervalTime }) => {
         };
     }, [intervalTime]);
 
-    // useEffect(() => {
-    //     const fetchData = () => {
-    //         const userData = JSON.parse(localStorage.getItem('user'));
-    //         let newData = {
-    //             unit_type: "water_treatment",
-    //             company_name: userData.company_name,
-    //             componant_name: "ampv1"
-    //         }
 
-    //         axios.post("/topicapi/updated_treat_ampv1/", newData).then((resp) => {
-    //             console.log("res in get_ampv1_setting", resp.data);
-    //             if (resp.data[0].data.message_type === "updsta") {
-    //                 setPos(resp.data[0].data.pos)
-    //                 setRmt(resp.data[0].data.rmt)
-    //                 setCct(resp.data[0].data.cct)
-    //             } else if (resp.data[0].data.message_type === "updset") {
-    //                 setBkt(resp.data[0].data.bkt)
-    //                 setIp1(resp.data[0].data.ip1)
-    //                 setIp2(resp.data[0].data.ip2)
-    //                 setIp3(resp.data[0].data.ip3)
-    //                 setMot(resp.data[0].data.mot)
-    //                 setOp1(resp.data[0].data.op1)
-    //                 setOp2(resp.data[0].data.op2)
-    //                 setOp3(resp.data[0].data.op3)
-    //                 setPsi(resp.data[0].data.psi)
-    //                 setRst(resp.data[0].data.rst)
-    //                 let time = resp.data[0].data.srt
-    //                 // let time = "99:56";
-    //                 let SplitTime = time?.toString().split(':')
-    //                 console.log("SplitTime0", SplitTime[0]);
-    //                 console.log("SplitTime1", SplitTime[1]);
-    //                 setSrt1(parseInt(SplitTime[0]))
-    //                 setSrt2(parseInt(SplitTime[1]))
-    //                 setStp(resp.data[0].data.stp)
-    //             }
-    //             let updated_Time = localStorage.getItem("updated_time_ampv1")
-    //             if (updated_Time != resp.data[0].data.updated_at) {
-    //                 setIsLoading(false);
-    //                 alert("Device Setting Updated Successfully")
-    //             }
-    //             localStorage.setItem('updated_time_ampv1', resp.data[0].data.updated_at);
-    //         }).catch((err) => {
-    //             console.log("err", err);
-    //         })
-    //     }
-    //     fetchData();
-    //     const intervalId = setInterval(fetchData, intervalTime);
-    //     return () => {
-    //         clearInterval(intervalId);
-    //     };
-    // }, [intervalTime])
+    const initialValuesState = {
+        pos: ''
+    };
+    const initialValuesSetting = {
+        stp: '',
+        ip1: '',
+        ip2: '',
+        ip3: '',
+        psi: '',
+        srt1: 99,
+        srt2: 59,
+        bkt: 99,
+        rst: 99,
+        mot: 999,
+        op1: 'ml-9',
+        op2: 'ml-9',
+        op3: 'ml-9',
+    };
+
     const onSubmitState = (values, submitProps) => {
+        console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
         // let newData = {
-        //     company_name: userData.company_name,
         //     unit_type: "water_treatment",
+        //     company_name: userData.company_name,
         //     componant_name: "ampv1",
+        //     pos: pos
         // }
+        // console.log("newData", newData);
         // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-        //     console.log("resp", resp);
+        //     console.log("resp for device id", resp?.data);
         let newData = {
-            company_name: userData.company_name,
             unit_type: "water_treatment",
+            company_name: userData.company_name,
             componant_name: "ampv1",
             pos: pos,
-            // device_id: resp?.data[0]?.data?.Device_id,
+            // device_id: resp?.data[0]?.data?.Device_id
         }
+        console.log("newData in state++>", newData);
         axios.post('/topicapi/ampv1_state/', newData, {
             headers: {
                 'Authorization': 'Bearer ' + access_token
             }
-        }).then((res) => {
+        }
+        ).then((res) => {
             console.log("res", res);
             setIsLoading(true);
             setOpen(true);
@@ -360,6 +315,7 @@ const Ampv1Form = ({ intervalTime }) => {
 
     }
     const onSubmitSetting = (values, submitProps) => {
+        console.log("values in ampv 2 setting", values);
         const userData = JSON.parse(localStorage.getItem('user'));
         // let newData = {
         //     company_name: userData.company_name,
@@ -380,6 +336,7 @@ const Ampv1Form = ({ intervalTime }) => {
         //     op2: op2,
         //     op3: op3,
         // }
+        // console.log("newData", newData);
         // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
         //     console.log("resp", resp);
         let newData = {
@@ -417,15 +374,10 @@ const Ampv1Form = ({ intervalTime }) => {
             }, 10000);
         }).catch((err) => {
             console.log("err", err);
-            if (err.response.statusText === "Unauthorized") {
-                navigate("/");
-                alert("Please enter valid credentials")
-            }
         })
         // }).catch((error) => {
         //     console.log("error", error);
         // })
-
     }
     return (
         <>
@@ -565,8 +517,6 @@ const Ampv1Form = ({ intervalTime }) => {
                                             </option>
                                         ))}
                                     </Field>
-
-
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
@@ -588,8 +538,6 @@ const Ampv1Form = ({ intervalTime }) => {
                                             </option>
                                         ))}
                                     </Field>
-
-
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>

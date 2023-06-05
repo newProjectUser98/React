@@ -41,8 +41,6 @@ let FULLEMP = [
 ]
 const RoiPanelForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_panel'))
-    let updated_Time_state = localStorage.getItem("updated_time_panel_state")
-    let updated_Time_settng = localStorage.getItem("updated_time_panel_settings")
 
     // eslint-disable-next-line
     const [statusVal, setStatusVal] = useState(false)
@@ -207,7 +205,8 @@ const RoiPanelForm = ({ intervalTime }) => {
                 localStorage.setItem("localStorage_data_panel", JSON.stringify(localStorageData));
 
 
-
+                let updated_Time_state = localStorage.getItem("updated_time_panel_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_panel_settings")
 
                 console.log("resp in panel", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
@@ -271,14 +270,14 @@ const RoiPanelForm = ({ intervalTime }) => {
                         setRst(resp.data[0].data.data_set.rst)
                     }
                     setIsLoading(false);
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                         alert("Device State Data Updated Successfully")
-                    } else if (resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         alert("Device Setting Data Updated Successfully")
                     }
+                    localStorage.setItem('updated_time_panel_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_panel_settings', resp.data[0].data.data_set.updated_at);
                 }
-                localStorage.setItem('updated_time_panel_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_panel_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
                 console.log("err in panel state", err);
             })

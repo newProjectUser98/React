@@ -8,8 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const HppForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_hpp'))
-    let updated_Time_state = localStorage.getItem("updated_time_hpp_state")
-    let updated_Time_settng = localStorage.getItem("updated_time_hpp_settings")
+
     // localStorage.setItem("component_Name", "hpp");
     // useEffect(() => {
     //     let component_Name = localStorage.getItem("component_Name")
@@ -79,6 +78,8 @@ const HppForm = ({ intervalTime }) => {
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_hpp", JSON.stringify(localStorageData));
                 console.log("resp in hpp", resp.data[0].data);
+                let updated_Time_state = localStorage.getItem("updated_time_hpp_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_hpp_settings")
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
 
                     if (resp.data[0].data.data_sta.sts != "") {
@@ -96,15 +97,15 @@ const HppForm = ({ intervalTime }) => {
                     if (resp.data[0].data.data_set.spn != 0) {
                         setSpn(resp.data[0].data.data_set.spn)
                     }
-                    if (resp.data[0].data.data_sta.message_type === "updsta") {
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                         alert("Device State Data Updated Successfully")
-                    } else if(resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                         alert("Device Setting Data Updated Successfully")
                     }
                     setIsLoading(false);
+                    localStorage.setItem('updated_time_hpp_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_hpp_settings', resp.data[0].data.data_set.updated_at);
                 }
-                localStorage.setItem('updated_time_hpp_state', resp.data[0].data.data_sta.updated_at);
-                localStorage.setItem('updated_time_hpp_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
                 console.log("err in hpp state", err);
             })
@@ -137,43 +138,43 @@ const HppForm = ({ intervalTime }) => {
         //     .then((resp) => {
         //         console.log("resp in hpp deviceid", resp.data[0].data.Device_id);
 
-                let newData = {
-                    company_name: userData.company_name,
-                    unit_type: "water_treatment",
-                    componant_name: "hpp",
-                    // device_id: resp?.data[0]?.data?.Device_id,
-                    sts: statusVal === true ? "on" : "off"
-                };
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_treatment",
+            componant_name: "hpp",
+            // device_id: resp?.data[0]?.data?.Device_id,
+            sts: statusVal === true ? "on" : "off"
+        };
 
-                setTimeout(() => {
-                    axios.post('/topicapi/hpp_state/', newData, {
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then((res) => {
-                            console.log("res", res);
-                            setIsLoading(true);
-                            setOpen(true);
-                            setTimeout(() => {
-                                setIsLoading(false)
-                                setOpen(false);
-                            }, 20000);
-                        })
-                        .catch((err) => {
-                            console.log("err", err);
-                            if (err.response.statusText === "Unauthorized") {
-                                navigate("/");
-                                alert("Please enter valid credentials")
-                            }
-                        });
-                }, 3000); // Delay of 3 seconds
+        setTimeout(() => {
+            axios.post('/topicapi/hpp_state/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((res) => {
+                    console.log("res", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 20000);
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    if (err.response.statusText === "Unauthorized") {
+                        navigate("/");
+                        alert("Please enter valid credentials")
+                    }
+                });
+        }, 3000); // Delay of 3 seconds
 
-            // })
-            // .catch((error) => {
-            //     console.log("error", error);
-            // });
+        // })
+        // .catch((error) => {
+        //     console.log("error", error);
+        // });
     }
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
@@ -188,45 +189,45 @@ const HppForm = ({ intervalTime }) => {
         //     .then((resp) => {
         //         console.log("resp in hpp set device id", resp.data[0].data.Device_id);
 
-                let newData = {
-                    company_name: userData.company_name,
-                    unit_type: "water_treatment",
-                    componant_name: "hpp",
-                    olc: olc,
-                    spn: spn,
-                    drc: drc,
-                    // device_id: resp?.data[0]?.data?.Device_id
-                };
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_treatment",
+            componant_name: "hpp",
+            olc: olc,
+            spn: spn,
+            drc: drc,
+            // device_id: resp?.data[0]?.data?.Device_id
+        };
 
-                setTimeout(() => {
-                    axios.post('/topicapi/hpp_setting/', newData, {
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then((res) => {
-                            console.log("res", res);
-                            setIsLoading(true);
-                            setOpen(true);
-                            setTimeout(() => {
-                                setIsLoading(false)
-                                setOpen(false);
-                            }, 10000);
-                        })
-                        .catch((err) => {
-                            console.log("err", err);
-                            if (err.response.statusText === "Unauthorized") {
-                                navigate("/");
-                                alert("Please enter valid credentials")
-                            }
-                        });
-                }, 3000); // Delay of 3 seconds
+        setTimeout(() => {
+            axios.post('/topicapi/hpp_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((res) => {
+                    console.log("res", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 10000);
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    if (err.response.statusText === "Unauthorized") {
+                        navigate("/");
+                        alert("Please enter valid credentials")
+                    }
+                });
+        }, 3000); // Delay of 3 seconds
 
-            // })
-            // .catch((error) => {
-            //     console.log("error", error);
-            // });
+        // })
+        // .catch((error) => {
+        //     console.log("error", error);
+        // });
 
     }
     return (
