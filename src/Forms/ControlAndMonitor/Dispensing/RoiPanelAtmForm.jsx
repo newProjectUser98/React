@@ -19,16 +19,10 @@ let newTransactionTypeData = [
     { value: "qr", label: "QR" }
 ]
 const RoiPanelAtmForm = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_atm'))
     let updated_Time_state = localStorage.getItem("updated_time_atm_state")
     let updated_Time_settng = localStorage.getItem("updated_time_atm_settings")
-    localStorage.setItem("component_Name", "atm");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "atm") {
-            localStorage.removeItem("localStorage_data")
-        }
-    }, [])
+
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -63,26 +57,98 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 componant_name: "atm"
             }
             axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
-                if (ndv === undefined && ntt === undefined && vl1 === undefined && re1 === undefined) {
-                    let localStorage_data = {
-                        sts: resp.data[0].data.data_sta.sts,
-                        ndv: resp.data[0].data.data_sta.ndv,
-                        ntt: resp.data[0].data.data_sta.ntt,
-                        nta: resp.data[0].data.data_sta.nta,
-                        tmp: resp.data[0].data.data_sta.tmp,
-                        ntp: resp.data[0].data.data_set.ntp,
-                        nov: resp.data[0].data.data_set.nov,
-                        vl1: resp.data[0].data.data_set.vl1,
-                        vl2: resp.data[0].data.data_set.vl2,
-                        vl3: resp.data[0].data.data_set.vl3,
-                        vl4: resp.data[0].data.data_set.vl4,
-                        re1: resp.data[0].data.data_set.re1,
-                        re2: resp.data[0].data.data_set.re2,
-                        re3: resp.data[0].data.data_set.re3,
-                        re4: resp.data[0].data.data_set.re4,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                // if (ndv === undefined && ntt === undefined && vl1 === undefined && re1 === undefined) {
+                //     let localStorage_data_atm = {
+                //         sts: resp.data[0].data.data_sta.sts,
+                //         ndv: resp.data[0].data.data_sta.ndv,
+                //         ntt: resp.data[0].data.data_sta.ntt,
+                //         nta: resp.data[0].data.data_sta.nta,
+                //         tmp: resp.data[0].data.data_sta.tmp,
+                //         ntp: resp.data[0].data.data_set.ntp,
+                //         nov: resp.data[0].data.data_set.nov,
+                //         vl1: resp.data[0].data.data_set.vl1,
+                //         vl2: resp.data[0].data.data_set.vl2,
+                //         vl3: resp.data[0].data.data_set.vl3,
+                //         vl4: resp.data[0].data.data_set.vl4,
+                //         re1: resp.data[0].data.data_set.re1,
+                //         re2: resp.data[0].data.data_set.re2,
+                //         re3: resp.data[0].data.data_set.re3,
+                //         re4: resp.data[0].data.data_set.re4,
+                //     }
+                //     localStorage.setItem("localStorage_data_atm", JSON.stringify(localStorage_data_atm));
+                // }
+                // Retrieve data from localStorage
+                let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_atm"));
+
+                // Check if localStorageData exists and has values
+                if (!localStorageData) {
+                    localStorageData = {};
                 }
+
+                // Update the variables with new values if they are not zero
+                if (resp.data[0].data.data_sta.sts !== "") {
+                    localStorageData.sts = resp.data[0].data.data_sta.sts;
+                }
+
+                if (resp.data[0].data.data_sta.ndv !== 0) {
+                    localStorageData.ndv = resp.data[0].data.data_sta.ndv;
+                }
+
+                if (resp.data[0].data.data_sta.ntt !== 0) {
+                    localStorageData.ntt = resp.data[0].data.data_sta.ntt;
+                }
+
+                if (resp.data[0].data.data_sta.nta !== 0) {
+                    localStorageData.nta = resp.data[0].data.data_sta.nta;
+                }
+
+                if (resp.data[0].data.data_sta.tmp !== 0) {
+                    localStorageData.tmp = resp.data[0].data.data_sta.tmp;
+                }
+
+                if (resp.data[0].data.data_set.ntp !== "") {
+                    localStorageData.ntp = resp.data[0].data.data_set.ntp;
+                }
+
+                if (resp.data[0].data.data_set.nov !== "") {
+                    localStorageData.nov = resp.data[0].data.data_set.nov;
+                }
+
+                if (resp.data[0].data.data_set.vl1 !== 0) {
+                    localStorageData.vl1 = resp.data[0].data.data_set.vl1;
+                }
+
+                if (resp.data[0].data.data_set.vl2 !== 0) {
+                    localStorageData.vl2 = resp.data[0].data.data_set.vl2;
+                }
+
+                if (resp.data[0].data.data_set.vl3 !== 0) {
+                    localStorageData.vl3 = resp.data[0].data.data_set.vl3;
+                }
+
+                if (resp.data[0].data.data_set.vl4 !== 0) {
+                    localStorageData.vl4 = resp.data[0].data.data_set.vl4;
+                }
+
+                if (resp.data[0].data.data_set.re1 !== 0) {
+                    localStorageData.re1 = resp.data[0].data.data_set.re1;
+                }
+
+                if (resp.data[0].data.data_set.re2 !== 0) {
+                    localStorageData.re2 = resp.data[0].data.data_set.re2;
+                }
+
+                if (resp.data[0].data.data_set.re3 !== 0) {
+                    localStorageData.re3 = resp.data[0].data.data_set.re3;
+                }
+
+                if (resp.data[0].data.data_set.re4 !== 0) {
+                    localStorageData.re4 = resp.data[0].data.data_set.re4;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_atm", JSON.stringify(localStorageData));
+
                 console.log("resp in atm", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.sts != "") {
@@ -133,7 +199,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                     setIsLoading(false);
                     if (resp.data[0].data.data_sta.message_type === "updsta") {
                         alert("Device State Data Updated Successfully")
-                    } else if(resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (resp.data[0].data.data_set.message_type === "updset") {
                         alert("Device Setting Data Updated Successfully")
                     }
                 }
@@ -185,52 +251,52 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
         //     .then((resp) => {
         //         console.log("resp", resp);
 
-                let newData = {
-                    company_name: userData.company_name,
-                    unit_type: "water_dispense",
-                    componant_name: "atm",
-                    ntp: ntp,
-                    nov: nov,
-                    vl1: vl1,
-                    vl2: vl2,
-                    vl3: vl3,
-                    vl4: vl4,
-                    re1: re1,
-                    re2: re2,
-                    re3: re3,
-                    re4: re4,
-                    ntt: ntt,
-                    // device_id: resp?.data[0]?.data?.Device_id
-                };
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_dispense",
+            componant_name: "atm",
+            ntp: ntp,
+            nov: nov,
+            vl1: vl1,
+            vl2: vl2,
+            vl3: vl3,
+            vl4: vl4,
+            re1: re1,
+            re2: re2,
+            re3: re3,
+            re4: re4,
+            ntt: ntt,
+            // device_id: resp?.data[0]?.data?.Device_id
+        };
 
-                setTimeout(() => {
-                    axios.post('/topicapi/atm_setting/', newData, {
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token
-                        }
-                    })
-                        .then((res) => {
-                            console.log("res", res);
-                            setIsLoading(true);
-                            setOpen(true);
-                            setTimeout(() => {
-                                setIsLoading(false)
-                                setOpen(false);
-                            }, 10000);
-                        })
-                        .catch((err) => {
-                            console.log("err", err);
-                            if (err.response.statusText === "Unauthorized") {
-                                navigate("/");
-                                alert("Please enter valid credentials")
-                            }
-                        });
-                }, 3000); // Delay of 3 seconds
+        setTimeout(() => {
+            axios.post('/topicapi/atm_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            })
+                .then((res) => {
+                    console.log("res", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 10000);
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    if (err.response.statusText === "Unauthorized") {
+                        navigate("/");
+                        alert("Please enter valid credentials")
+                    }
+                });
+        }, 3000); // Delay of 3 seconds
 
-            // })
-            // .catch((err) => {
-            //     console.log("err", err);
-            // });
+        // })
+        // .catch((err) => {
+        //     console.log("err", err);
+        // });
     }
     return (
         <>

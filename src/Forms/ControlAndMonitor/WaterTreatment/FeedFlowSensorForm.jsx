@@ -6,14 +6,14 @@ import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 
 const FeedFlowSensorForm = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_F_flowsen'))
     let updated_Time_state = localStorage.getItem("updated_time_F_flowsen_state")
     let updated_Time_settng = localStorage.getItem("updated_time_F_flowsen_settings")
     localStorage.setItem("component_Name", "F_flowsen");
     useEffect(() => {
         let component_Name = localStorage.getItem("component_Name")
         if (component_Name != "F_flowsen") {
-            localStorage.removeItem("localStorage_data")
+            localStorage.removeItem("localStorage_data_F_flowsen")
         }
     }, [])
     const [editSetting, setEditSetting] = useState(false)
@@ -35,13 +35,33 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                 componant_name: "F_flowsen"
             }
             axios.post("/topicapi/updated_treat_F_flowsen/", newData).then((resp) => {
-                if (fr1 === undefined && ff1 === undefined) {
-                    let localStorage_data = {
-                        fr1: resp.data[0].data.data_sta.fr1,
-                        ff1: resp.data[0].data.data_set.ff1,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                // if (fr1 === undefined && ff1 === undefined) {
+                //     let localStorage_data_F_flowsen = {
+                //         fr1: resp.data[0].data.data_sta.fr1,
+                //         ff1: resp.data[0].data.data_set.ff1,
+                //     }
+                //     localStorage.setItem("localStorage_data_F_flowsen", JSON.stringify(localStorage_data_F_flowsen));
+                // }
+                // Retrieve data from localStorage
+                let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_F_flowsen"));
+
+                // Check if localStorageData exists and has values
+                if (!localStorageData) {
+                    localStorageData = {};
                 }
+
+                // Update the variables with new values if they are not zero
+                if (resp.data[0].data.data_sta.fr1 !== 0) {
+                    localStorageData.fr1 = resp.data[0].data.data_sta.fr1;
+                }
+
+                if (resp.data[0].data.data_set.ff1 !== 0) {
+                    localStorageData.ff1 = resp.data[0].data.data_set.ff1;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_F_flowsen", JSON.stringify(localStorageData));
+
                 console.log("resp in F_flowsen", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.fr1 != "") {
@@ -53,7 +73,7 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                     setIsLoading(false);
                     if (resp.data[0].data.data_sta.message_type === "updsta") {
                         alert("Device State Data Updated Successfully")
-                    } else if(resp.data[0].data.data_set.message_type === "updset") {
+                    } else if (resp.data[0].data.data_set.message_type === "updset") {
                         alert("Device Setting Data Updated Successfully")
                     }
                 }
@@ -88,43 +108,43 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
         //     .then((resp) => {
         //         console.log("resp in treat_F_flowsen set device id", resp.data[0].data.Device_id);
 
-                let newData = {
-                    company_name: userData.company_name,
-                    unit_type: "water_treatment",
-                    componant_name: "F_flowsen",
-                    ff: ff1,
-                    // device_id: resp?.data[0]?.data?.Device_id
-                };
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_treatment",
+            componant_name: "F_flowsen",
+            ff: ff1,
+            // device_id: resp?.data[0]?.data?.Device_id
+        };
 
-                setTimeout(() => {
-                    axios.post('/topicapi/F_flowsen_setting/', newData, {
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then((res) => {
-                            console.log("res", res);
-                            setIsLoading(true);
-                            setOpen(true);
-                            setTimeout(() => {
-                                setIsLoading(false)
-                                setOpen(false);
-                            }, 10000);
-                        })
-                        .catch((err) => {
-                            console.log("err", err);
-                            if (err.response.statusText === "Unauthorized") {
-                                navigate("/");
-                                alert("Please enter valid credentials")
-                            }
-                        });
-                }, 3000); // Delay of 3 seconds
+        setTimeout(() => {
+            axios.post('/topicapi/F_flowsen_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((res) => {
+                    console.log("res", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 10000);
+                })
+                .catch((err) => {
+                    console.log("err", err);
+                    if (err.response.statusText === "Unauthorized") {
+                        navigate("/");
+                        alert("Please enter valid credentials")
+                    }
+                });
+        }, 3000); // Delay of 3 seconds
 
-            // })
-            // .catch((error) => {
-            //     console.log("error", error);
-            // });
+        // })
+        // .catch((error) => {
+        //     console.log("error", error);
+        // });
 
     }
     return (

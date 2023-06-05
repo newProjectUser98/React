@@ -9,20 +9,14 @@ import { useNavigate } from 'react-router-dom';
 const Tap4Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
     let updated_Time_settng = localStorage.getItem("updated_time_tap4_settings")
-    localStorage.setItem("component_Name", "tap4");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "tap4") {
-            localStorage.removeItem("localStorage_data")
-        }
-    }, [])
+
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [p1, setP1] = React.useState(localStorageData.p1);
-    const [p2, setP2] = React.useState(localStorageData.p2);
-    const [p3, setP3] = React.useState(localStorageData.p3);
-    const [p4, setP4] = React.useState(localStorageData.p4);
+    const [p1, setP1] = React.useState(localStorageData?.p1);
+    const [p2, setP2] = React.useState(localStorageData?.p2);
+    const [p3, setP3] = React.useState(localStorageData?.p3);
+    const [p4, setP4] = React.useState(localStorageData?.p4);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
 
@@ -35,16 +29,43 @@ const Tap4Form = ({ intervalTime }) => {
                 componant_name: "tap4"
             }
             axios.post("/topicapi/updated_disp_tap4/", newData).then((resp) => {
-                if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
-                    let localStorage_data = {
-                        statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
-                        p1: resp.data[0].data.data_sta.p1,
-                        p2: resp.data[0].data.data_set.p2,
-                        p3: resp.data[0].data.data_set.p3,
-                        p4: resp.data[0].data.data_set.p4,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
-                }
+                // if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
+                //     let localStorage_data = {
+                //         p1: resp.data[0].data.data_set.p1,
+                //         p2: resp.data[0].data.data_set.p2,
+                //         p3: resp.data[0].data.data_set.p3,
+                //         p4: resp.data[0].data.data_set.p4,
+                //     }
+                //     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                // }
+                 // Retrieve data from localStorage
+                 let localStorageDataTap4 = JSON.parse(localStorage.getItem("localStorage_data_tap4"));
+
+                 // Check if localStorageDataTap4 exists and has values
+                 if (!localStorageDataTap4) {
+                     localStorageDataTap4 = {};
+                 }
+ 
+                 // Update the variables with new values if they are not zero
+                 if (resp.data[0].data.data_set.p1 !== 0) {
+                     localStorageDataTap4.p1 = resp.data[0].data.data_set.p1;
+                 }
+ 
+                 if (resp.data[0].data.data_set.p2 !== 0) {
+                     localStorageDataTap4.p2 = resp.data[0].data.data_set.p2;
+                 }
+ 
+                 if (resp.data[0].data.data_set.p3 !== 0) {
+                     localStorageDataTap4.p3 = resp.data[0].data.data_set.p3;
+                 }
+ 
+                 if (resp.data[0].data.data_set.p4 !== 0) {
+                     localStorageDataTap4.p4 = resp.data[0].data.data_set.p4;
+                 }
+ 
+                 // Store the updated data in localStorage
+                 localStorage.setItem("localStorage_data_tap4", JSON.stringify(localStorageDataTap4));
+               
                 console.log("resp in tap4", resp.data[0].data);
                 if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_set.p1 != 0) {

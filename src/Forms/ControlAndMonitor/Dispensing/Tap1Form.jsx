@@ -7,15 +7,9 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Tap1Form = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_tap1'))
     let updated_Time_settng = localStorage.getItem("updated_time_tap1_settings")
-    localStorage.setItem("component_Name", "tap1");
-    useEffect(() => {
-        let component_Name = localStorage.getItem("component_Name")
-        if (component_Name != "tap1") {
-            localStorage.removeItem("localStorage_data")
-        }
-    }, [])
+
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -34,16 +28,44 @@ const Tap1Form = ({ intervalTime }) => {
                 componant_name: "tap1"
             }
             axios.post("/topicapi/updated_disp_tap1/", newData).then((resp) => {
-                if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
-                    let localStorage_data = {
-                        statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
-                        p1: resp.data[0].data.data_sta.p1,
-                        p2: resp.data[0].data.data_set.p2,
-                        p3: resp.data[0].data.data_set.p3,
-                        p4: resp.data[0].data.data_set.p4,
-                    }
-                    localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
+                // if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
+                // let localStorage_data_tap1 = {
+                //     p1: resp.data[0].data.data_set.p1,
+                //     p2: resp.data[0].data.data_set.p2,
+                //     p3: resp.data[0].data.data_set.p3,
+                //     p4: resp.data[0].data.data_set.p4,
+                // }
+                // localStorage.setItem("localStorage_data_tap1", JSON.stringify(localStorage_data_tap1));
+                // }
+
+                // Retrieve data from localStorage
+                let localStorageDataTap1 = JSON.parse(localStorage.getItem("localStorage_data_tap1"));
+
+                // Check if localStorageDataTap1 exists and has values
+                if (!localStorageDataTap1) {
+                    localStorageDataTap1 = {};
                 }
+
+                // Update the variables with new values if they are not zero
+                if (resp.data[0].data.data_sta.p1 !== 0) {
+                    localStorageDataTap1.p1 = resp.data[0].data.data_sta.p1;
+                }
+
+                if (resp.data[0].data.data_set.p2 !== 0) {
+                    localStorageDataTap1.p2 = resp.data[0].data.data_set.p2;
+                }
+
+                if (resp.data[0].data.data_set.p3 !== 0) {
+                    localStorageDataTap1.p3 = resp.data[0].data.data_set.p3;
+                }
+
+                if (resp.data[0].data.data_set.p4 !== 0) {
+                    localStorageDataTap1.p4 = resp.data[0].data.data_set.p4;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_tap1", JSON.stringify(localStorageDataTap1));
+
                 console.log("resp in tap1", resp.data[0].data);
                 if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_set.p1 != 0) {
