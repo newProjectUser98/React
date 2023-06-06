@@ -10,13 +10,6 @@ import { useNavigate } from 'react-router-dom';
 const RwpForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_rwp'))
 
-    // localStorage.setItem("component_Name", "rwp");
-    // useEffect(() => {
-    //     let component_Name = localStorage.getItem("component_Name")
-    //     if (component_Name != "rwp") {
-    //         localStorage.removeItem("localStorage_data_rwp")
-    //     }
-    // }, [])
     const [statusVal, setStatusVal] = useState(localStorageData?.statusVal)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -28,9 +21,7 @@ const RwpForm = ({ intervalTime }) => {
     const [crt, setCrt] = React.useState(localStorageData?.crt);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
-    console.log("sts", statusVal);
 
-    console.log("intervalTime", intervalTime);
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
@@ -136,14 +127,12 @@ const RwpForm = ({ intervalTime }) => {
     console.log(
         "olc val", "data.olc"
     );
-    console.log("initialValuesSetting", initialValuesSetting);
     // eslint-disable-next-line
     const validationSchemaSetting = Yup.object({
         olc: Yup.number('Please enter numbers')
     })
 
     const onSubmitState = (values, submitProps) => {
-        console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
         // let newData = {
         //     company_name: userData.company_name,

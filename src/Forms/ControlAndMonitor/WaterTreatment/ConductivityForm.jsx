@@ -250,7 +250,11 @@ const ConductivityForm = ({ intervalTime }) => {
                 }
             }) :
 
-            axios.post('/topicapi/tds_setting/', newData).then((res) => {
+            axios.post('/topicapi/tds_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            }).then((res) => {
                 console.log("res in tds", res);
                 setIsLoading(true);
                 setOpen(true);
