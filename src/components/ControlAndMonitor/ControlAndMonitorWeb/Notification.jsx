@@ -15,6 +15,38 @@ const Notification = () => {
             console.log("err", err);
         })
     }, [])
+
+    useEffect(() => {
+        const fetchData = () => {
+            axios.get("/api/last-records/").then((resp) => {
+                const firstRecord = resp.data[0];
+                let updated_time_error = localStorage.getItem("updated_time_error")
+
+                if (updated_time_error != firstRecord.updated_at) {
+                    alert(`Component Name: ${firstRecord.service}\nError Message: ${firstRecord.e_discriptions}`)
+                    localStorage.setItem('updated_time_error', firstRecord.updated_at);
+                }
+            }).catch((err) => {
+                console.log("Error:", err);
+            });
+        };
+
+        fetchData(); // Initial fetch
+
+        const interval = setInterval(() => {
+            fetchData(); // Fetch data every 5 seconds
+        }, 5000);
+
+        return () => {
+            clearInterval(interval); // Clear the interval on component unmount
+        };
+    }, []);
+
+
+
+
+
+
     let ErrorMSgJSON = localStorage.getItem("ErrorMSg");
     let ErrorMsg = JSON.parse(ErrorMSgJSON);
     console.log("ErrorMsg", ErrorMsg);

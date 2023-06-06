@@ -111,8 +111,6 @@ const RwpForm = ({ intervalTime }) => {
                     localStorage.setItem('updated_time_rwp_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_rwp_settings', resp.data[0].data.data_set.updated_at);
                 }
-
-
             }).catch((err) => {
                 console.log("err in rwp state", err);
             })
