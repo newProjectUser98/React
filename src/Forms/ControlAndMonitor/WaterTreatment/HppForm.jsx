@@ -9,13 +9,6 @@ import { useNavigate } from 'react-router-dom';
 const HppForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_hpp'))
 
-    // localStorage.setItem("component_Name", "hpp");
-    // useEffect(() => {
-    //     let component_Name = localStorage.getItem("component_Name")
-    //     if (component_Name != "hpp") {
-    //         localStorage.removeItem("localStorage_data_hpp")
-    //     }
-    // }, [])
     const [statusVal, setStatusVal] = useState(false)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)

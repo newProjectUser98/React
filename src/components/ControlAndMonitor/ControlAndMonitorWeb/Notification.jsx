@@ -22,9 +22,9 @@ const Notification = () => {
                 const firstRecord = resp.data[0];
                 let updated_time_error = localStorage.getItem("updated_time_error")
 
-                if (updated_time_error != firstRecord.updated_at) {
-                    alert(`Component Name: ${firstRecord.service}\nError Message: ${firstRecord.e_discriptions}`)
-                    localStorage.setItem('updated_time_error', firstRecord.updated_at);
+                if (updated_time_error != firstRecord.updated_at && updated_time_error != undefined) {
+                    alert(`Component Name: ${firstRecord.service}\nError Message: ${firstRecord?.e_discriptions}`)
+                    localStorage.setItem('updated_time_error', firstRecord?.updated_at);
                 }
             }).catch((err) => {
                 console.log("Error:", err);

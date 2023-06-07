@@ -282,8 +282,8 @@ const Ampv2Form = ({ intervalTime }) => {
         // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
         //     console.log("resp for device id", resp?.data);
         let newData = {
-            unit_type: "water_treatment",
             company_name: userData.company_name,
+            unit_type: "water_treatment",
             componant_name: "ampv2",
             pos: pos,
             // device_id: resp?.data[0]?.data?.Device_id

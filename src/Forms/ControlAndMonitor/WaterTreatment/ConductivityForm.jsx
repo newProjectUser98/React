@@ -264,6 +264,10 @@ const ConductivityForm = ({ intervalTime }) => {
                 }, 10000);
             }).catch((err) => {
                 console.log("err", err);
+                if (err.response.statusText === "Unauthorized") {
+                    navigate("/");
+                    alert("Please enter valid credentials")
+                }
             })
         // }).catch((error) => {
         //     console.log("error", error);
