@@ -77,29 +77,6 @@ const Ampv1Form = ({ intervalTime }) => {
                 componant_name: "ampv1"
             }
             axios.post("/topicapi/updated_treat_ampv1/", newData).then((resp) => {
-                // if (rmt === undefined && cct === undefined && stp === undefined && ip1 === undefined) {
-                //     let time = resp.data[0].data.data_set.srt
-                //     let SplitTime = time?.toString().split(':')
-                //     let localStorage_data_ampv1 = {
-                //         pos: resp.data[0].data.data_sta.pos,
-                //         rmt: resp.data[0].data.data_sta.rmt,
-                //         cct: resp.data[0].data.data_sta.cct,
-                //         stp: resp.data[0].data.data_set.stp,
-                //         ip1: resp.data[0].data.data_set.ip1,
-                //         ip2: resp.data[0].data.data_set.ip2,
-                //         ip3: resp.data[0].data.data_set.ip3,
-                //         psi: resp.data[0].data.data_set.psi,
-                //         srt1: SplitTime[0],
-                //         srt2: SplitTime[1],
-                //         bkt: resp.data[0].data.data_set.bkt,
-                //         rst: resp.data[0].data.data_set.rst,
-                //         mot: resp.data[0].data.data_set.mot,
-                //         op1: resp.data[0].data.data_set.op1,
-                //         op2: resp.data[0].data.data_set.op2,
-                //         op3: resp.data[0].data.data_set.op3,
-                //     }
-                //     localStorage.setItem("localStorage_data_ampv1", JSON.stringify(localStorage_data_ampv1));
-                // }
                 // Retrieve data from localStorage
                 let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_ampv1"));
 
@@ -177,7 +154,6 @@ const Ampv1Form = ({ intervalTime }) => {
                 let updated_Time_state = localStorage.getItem("updated_time_ampv1_state")
                 let updated_Time_settng = localStorage.getItem("updated_time_ampv1_settings")
 
-                console.log("resp in ampv1", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.pos != "") {
                         setPos(resp.data[0].data.data_sta.pos)
@@ -221,8 +197,6 @@ const Ampv1Form = ({ intervalTime }) => {
                     if (resp.data[0].data.data_set.srt != 0) {
                         let time = resp.data[0].data.data_set.srt
                         let SplitTime = time?.toString().split(':')
-                        console.log("SplitTime0", SplitTime[0]);
-                        console.log("SplitTime1", SplitTime[1]);
                         setSrt1(parseInt(SplitTime[0]))
                         setSrt2(parseInt(SplitTime[1]))
                     }
@@ -272,23 +246,12 @@ const Ampv1Form = ({ intervalTime }) => {
     const onSubmitState = (values, submitProps) => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     unit_type: "water_treatment",
-        //     company_name: userData.company_name,
-        //     componant_name: "ampv1",
-        //     pos: pos
-        // }
-        // console.log("newData", newData);
-        // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-        //     console.log("resp for device id", resp?.data);
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: "ampv1",
             pos: pos,
-            // device_id: resp?.data[0]?.data?.Device_id
         }
-        console.log("newData in state++>", newData);
         axios.post('/topicapi/ampv1_state/', newData, {
             headers: {
                 'Authorization': 'Bearer ' + access_token
@@ -309,36 +272,10 @@ const Ampv1Form = ({ intervalTime }) => {
                 alert("Please enter valid credentials")
             }
         })
-        // }).catch((error) => {
-        //     console.log("error", error);
-        // })
-
     }
     const onSubmitSetting = (values, submitProps) => {
         console.log("values in ampv 2 setting", values);
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_treatment",
-        //     componant_name: "ampv1",
-        //     stp: stp,
-        //     ip1: ip1,
-        //     ip2: ip2,
-        //     ip3: ip3,
-        //     psi: psi,
-        //     srt: `${srt1}:${srt2}`,
-        //     srt1: srt1,
-        //     srt2: srt2,
-        //     bkt: bkt,
-        //     rst: rst,
-        //     mot: mot,
-        //     op1: op1,
-        //     op2: op2,
-        //     op3: op3,
-        // }
-        // console.log("newData", newData);
-        // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-        //     console.log("resp", resp);
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
@@ -349,15 +286,14 @@ const Ampv1Form = ({ intervalTime }) => {
             ip3: ip3,
             psi: psi,
             srt: `${srt1}:${srt2}`,
-            srt1: srt1,
-            srt2: srt2,
+            // srt1: srt1,
+            // srt2: srt2,
             bkt: bkt,
             rst: rst,
             mot: mot,
             op1: op1,
             op2: op2,
             op3: op3,
-            // device_id: resp?.data[0]?.data?.Device_id
         }
         axios.post('/topicapi/ampv1_setting/', newData, {
             headers: {
@@ -375,9 +311,6 @@ const Ampv1Form = ({ intervalTime }) => {
         }).catch((err) => {
             console.log("err", err);
         })
-        // }).catch((error) => {
-        //     console.log("error", error);
-        // })
     }
     return (
         <>
@@ -521,8 +454,6 @@ const Ampv1Form = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 1</p>
-                                    {/* <Field disabled={!editSetting} type="text" name="op1" id="op1" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 1" value={op1}
-                                        onChange={(e) => setOp1(e.target.value)} /> */}
                                     <Field
                                         as="select"
                                         disabled={!editSetting}
@@ -542,8 +473,6 @@ const Ampv1Form = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 2</p>
-                                    {/* <Field disabled={!editSetting} type="text" name="op2" id="op2" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 2" value={op2}
-                                        onChange={(e) => setOp2(e.target.value)} /> */}
                                     <Field
                                         as="select"
                                         disabled={!editSetting}
@@ -563,8 +492,6 @@ const Ampv1Form = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Output 3</p>
-                                    {/* <Field disabled={!editSetting} type="text" name="op3" id="op3" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Output 3" value={op3}
-                                        onChange={(e) => setOp3(e.target.value)} /> */}
                                     <Field
                                         as="select"
                                         disabled={!editSetting}
@@ -584,15 +511,6 @@ const Ampv1Form = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Input 1</p>
-                                    {/* <Field as="select" disabled={!editSetting} name="ip1" className='w-52 my-2 p-2 border rounded' value={ip1}
-                                        onChange={(e) => setIp1(e.target.value)}>
-                                        <option value="" disabled>Select Input 1</option>
-                                        <option value="Off">Off</option>
-                                        <option value="Twlvl">Treated Water Tank Level</option>
-                                        <option value="Rwlvl">Raw Water Tank Level</option>
-                                        <option value="pls">Pulse</option>
-                                        <option value="dsl">Dosing Level</option>
-                                    </Field> */}
                                     <Field
                                         as="select"
                                         disabled={!editSetting}
@@ -612,15 +530,6 @@ const Ampv1Form = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Input 2</p>
-                                    {/* <Field as="select" disabled={!editSetting} name="ip2" className='w-52 my-2 p-2 border rounded' value={ip2}
-                                        onChange={(e) => setIp2(e.target.value)}>
-                                        <option value="" disabled>Select Input 2</option>
-                                        <option value="Off">Off</option>
-                                        <option value="Twlvl">Treated Water Tank Level</option>
-                                        <option value="Rwlvl">Raw Water Tank Level</option>
-                                        <option value="pls">Pulse</option>
-                                        <option value="dsl">Dosing Level</option>
-                                    </Field> */}
                                     <Field
                                         as="select"
                                         disabled={!editSetting}
@@ -640,15 +549,6 @@ const Ampv1Form = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Input 3</p>
-                                    {/* <Field as="select" disabled={!editSetting} name="ip3" className='w-52 my-2 p-2 border rounded' value={ip3}
-                                        onChange={(e) => setIp3(e.target.value)}>
-                                        <option value="" disabled>Select Input 3</option>
-                                        <option value="Off">Off</option>
-                                        <option value="Twlvl">Treated Water Tank Level</option>
-                                        <option value="Rwlvl">Raw Water Tank Level</option>
-                                        <option value="pls">Pulse</option>
-                                        <option value="dsl">Dosing Level</option>
-                                    </Field> */}
                                     <Field
                                         as="select"
                                         disabled={!editSetting}
@@ -668,12 +568,6 @@ const Ampv1Form = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Pressure Switch Input</p>
-                                    {/* <Field as="select" disabled={!editSetting} name="psi" className='w-auto my-2 p-2 border rounded' value={psi}
-                                        onChange={(e) => setPsi(e.target.value)}>
-                                        <option value="" disabled>Select Pressure Switch Input</option>
-                                        <option value="ena">Enable</option>
-                                        <option value="dis">Disable</option>
-                                    </Field> */}
                                     <Field
                                         as="select"
                                         disabled={!editSetting}

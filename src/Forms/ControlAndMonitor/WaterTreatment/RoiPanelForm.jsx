@@ -73,7 +73,6 @@ const RoiPanelForm = ({ intervalTime }) => {
     let access_token = localStorage.getItem("access_token")
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
-    console.log("components ==>", components[0].panel.dosing_pump);
 
     const initialValues = {
         mod: '',
@@ -97,31 +96,6 @@ const RoiPanelForm = ({ intervalTime }) => {
                 componant_name: "panel"
             }
             axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
-                // if (rtl === undefined && dgp === undefined && ovv === undefined && stp === undefined) {
-
-                //     let time = resp.data[0].data.data_set.srt
-                //     let SplitTime = time.split(':')
-                //     let localStorage_data_panel = {
-                //         sts: resp.data[0].data.data_sta.sts,
-                //         rtl: resp.data[0].data.data_sta.rtl,
-                //         ttl: resp.data[0].data.data_sta.ttl,
-                //         lps: resp.data[0].data.data_sta.lps,
-                //         dgp: resp.data[0].data.data_sta.dgp,
-                //         ipv: resp.data[0].data.data_sta.ipv,
-                //         err: resp.data[0].data.data_sta.err,
-                //         mod: resp.data[0].data.data_set.mod,
-                //         unv: resp.data[0].data.data_set.unv,
-                //         ovv: resp.data[0].data.data_set.ovv,
-                //         spn: resp.data[0].data.data_set.spn,
-                //         nmv: resp.data[0].data.data_set.nmv,
-                //         stp: resp.data[0].data.data_set.stp,
-                //         srt1: SplitTime[0],
-                //         srt2: SplitTime[1],
-                //         bkt: resp.data[0].data.data_set.bkt,
-                //         rst: resp.data[0].data.data_set.rst,
-                //     }
-                //     localStorage.setItem("localStorage_data_panel", JSON.stringify(localStorage_data_panel));
-                // }
 
                 // Retrieve data from localStorage
                 let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_panel"));
@@ -208,7 +182,6 @@ const RoiPanelForm = ({ intervalTime }) => {
                 let updated_Time_state = localStorage.getItem("updated_time_panel_state")
                 let updated_Time_settng = localStorage.getItem("updated_time_panel_settings")
 
-                console.log("resp in panel", resp.data[0].data);
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.sts != "") {
                         setSts(resp.data[0].data.data_sta.sts)
@@ -246,8 +219,6 @@ const RoiPanelForm = ({ intervalTime }) => {
                     if (resp.data[0].data.data_set.srt != "") {
                         let time = resp.data[0].data.data_set.srt
                         let SplitTime = time?.toString().split(':')
-                        console.log("SplitTime0", SplitTime[0]);
-                        console.log("SplitTime1", SplitTime[1]);
                         setSrt1(parseInt(SplitTime[0]))
                         setSrt2(parseInt(SplitTime[1]))
                     }
@@ -292,24 +263,6 @@ const RoiPanelForm = ({ intervalTime }) => {
     const onSubmitSetting = (values, submitProps) => {
         console.log("values", values);
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_treatment",
-        //     componant_name: "panel",
-        //     mod: mod,
-        //     nmv: nmv,
-        //     stp: stp,
-        //     srt: `${srt1}:${srt2}`,
-        //     unv: unv,
-        //     ovv: ovv,
-        //     spn: spn,
-        //     bkt: bkt,
-        //     rst: rst
-        // };
-        // console.log("newData in panels", newData);
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp", resp?.data[0]?.data?.Device_id);
 
         let newData = {
             company_name: userData.company_name,
@@ -324,7 +277,6 @@ const RoiPanelForm = ({ intervalTime }) => {
             srt: `${srt1}:${srt2}`,
             bkt: bkt,
             rst: rst,
-            // device_id: resp?.data[0]?.data?.Device_id
         };
 
         setTimeout(() => {
@@ -350,13 +302,6 @@ const RoiPanelForm = ({ intervalTime }) => {
                     }
                 });
         }, 3000); // Delay of 3 seconds
-
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
-
-
     }
     return (
         <>
@@ -390,8 +335,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Row Water Tank Level</p>
                 <select name="rtl" id="rtl" className='w-52 p-2 border my-2 rounded'>
-                    {/* <option value="full">Full</option>
-                <option value="full">Full</option> */}
+
                     {
                         FULLEMP.map((item, id) => {
                             if (item.value === rtl) {
@@ -407,8 +351,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Trated Water Tank Level</p>
                 <select name="ttl" id="ttl" className='w-52 p-2 border my-2 rounded'>
-                    {/* <option value="full">Full</option>
-                <option value="emp">Empty</option> */}
+
                     {
                         FULLEMP.map((item, id) => {
                             console.log("item in hps", item.value);
@@ -425,8 +368,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Low Pressure Switch</p>
                 <select name="lps" id="lps" className='w-52 p-2 border my-2  rounded'>
-                    {/* <option value="low">Low</option>
-                <option value="high">High</option> */}
+
                     {
                         LOWHIGH.map((item, id) => {
                             if (item.value === lps) {
@@ -442,9 +384,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>High Pressure Switch</p>
                 <select name="hps" id="hps" className='w-52 p-2 border my-2 rounded'>
-                    {/* <option value={hps}>{hps}</option> */}
-                    {/* <option value="low">Low</option>
-                <option value="high">High</option> */}
+
                     {
                         LOWHIGH.map((item, id) => {
                             if (item.value === hps) {
@@ -459,10 +399,8 @@ const RoiPanelForm = ({ intervalTime }) => {
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Dosing Pump</p>
-                {/* <p className='w-30 mx-2'>{dosingpumpVal? 'ON' : 'OFF'}</p> */}
                 <p className='w-30 mx-2'>{dgp}</p>
                 <div className='w-30'>
-                    {/* <Switch name='status' checked={dosingpumpVal} onChange={(e)=> setdosingpumpVal(e.target.checked)} color='primary'/> */}
                     <Switch name='status' checked={dgp === "on" ? true : false} onChange={(e) => setdosingpumpVal(e.target.checked)} color='primary' />
                 </div>
             </div>
@@ -502,12 +440,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Mode</p>
-                                    {/* <Field as="select" disabled={!editSetting} value={mod} onChange={(e) => setMod(e.target.value)} name="mod" className='w-52 my-2 p-2 border rounded'>
-                                        <option value="" disabled>Select Mode</option>
-                                        <option value="aut">Auto</option>
-                                        <option value="sem">Semi Auto</option>
-                                        <option value="man">Manual</option>
-                                    </Field> */}
+
                                     <Field
                                         as="select"
                                         disabled={!editSetting}
@@ -559,11 +492,6 @@ const RoiPanelForm = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Sensor Type</p>
-                                    {/* <Field as="select" disabled={!editSetting} value={stp} onChange={(e) => setStp(e.target.value)} name="stp" className='w-52 my-2 p-2 border rounded'>
-                                        <option value="" disabled>Select Sensor Type</option>
-                                        <option value="t">Time</option>
-                                        <option value="f">Flow</option>
-                                    </Field> */}
                                     <Field
                                         as="select"
                                         disabled={!editSetting}

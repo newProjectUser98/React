@@ -31,17 +31,7 @@ const RwpForm = ({ intervalTime }) => {
                 componant_name: "rwp"
             }
             axios.post("/topicapi/updated_treat_rwp/", newData).then((resp) => {
-                // if (olc === undefined && drc === undefined && spn === undefined && crt === undefined) {
-                // let localStorage_data_rwp = {
-                //     statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
-                //     crt: resp.data[0].data.data_sta.crt,
-                //     olc: resp.data[0].data.data_set.olc,
-                //     drc: resp.data[0].data.data_set.drc,
-                //     spn: resp.data[0].data.data_set.spn,
-                // }
-                // localStorage.setItem("localStorage_data_rwp", JSON.stringify(localStorage_data_rwp));
-                // }
-                // Retrieve data from localStorage
+
                 let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_rwp"));
 
                 // Check if localStorageData exists and has values
@@ -50,9 +40,8 @@ const RwpForm = ({ intervalTime }) => {
                 }
 
                 // Update the variables with new values if they are not zero
-                // if (!editState) {
+
                 localStorageData.statusVal = resp.data[0].data.data_sta.sts == "on" ? true : false;
-                // }
 
                 if (resp.data[0].data.data_sta.crt !== 0 && !editState) {
                     localStorageData.crt = resp.data[0].data.data_sta.crt;
@@ -124,9 +113,7 @@ const RwpForm = ({ intervalTime }) => {
         drc: "settingData.drc",
         spn: "settingData.spn",
     }
-    console.log(
-        "olc val", "data.olc"
-    );
+
     // eslint-disable-next-line
     const validationSchemaSetting = Yup.object({
         olc: Yup.number('Please enter numbers')
@@ -134,23 +121,12 @@ const RwpForm = ({ intervalTime }) => {
 
     const onSubmitState = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_treatment",
-        //     componant_name: "rwp",
-        //     sts: statusVal === true ? "on" : "off"
-        // };
-
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp", resp);
-
+ 
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: "rwp",
             sts: statusVal === true ? "on" : "off",
-            // device_id: resp?.data[0]?.data?.Device_id
         };
 
         setTimeout(() => {
@@ -176,30 +152,9 @@ const RwpForm = ({ intervalTime }) => {
                     }
                 });
         }, 3000); // Delay of 3 seconds
-
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
-
-
     }
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_treatment",
-        //     componant_name: "rwp",
-        //     olc: olc,
-        //     spn: spn,
-        //     drc: drc
-        // };
-        // let access_token = localStorage.getItem("access_token");
-
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp getdeviceId", resp.data[0].data.Device_id);
-
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
@@ -207,7 +162,6 @@ const RwpForm = ({ intervalTime }) => {
             olc: olc,
             spn: spn,
             drc: drc,
-            // device_id: resp?.data[0]?.data?.Device_id
         };
 
         setTimeout(() => {
@@ -233,11 +187,6 @@ const RwpForm = ({ intervalTime }) => {
                     }
                 });
         }, 3000); // Delay of 3 seconds
-
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
 
     }
     return (

@@ -16,12 +16,7 @@ const FeedFlowSensor2Form = ({intervalTime}) => {
                 componant_name: "flowsen2"
             }
             axios.post("/topicapi/updated_disp_flowsen2/", newData).then((resp) => {
-                // if (fr === undefined) {
-                //     let localStorage_data_flowsen2 = {
-                //         fr: resp.data[0].data.data_sta.fr,
-                //     }
-                //     localStorage.setItem("localStorage_data_flowsen2", JSON.stringify(localStorage_data_flowsen2));
-                // }
+               
                  // Retrieve data from localStorage
                  let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_flowsen2_flowsen1"));
 
@@ -38,7 +33,7 @@ const FeedFlowSensor2Form = ({intervalTime}) => {
                  // Store the updated data in localStorage
                  localStorage.setItem("localStorage_data_flowsen2", JSON.stringify(localStorageData));
                  let updated_Time_state = localStorage.getItem("updated_time_flowsen2_state")
-                console.log("resp in flowsen2", resp.data[0].data);
+             
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
                     if (resp.data[0].data.data_sta.fr != 0) {
                         setFr(resp.data[0].data.data_sta.fr)

@@ -20,7 +20,7 @@ let newTransactionTypeData = [
 ]
 const RoiPanelAtmForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_atm'))
-    
+
 
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -56,26 +56,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 componant_name: "atm"
             }
             axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
-                // if (ndv === undefined && ntt === undefined && vl1 === undefined && re1 === undefined) {
-                //     let localStorage_data_atm = {
-                //         sts: resp.data[0].data.data_sta.sts,
-                //         ndv: resp.data[0].data.data_sta.ndv,
-                //         ntt: resp.data[0].data.data_sta.ntt,
-                //         nta: resp.data[0].data.data_sta.nta,
-                //         tmp: resp.data[0].data.data_sta.tmp,
-                //         ntp: resp.data[0].data.data_set.ntp,
-                //         nov: resp.data[0].data.data_set.nov,
-                //         vl1: resp.data[0].data.data_set.vl1,
-                //         vl2: resp.data[0].data.data_set.vl2,
-                //         vl3: resp.data[0].data.data_set.vl3,
-                //         vl4: resp.data[0].data.data_set.vl4,
-                //         re1: resp.data[0].data.data_set.re1,
-                //         re2: resp.data[0].data.data_set.re2,
-                //         re3: resp.data[0].data.data_set.re3,
-                //         re4: resp.data[0].data.data_set.re4,
-                //     }
-                //     localStorage.setItem("localStorage_data_atm", JSON.stringify(localStorage_data_atm));
-                // }
+
                 // Retrieve data from localStorage
                 let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_atm"));
 
@@ -149,7 +130,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 localStorage.setItem("localStorage_data_atm", JSON.stringify(localStorageData));
                 let updated_Time_state = localStorage.getItem("updated_time_atm_state")
                 let updated_Time_settng = localStorage.getItem("updated_time_atm_settings")
-                console.log("resp in atm", resp.data[0].data);
+
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.sts != "") {
                         setSts(resp.data[0].data.data_sta.sts)
@@ -231,25 +212,6 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_dispense",
-        //     componant_name: "atm",
-        //     ntp: ntp,
-        //     nov: nov,
-        //     vl1: vl1,
-        //     vl2: vl2,
-        //     vl3: vl3,
-        //     vl4: vl4,
-        //     re1: re1,
-        //     re2: re2,
-        //     re3: re3,
-        //     re4: re4
-        // };
-
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp", resp);
 
         let newData = {
             company_name: userData.company_name,
@@ -266,7 +228,6 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
             re3: re3,
             re4: re4,
             ntt: ntt,
-            // device_id: resp?.data[0]?.data?.Device_id
         };
 
         setTimeout(() => {
@@ -292,11 +253,6 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                     }
                 });
         }, 3000); // Delay of 3 seconds
-
-        // })
-        // .catch((err) => {
-        //     console.log("err", err);
-        // });
     }
     return (
         <>
@@ -320,7 +276,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>Status</p>
                 <select name="sts" id="sts" className='my-2 w-52 px-5 py-2 border rounded'>
-                    {/* <option value={sts}>{sts}</option> */}
+
                     {
                         statusData.map((item, id) => {
                             if (item.value === sts) {
@@ -330,27 +286,19 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                             }
                         })
                     }
-                    {/* <option value="nml">Normal</option>
-                <option value="tke">tank_empty</option>
-                <option value="tpl">Tap_Low</option>
-                <option value="nof">noflow</option>
-                <option value="tpd">tempared</option> */}
                 </select>
             </div>
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>New Dispense Volume</p>
                 <p className='w-30 my-2'>{ndv} m3/hr</p>
-                {/* <div>
-                <Field type="text" name="ndv" id="ndv" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="New Dispense Volume"/>
-                <span className='mx-5'>m3/hr</span>
-            </div> */}
+
             </div>
             <div className="flex items-center py-3 flex-wrap">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <p className='w-40 my-2'>New Transaction Type</p>
                 <select name="ntt" id="ntt" className='my-2 w-52 px-5 py-2 border rounded'>
-                    {/* <option value={ntt}>{ntt}</option> */}
+
                     {
                         newTransactionTypeData.map((item, id) => {
                             if (item.value === ntt) {
@@ -360,9 +308,6 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                             }
                         })
                     }
-                    {/* <option value="cn">Coin</option>
-                <option value="cd">Card</option>
-                <option value="qr">QR</option> */}
                 </select>
             </div>
             <div className="flex items-center py-3 flex-wrap">

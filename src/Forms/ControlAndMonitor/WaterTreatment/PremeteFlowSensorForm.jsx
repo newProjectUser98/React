@@ -26,13 +26,7 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                 componant_name: "P_flowsen"
             }
             axios.post("/topicapi/updated_treat_P_flowsen/", newData).then((resp) => {
-                // if (fr2 === undefined && ff2 === undefined) {
-                //     let localStorage_data_P_Flowsen = {
-                //         fr2: resp.data[0].data.data_sta.fr2,
-                //         ff2: resp.data[0].data.data_set.ff2,
-                //     }
-                //     localStorage.setItem("localStorage_data_P_Flowsen", JSON.stringify(localStorage_data_P_Flowsen));
-                // }
+
                 // Retrieve data from localStorage
                 let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_P_Flowsen"));
 
@@ -54,7 +48,7 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                 localStorage.setItem("localStorage_data_P_Flowsen", JSON.stringify(localStorageData));
                 let updated_Time_state = localStorage.getItem("updated_time_P_flowsen_state")
                 let updated_Time_settng = localStorage.getItem("updated_time_P_flowsen_settings")
-                console.log("resp in P_flowsen", resp.data[0].data);
+
                 if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.fr2 != "") {
                         setfr2(resp.data[0].data.data_sta.fr2)
@@ -89,23 +83,12 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_treatment",
-        //     componant_name: "P_flowsen"
-        // };
-        // console.log("newData", newData);
-
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp in treat_P_flowsen set device id", resp.data[0].data.Device_id);
 
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: "P_flowsen",
             ff: ff2,
-            // device_id: resp?.data[0]?.data?.Device_id
         };
 
         setTimeout(() => {
@@ -132,12 +115,6 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                     }
                 });
         }, 3000); // Delay of 3 seconds
-
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
-
     }
     return (
         <>

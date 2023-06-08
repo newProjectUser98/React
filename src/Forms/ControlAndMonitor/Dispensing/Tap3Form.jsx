@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Tap3Form = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_tap3'))
 
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -17,7 +17,6 @@ const Tap3Form = ({ intervalTime }) => {
     const [p3, setP3] = React.useState(localStorageData?.p3);
     const [p4, setP4] = React.useState(localStorageData?.p4);
     const navigate = useNavigate();
-    let access_token = localStorage.getItem("access_token")
 
     useEffect(() => {
         const fetchData = () => {
@@ -28,44 +27,37 @@ const Tap3Form = ({ intervalTime }) => {
                 componant_name: "tap3"
             }
             axios.post("/topicapi/updated_disp_tap3/", newData).then((resp) => {
-                // if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
-                //     let localStorage_data = {
-                //         p1: resp.data[0].data.data_sta.p1,
-                //         p2: resp.data[0].data.data_set.p2,
-                //         p3: resp.data[0].data.data_set.p3,
-                //         p4: resp.data[0].data.data_set.p4,
-                //     }
-                //     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
-                // }
-                 // Retrieve data from localStorage
-                 let localStorageDataTap3 = JSON.parse(localStorage.getItem("localStorage_data_tap3"));
 
-                 // Check if localStorageDataTap3 exists and has values
-                 if (!localStorageDataTap3) {
-                     localStorageDataTap3 = {};
-                 }
- 
-                 // Update the variables with new values if they are not zero
-                 if (resp.data[0].data.data_set.p1 !== 0) {
-                     localStorageDataTap3.p1 = resp.data[0].data.data_set.p1;
-                 }
- 
-                 if (resp.data[0].data.data_set.p2 !== 0) {
-                     localStorageDataTap3.p2 = resp.data[0].data.data_set.p2;
-                 }
- 
-                 if (resp.data[0].data.data_set.p3 !== 0) {
-                     localStorageDataTap3.p3 = resp.data[0].data.data_set.p3;
-                 }
- 
-                 if (resp.data[0].data.data_set.p4 !== 0) {
-                     localStorageDataTap3.p4 = resp.data[0].data.data_set.p4;
-                 }
- 
-                 // Store the updated data in localStorage
-                 localStorage.setItem("localStorage_data_tap3", JSON.stringify(localStorageDataTap3));
-                 let updated_Time_settng = localStorage.getItem("updated_time_tap3_settings")
-                console.log("resp in tap3", resp.data[0].data);
+
+                // Retrieve data from localStorage
+                let localStorageDataTap3 = JSON.parse(localStorage.getItem("localStorage_data_tap3"));
+
+                // Check if localStorageDataTap3 exists and has values
+                if (!localStorageDataTap3) {
+                    localStorageDataTap3 = {};
+                }
+
+                // Update the variables with new values if they are not zero
+                if (resp.data[0].data.data_sta.p1 !== 0) {
+                    localStorageDataTap3.p1 = resp.data[0].data.data_sta.p1;
+                }
+
+                if (resp.data[0].data.data_set.p2 !== 0) {
+                    localStorageDataTap3.p2 = resp.data[0].data.data_set.p2;
+                }
+
+                if (resp.data[0].data.data_set.p3 !== 0) {
+                    localStorageDataTap3.p3 = resp.data[0].data.data_set.p3;
+                }
+
+                if (resp.data[0].data.data_set.p4 !== 0) {
+                    localStorageDataTap3.p4 = resp.data[0].data.data_set.p4;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_tap3", JSON.stringify(localStorageDataTap3));
+                let updated_Time_settng = localStorage.getItem("updated_time_tap3_settings")
+
                 if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_set.p1 != 0) {
                         setP1(resp.data[0].data.data_set.p1)
@@ -80,7 +72,9 @@ const Tap3Form = ({ intervalTime }) => {
                         setP4(resp.data[0].data.data_set.p4)
                     }
                     setIsLoading(false);
+
                     alert("Device Setting Data Updated Successfully")
+
                 }
                 localStorage.setItem('updated_time_tap3_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
@@ -103,60 +97,50 @@ const Tap3Form = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_dispense",
-        //     componant_name: "tap3",
-        //     p1: p1,
-        //     p2: p2,
-        //     p3: p3,
-        //     p4: p4
-        // }
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp", resp);
-                let newData = {
-                    company_name: userData.company_name,
-                    unit_type: "water_dispense",
-                    componant_name: "tap3",
-                    p1: p1,
-                    p2: p2,
-                    p3: p3,
-                    p4: p4,
-                    // device_id: resp?.data[0]?.data?.Device_id
-                };
 
+        let access_token = localStorage.getItem("access_token")
+
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_dispense",
+            componant_name: "tap3",
+            p1: p1,
+            p2: p2,
+            p3: p3,
+            p4: p4,
+        };
+
+        setTimeout(() => {
+            axios.post('/topicapi/tap3_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token
+                }
+            }).then((res) => {
+                console.log("res in tap3 get", res.data);
+                setIsLoading(true);
+                setOpen(true);
                 setTimeout(() => {
-                    axios.post('/topicapi/tap3_setting/', newData, {
-                        headers: {
-                            'Authorization': 'Bearer ' + access_token
-                        }
-                    }).then((res) => {
-                        console.log("res in tap3 get", res.data);
-                        setIsLoading(true);
-                        setOpen(true);
-                        setTimeout(() => {
-                            setIsLoading(false)
-                            setOpen(false);
-                        }, 10000);
-                    }).catch((err) => {
-                        console.log("err", err);
-                        if (err.response.statusText === "Unauthorized") {
-                            navigate("/");
-                            alert("Please enter valid credentials")
-                        }
-                    });
-                }, 3000);
-            // })
-            // .catch((error) => {
-            //     console.log("error", error);
-            // });
+                    setIsLoading(false)
+                    setOpen(false);
+                }, 10000);
+            }).catch((err) => {
+                console.log("err", err);
+                if (err.response.statusText === "Unauthorized") {
+                    navigate("/");
+                    alert("Please enter valid credentials")
+                }
+
+            });
+        }, 3000);
+
     }
+
     return (
         <>
             {isLoading &&
                 <BackdropComp open={open} />
             }
+
             <Formik initialValues={initialValues} onSubmit={onSubmitSetting}>
                 {
                     (formik) => {

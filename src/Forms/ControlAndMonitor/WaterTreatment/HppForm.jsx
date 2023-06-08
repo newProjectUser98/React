@@ -1,23 +1,24 @@
-import { Switch } from '@material-ui/core';
-import { Field, Form, Formik } from 'formik'
+import { Switch } from '@material-ui/core'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import * as Yup from "yup";
+import TextError from '../../TextError';
 import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
-
 const HppForm = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_hpp'))
+    let localStorageDataHpp = JSON.parse(localStorage.getItem('localStorage_data_hpp'))
 
-    const [statusVal, setStatusVal] = useState(false)
+    const [statusVal, setStatusVal] = useState(localStorageDataHpp?.statusVal)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
-    const [olc, setOlc] = React.useState(localStorageData?.olc);
-    const [drc, setDrc] = React.useState(localStorageData?.drc);
-    const [spn, setSpn] = React.useState(localStorageData?.spn);
-    const [crt, setCrt] = React.useState(localStorageData?.crt);
+    const [olc, setOlc] = React.useState(localStorageDataHpp?.olc);
+    const [drc, setDrc] = React.useState(localStorageDataHpp?.drc);
+    const [spn, setSpn] = React.useState(localStorageDataHpp?.spn);
+    const [crt, setCrt] = React.useState(localStorageDataHpp?.crt);
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
 
@@ -30,51 +31,41 @@ const HppForm = ({ intervalTime }) => {
                 componant_name: "hpp"
             }
             axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
-                // if (olc === undefined && drc === undefined && spn === undefined && crt === undefined) {
-                //     let localStorage_data_hpp = {
-                //         statusVal: resp.data[0].data.data_sta.sts == "on" ? true : false,
-                //         crt: resp.data[0].data.data_sta.crt,
-                //         olc: resp.data[0].data.data_set.olc,
-                //         drc: resp.data[0].data.data_set.drc,
-                //         spn: resp.data[0].data.data_set.spn,
-                //     }
-                //     localStorage.setItem("localStorage_data_hpp", JSON.stringify(localStorage_data_hpp));
-                // }
-                let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_hpp"));
 
-                // Check if localStorageData exists and has values
-                if (!localStorageData) {
-                    localStorageData = {};
+                let localStorageDataHpp = JSON.parse(localStorage.getItem("localStorage_data_hpp"));
+
+                // Check if localStorageDataHpp exists and has values
+                if (!localStorageDataHpp) {
+                    localStorageDataHpp = {};
                 }
 
                 // Update the variables with new values if they are not zero
-                if (!editState) {
-                    localStorageData.statusVal = resp.data[0].data.data_sta.sts == "on" ? true : false;
-                }
+
+                localStorageDataHpp.statusVal = resp.data[0].data.data_sta.sts == "on" ? true : false;
 
                 if (resp.data[0].data.data_sta.crt !== 0 && !editState) {
-                    localStorageData.crt = resp.data[0].data.data_sta.crt;
+                    localStorageDataHpp.crt = resp.data[0].data.data_sta.crt;
                 }
 
                 if (resp.data[0].data.data_set.olc !== 0 && !editSetting) {
-                    localStorageData.olc = resp.data[0].data.data_set.olc;
+                    localStorageDataHpp.olc = resp.data[0].data.data_set.olc;
                 }
 
                 if (resp.data[0].data.data_set.drc !== 0 && !editSetting) {
-                    localStorageData.drc = resp.data[0].data.data_set.drc;
+                    localStorageDataHpp.drc = resp.data[0].data.data_set.drc;
                 }
 
                 if (resp.data[0].data.data_set.spn !== 0 && !editSetting) {
-                    localStorageData.spn = resp.data[0].data.data_set.spn;
+                    localStorageDataHpp.spn = resp.data[0].data.data_set.spn;
                 }
 
                 // Store the updated data in localStorage
-                localStorage.setItem("localStorage_data_hpp", JSON.stringify(localStorageData));
-                console.log("resp in hpp", resp.data[0].data);
+                localStorage.setItem("localStorage_data_hpp", JSON.stringify(localStorageDataHpp));
+
                 let updated_Time_state = localStorage.getItem("updated_time_hpp_state")
                 let updated_Time_settng = localStorage.getItem("updated_time_hpp_settings")
-                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
 
+                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_sta.sts != "") {
                         setStatusVal(resp.data[0].data.data_sta.sts == "on" ? true : false)
                     }
@@ -96,6 +87,7 @@ const HppForm = ({ intervalTime }) => {
                         alert("Device Setting Data Updated Successfully")
                     }
                     setIsLoading(false);
+
                     localStorage.setItem('updated_time_hpp_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_hpp_settings', resp.data[0].data.data_set.updated_at);
                 }
@@ -110,6 +102,7 @@ const HppForm = ({ intervalTime }) => {
         };
     }, [intervalTime]);
 
+
     const initialValuesState = {
         sts: "",
         crt: "",
@@ -119,24 +112,21 @@ const HppForm = ({ intervalTime }) => {
         olc: "settingData.olc",
         drc: "settingData.drc",
         spn: "settingData.spn",
-    };
+    }
+
+    // eslint-disable-next-line
+    const validationSchemaSetting = Yup.object({
+        olc: Yup.number('Please enter numbers')
+    })
+
     const onSubmitState = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_treatment",
-        //     componant_name: "hpp"
-        // };
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp in hpp deviceid", resp.data[0].data.Device_id);
 
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: "hpp",
-            // device_id: resp?.data[0]?.data?.Device_id,
-            sts: statusVal === true ? "on" : "off"
+            sts: statusVal === true ? "on" : "off",
         };
 
         setTimeout(() => {
@@ -147,7 +137,6 @@ const HppForm = ({ intervalTime }) => {
                 }
             })
                 .then((res) => {
-                    console.log("res", res);
                     setIsLoading(true);
                     setOpen(true);
                     setTimeout(() => {
@@ -159,29 +148,13 @@ const HppForm = ({ intervalTime }) => {
                     console.log("err", err);
                     if (err.response.statusText === "Unauthorized") {
                         navigate("/");
-                        alert("Please enter valid credentials")
+                        alert("Please enter valid credentials");
                     }
                 });
         }, 3000); // Delay of 3 seconds
-
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
     }
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_treatment",
-        //     componant_name: "hpp"
-        // };
-        // console.log("newData", newData);
-
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp in hpp set device id", resp.data[0].data.Device_id);
-
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
@@ -189,14 +162,12 @@ const HppForm = ({ intervalTime }) => {
             olc: olc,
             spn: spn,
             drc: drc,
-            // device_id: resp?.data[0]?.data?.Device_id
         };
 
         setTimeout(() => {
             axios.post('/topicapi/hpp_setting/', newData, {
                 headers: {
-                    'Authorization': 'Bearer ' + access_token,
-                    'Content-Type': 'application/json'
+                    'Authorization': 'Bearer ' + access_token
                 }
             })
                 .then((res) => {
@@ -209,18 +180,13 @@ const HppForm = ({ intervalTime }) => {
                     }, 10000);
                 })
                 .catch((err) => {
-                    console.log("err", err);
+                    console.log("err", err.response.statusText);
                     if (err.response.statusText === "Unauthorized") {
                         navigate("/");
-                        alert("Please enter valid credentials")
+                        alert("Please enter valid credentials");
                     }
                 });
         }, 3000); // Delay of 3 seconds
-
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
 
     }
     return (
@@ -242,6 +208,7 @@ const HppForm = ({ intervalTime }) => {
                     <span>Setting variable</span>
                 </div>
             </div>
+
             <Formik
                 initialValues={initialValuesState}
                 onSubmit={onSubmitState}
@@ -268,6 +235,7 @@ const HppForm = ({ intervalTime }) => {
                                     <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40'>Current</p>
                                     <p className='w-40'>{crt} A</p>
+                                    {/* <p className='w-40'>10.5 Ampere</p> */}
                                 </div>
                                 {
                                     editState &&
@@ -284,7 +252,9 @@ const HppForm = ({ intervalTime }) => {
             //validationSchema={validationSchemaSetting}
             >
                 {
-                    (formik) => {
+                    ({ values }) => {
+                        console.log("initialValuesSetting in return", initialValuesSetting);
+                        console.log("values....", values);
                         return (
                             <Form autoComplete='off'>
                                 <div className="flex items-center mt-5 mx-2">
@@ -297,24 +267,25 @@ const HppForm = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Over Load Current</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="olc" id="olc" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Over Load Current" value={olc}
+                                        <Field disabled={!editSetting} type='text' id='olc' name='olc' placeholder="Over Load Current" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={olc}
                                             onChange={(e) => setOlc(e.target.value)} />
-                                        <span className='mx-5 my-2'>Ampere</span>
+                                        <span className='mx-1 my-2'>Ampere</span>
                                     </div>
+                                    <ErrorMessage name="olc" component={TextError} />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Dry Run Current</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="drc" id="drc" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Dry Run Current" value={drc}
+                                        <Field disabled={!editSetting} type='text' id='drc' name='drc' placeholder="Dry Run Current" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={drc}
                                             onChange={(e) => setDrc(e.target.value)} />
-                                        <span className='mx-5 my-2'>Ampere</span>
+                                        <span className='mx-1 my-2'>Ampere</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Span</p>
-                                    <Field disabled={!editSetting} type="text" name="spn" id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" value={spn}
+                                    <Field disabled={!editSetting} type='text' id='spn' name='spn' placeholder="Span" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={spn}
                                         onChange={(e) => setSpn(e.target.value)} />
                                 </div>
                                 {

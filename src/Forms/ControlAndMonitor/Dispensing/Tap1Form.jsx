@@ -27,15 +27,7 @@ const Tap1Form = ({ intervalTime }) => {
                 componant_name: "tap1"
             }
             axios.post("/topicapi/updated_disp_tap1/", newData).then((resp) => {
-                // if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
-                // let localStorage_data_tap1 = {
-                //     p1: resp.data[0].data.data_set.p1,
-                //     p2: resp.data[0].data.data_set.p2,
-                //     p3: resp.data[0].data.data_set.p3,
-                //     p4: resp.data[0].data.data_set.p4,
-                // }
-                // localStorage.setItem("localStorage_data_tap1", JSON.stringify(localStorage_data_tap1));
-                // }
+             
 
                 // Retrieve data from localStorage
                 let localStorageDataTap1 = JSON.parse(localStorage.getItem("localStorage_data_tap1"));
@@ -65,7 +57,7 @@ const Tap1Form = ({ intervalTime }) => {
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_tap1", JSON.stringify(localStorageDataTap1));
                 let updated_Time_settng = localStorage.getItem("updated_time_tap1_settings")
-                console.log("resp in tap1", resp.data[0].data);
+         
                 if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_set.p1 != 0) {
                         setP1(resp.data[0].data.data_set.p1)
@@ -105,19 +97,9 @@ const Tap1Form = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_dispense",
-        //     componant_name: "tap1",
-        //     p1: p1,
-        //     p2: p2,
-        //     p3: p3,
-        //     p4: p4
-        // }
+        
         let access_token = localStorage.getItem("access_token")
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp", resp);
+      
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_dispense",
@@ -126,7 +108,6 @@ const Tap1Form = ({ intervalTime }) => {
             p2: p2,
             p3: p3,
             p4: p4,
-            // device_id: resp?.data[0]?.data?.Device_id
         };
 
         setTimeout(() => {
@@ -151,10 +132,6 @@ const Tap1Form = ({ intervalTime }) => {
 
             });
         }, 3000);
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
 
     }
 

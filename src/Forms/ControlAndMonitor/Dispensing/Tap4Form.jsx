@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Tap4Form = ({ intervalTime }) => {
-    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data'))
+    let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_tap4'))
 
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -17,7 +17,6 @@ const Tap4Form = ({ intervalTime }) => {
     const [p3, setP3] = React.useState(localStorageData?.p3);
     const [p4, setP4] = React.useState(localStorageData?.p4);
     const navigate = useNavigate();
-    let access_token = localStorage.getItem("access_token")
 
     useEffect(() => {
         const fetchData = () => {
@@ -28,15 +27,8 @@ const Tap4Form = ({ intervalTime }) => {
                 componant_name: "tap4"
             }
             axios.post("/topicapi/updated_disp_tap4/", newData).then((resp) => {
-                // if (p1 === undefined && p2 === undefined && p3 === undefined && p4 === undefined) {
-                //     let localStorage_data = {
-                //         p1: resp.data[0].data.data_set.p1,
-                //         p2: resp.data[0].data.data_set.p2,
-                //         p3: resp.data[0].data.data_set.p3,
-                //         p4: resp.data[0].data.data_set.p4,
-                //     }
-                //     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
-                // }
+
+
                 // Retrieve data from localStorage
                 let localStorageDataTap4 = JSON.parse(localStorage.getItem("localStorage_data_tap4"));
 
@@ -46,8 +38,8 @@ const Tap4Form = ({ intervalTime }) => {
                 }
 
                 // Update the variables with new values if they are not zero
-                if (resp.data[0].data.data_set.p1 !== 0) {
-                    localStorageDataTap4.p1 = resp.data[0].data.data_set.p1;
+                if (resp.data[0].data.data_sta.p1 !== 0) {
+                    localStorageDataTap4.p1 = resp.data[0].data.data_sta.p1;
                 }
 
                 if (resp.data[0].data.data_set.p2 !== 0) {
@@ -65,7 +57,7 @@ const Tap4Form = ({ intervalTime }) => {
                 // Store the updated data in localStorage
                 localStorage.setItem("localStorage_data_tap4", JSON.stringify(localStorageDataTap4));
                 let updated_Time_settng = localStorage.getItem("updated_time_tap4_settings")
-                console.log("resp in tap4", resp.data[0].data);
+
                 if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
                     if (resp.data[0].data.data_set.p1 != 0) {
                         setP1(resp.data[0].data.data_set.p1)
@@ -80,7 +72,9 @@ const Tap4Form = ({ intervalTime }) => {
                         setP4(resp.data[0].data.data_set.p4)
                     }
                     setIsLoading(false);
+
                     alert("Device Setting Data Updated Successfully")
+
                 }
                 localStorage.setItem('updated_time_tap4_settings', resp.data[0].data.data_set.updated_at);
             }).catch((err) => {
@@ -101,21 +95,11 @@ const Tap4Form = ({ intervalTime }) => {
         p4: "",
     };
 
-
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_dispense",
-        //     componant_name: "tap4",
-        //     p1: p1,
-        //     p2: p2,
-        //     p3: p3,
-        //     p4: p4
-        // }
-        // axios.post("/topicapi/get_device_id/", newData)
-        //     .then((resp) => {
-        //         console.log("resp", resp);
+
+        let access_token = localStorage.getItem("access_token")
+
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_dispense",
@@ -124,7 +108,6 @@ const Tap4Form = ({ intervalTime }) => {
             p2: p2,
             p3: p3,
             p4: p4,
-            // device_id: resp?.data[0]?.data?.Device_id
         };
 
         setTimeout(() => {
@@ -146,18 +129,18 @@ const Tap4Form = ({ intervalTime }) => {
                     navigate("/");
                     alert("Please enter valid credentials")
                 }
+
             });
         }, 3000);
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
+
     }
+
     return (
         <>
             {isLoading &&
                 <BackdropComp open={open} />
             }
+
             <Formik initialValues={initialValues} onSubmit={onSubmitSetting}>
                 {
                     (formik) => {

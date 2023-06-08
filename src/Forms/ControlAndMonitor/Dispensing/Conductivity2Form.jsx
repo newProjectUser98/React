@@ -33,17 +33,8 @@ const Conductivity2Form = ({ intervalTime }) => {
                     "company_name": userData.company_name,
                     "componant_name": "cnd_consen",
                 }
-                console.log(newData);
                 axios.post("/topicapi/updated_disp_cnd_consen/", newData).then((resp) => {
-                    // if (cnd === undefined && spn === undefined && asp === undefined) {
-                    //     let localStorage_data_cnd_consen = {
-                    //         cnd: resp.data[0].data.data_sta.cnd,
-                    //         spn: resp.data[0].data.data_set.spn,
-                    //         tsp: resp.data[0].data.data_set.tsp,
-                    //         asp: resp.data[0].data.data_set.asp,
-                    //     }
-                    //     localStorage.setItem("localStorage_data_cnd_consen", JSON.stringify(localStorage_data_cnd_consen));
-                    // }
+                  
                     // Retrieve data from localStorage
                     let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_cnd_consen"));
 
@@ -114,16 +105,8 @@ const Conductivity2Form = ({ intervalTime }) => {
                     "company_name": userData.company_name,
                     "componant_name": "tds_consen",
                 }
-                console.log(newData);
                 axios.post("/topicapi/updated_disp_tds_consen/", newData).then((resp) => {
-                    // if (tds === undefined && spn === undefined && asp === undefined) {
-                    //     let localStorage_data = {
-                    //         tds: resp.data[0].data.data_sta.tds,
-                    //         spn: resp.data[0].data.data_set.spn,
-                    //         asp: resp.data[0].data.data_set.asp,
-                    //     }
-                    //     localStorage.setItem("localStorage_data", JSON.stringify(localStorage_data));
-                    // }
+                
                     // Retrieve data from localStorage
                     let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_tds_consen"));
 
@@ -191,17 +174,6 @@ const Conductivity2Form = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_dispense",
-        //     componant_name: "cnd_consen"
-        // };
-        // console.log("newData", newData);
-
-        // axios.post("/topicapi/get_device_id/", newData)
-        // .then((resp) => {
-        //     console.log("resp in cnd_consen set device id", resp.data[0].data.Device_id);
-
         if (changeConductivityDis === "cnd") {
             let newData = {
                 company_name: userData.company_name,
@@ -209,7 +181,6 @@ const Conductivity2Form = ({ intervalTime }) => {
                 componant_name: "cnd_consen",
                 spn: spn,
                 asp: asp,
-                // device_id: resp?.data[0]?.data?.Device_id
             };
             setTimeout(() => {
                 axios.post('/topicapi/cnd_consen_setting/', newData, {
@@ -242,7 +213,6 @@ const Conductivity2Form = ({ intervalTime }) => {
                 componant_name: "tds_consen",
                 spn: spn,
                 asp: asp,
-                // device_id: resp?.data[0]?.data?.Device_id
             };
             setTimeout(() => {
                 axios.post('/topicapi/tds_consen_setting/', newData, {
@@ -269,10 +239,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                     });
             }, 3000); // Delay of 3 seconds
         }
-        // })
-        // .catch((error) => {
-        //     console.log("error", error);
-        // });
+
     }
     return (
         <>
@@ -327,16 +294,12 @@ const Conductivity2Form = ({ intervalTime }) => {
                                     <p className='w-40 my-2 '>Span</p>
                                     <Field disabled={!editSetting} type="text" name="spn" value={spn} onChange={(e) => setSpn(e.target.value)} id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
                                 </div>
-                                {/* <div className="flex items-center py-3 flex-wrap">
-                                <p className='w-40'>Trip Setpoint</p>
-                                <Field type="text" name="tsp" id="tsp" className="p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Trip Setpoint" value={500}/>
-                            </div> */}
+                            
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Alert Setpoint</p>
                                     <Field disabled={!editSetting} type="text" name="asp" value={asp} onChange={(e) => setAsp(e.target.value)} id="asp" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Atert Setpoint" />
                                     {
-                                        // changeConductivityDis === 'conductivity' ? 
                                         changeConductivityDis === 'cnd' ?
                                             <span className='mx-5'>uS</span>
                                             :
