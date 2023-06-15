@@ -67,6 +67,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
           });
 
           setHourlyData1(hourlyDataArray);
+          console.log('hourlyData1', hourlyDataArray);
         })
         .catch((err) => console.log(err));
       //New code for hourlyData ends
@@ -113,7 +114,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
 
       const allMonthsData = [];
 
-      for (let year = startYear; year <= endYear; year++) {
+      for (let year = (endYear - 2); year <= endYear; year++) {
         for (let month = 1; month <= 12; month++) {
           allMonthsData.push({ year, month });
         }
@@ -163,13 +164,17 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
           })
             .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day));
 
-          const allYearsData = [];
+          const allYearsData = [
+            { year: endYear - 2 },
+            { year: endYear - 1 },
+            { year: endYear }
+          ];
           const currentDate = new Date(fromDateObj.getFullYear(), 0, 1); // Start from January 1st of the start year
 
-          while (currentDate.getFullYear() <= endYear) {
-            allYearsData.push({ year: currentDate.getFullYear() });
-            currentDate.setFullYear(currentDate.getFullYear() + 1); // Move to the next year
-          }
+          // while (currentDate.getFullYear() <= endYear) {
+          //   allYearsData.push({ year: currentDate.getFullYear() });
+          //   currentDate.setFullYear(currentDate.getFullYear() + 1); // Move to the next year
+          // }
 
           const dataByYear = {}; // Dictionary to store data objects by year
 
@@ -212,7 +217,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
                 <Legend />
-                <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor1} dot={false} />
+                <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor1} dot={true} />
               </LineChart>
 
               <Grid
@@ -267,7 +272,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
                 <Legend />
-                <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor2} dot={false} />
+                <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor2} dot={true} />
               </LineChart>
 
               <Grid
@@ -322,7 +327,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
                 <Legend />
-                <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor3} dot={false} />
+                <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor3} dot={true} />
               </LineChart>
 
               <Grid
@@ -367,12 +372,12 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
           {graphData && (
             <>
               <p>Yearly Data</p>
-              <LineChart width={1000} height={300} data={monthlyData1}>
+              <LineChart width={1000} height={300} data={yearlyData1}>
                 <XAxis dataKey="year" fontSize={10} tickLine={false} />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
                 <Legend />
-                <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor4} dot={false} />
+                <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor4} dot={true} />
               </LineChart>
 
               <Grid

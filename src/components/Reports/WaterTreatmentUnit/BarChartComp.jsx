@@ -113,7 +113,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
 
       const allMonthsData = [];
 
-      for (let year = startYear; year <= endYear; year++) {
+      for (let year = (endYear - 2); year <= endYear; year++) {
         for (let month = 1; month <= 12; month++) {
           allMonthsData.push({ year, month });
         }
@@ -163,13 +163,32 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
           })
             .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day));
 
-          const allYearsData = [];
-          const currentDate = new Date(fromDateObj.getFullYear(), 0, 1); // Start from January 1st of the start year
+          const allYearsData = [
+            { year: endYear - 2 },
+            { year: endYear - 1 },
+            { year: endYear }
+          ];
+          const currentDate = new Date(fromDateObj.getFullYear(), 0, 1); 
+          // Start from January 1st of the start year
 
-          while (currentDate.getFullYear() <= endYear) {
-            allYearsData.push({ year: currentDate.getFullYear() });
-            currentDate.setFullYear(currentDate.getFullYear() + 1); // Move to the next year
-          }
+          // const currentDate = new Date(endYear - 2, 0, 1); 
+          // Start from January 1st of the year two years before the endYear
+
+
+          // while (currentDate.getFullYear() <= endYear) {
+          //   allYearsData.push({ year: currentDate.getFullYear() });
+          //   currentDate.setFullYear(currentDate.getFullYear() + 1); 
+            // Move to the next year
+
+            // const allYearsData = [];
+            // const previousYear = endYear - 1;
+            // const currentYear = endYear;
+
+            // allYearsData.push({ year: previousYear });
+            // allYearsData.push({ year: currentYear });
+            // allYearsData.push({ year: endYear });
+
+          // }
 
           const dataByYear = {}; // Dictionary to store data objects by year
 
