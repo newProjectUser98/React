@@ -158,7 +158,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             if (foundData) {
               return foundData;
             } else {
-              return { year, month, value: 0 };
+              return { year, month, value: 0 , [variable]:{[graphData] : 0}};
             }
           });
 
@@ -207,7 +207,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             if (foundData) {
               return foundData;
             } else {
-              return { year, value: 0 };
+              return { year, value: 0, [variable]:{[graphData] : 0} };
             }
           })
 
@@ -220,7 +220,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
     }
   },
     // eslint-disable-next-line
-    [variable, fromDate, toDate])
+    [variable, fromDate, toDate, graphData])
 
 
   return (
