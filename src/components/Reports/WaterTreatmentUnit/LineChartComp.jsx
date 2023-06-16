@@ -63,7 +63,13 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
               const objDate = new Date(obj.year, obj.month - 1, obj.day);
               return objDate.getTime() === toDateObj.getTime() && obj.hour === String(hour);
             });
-            return hourData ? hourData : { hour: String(hour) };
+            // return hourData ? hourData : { hour: String(hour) };
+            return {
+              hour: String(hour),
+              [variable]: {
+                [graphData]: hourData ? hourData[variable][graphData] : 0
+              }
+            };
           });
 
           setHourlyData1(hourlyDataArray);
@@ -96,8 +102,20 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 docDate.getFullYear() === toDateObj.getFullYear()
               );
             });
-
-            return dayData ? dayData : { day: String(day) };
+            // return hourData ? hourData : { hour: String(hour) };
+            // return dayData ? dayData : { day: String(day) };
+            // return {
+            //   hour: String(hour),
+            //   [variable]: {
+            //     [graphData]: hourData ? hourData[variable][graphData] : 0
+            //   }
+            // };
+            return {
+              day: String(day),
+              [variable]: {
+                [graphData]: dayData ? dayData[variable][graphData] : 0
+              }
+            };
           });
 
           console.log('dailyData', dailyDataArray);

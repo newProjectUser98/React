@@ -6,6 +6,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { XAxis, BarChart, Bar, YAxis, Tooltip, Legend } from "recharts";
+import trueIcon from '../../../assets/icons/ReportsIcon/SelectColorIcon.png'
 
 const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }) => {
 
@@ -17,7 +18,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
   const [updatedColor2, setUpdatedColor2] = useState('#F3C82F')
   const [updatedColor3, setUpdatedColor3] = useState('#F3C82F')
   const [updatedColor4, setUpdatedColor4] = useState('#F3C82F')
-
+  const [isActive, setIsActive] = useState(false)
   const PopupColors = [
     { color: "#6CCED9" },
     { color: "#B68FE7" },
@@ -168,7 +169,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
             { year: endYear - 1 },
             { year: endYear }
           ];
-          const currentDate = new Date(fromDateObj.getFullYear(), 0, 1); 
+          const currentDate = new Date(fromDateObj.getFullYear(), 0, 1);
           // Start from January 1st of the start year
 
           // const currentDate = new Date(endYear - 2, 0, 1); 
@@ -178,15 +179,15 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
           // while (currentDate.getFullYear() <= endYear) {
           //   allYearsData.push({ year: currentDate.getFullYear() });
           //   currentDate.setFullYear(currentDate.getFullYear() + 1); 
-            // Move to the next year
+          // Move to the next year
 
-            // const allYearsData = [];
-            // const previousYear = endYear - 1;
-            // const currentYear = endYear;
+          // const allYearsData = [];
+          // const previousYear = endYear - 1;
+          // const currentYear = endYear;
 
-            // allYearsData.push({ year: previousYear });
-            // allYearsData.push({ year: currentYear });
-            // allYearsData.push({ year: endYear });
+          // allYearsData.push({ year: previousYear });
+          // allYearsData.push({ year: currentYear });
+          // allYearsData.push({ year: endYear });
 
           // }
 
@@ -218,7 +219,14 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
     // eslint-disable-next-line
     [variable, fromDate, toDate])
 
+  const ColorPallet = () => {
 
+    if (!isActive) {
+      setIsActive(true)
+    } else {
+      setIsActive(false)
+    }
+  }
 
   return (
     <>
@@ -263,28 +271,33 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                 mt={"30px"}
                 container={false}
               >
+
                 <Grid container justifyContent={"center"}>
                   <Grid item md={12}>
-                    {PopupColors.map((item, index) => {
-                      return (
-                        <IconButton
-                          key={index}
-                          type="button"
-                          value={1}
-                          onClick={() => {
-                            setUpdatedColor1(item.color);
-                            // alert("In first color pallate")
-                          }}
-                        >
-                          <Box
+                    <img src={trueIcon} onClick={ColorPallet} alt="" className="ml-2" 
+                    style={{display:"inline"}}/>
+
+                    {isActive &&
+                      PopupColors.map((item, index) => {
+                        return (
+                          <IconButton
                             key={index}
-                            height={"24px"}
-                            width={"24px"}
-                            bgcolor={item.color}
-                          />
-                        </IconButton>
-                      )
-                    })}
+                            type="button"
+                            value={1}
+                            onClick={() => {
+                              setUpdatedColor1(item.color);
+                              // alert("In first color pallate")
+                            }}
+                          >
+                            <Box
+                              key={index}
+                              height={"24px"}
+                              width={"24px"}
+                              bgcolor={item.color}
+                            />
+                          </IconButton>
+                        )
+                      })}
                   </Grid>
                 </Grid>
               </Grid>

@@ -146,9 +146,9 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, 
   deviceID, graphData, initialColor, updatedColor, fromDate, toDate}) => {
 
   return (
-    <Grid width={1000} 
+    <Grid
     container 
-    key={index}>
+    key={index} md={12}>
       {/* <Grid>
         <Typography
           fontWeight={400}
