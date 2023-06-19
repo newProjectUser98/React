@@ -53,45 +53,276 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
   }
 
   const component_variable_data = {
-    cnd: ["spn", "tsp", "asp", "cnd"],
+    cnd: [
+      {
+        name: "span",
+        value: "spn"
+      },
+      {
+        name: "trip_setpoint",
+        value: "tsp"
+      },
+      {
+        name: "alert_setpoint",
+        value: "asp"
+      },
+      {
+        name: "conductivity",
+        value: "cnd"
+      },
+    ],
 
-    tds: ["spn", "tsp", "asp", "tds"],
+    tds: [
+      {
+        name: "span",
+        value: "spn"
+      },
+      {
+        name: "trip_setpoint",
+        value: "tsp"
+      },
+      {
+        name: "alert_setpoint",
+        value: "asp"
+      },
+      {
+        name: "total dissolved solids",
+        value: "tds"
+      }
+    ],
 
-    rwp: ["crt", "olc", "drc", "spn"],
+    rwp: [
+      {
+        name: "current",
+        value: "crt"
+      },
+      {
+        name: "over load current",
+        value: "olc"
+      },
+      {
+        name: "dry run current",
+        value: "drc"
+      },
+      {
+        name: "span",
+        value: "spn"
+      }
+    ],
 
-    hpp: ["crt", "olc", "drc", "spn"],
+    hpp: [
+      {
+        name: "current",
+        value: "crt"
+      },
+      {
+        name: "over load current",
+        value: "olc"
+      },
+      {
+        name: "dry run current",
+        value: "drc"
+      },
+      {
+        name: "span",
+        value: "spn"
+      }
+    ],
 
-    panel: ["ipv", "unv", "ovv", "nmv", "spn", "srt", "bkt", "rst"],
+    panel: [
+      {
+        name: "input voltage",
+        value: "ipv"
+      },
+      {
+        name: "under voltage",
+        value: "unv"
+      },
+      {
+        name: "over voltage",
+        value: "ovv"
+      },
+      {
+        name: "no.of multiport valve",
+        value: "nmv"
+      },
+      {
+        name: "span",
+        value: "spn"
+      },
+      {
+        name: "service time",
+        value: "srt"
+      },
+      {
+        name: "backwash time",
+        value: "bkt"
+      },
+      {
+        name: "rinse time",
+        value: "rst"
+      }
+    ],
 
-    ampv1: ["rmt", "cct", "srt", "bkt", "rst", "mot"],
+    ampv: [
+      {
+        name: "remaining time",
+        value: "rmt"
+      },
+      {
+        name: "cycle count",
+        value: "cct"
+      },
+      {
+        name: "service time",
+        value: "srt"
+      },
+      {
+        name: "backwash time",
+        value: "bkt"
+      },
+      {
+        name: "rinse time",
+        value: "rst"
+      },
+      {
+        name: "motor on delay time",
+        value: "mot"
+      }
+    ],
 
-    // ampv2: ["rmt","cct","srt","bkt","rst","mot"],
+    F_flowsen: [
+      {
+        name: "flow rate",
+        value: "fr1"
+      },
+      {
+        name: "flow factor",
+        value: "ff1"
+      }
+    ],
 
-    // ampv3: ["rmt","cct","srt","bkt","rst","mot"],
+    P_flowsen: [
+      {
+        name: "flow rate",
+        value: "fr2"
+      },
+      {
+        name: "flow factor",
+        value: "ff2"
+      }
+    ],
 
-    // ampv4: ["rmt","cct","srt","bkt","rst","mot"],
+    tap: [
+      {
+        name: "pulse1",
+        value: "p1"
+      },
+      {
+        name: "pulse2",
+        value: "p2"
+      },
+      {
+        name: "pulse3",
+        value: "p3"
+      },
+      {
+        name: "pulse4",
+        value: "p4"
+      }
+    ],
 
-    // ampv5: ["rmt","cct","srt","bkt","rst","mot"],
+    flowsen: [
+      {
+        name: "flow rate",
+        value: "fr"
+      }
+    ],
 
-    F_flowsen: ["fr1", "ff1"],
+    cnd_consen: [
+      {
+        name: "conductivity",
+        value: "cnd"
+      },
+      {
+        name: "span",
+        value: "spn"
+      },
+      {
+        name: "alert_setpoint",
+        value: "asp"
+      }
+    ],
 
-    P_flowsen: ["fr2", "ff2"],
+    tds_consen: [
+      {
+        name: "total dissolved solids",
+        value: "tds"
+      },
+      {
+        name: "span",
+        value: "spn"
+      },
+      {
+        name: "alert_setpoint",
+        value: "asp"
+      }
+    ],
 
-    tap1: ["p1", "p2", "p3", "p4"],
-
-    flowsen1: ["fr"],
-
-    // tap2: ["p1","p2","p3","p4"],
-
-    // tap3: ["p1","p2","p3","p4"],
-
-    // tap4: ["p1","p2","p3","p4"],
-
-    cnd_consen: ["cnd", "spn", "asp"],
-
-    tds_consen: ["tds", "spn", "asp"],
-
-    atm: ["ndv", "nta", "tmp", "ntp", "nov", "vl1", "vl2", "vl3", "vl4", "re1", "re2", "re3", "re4"]
+    atm: [
+      {
+        name: "new dispense volume",
+        value: "ndv"
+      },
+      {
+        name: "new transaction amount",
+        value: "nta"
+      },
+      {
+        name: "water tempreture",
+        value: "tmp"
+      },
+      {
+        name: "no. of  tap",
+        value: "ntp"
+      },
+      {
+        name: "no. Of volume",
+        value: "nov"
+      },
+      {
+        name: "volume1",
+        value: "vl1"
+      },
+      {
+        name: "volume2",
+        value: "vl2"
+      },
+      {
+        name: "volume3",
+        value: "vl3"
+      },
+      {
+        name: "volume4",
+        value: "vl4"
+      },
+      {
+        name: "rate1",
+        value: "re1"
+      },
+      {
+        name: "rate2",
+        value: "re2"
+      },
+      {
+        name: "rate3",
+        value: "re3"
+      },
+      {
+        name: "rate4",
+        value: "re4"
+      },
+    ]
   }
 
   useEffect(() => {
@@ -106,13 +337,13 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
     } else if (Yaxis === 'panel') {
       setCompVariables(component_variable_data.panel)
     } else if (Yaxis === 'ampv1' || Yaxis === 'ampv2' || Yaxis === 'ampv3' || Yaxis === 'ampv4' || Yaxis === 'ampv5') {
-      setCompVariables(component_variable_data.ampv1)
+      setCompVariables(component_variable_data.ampv)
     } else if (Yaxis === 'F_flowsen') {
       setCompVariables(component_variable_data.F_flowsen)
     } else if (Yaxis === 'P_flowsen') {
       setCompVariables(component_variable_data.P_flowsen)
     } else if (Yaxis === 'tap1' || Yaxis === 'tap2' || Yaxis === 'tap3' || Yaxis === 'tap4') {
-      setCompVariables(component_variable_data.tap1)
+      setCompVariables(component_variable_data.tap)
     } else if (Yaxis === 'cnd_consen') {
       setCompVariables(component_variable_data.cnd_consen)
     } else if (Yaxis === 'tds_consen') {
@@ -120,7 +351,7 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
     } else if (Yaxis === 'atm') {
       setCompVariables(component_variable_data.atm)
     } else if (Yaxis === 'flowsen1' || Yaxis === 'flowsen2' || Yaxis === 'flowsen3' || Yaxis === 'flowsen4') {
-      setCompVariables(component_variable_data.flowsen1)
+      setCompVariables(component_variable_data.flowsen)
     } else {
       setCompVariables([])
     }
@@ -235,7 +466,7 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
 
               {comp_variables.map((item) => {
                 return (
-                  <MenuItem value={item}>{item}</MenuItem>
+                  <MenuItem value={item.value}>{item.name}</MenuItem>
                 )
               })}
 

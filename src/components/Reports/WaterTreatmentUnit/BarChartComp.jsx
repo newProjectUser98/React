@@ -273,10 +273,12 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
               >
 
                 <Grid container justifyContent={"center"}>
-                  <Grid item md={12}>
-                    <img src={trueIcon} onClick={ColorPallet} alt="" className="ml-2" 
-                    style={{display:"inline"}}/>
-
+                  <Grid md={12}>
+                  <img src={trueIcon} onClick={ColorPallet} alt="" className="ml-2" 
+                    //style={{display:"inline"}}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
                     {isActive &&
                       PopupColors.map((item, index) => {
                         return (
