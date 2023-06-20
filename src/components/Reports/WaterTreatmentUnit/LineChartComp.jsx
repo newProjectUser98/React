@@ -160,10 +160,16 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             const foundData = filteredData.find(
               (obj) => Number(obj.year) === year && Number(obj.month) === month
             );
+            // if (foundData) {
+            //   return foundData;
+            // } else {
+            //   return { year, month, value: 0, [variable]: { [graphData]: 0 } };
+            // }
+            const monthYear = `${String(month).padStart(1, '0')}/${String(year).slice(2)}`;
             if (foundData) {
-              return foundData;
+              return { ...foundData, monthYear };
             } else {
-              return { year, month, value: 0, [variable]: { [graphData]: 0 } };
+              return { year, month, value: 0, monthYear };
             }
           });
 
@@ -393,7 +399,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             <>
               <p>Monthly Data</p>
               <LineChart width={1000} height={300} data={monthlyData1}>
-                <XAxis dataKey="month" fontSize={10} tickLine={false}
+                <XAxis dataKey="monthYear" fontSize={10} tickLine={false}
                 // tickFormatter={(month) => {
                 //   const year = monthlyData1.find(data => data.month === month)?.year;
                 //   return `${month}/${year}`;
