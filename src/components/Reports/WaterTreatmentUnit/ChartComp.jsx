@@ -159,7 +159,7 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, 
           {/* {item.title} {index} */}
         {/* </Typography>
       </Grid> */}
-      <Grid height={1600} mt={"30px"}>
+      <Grid height={1650} mt={"30px"}>
         {checked ? (
           <LineChartComp 
           color={initialColor}

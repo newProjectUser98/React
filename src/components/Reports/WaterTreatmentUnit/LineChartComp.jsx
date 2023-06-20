@@ -6,6 +6,7 @@ import {
   Grid,
   IconButton,
 } from "@mui/material";
+import trueIcon from '../../../assets/icons/ReportsIcon/SelectColorIcon.png'
 
 const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, toDate }) => {
 
@@ -17,6 +18,10 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
   const [updatedColor2, setUpdatedColor2] = useState('#F3C82F')
   const [updatedColor3, setUpdatedColor3] = useState('#F3C82F')
   const [updatedColor4, setUpdatedColor4] = useState('#F3C82F')
+  const [isActive1, setIsActive1] = useState(false)
+  const [isActive2, setIsActive2] = useState(false)
+  const [isActive3, setIsActive3] = useState(false)
+  const [isActive4, setIsActive4] = useState(false)
 
   const PopupColors = [
     { color: "#6CCED9" },
@@ -158,7 +163,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             if (foundData) {
               return foundData;
             } else {
-              return { year, month, value: 0 , [variable]:{[graphData] : 0}};
+              return { year, month, value: 0, [variable]: { [graphData]: 0 } };
             }
           });
 
@@ -177,7 +182,8 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
       axios.get(`/topicapi/${Yaxis}_yearly/`)
         .then(res => {
           const filteredData = res.data.filter(obj => {
-            const docDate = new Date(obj.year, obj.month - 1, obj.day);
+            // const docDate = new Date(obj.year, obj.month - 1, obj.day);
+            const docDate = new Date(obj.year);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID;
           })
             .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day));
@@ -207,7 +213,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
             if (foundData) {
               return foundData;
             } else {
-              return { year, value: 0, [variable]:{[graphData] : 0} };
+              return { year, value: 0, [variable]: { [graphData]: 0 } };
             }
           })
 
@@ -222,6 +228,41 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
     // eslint-disable-next-line
     [variable, fromDate, toDate, graphData])
 
+  const ColorPallet1 = () => {
+
+    if (!isActive1) {
+      setIsActive1(true)
+    } else {
+      setIsActive1(false)
+    }
+  }
+
+  const ColorPallet2 = () => {
+
+    if (!isActive2) {
+      setIsActive2(true)
+    } else {
+      setIsActive2(false)
+    }
+  }
+
+  const ColorPallet3 = () => {
+
+    if (!isActive3) {
+      setIsActive3(true)
+    } else {
+      setIsActive3(false)
+    }
+  }
+
+  const ColorPallet4 = () => {
+
+    if (!isActive4) {
+      setIsActive4(true)
+    } else {
+      setIsActive4(false)
+    }
+  }
 
   return (
     <>
@@ -246,27 +287,33 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 container={false}
               >
                 <Grid container justifyContent={"center"}>
-                  <Grid item md={12}>
-                    {PopupColors.map((item, index) => {
-                      return (
-                        <IconButton
-                          key={index}
-                          type="button"
-                          value={1}
-                          onClick={() => {
-                            setUpdatedColor1(item.color);
-                            // alert("In first color pallate")
-                          }}
-                        >
-                          <Box
+                  <Grid md={12}>
+                    <img src={trueIcon} onClick={ColorPallet1} alt="" className="ml-2"
+                    //style={{display:"inline"}}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    {isActive1 &&
+                      PopupColors.map((item, index) => {
+                        return (
+                          <IconButton
                             key={index}
-                            height={"24px"}
-                            width={"24px"}
-                            bgcolor={item.color}
-                          />
-                        </IconButton>
-                      )
-                    })}
+                            type="button"
+                            value={1}
+                            onClick={() => {
+                              setUpdatedColor1(item.color);
+                              // alert("In first color pallate")
+                            }}
+                          >
+                            <Box
+                              key={index}
+                              height={"24px"}
+                              width={"24px"}
+                              bgcolor={item.color}
+                            />
+                          </IconButton>
+                        )
+                      })}
                   </Grid>
                 </Grid>
               </Grid>
@@ -301,27 +348,33 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 container={false}
               >
                 <Grid container justifyContent={"center"}>
-                  <Grid item md={12}>
-                    {PopupColors.map((item, index) => {
-                      return (
-                        <IconButton
-                          key={index}
-                          type="button"
-                          value={1}
-                          onClick={() => {
-                            setUpdatedColor2(item.color);
-                            // alert("In second color pallate")
-                          }}
-                        >
-                          <Box
+                  <Grid md={12}>
+                    <img src={trueIcon} onClick={ColorPallet2} alt="" className="ml-2"
+                    //style={{display:"inline"}}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    {isActive2 &&
+                      PopupColors.map((item, index) => {
+                        return (
+                          <IconButton
                             key={index}
-                            height={"24px"}
-                            width={"24px"}
-                            bgcolor={item.color}
-                          />
-                        </IconButton>
-                      )
-                    })}
+                            type="button"
+                            value={1}
+                            onClick={() => {
+                              setUpdatedColor2(item.color);
+                              // alert("In second color pallate")
+                            }}
+                          >
+                            <Box
+                              key={index}
+                              height={"24px"}
+                              width={"24px"}
+                              bgcolor={item.color}
+                            />
+                          </IconButton>
+                        )
+                      })}
                   </Grid>
                 </Grid>
               </Grid>
@@ -356,27 +409,33 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 container={false}
               >
                 <Grid container justifyContent={"center"}>
-                  <Grid item md={12}>
-                    {PopupColors.map((item, index) => {
-                      return (
-                        <IconButton
-                          key={index}
-                          type="button"
-                          value={1}
-                          onClick={() => {
-                            setUpdatedColor3(item.color);
-                            // alert("In third color pallate")
-                          }}
-                        >
-                          <Box
+                  <Grid md={12}>
+                    <img src={trueIcon} onClick={ColorPallet3} alt="" className="ml-2"
+                    //style={{display:"inline"}}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    {isActive3 &&
+                      PopupColors.map((item, index) => {
+                        return (
+                          <IconButton
                             key={index}
-                            height={"24px"}
-                            width={"24px"}
-                            bgcolor={item.color}
-                          />
-                        </IconButton>
-                      )
-                    })}
+                            type="button"
+                            value={1}
+                            onClick={() => {
+                              setUpdatedColor3(item.color);
+                              // alert("In third color pallate")
+                            }}
+                          >
+                            <Box
+                              key={index}
+                              height={"24px"}
+                              width={"24px"}
+                              bgcolor={item.color}
+                            />
+                          </IconButton>
+                        )
+                      })}
                   </Grid>
                 </Grid>
               </Grid>
@@ -406,27 +465,33 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 container={false}
               >
                 <Grid container justifyContent={"center"}>
-                  <Grid item md={12}>
-                    {PopupColors.map((item, index) => {
-                      return (
-                        <IconButton
-                          key={index}
-                          type="button"
-                          value={1}
-                          onClick={() => {
-                            setUpdatedColor4(item.color);
-                            // alert("In fourth color pallate")
-                          }}
-                        >
-                          <Box
+                  <Grid md={12}>
+                    <img src={trueIcon} onClick={ColorPallet4} alt="" className="ml-2"
+                    //style={{display:"inline"}}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    {isActive4 &&
+                      PopupColors.map((item, index) => {
+                        return (
+                          <IconButton
                             key={index}
-                            height={"24px"}
-                            width={"24px"}
-                            bgcolor={item.color}
-                          />
-                        </IconButton>
-                      )
-                    })}
+                            type="button"
+                            value={1}
+                            onClick={() => {
+                              setUpdatedColor4(item.color);
+                              // alert("In fourth color pallate")
+                            }}
+                          >
+                            <Box
+                              key={index}
+                              height={"24px"}
+                              width={"24px"}
+                              bgcolor={item.color}
+                            />
+                          </IconButton>
+                        )
+                      })}
                   </Grid>
                 </Grid>
               </Grid>

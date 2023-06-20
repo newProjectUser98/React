@@ -18,7 +18,10 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
   const [updatedColor2, setUpdatedColor2] = useState('#F3C82F')
   const [updatedColor3, setUpdatedColor3] = useState('#F3C82F')
   const [updatedColor4, setUpdatedColor4] = useState('#F3C82F')
-  const [isActive, setIsActive] = useState(false)
+  const [isActive1, setIsActive1] = useState(false)
+  const [isActive2, setIsActive2] = useState(false)
+  const [isActive3, setIsActive3] = useState(false)
+  const [isActive4, setIsActive4] = useState(false)
   const PopupColors = [
     { color: "#6CCED9" },
     { color: "#B68FE7" },
@@ -158,11 +161,15 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
       // New code for yearlyData starts here
       axios.get(`/topicapi/${Yaxis}_yearly/`)
         .then(res => {
+          console.log('res in yearly before filtering', res.data);
           const filteredData = res.data.filter(obj => {
-            const docDate = new Date(obj.year, obj.month - 1, obj.day);
+            // const docDate = new Date(obj.year, obj.month - 1, obj.day);
+            const docDate = new Date(obj.year);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID;
           })
             .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day));
+
+          console.log('filteredData in log before', filteredData);
 
           const allYearsData = [
             { year: endYear - 2 },
@@ -219,12 +226,39 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
     // eslint-disable-next-line
     [variable, fromDate, toDate])
 
-  const ColorPallet = () => {
+  const ColorPallet1 = () => {
 
-    if (!isActive) {
-      setIsActive(true)
+    if (!isActive1) {
+      setIsActive1(true)
     } else {
-      setIsActive(false)
+      setIsActive1(false)
+    }
+  }
+
+  const ColorPallet2 = () => {
+
+    if (!isActive2) {
+      setIsActive2(true)
+    } else {
+      setIsActive2(false)
+    }
+  }
+
+  const ColorPallet3 = () => {
+
+    if (!isActive3) {
+      setIsActive3(true)
+    } else {
+      setIsActive3(false)
+    }
+  }
+
+  const ColorPallet4 = () => {
+
+    if (!isActive4) {
+      setIsActive4(true)
+    } else {
+      setIsActive4(false)
     }
   }
 
@@ -274,12 +308,12 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
 
                 <Grid container justifyContent={"center"}>
                   <Grid md={12}>
-                  <img src={trueIcon} onClick={ColorPallet} alt="" className="ml-2" 
+                    <img src={trueIcon} onClick={ColorPallet1} alt="" className="ml-2"
                     //style={{display:"inline"}}
                     />
                   </Grid>
                   <Grid item md={6}>
-                    {isActive &&
+                    {isActive1 &&
                       PopupColors.map((item, index) => {
                         return (
                           <IconButton
@@ -347,27 +381,33 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                 mt={"30px"}
               >
                 <Grid container justifyContent={"center"}>
-                  <Grid item md={12}>
-                    {PopupColors.map((item, index) => {
-                      return (
-                        <IconButton
-                          key={index}
-                          type="button"
-                          value={1}
-                          onClick={() => {
-                            setUpdatedColor2(item.color);
-                            // alert("In second color pallate")
-                          }}
-                        >
-                          <Box
+                  <Grid md={12}>
+                    <img src={trueIcon} onClick={ColorPallet2} alt="" className="ml-2"
+                    //style={{display:"inline"}}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    {isActive2 &&
+                      PopupColors.map((item, index) => {
+                        return (
+                          <IconButton
                             key={index}
-                            height={"24px"}
-                            width={"24px"}
-                            bgcolor={item.color}
-                          />
-                        </IconButton>
-                      )
-                    })}
+                            type="button"
+                            value={1}
+                            onClick={() => {
+                              setUpdatedColor2(item.color);
+                              // alert("In second color pallate")
+                            }}
+                          >
+                            <Box
+                              key={index}
+                              height={"24px"}
+                              width={"24px"}
+                              bgcolor={item.color}
+                            />
+                          </IconButton>
+                        )
+                      })}
                   </Grid>
                 </Grid>
 
@@ -416,24 +456,30 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                 mt={"30px"}
               >
                 <Grid container justifyContent={"center"}>
-                  <Grid item md={12}>
-                    {PopupColors.map((item, index) => (
-                      <IconButton
-                        key={index}
-                        type="button"
-                        onClick={() => {
-                          setUpdatedColor3(item.color);
-                          // alert("In third color pallate")
-                        }}
-                      >
-                        <Box
+                  <Grid md={12}>
+                    <img src={trueIcon} onClick={ColorPallet3} alt="" className="ml-2"
+                    //style={{display:"inline"}}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    {isActive3 &&
+                      PopupColors.map((item, index) => (
+                        <IconButton
                           key={index}
-                          height={"24px"}
-                          width={"24px"}
-                          bgcolor={item.color}
-                        />
-                      </IconButton>
-                    ))}
+                          type="button"
+                          onClick={() => {
+                            setUpdatedColor3(item.color);
+                            // alert("In third color pallate")
+                          }}
+                        >
+                          <Box
+                            key={index}
+                            height={"24px"}
+                            width={"24px"}
+                            bgcolor={item.color}
+                          />
+                        </IconButton>
+                      ))}
                   </Grid>
                 </Grid>
               </Grid>
@@ -477,24 +523,30 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                 mt={"30px"}
               >
                 <Grid container justifyContent={"center"}>
-                  <Grid item md={12}>
-                    {PopupColors.map((item, index) => (
-                      <IconButton
-                        key={index}
-                        type="button"
-                        onClick={() => {
-                          setUpdatedColor4(item.color);
-                          // alert("In fourth color pallate")
-                        }}
-                      >
-                        <Box
+                  <Grid md={12}>
+                    <img src={trueIcon} onClick={ColorPallet4} alt="" className="ml-2"
+                    //style={{display:"inline"}}
+                    />
+                  </Grid>
+                  <Grid item md={6}>
+                    {isActive4 &&
+                      PopupColors.map((item, index) => (
+                        <IconButton
                           key={index}
-                          height={"24px"}
-                          width={"24px"}
-                          bgcolor={item.color}
-                        />
-                      </IconButton>
-                    ))}
+                          type="button"
+                          onClick={() => {
+                            setUpdatedColor4(item.color);
+                            // alert("In fourth color pallate")
+                          }}
+                        >
+                          <Box
+                            key={index}
+                            height={"24px"}
+                            width={"24px"}
+                            bgcolor={item.color}
+                          />
+                        </IconButton>
+                      ))}
                   </Grid>
                 </Grid>
               </Grid>
