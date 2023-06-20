@@ -149,7 +149,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, 1);
             return (
-              docDate >= fromDateObj &&
+              // docDate >= fromDateObj &&
               docDate <= toDateObj &&
               obj.device_id === deviceID
             );
@@ -184,7 +184,11 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
           const filteredData = res.data.filter(obj => {
             // const docDate = new Date(obj.year, obj.month - 1, obj.day);
             const docDate = new Date(obj.year);
-            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID;
+            return (
+              // docDate >= fromDateObj &&
+              docDate <= toDateObj &&
+              obj.device_id === deviceID
+            )
           })
             .sort((a, b) => new Date(a.year, a.month - 1, a.day) - new Date(b.year, b.month - 1, b.day));
 
