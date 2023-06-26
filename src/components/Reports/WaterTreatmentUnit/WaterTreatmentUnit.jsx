@@ -130,7 +130,8 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
         .catch(err => console.log(err))
 
 
-      axios.get(`/topicapi/tds_consen_daily/`)
+      // axios.get(`/topicapi/tds_consen_daily/`)
+      axios.get(`/topicapi/atm_daily/`)
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
@@ -145,13 +146,15 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
           console.log('filtered data in date search', recentDocuments);
 
           const SumOfAverageWaterQualityInDisp = recentDocuments.reduce((total, document) => {
-            return total + document.tds.avg;
+            // return total + document.tds.avg;
+            return total + document.ndv.avg;
           }, 0);
 
           const numberOfDocuments = recentDocuments.length;
           const AvgOfAverageWaterQualityInDisp = SumOfAverageWaterQualityInDisp / numberOfDocuments;
 
-          console.log('sum of avg of disp_tds variable', AvgOfAverageWaterQualityInDisp);
+          // console.log('sum of avg of disp_tds variable', AvgOfAverageWaterQualityInDisp);
+          console.log('sum of avg of ndv variable', AvgOfAverageWaterQualityInDisp);
 
           setAverageWaterQualityInDisp(AvgOfAverageWaterQualityInDisp)
         })
@@ -363,7 +366,8 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
     },
     {
       // value: "240",
-      value: `${averageWaterQualityInDisp} ppm`,
+      // value: `${averageWaterQualityInDisp} ppm`,
+      value: `${averageWaterQualityInDisp} m3/hr`,
       icon: <AverageWaterQualityIcon />,
       title: "Average Water Quality",
     },

@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import trueIcon from '../../../assets/icons/ReportsIcon/SelectColorIcon.png'
 
-const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, toDate }) => {
+const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, toDate, variableFullName }) => {
 
   const [hourlyData1, setHourlyData1] = useState([])
   const [monthlyData1, setMonthlyData1] = useState([])
@@ -274,6 +274,21 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
     }
   }
 
+  const customLegend = [
+    [
+      { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor1 },
+    ],
+    [
+      { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor2 }
+    ],
+    [
+      { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor3 }
+    ],
+    [
+      { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor4 }
+    ]
+  ]
+
   return (
     <>
       {(hourlyData1.length !== 0) &&
@@ -285,7 +300,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 <XAxis dataKey="hour" fontSize={10} tickLine={false} />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
-                <Legend />
+                <Legend payload={customLegend[0]}/>
                 <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor1} dot={true} />
               </LineChart>
 
@@ -346,7 +361,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
-                <Legend />
+                <Legend payload={customLegend[1]}/>
                 <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor2} dot={true} />
               </LineChart>
 
@@ -407,7 +422,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
-                <Legend />
+                <Legend payload={customLegend[2]}/>
                 <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor3} dot={true} />
               </LineChart>
 
@@ -463,7 +478,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 <XAxis dataKey="year" fontSize={10} tickLine={false} />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
-                <Legend />
+                <Legend payload={customLegend[3]}/>
                 <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor4} dot={true} />
               </LineChart>
 

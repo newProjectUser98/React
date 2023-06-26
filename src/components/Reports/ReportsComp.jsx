@@ -13,7 +13,10 @@ const ReportsComp = () => {
   const [Yaxis, setYaxis] = useState("");
 
   return (
-    <Grid className="sm:p-[30px] p-5">
+    <Grid 
+    // className="sm:p-[30px] p-5"
+    className="sm:p-[30px] p-5"
+    >
       <Grid>
         <Search deviceID={deviceID} setDeviceID={setDeviceID} selectSiteName={selectSiteName} setSelectSiteName={setSelectSiteName}
         fromDate={fromDate} setFromDate={setFromDate}

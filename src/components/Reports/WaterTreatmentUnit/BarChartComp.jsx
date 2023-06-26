@@ -8,7 +8,7 @@ import {
 import { XAxis, BarChart, Bar, YAxis, Tooltip, Legend } from "recharts";
 import trueIcon from '../../../assets/icons/ReportsIcon/SelectColorIcon.png'
 
-const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }) => {
+const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate, variableFullName }) => {
 
   const [hourlyData, setHourlyData] = useState([])
   const [monthlyData, setMonthlyData] = useState([])
@@ -272,6 +272,21 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
     }
   }
 
+  const customLegend = [
+  [
+    { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor1 },
+  ],
+  [
+    { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor2 }
+  ],
+  [
+    { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor3 }
+  ],
+  [
+    { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor4 }
+  ]
+]
+
   return (
     <>
 
@@ -291,7 +306,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                 <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
                 <Tooltip />
-                <Legend />
+                <Legend payload={customLegend[0]}/>
 
                 <defs>
                   <linearGradient id={"chartLG" + updatedColor1} x2="0" y2="100%">
@@ -367,7 +382,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                 <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
                 <Tooltip />
-                <Legend />
+                <Legend payload={customLegend[1]}/>
 
                 <defs>
                   <linearGradient id={"chartLG" + updatedColor2} x2="0" y2="100%">
@@ -443,7 +458,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                 <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
                 <Tooltip />
-                <Legend />
+                <Legend payload={customLegend[2]}/>
 
                 <defs>
                   <linearGradient id={"chartLG" + updatedColor3} x2="0" y2="100%">
@@ -510,7 +525,7 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate }
                 <YAxis fontSize={10} axisLine={false} tickLine={false} />
 
                 <Tooltip />
-                <Legend />
+                <Legend payload={customLegend[3]}/>
 
                 <defs>
                   <linearGradient id={"chartLG" + updatedColor4} x2="0" y2="100%">

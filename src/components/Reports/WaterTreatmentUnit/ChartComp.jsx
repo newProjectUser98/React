@@ -14,6 +14,7 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [variable, setVariable] = useState("")
   const [graphData, setGraphData] = useState("")
+  const [variableFullName, setVariableFullName] = useState("");
 
   const handleChecked = () => {
     setChecked(!checked);
@@ -40,6 +41,8 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
           graphData={graphData}
           setGraphData={setGraphData}
           value={value}
+          setVariableFullName={setVariableFullName}
+          variableFullName={variableFullName}
         />
       </Grid>
 
@@ -58,7 +61,7 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
             setUpdatedColor={setUpdatedColor} setUpdatedIndex={setUpdatedIndex} checked={checked}
             Yaxis={Yaxis} variable={variable} deviceID={deviceID} graphData={graphData}
             initialColor={initialColor} updatedColor={updatedColor}
-            fromDate={fromDate} toDate={toDate}/>
+            fromDate={fromDate} toDate={toDate} variableFullName={variableFullName}/>
           {/* ))} */}
         </Grid>
       )}
@@ -132,6 +135,7 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
               initialColor={initialColor}
               updatedColor={updatedColor}
               fromDate={fromDate} toDate={toDate}
+              variableFullName={variableFullName}
             />
           {/* ))} */}
         </ReactSimplyCarousel>
@@ -143,7 +147,7 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
 export default ChartComp;
 
 const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, variable, 
-  deviceID, graphData, initialColor, updatedColor, fromDate, toDate}) => {
+  deviceID, graphData, initialColor, updatedColor, fromDate, toDate, variableFullName}) => {
 
   return (
     <Grid
@@ -173,6 +177,7 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, 
           setUpdatedIndex={setUpdatedIndex}
           updatedColor={updatedColor}
           fromDate={fromDate} toDate={toDate}
+          variableFullName={variableFullName}
           />
         ) : (
           <BarChartComp 
@@ -187,6 +192,7 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, 
           setUpdatedIndex={setUpdatedIndex}
           updatedColor={updatedColor}
           fromDate={fromDate} toDate={toDate}
+          variableFullName={variableFullName}
           />
         )}
       </Grid>

@@ -188,7 +188,7 @@ export default function BasicTable({ Yaxis, deviceID }) {
             </TableHead>
 
             <TableBody>
-            {console.log('Rendering tabData:', tabData)}
+              {console.log('Rendering tabData:', tabData)}
               {tabData.slice().reverse().map((doc, index) => (
                 <TableRow key={index} sx={{ height: "80px" }}>
                   <TableCell>
@@ -210,7 +210,7 @@ export default function BasicTable({ Yaxis, deviceID }) {
                             fontSize="14px"
                             fontFamily="Poppins"
                           >
-                            {value}
+                            {value === 0 || value === "" ? "------" : value}
                           </Typography>
                         </TableCell>
                       );

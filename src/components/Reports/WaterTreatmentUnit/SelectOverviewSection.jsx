@@ -21,7 +21,8 @@ import Popup from "../../../hoc/Popup/Popup";
 import AddGraph from "./AddGraph";
 
 
-const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variable, setVariable, setGraphData, graphData, value }) => {
+const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variable, setVariable, setGraphData, graphData, value, 
+  setVariableFullName, variableFullName }) => {
 
   const [openPopup, setOpenPopup] = useState(false);
   const [component, setComponent] = useState([])
@@ -374,6 +375,13 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
     // eslint-disable-next-line
     [])
 
+    
+
+    const handleMenuItemClick = (itemName) => {
+      setVariableFullName(itemName);
+    };
+    console.log("variableFullName",variableFullName);
+
 
   return (
     <Grid
@@ -466,7 +474,7 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
 
               {comp_variables.map((item) => {
                 return (
-                  <MenuItem value={item.value}>{item.name}</MenuItem>
+                  <MenuItem value={item.value} onClick={() => handleMenuItemClick(item.name)}>{item.name}</MenuItem>
                 )
               })}
 
