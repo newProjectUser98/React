@@ -7,18 +7,12 @@ import axios from 'axios';
 const Notification = () => {
     const [data, setData] = useState([])
     const userData = JSON.parse(localStorage.getItem('user'));
-    useEffect(() => {
-        axios.get("/api/last-records/").then((resp) => {
-            console.log("resp", resp.data);
-            setData(resp.data)
-        }).catch((err) => {
-            console.log("err", err);
-        })
-    }, [])
+
 
     useEffect(() => {
         const fetchData = () => {
             axios.get("/api/last-records/").then((resp) => {
+                setData(resp.data)
                 const firstRecord = resp.data[0];
                 let updated_time_error = localStorage.getItem("updated_time_error")
                 // eslint-disable-next-line
@@ -75,14 +69,14 @@ const Notification = () => {
                                                                     <div className="flex">
                                                                         {/* <p className='text-xs font-semibold mb-2'>Site name</p>
                                                                         <p className='text-xs font-semibold mb-2'>3 min ago</p> */}
-                                                                        <p className='text-xs font-semibold mb-2'>{userData?.company_name}&nbsp;</p>
+                                                                        <p className='text-xs font-semibold mb-2'>{userData?.username}&nbsp;</p>
                                                                         <p className='text-xs font-semibold mb-2'> {item.created_at.slice(0, 10)} &nbsp;{`${item.hour}:${item.minit}:${item.second}`}</p>
                                                                     </div>
                                                                     <div className="flex">
                                                                         <p className='text-sm font-normal my-2'>Alert</p>
                                                                     </div>
                                                                     <div className="flex">
-                                                                        <p className='text-sm font-normal mt-2'>{userData?.company_name} - {item.service} - {item.e_discriptions}</p>
+                                                                        <p className='text-sm font-normal mt-2'>{userData?.username} - {item.service} - {item.e_discriptions}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -96,7 +90,7 @@ const Notification = () => {
                                 })
                             }
                         </Grid >
-                        
+
                     </div>
                 </div>
             </Paper>

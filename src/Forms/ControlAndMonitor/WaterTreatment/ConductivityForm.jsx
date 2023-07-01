@@ -5,11 +5,6 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 
-let CNDTDS = [
-    { value: "cnd", label: "Conductivity" },
-    { value: "tds", label: "TDS" }
-]
-
 const ConductivityForm = ({ intervalTime }) => {
     // eslint-disable-next-line
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_cnd_sen'))
@@ -28,7 +23,6 @@ const ConductivityForm = ({ intervalTime }) => {
 
     let componentsJSON = localStorage.getItem("components");
     let components = JSON.parse(componentsJSON);
-    console.log("components ==>", changeConductivity);
 
     const initialValues = {
         spn: 330,
@@ -48,15 +42,7 @@ const ConductivityForm = ({ intervalTime }) => {
                 }
                 console.log(newData);
                 axios.post("/topicapi/updated_treat_cnd_sen/", newData).then((resp) => {
-                    // if (cnd === undefined && spn === undefined && tsp === undefined && asp === undefined) {
-                    //     let localStorage_data_cnd_sen = {
-                    //         cnd: resp.data[0].data.data_sta.cnd,
-                    //         spn: resp.data[0].data.data_set.spn,
-                    //         tsp: resp.data[0].data.data_set.tsp,
-                    //         asp: resp.data[0].data.data_set.asp,
-                    //     }
-                    //     localStorage.setItem("localStorage_data_cnd_sen", JSON.stringify(localStorage_data_cnd_sen));
-                    // }
+
                     // Retrieve data from localStorage
                     let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_cnd_sen"));
 
@@ -103,9 +89,9 @@ const ConductivityForm = ({ intervalTime }) => {
                         }
                         setIsLoading(false);
                         if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                            alert("Device State Data Updated Successfully")
+                            alert(`Device state of cnd_sen component is updated successfully`)
                         } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                            alert("Device Setting Data Updated Successfully")
+                            alert(`Device setting of cnd_sen component is updated successfully`)
                         }
                         localStorage.setItem('updated_time_cnd_sen_state', resp.data[0].data.data_sta.updated_at);
                         localStorage.setItem('updated_time_cnd_sen_settings', resp.data[0].data.data_set.updated_at);
@@ -132,17 +118,8 @@ const ConductivityForm = ({ intervalTime }) => {
                     "company_name": userData.company_name,
                     "componant_name": "tds_sen",
                 }
-                console.log(newData);
                 axios.post("/topicapi/updated_treat_tds_sen/", newData).then((resp) => {
-                    // if (cnd === undefined && spn === undefined && tsp === undefined && asp === undefined) {
-                    // let localStorage_data_cnd_sen = {
-                    //     tds: resp.data[0].data.data_sta.tds,
-                    //     spn: resp.data[0].data.data_set.spn,
-                    //     tsp: resp.data[0].data.data_set.tsp,
-                    //     asp: resp.data[0].data.data_set.asp,
-                    // }
-                    // localStorage.setItem("localStorage_data_cnd_sen", JSON.stringify(localStorage_data_cnd_sen));
-                    // }
+
                     // Retrieve data from localStorage
                     let localStorageDataTdsSen = JSON.parse(localStorage.getItem("localStorage_data_tds_sen"));
 
@@ -189,9 +166,9 @@ const ConductivityForm = ({ intervalTime }) => {
                         }
                         setIsLoading(false);
                         if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                            alert("Device State Data Updated Successfully")
+                            alert(`Device state of tds_sen component is updated successfully`)
                         } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                            alert("Device Setting Data Updated Successfully")
+                            alert(`Device setting of tds_sen component is updated successfully`)
                         }
                         localStorage.setItem('updated_time_tds_sen_state', resp.data[0].data.data_sta.updated_at);
                         localStorage.setItem('updated_time_tds_sen_settings', resp.data[0].data.data_set.updated_at);
@@ -210,24 +187,14 @@ const ConductivityForm = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        // let newData = {
-        //     company_name: userData.company_name,
-        //     unit_type: "water_treatment",
-        //     componant_name: "cnd_sen",
-        //     spn: spn,
-        //     tsp: tsp,
-        //     asp: asp,
-        // }
-        // axios.post("/topicapi/get_device_id/", newData).then((resp) => {
-        //     console.log("resp", resp);
+
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: changeConductivity === 'cnd' ? "cnd_sen" : "tds_sen",
             spn: spn,
             tsp: tsp,
-            asp: asp,
-            // device_id: resp?.data[0]?.data?.Device_id
+            asp: asp
         }
         changeConductivity === 'cnd' ?
             axios.post('/topicapi/cnd_setting/', newData, {
@@ -269,9 +236,7 @@ const ConductivityForm = ({ intervalTime }) => {
                     alert("Please enter valid credentials")
                 }
             })
-        // }).catch((error) => {
-        //     console.log("error", error);
-        // })
+
 
     }
     return (
@@ -295,13 +260,9 @@ const ConductivityForm = ({ intervalTime }) => {
             <div className="flex items-center py-3">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <select name="ntp" id="ntp" className='w-52 p-3 border rounded' value={changeConductivity} onChange={(e) => setChangeConductivity(e.target.value)}>
-                    {
-                        CNDTDS.map((options) => {
-                            return (
-                                <option value={options.value}>{options.label}</option>
-                            )
-                        })
-                    }
+
+                    <option value={changeConductivity}>{changeConductivity === "cnd" ? "Conductivity" : "TDS"}</option>
+
                 </select>
                 {
                     // changeConductivity === 'conductivity' ?

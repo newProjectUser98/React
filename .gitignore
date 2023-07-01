@@ -3,6 +3,10 @@
 .env
 # dependencies
 /node_modules
+#Have to remove these files from here after some time
+/src/Forms/ControlAndMonitor/Dispensing/Conductivity2Form.jsx
+/src/Forms/ControlAndMonitor/WaterTreatment/ConductivityForm.jsx
+/src/App.js
 /.pnp
 .pnp.js
 
