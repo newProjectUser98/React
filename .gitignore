@@ -22,3 +22,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+#Have to remove these files from here after some time
+/src/Forms/ControlAndMonitor/Dispensing/Conductivity2Form.jsx
+/src/Forms/ControlAndMonitor/WaterTreatment/ConductivityForm.jsx
+/src/App.js

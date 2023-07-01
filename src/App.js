@@ -52,12 +52,12 @@ function App() {
     axios.defaults.baseURL =
       window.location.origin === "http://localhost:3000"
         ? "http://127.0.0.1:8000"
-        : "http://13.126.84.134:8000";
+        : "http://127.0.0.1:8000";
 
     let wsUrl =
       window.location.origin === "http://localhost:3000"
         ? "127.0.0.1:8000"
-        : "13.126.84.134";
+        : "127.0.0.1:8000";
     const ws = new WebSocket(`ws://${wsUrl}/ws/chat/`);
 
     ws.onopen = function () {

@@ -38,7 +38,7 @@ const FeedFlowSensor2Form = ({intervalTime}) => {
                     if (resp.data[0].data.data_sta.fr != 0) {
                         setFr(resp.data[0].data.data_sta.fr)
                     }
-                    alert("Device state Data Updated Successfully")
+                    alert(`Device state of flowsen2 component is updated successfully`)
                 }
                 localStorage.setItem('updated_time_flowsen2_state', resp.data[0].data.data_sta.updated_at);
             }).catch((err) => {

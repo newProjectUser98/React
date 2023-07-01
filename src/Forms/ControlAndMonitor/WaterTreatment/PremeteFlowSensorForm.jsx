@@ -58,9 +58,9 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                     }
                     setIsLoading(false);
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                        alert("Device State Data Updated Successfully")
+                        alert(`Device state of P_flowsen component is updated successfully`)
                     } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        alert("Device Setting Data Updated Successfully")
+                        alert(`Device setting of P_flowsen component is updated successfully`)
                     }
                     localStorage.setItem('updated_time_P_flowsen_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_P_flowsen_settings', resp.data[0].data.data_set.updated_at);

@@ -5,10 +5,6 @@ import axios from 'axios';
 import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 
-let CNDTDS = [
-    { value: "cnd", label: "Conductivity" },
-    { value: "tds", label: "TDS" }
-]
 const Conductivity2Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_cnd_consen'))
 
@@ -34,7 +30,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                     "componant_name": "cnd_consen",
                 }
                 axios.post("/topicapi/updated_disp_cnd_consen/", newData).then((resp) => {
-                  
+
                     // Retrieve data from localStorage
                     let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_cnd_consen"));
 
@@ -75,9 +71,9 @@ const Conductivity2Form = ({ intervalTime }) => {
 
                         setIsLoading(false);
                         if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                            alert("Device State Data Updated Successfully")
+                            alert(`Device state of cnd_consen component is updated successfully`)
                         } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                            alert("Device Setting Data Updated Successfully")
+                            alert(`Device setting of cnd_consen component is updated successfully`)
                         }
                         localStorage.setItem('updated_time_cnd_consen_state', resp.data[0].data.data_sta.updated_at);
                         localStorage.setItem('updated_time_cnd_consen_settings', resp.data[0].data.data_set.updated_at);
@@ -106,7 +102,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                     "componant_name": "tds_consen",
                 }
                 axios.post("/topicapi/updated_disp_tds_consen/", newData).then((resp) => {
-                
+
                     // Retrieve data from localStorage
                     let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_tds_consen"));
 
@@ -147,9 +143,9 @@ const Conductivity2Form = ({ intervalTime }) => {
 
                         setIsLoading(false);
                         if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                            alert("Device State Data Updated Successfully")
+                            alert(`Device state of tds_consen component is updated successfully`)
                         } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                            alert("Device Setting Data Updated Successfully")
+                            alert(`Device setting of tds_consen component is updated successfully`)
                         }
                         localStorage.setItem('updated_time_tds_consen_state', resp.data[0].data.data_sta.updated_at);
                         localStorage.setItem('updated_time_tds_consen_settings', resp.data[0].data.data_set.updated_at);
@@ -262,13 +258,9 @@ const Conductivity2Form = ({ intervalTime }) => {
             <div className="flex items-center py-3">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
                 <select name="ntp" id="ntp" className='w-40 px-2 py-2 border rounded' value={changeConductivityDis} onChange={(e) => setChangeConductivityDis(e.target.value)}>
-                    {
-                        CNDTDS.map((options) => {
-                            return (
-                                <option value={options.value}>{options.label}</option>
-                            )
-                        })
-                    }
+
+                    <option value={changeConductivityDis}>{changeConductivityDis === "cnd" ? "Conductivity" : "TDS"}</option>
+
                 </select>
 
                 {
@@ -294,7 +286,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                                     <p className='w-40 my-2 '>Span</p>
                                     <Field disabled={!editSetting} type="text" name="spn" value={spn} onChange={(e) => setSpn(e.target.value)} id="spn" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
                                 </div>
-                            
+
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Alert Setpoint</p>
