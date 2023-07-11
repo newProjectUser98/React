@@ -16,7 +16,7 @@ const Notification = () => {
                 company_name: userData.company_name,
                 site_name: userData.site_name
             }
-            axios.post("/api/last-records/", newData).then((resp) => {
+            axios.post("/topicapi/last-records/", newData).then((resp) => {
                 setData(resp.data)
                 const firstRecord = resp.data[0];
                 let updated_time_error = localStorage.getItem("updated_time_error")
