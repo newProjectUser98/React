@@ -53,7 +53,8 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_dispense",
                 company_name: userData.company_name,
-                componant_name: "atm"
+                componant_name: "atm",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
 
@@ -228,6 +229,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
             re3: re3,
             re4: re4,
             ntt: ntt,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {

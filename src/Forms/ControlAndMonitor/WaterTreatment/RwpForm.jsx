@@ -9,7 +9,7 @@ import BackdropComp from '../../../hoc/Backdrop/Backdrop';
 import { useNavigate } from 'react-router-dom';
 const RwpForm = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_rwp'))
-
+    
     const [statusVal, setStatusVal] = useState(localStorageData?.statusVal)
     const [editState, setEditState] = useState(false)
     const [editSetting, setEditSetting] = useState(false)
@@ -28,7 +28,8 @@ const RwpForm = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "rwp"
+                componant_name: "rwp",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_rwp/", newData).then((resp) => {
 
@@ -121,12 +122,13 @@ const RwpForm = ({ intervalTime }) => {
 
     const onSubmitState = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
- 
+
         let newData = {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: "rwp",
             sts: statusVal === true ? "on" : "off",
+            site_name: userData.site_name
         };
 
         setTimeout(() => {
@@ -162,6 +164,7 @@ const RwpForm = ({ intervalTime }) => {
             olc: olc,
             spn: spn,
             drc: drc,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {

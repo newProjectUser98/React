@@ -23,7 +23,8 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "P_flowsen"
+                componant_name: "P_flowsen",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_P_flowsen/", newData).then((resp) => {
 
@@ -89,6 +90,7 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
             unit_type: "water_treatment",
             componant_name: "P_flowsen",
             ff: ff2,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {

@@ -28,6 +28,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                     "unit_type": "water_dispense",
                     "company_name": userData.company_name,
                     "componant_name": "cnd_consen",
+                    site_name: userData.site_name
                 }
                 axios.post("/topicapi/updated_disp_cnd_consen/", newData).then((resp) => {
 
@@ -100,6 +101,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                     "unit_type": "water_dispense",
                     "company_name": userData.company_name,
                     "componant_name": "tds_consen",
+                    site_name: userData.site_name
                 }
                 axios.post("/topicapi/updated_disp_tds_consen/", newData).then((resp) => {
 
@@ -177,6 +179,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                 componant_name: "cnd_consen",
                 spn: spn,
                 asp: asp,
+                site_name: userData.site_name
             };
             setTimeout(() => {
                 axios.post('/topicapi/cnd_consen_setting/', newData, {
@@ -209,6 +212,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                 componant_name: "tds_consen",
                 spn: spn,
                 asp: asp,
+                site_name: userData.site_name
             };
             setTimeout(() => {
                 axios.post('/topicapi/tds_consen_setting/', newData, {

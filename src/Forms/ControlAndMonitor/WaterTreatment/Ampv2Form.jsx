@@ -74,7 +74,8 @@ const Ampv2Form = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "ampv2"
+                componant_name: "ampv2",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_ampv2/", newData).then((resp) => {
 
@@ -255,6 +256,7 @@ const Ampv2Form = ({ intervalTime }) => {
             unit_type: "water_treatment",
             componant_name: "ampv2",
             pos: pos,
+            site_name: userData.site_name
         }
         console.log("newData in state++>", newData);
         axios.post('/topicapi/ampv2_state/', newData, {
@@ -301,6 +303,7 @@ const Ampv2Form = ({ intervalTime }) => {
             op1: op1,
             op2: op2,
             op3: op3,
+            site_name: userData.site_name
         }
         axios.post('/topicapi/ampv2_setting/', newData, {
             headers: {

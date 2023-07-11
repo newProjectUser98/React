@@ -93,7 +93,8 @@ const RoiPanelForm = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "panel"
+                componant_name: "panel",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
 
@@ -277,6 +278,7 @@ const RoiPanelForm = ({ intervalTime }) => {
             srt: `${srt1}:${srt2}`,
             bkt: bkt,
             rst: rst,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {

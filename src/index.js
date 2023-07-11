@@ -20,7 +20,8 @@ var user = {
   "company_name": "initiative",
   "gst_no": "123456789987654",
   "address1": "pune",
-  "address2": ""
+  "address2": "",
+  "site_name":"test_site"
 };
 
 localStorage.setItem('user', JSON.stringify(user));

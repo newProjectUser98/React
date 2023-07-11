@@ -24,7 +24,8 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "F_flowsen"
+                componant_name: "F_flowsen",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_F_flowsen/", newData).then((resp) => {
                 // Retrieve data from localStorage
@@ -88,6 +89,7 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
             unit_type: "water_treatment",
             componant_name: "F_flowsen",
             ff: ff1,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {

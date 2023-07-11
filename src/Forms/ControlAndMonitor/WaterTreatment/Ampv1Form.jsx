@@ -74,7 +74,8 @@ const Ampv1Form = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "ampv1"
+                componant_name: "ampv1",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_ampv1/", newData).then((resp) => {
                 // Retrieve data from localStorage
@@ -251,6 +252,7 @@ const Ampv1Form = ({ intervalTime }) => {
             unit_type: "water_treatment",
             componant_name: "ampv1",
             pos: pos,
+            site_name: userData.site_name
         }
         axios.post('/topicapi/ampv1_state/', newData, {
             headers: {
@@ -294,6 +296,7 @@ const Ampv1Form = ({ intervalTime }) => {
             op1: op1,
             op2: op2,
             op3: op3,
+            site_name: userData.site_name
         }
         axios.post('/topicapi/ampv1_setting/', newData, {
             headers: {

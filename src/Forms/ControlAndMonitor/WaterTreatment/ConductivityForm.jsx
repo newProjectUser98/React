@@ -39,6 +39,7 @@ const ConductivityForm = ({ intervalTime }) => {
                     "unit_type": "water_treatment",
                     "company_name": userData.company_name,
                     "componant_name": "cnd_sen",
+                    "site_name": userData.site_name
                 }
                 console.log(newData);
                 axios.post("/topicapi/updated_treat_cnd_sen/", newData).then((resp) => {
@@ -117,6 +118,7 @@ const ConductivityForm = ({ intervalTime }) => {
                     "unit_type": "water_treatment",
                     "company_name": userData.company_name,
                     "componant_name": "tds_sen",
+                    "site_name": userData.site_name
                 }
                 axios.post("/topicapi/updated_treat_tds_sen/", newData).then((resp) => {
 
@@ -194,7 +196,8 @@ const ConductivityForm = ({ intervalTime }) => {
             componant_name: changeConductivity === 'cnd' ? "cnd_sen" : "tds_sen",
             spn: spn,
             tsp: tsp,
-            asp: asp
+            asp: asp,
+            site_name: userData.site_name
         }
         changeConductivity === 'cnd' ?
             axios.post('/topicapi/cnd_setting/', newData, {

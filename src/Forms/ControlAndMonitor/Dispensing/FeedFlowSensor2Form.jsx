@@ -13,7 +13,8 @@ const FeedFlowSensor2Form = ({intervalTime}) => {
             let newData = {
                 unit_type: "water_dispense",
                 company_name: userData.company_name,
-                componant_name: "flowsen2"
+                componant_name: "flowsen2",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_disp_flowsen2/", newData).then((resp) => {
                

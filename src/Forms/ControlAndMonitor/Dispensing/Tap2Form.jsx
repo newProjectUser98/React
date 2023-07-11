@@ -24,7 +24,8 @@ const Tap2Form = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_dispense",
                 company_name: userData.company_name,
-                componant_name: "tap2"
+                componant_name: "tap2",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_disp_tap2/", newData).then((resp) => {
 
@@ -108,6 +109,7 @@ const Tap2Form = ({ intervalTime }) => {
             p2: p2,
             p3: p3,
             p4: p4,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {
