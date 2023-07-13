@@ -39,8 +39,8 @@ const Tap4Form = ({ intervalTime }) => {
                 }
 
                 // Update the variables with new values if they are not zero
-                if (resp.data[0].data.data_sta.p1 !== 0) {
-                    localStorageDataTap4.p1 = resp.data[0].data.data_sta.p1;
+                if (resp.data[0].data.data_set.p1 !== 0) {
+                    localStorageDataTap4.p1 = resp.data[0].data.data_set.p1;
                 }
 
                 if (resp.data[0].data.data_set.p2 !== 0) {
