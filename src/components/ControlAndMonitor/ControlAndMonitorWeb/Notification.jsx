@@ -18,6 +18,7 @@ const Notification = () => {
             }
             axios.post("/topicapi/last-records/", newData).then((resp) => {
                 setData(resp.data)
+                
                 const firstRecord = resp.data[0];
                 let updated_time_error = localStorage.getItem("updated_time_error")
                 // eslint-disable-next-line
@@ -81,7 +82,7 @@ const Notification = () => {
                                                                         <p className='text-sm font-normal my-2'>Alert</p>
                                                                     </div>
                                                                     <div className="flex">
-                                                                        <p className='text-sm font-normal mt-2'>{userData?.username} - {item.service} - {item.e_discriptions}</p>
+                                                                        <p className='text-sm font-normal mt-2'>{item.e_discriptions}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
