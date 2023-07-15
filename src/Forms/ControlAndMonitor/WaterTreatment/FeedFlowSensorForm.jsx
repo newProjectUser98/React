@@ -88,7 +88,7 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: "F_flowsen",
-            ff: ff1,
+            ff1: ff1,
             site_name: userData.site_name
         };
 
