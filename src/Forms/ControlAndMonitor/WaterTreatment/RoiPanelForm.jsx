@@ -83,7 +83,7 @@ const RoiPanelForm = ({ intervalTime }) => {
         unv: 180,
         ovv: 280,
         spn: 330,
-        srt: "99:59",
+        srt: "9959",
         bkt: 99,
         rst: 99,
     };
@@ -163,9 +163,10 @@ const RoiPanelForm = ({ intervalTime }) => {
                 }
                 if (resp.data[0].data.data_set.srt !== "") {
                     let time = resp.data[0].data.data_set.srt;
-                    let SplitTime = time.split(':');
-                    localStorageData.srt1 = SplitTime[0];
-                    localStorageData.srt2 = SplitTime[1];
+                    const hours = Math.floor(time / 60);
+                    const minutes = time % 60;
+                    localStorageData.srt1 = hours;
+                    localStorageData.srt2 = minutes;
                 }
 
                 if (resp.data[0].data.data_set.bkt !== 0) {
@@ -219,9 +220,10 @@ const RoiPanelForm = ({ intervalTime }) => {
                     }
                     if (resp.data[0].data.data_set.srt != "") {
                         let time = resp.data[0].data.data_set.srt
-                        let SplitTime = time?.toString().split(':')
-                        setSrt1(parseInt(SplitTime[0]))
-                        setSrt2(parseInt(SplitTime[1]))
+                        const hours = Math.floor(time / 60);
+                        const minutes = time % 60;
+                        setSrt1(parseInt(hours))
+                        setSrt2(parseInt(minutes))
                     }
                     if (resp.data[0].data.data_set.unv != 0) {
                         setUnv(resp.data[0].data.data_set.unv)

@@ -120,9 +120,10 @@ const Ampv1Form = ({ intervalTime }) => {
                 }
                 if (resp.data[0].data.data_set.srt !== "") {
                     let time = resp.data[0].data.data_set.srt;
-                    let SplitTime = time.split(':');
-                    localStorageData.srt1 = SplitTime[0];
-                    localStorageData.srt2 = SplitTime[1];
+                    const hours = Math.floor(time / 60);
+                    const minutes = time % 60;
+                    localStorageData.srt1 = hours;
+                    localStorageData.srt2 = minutes;
                 }
 
                 if (resp.data[0].data.data_set.bkt !== 0) {
@@ -197,9 +198,10 @@ const Ampv1Form = ({ intervalTime }) => {
                     }
                     if (resp.data[0].data.data_set.srt != 0) {
                         let time = resp.data[0].data.data_set.srt
-                        let SplitTime = time?.toString().split(':')
-                        setSrt1(parseInt(SplitTime[0]))
-                        setSrt2(parseInt(SplitTime[1]))
+                        const hours = Math.floor(time / 60);
+                        const minutes = time % 60;
+                        setSrt1(parseInt(hours))
+                        setSrt2(parseInt(minutes))
                     }
                     if (resp.data[0].data.data_set.stp != "") {
                         setStp(resp.data[0].data.data_set.stp)

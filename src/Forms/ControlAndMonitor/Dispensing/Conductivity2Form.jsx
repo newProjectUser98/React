@@ -15,148 +15,73 @@ const Conductivity2Form = ({ intervalTime }) => {
     const [spn, setSpn] = React.useState(localStorageData?.spn);
     const [asp, setAsp] = React.useState(localStorageData?.asp);
     const [cnd, setCnd] = React.useState(localStorageData?.cnd);
-    const [tds, setTds] = React.useState(localStorageData?.tds);
 
     const navigate = useNavigate();
     let access_token = localStorage.getItem("access_token")
     useEffect(() => {
         const fetchData = () => {
             const userData = JSON.parse(localStorage.getItem('user'));
-            if (changeConductivityDis === "cnd") {
-                localStorage.setItem("component_Name", "cnd_consen")
-                let newData = {
-                    "unit_type": "water_dispense",
-                    "company_name": userData.company_name,
-                    "componant_name": "cnd_consen",
-                    site_name: userData.site_name
-                }
-                axios.post("/topicapi/updated_disp_cnd_consen/", newData).then((resp) => {
-
-                    // Retrieve data from localStorage
-                    let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_cnd_consen"));
-
-                    // Check if localStorageData exists and has values
-                    if (!localStorageData) {
-                        localStorageData = {};
-                    }
-
-                    // Update the variables with new values if they are not zero
-                    if (resp.data[0].data.data_sta.cnd !== 0) {
-                        localStorageData.cnd = resp.data[0].data.data_sta.cnd;
-                    }
-
-                    if (resp.data[0].data.data_set.spn !== 0) {
-                        localStorageData.spn = resp.data[0].data.data_set.spn;
-                    }
-
-                    if (resp.data[0].data.data_set.asp !== 0) {
-                        localStorageData.asp = resp.data[0].data.data_set.asp;
-                    }
-
-                    // Store the updated data in localStorage
-                    localStorage.setItem("localStorage_data_cnd_consen", JSON.stringify(localStorageData));
-
-                    let updated_Time_state = localStorage.getItem("updated_time_cnd_consen_state")
-                    let updated_Time_settng = localStorage.getItem("updated_time_cnd_consen_settings")
-
-                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        if (resp.data[0].data.data_sta.cnd != 0) {
-                            setCnd(resp.data[0].data.data_sta.cnd)
-                        }
-                        if (resp.data[0].data.data_set.spn != 0) {
-                            setSpn(resp.data[0].data.data_set.spn)
-                        }
-                        if (resp.data[0].data.data_set.asp != 0) {
-                            setAsp(resp.data[0].data.data_set.asp)
-                        }
-
-                        setIsLoading(false);
-                        if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                            alert(`Device state of cnd_consen component is updated successfully`)
-                        } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                            alert(`Device setting of cnd_consen component is updated successfully`)
-                        }
-                        localStorage.setItem('updated_time_cnd_consen_state', resp.data[0].data.data_sta.updated_at);
-                        localStorage.setItem('updated_time_cnd_consen_settings', resp.data[0].data.data_set.updated_at);
-                    }
-                }).catch((err) => {
-                    console.log("err", err);
-                })
-
+            localStorage.setItem("component_Name", "cnd_consen")
+            let newData = {
+                "unit_type": "water_dispense",
+                "company_name": userData.company_name,
+                "componant_name": "cnd_consen",
+                site_name: userData.site_name
             }
-        }
-        fetchData();
-        const intervalId = setInterval(fetchData, intervalTime);
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, [intervalTime, changeConductivityDis]);
+            axios.post("/topicapi/updated_disp_cnd_consen/", newData).then((resp) => {
 
-    useEffect(() => {
-        const fetchData = () => {
-            const userData = JSON.parse(localStorage.getItem('user'));
-            if (changeConductivityDis === "tds") {
-                localStorage.setItem("component_Name", "tds_consen")
-                let newData = {
-                    "unit_type": "water_dispense",
-                    "company_name": userData.company_name,
-                    "componant_name": "tds_consen",
-                    site_name: userData.site_name
+                // Retrieve data from localStorage
+                let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_cnd_consen"));
+
+                // Check if localStorageData exists and has values
+                if (!localStorageData) {
+                    localStorageData = {};
                 }
-                axios.post("/topicapi/updated_disp_tds_consen/", newData).then((resp) => {
 
-                    // Retrieve data from localStorage
-                    let localStorageData = JSON.parse(localStorage.getItem("localStorage_data_tds_consen"));
+                // Update the variables with new values if they are not zero
+                if (resp.data[0].data.data_sta.cnd !== 0) {
+                    localStorageData.cnd = resp.data[0].data.data_sta.cnd;
+                }
 
-                    // Check if localStorageData exists and has values
-                    if (!localStorageData) {
-                        localStorageData = {};
+                if (resp.data[0].data.data_set.spn !== 0) {
+                    localStorageData.spn = resp.data[0].data.data_set.spn;
+                }
+
+                if (resp.data[0].data.data_set.asp !== 0) {
+                    localStorageData.asp = resp.data[0].data.data_set.asp;
+                }
+
+                // Store the updated data in localStorage
+                localStorage.setItem("localStorage_data_cnd_consen", JSON.stringify(localStorageData));
+
+                let updated_Time_state = localStorage.getItem("updated_time_cnd_consen_state")
+                let updated_Time_settng = localStorage.getItem("updated_time_cnd_consen_settings")
+
+                if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                    if (resp.data[0].data.data_sta.cnd != 0) {
+                        setCnd(resp.data[0].data.data_sta.cnd)
+                    }
+                    if (resp.data[0].data.data_set.spn != 0) {
+                        setSpn(resp.data[0].data.data_set.spn)
+                    }
+                    if (resp.data[0].data.data_set.asp != 0) {
+                        setAsp(resp.data[0].data.data_set.asp)
                     }
 
-                    // Update the variables with new values if they are not zero
-                    if (resp.data[0].data.data_sta.tds !== 0) {
-                        localStorageData.tds = resp.data[0].data.data_sta.tds;
+                    setIsLoading(false);
+                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
+                        alert(`Device state of cnd_consen component is updated successfully`)
+                    } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
+                        alert(`Device setting of cnd_consen component is updated successfully`)
                     }
+                    localStorage.setItem('updated_time_cnd_consen_state', resp.data[0].data.data_sta.updated_at);
+                    localStorage.setItem('updated_time_cnd_consen_settings', resp.data[0].data.data_set.updated_at);
+                }
+            }).catch((err) => {
+                console.log("err", err);
+            })
 
-                    if (resp.data[0].data.data_set.spn !== 0) {
-                        localStorageData.spn = resp.data[0].data.data_set.spn;
-                    }
 
-                    if (resp.data[0].data.data_set.asp !== 0) {
-                        localStorageData.asp = resp.data[0].data.data_set.asp;
-                    }
-
-                    // Store the updated data in localStorage
-                    localStorage.setItem("localStorage_data_tds_consen", JSON.stringify(localStorageData));
-
-                    let updated_Time_state = localStorage.getItem("updated_time_tds_consen_state")
-                    let updated_Time_settng = localStorage.getItem("updated_time_tds_consen_settings")
-
-                    if (updated_Time_state != resp.data[0].data.data_sta.updated_at || updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        if (resp.data[0].data.data_sta.tds != 0) {
-                            setTds(resp.data[0].data.data_sta.tds)
-                        }
-                        if (resp.data[0].data.data_set.spn != 0) {
-                            setSpn(resp.data[0].data.data_set.spn)
-                        }
-                        if (resp.data[0].data.data_set.asp != 0) {
-                            setAsp(resp.data[0].data.data_set.asp)
-                        }
-
-                        setIsLoading(false);
-                        if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                            alert(`Device state of tds_consen component is updated successfully`)
-                        } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                            alert(`Device setting of tds_consen component is updated successfully`)
-                        }
-                        localStorage.setItem('updated_time_tds_consen_state', resp.data[0].data.data_sta.updated_at);
-                        localStorage.setItem('updated_time_tds_consen_settings', resp.data[0].data.data_set.updated_at);
-                    }
-                }).catch((err) => {
-                    console.log("err", err);
-                })
-
-            }
         }
         fetchData();
         const intervalId = setInterval(fetchData, intervalTime);
@@ -172,73 +97,40 @@ const Conductivity2Form = ({ intervalTime }) => {
 
     const onSubmitSetting = (values, submitProps) => {
         const userData = JSON.parse(localStorage.getItem('user'));
-        if (changeConductivityDis === "cnd") {
-            let newData = {
-                company_name: userData.company_name,
-                unit_type: "water_dispense",
-                componant_name: "cnd_consen",
-                spn: spn,
-                asp: asp,
-                site_name: userData.site_name
-            };
-            setTimeout(() => {
-                axios.post('/topicapi/cnd_consen_setting/', newData, {
-                    headers: {
-                        'Authorization': 'Bearer ' + access_token,
-                        'Content-Type': 'application/json'
-                    }
+        let newData = {
+            company_name: userData.company_name,
+            unit_type: "water_dispense",
+            componant_name: "cnd_consen",
+            spn: spn,
+            asp: asp,
+            site_name: userData.site_name
+        };
+        setTimeout(() => {
+            axios.post('/topicapi/cnd_consen_setting/', newData, {
+                headers: {
+                    'Authorization': 'Bearer ' + access_token,
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((res) => {
+                    console.log("res", res);
+                    setIsLoading(true);
+                    setOpen(true);
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        setOpen(false);
+                    }, 10000);
                 })
-                    .then((res) => {
-                        console.log("res", res);
-                        setIsLoading(true);
-                        setOpen(true);
-                        setTimeout(() => {
-                            setIsLoading(false)
-                            setOpen(false);
-                        }, 10000);
-                    })
-                    .catch((err) => {
-                        console.log("err", err);
-                        if (err.response.statusText === "Unauthorized") {
-                            navigate("/");
-                            alert("Please enter valid credentials")
-                        }
-                    });
-            }, 3000); // Delay of 3 seconds
-        } else if (changeConductivityDis === "tds") {
-            let newData = {
-                company_name: userData.company_name,
-                unit_type: "water_dispense",
-                componant_name: "tds_consen",
-                spn: spn,
-                asp: asp,
-                site_name: userData.site_name
-            };
-            setTimeout(() => {
-                axios.post('/topicapi/tds_consen_setting/', newData, {
-                    headers: {
-                        'Authorization': 'Bearer ' + access_token,
-                        'Content-Type': 'application/json'
+                .catch((err) => {
+                    console.log("err", err);
+                    if (err.response.statusText === "Unauthorized") {
+                        navigate("/");
+                        alert("Please enter valid credentials")
                     }
-                })
-                    .then((res) => {
-                        console.log("res", res);
-                        setIsLoading(true);
-                        setOpen(true);
-                        setTimeout(() => {
-                            setIsLoading(false)
-                            setOpen(false);
-                        }, 10000);
-                    })
-                    .catch((err) => {
-                        console.log("err", err);
-                        if (err.response.statusText === "Unauthorized") {
-                            navigate("/");
-                            alert("Please enter valid credentials")
-                        }
-                    });
-            }, 3000); // Delay of 3 seconds
-        }
+                });
+        }, 3000); // Delay of 3 seconds
+
+
 
     }
     return (
@@ -261,18 +153,14 @@ const Conductivity2Form = ({ intervalTime }) => {
             </div>
             <div className="flex items-center py-3">
                 <div className="rounded-full bg-sky-400 w-3 h-3 mx-2"></div>
-                <select name="ntp" id="ntp" className='w-40 px-2 py-2 border rounded' value={changeConductivityDis} onChange={(e) => setChangeConductivityDis(e.target.value)}>
+                <input type="text" value={changeConductivityDis} className='w-52 p-3 border rounded' />
+                {/* <select name="ntp" id="ntp" className='w-40 px-2 py-2 border rounded' value={changeConductivityDis} onChange={(e) => setChangeConductivityDis(e.target.value)}>
 
                     <option value={changeConductivityDis}>{changeConductivityDis === "cnd" ? "Conductivity" : "TDS"}</option>
 
-                </select>
+                </select> */}
+                <p className='w-30 mx-3'>{cnd} uS</p>
 
-                {
-                    changeConductivityDis == 'cnd' ?
-                        <p className='w-30 mx-3'>{cnd} uS</p>
-                        :
-                        <p className='w-30 mx-3'>{tds} ppm</p>
-                }
             </div>
             <Formik initialValues={initialValues} onSubmit={onSubmitSetting}>
                 {
@@ -295,12 +183,9 @@ const Conductivity2Form = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Alert Setpoint</p>
                                     <Field disabled={!editSetting} type="text" name="asp" value={asp} onChange={(e) => setAsp(e.target.value)} id="asp" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Atert Setpoint" />
-                                    {
-                                        changeConductivityDis === 'cnd' ?
-                                            <span className='mx-5'>uS</span>
-                                            :
-                                            <span className='mx-5'>ppm</span>
-                                    }
+
+                                    <span className='mx-5'>uS</span>
+
                                 </div>
                                 {
                                     editSetting &&
