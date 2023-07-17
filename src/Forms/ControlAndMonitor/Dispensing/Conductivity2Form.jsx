@@ -184,7 +184,7 @@ const Conductivity2Form = ({ intervalTime }) => {
                                     <p className='w-40 my-2'>Alert Setpoint</p>
                                     <Field disabled={!editSetting} type="text" name="asp" value={asp} onChange={(e) => setAsp(e.target.value)} id="asp" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Atert Setpoint" />
 
-                                    <span className='mx-5'>uS</span>
+                                    <span className='mx-2'>uS</span>
 
                                 </div>
                                 {
