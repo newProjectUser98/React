@@ -321,6 +321,10 @@ const Ampv2Form = ({ intervalTime }) => {
             }, 10000);
         }).catch((err) => {
             console.log("err", err);
+            if (err.response.statusText === "Unauthorized") {
+                navigate("/");
+                alert("Please enter valid credentials")
+            }
         })
 
     }
