@@ -9,7 +9,7 @@ const ConductivityForm = ({ intervalTime }) => {
     // eslint-disable-next-line
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_cnd_sen'))
 
-    const [changeConductivity, setChangeConductivity] = useState('cnd')
+    const [changeConductivity, setChangeConductivity] = useState('Conductivity')
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
@@ -120,7 +120,6 @@ const ConductivityForm = ({ intervalTime }) => {
             asp: asp,
             site_name: userData.site_name
         }
-        changeConductivity === 'cnd' ?
             axios.post('/topicapi/cnd_setting/', newData, {
                 headers: {
                     'Authorization': 'Bearer ' + access_token
@@ -139,29 +138,7 @@ const ConductivityForm = ({ intervalTime }) => {
                     navigate("/");
                     alert("Please enter valid credentials")
                 }
-            }) :
-
-            axios.post('/topicapi/tds_setting/', newData, {
-                headers: {
-                    'Authorization': 'Bearer ' + access_token
-                }
-            }).then((res) => {
-                console.log("res in tds", res);
-                setIsLoading(true);
-                setOpen(true);
-                setTimeout(() => {
-                    setIsLoading(false)
-                    setOpen(false);
-                }, 10000);
-            }).catch((err) => {
-                console.log("err", err);
-                if (err.response.statusText === "Unauthorized") {
-                    navigate("/");
-                    alert("Please enter valid credentials")
-                }
-            })
-
-
+            }) 
     }
     return (
         <>

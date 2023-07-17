@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const Conductivity2Form = ({ intervalTime }) => {
     let localStorageData = JSON.parse(localStorage.getItem('localStorage_data_cnd_consen'))
 
-    const [changeConductivityDis, setChangeConductivityDis] = useState('cnd')
+    const [changeConductivityDis, setChangeConductivityDis] = useState('Conductivity')
     const [editSetting, setEditSetting] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = React.useState(false);
