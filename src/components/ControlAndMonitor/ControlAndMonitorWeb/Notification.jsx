@@ -38,7 +38,7 @@ const CompLongForm = [
     { m7: "Mode 7" },
     { m8: "Mode 8" },
     { m9: "Mode 9" },
-    { twl: "Treated Water Tank Level" },
+    { Twl: "Treated Water Tank Level" },
     { Rwl: "Raw Water Tank Level" },
     { pls: "Pulse" },
     { dsl: "Dosing Level" },
@@ -57,8 +57,8 @@ const CompLongForm = [
 
 const Notification = () => {
     const [data, setData] = useState([])
+    const [textDesc, setTextDesc] = useState("")
     const userData = JSON.parse(localStorage.getItem('user'));
-
 
     useEffect(() => {
         const fetchData = () => {
@@ -69,7 +69,15 @@ const Notification = () => {
             }
             axios.post("/topicapi/last-records/", newData).then((resp) => {
                 setData(resp.data)
+                const stringValue = resp.data[0].e_discriptions
+                const replacedString = CompLongForm.reduce((acc, item) => {
+                    const key = Object.keys(item)[0];
+                    const value = item[key];
+                    const regex = new RegExp(`\\b${key}\\b`, 'g');
+                    return acc.replace(regex, value);
+                }, stringValue);
 
+                setTextDesc(replacedString);
                 const firstRecord = resp.data[0];
                 let updated_time_error = localStorage.getItem("updated_time_error")
                 // eslint-disable-next-line
@@ -133,17 +141,7 @@ const Notification = () => {
                                                                         <p className='text-sm font-normal my-2'>Alert</p>
                                                                     </div>
                                                                     <div className="flex">
-                                                                        {
-                                                                            CompLongForm.map((item, id) => {
-                                                                                let textDesc = item.e_discriptions
-                                                                                const key = Object.keys(item)[id];
-                                                                                const value = Object.values(item)[id];
-                                                                                let result = textDesc.replace(key, value);
-                                                                                return (
-                                                                                    <p className='text-sm font-normal mt-2'>{result}</p>
-                                                                                )
-                                                                            })
-                                                                        }
+                                                                        <p className='text-sm font-normal mt-2'>{textDesc}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
