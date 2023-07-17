@@ -4,6 +4,57 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Paper } from '@mui/material';
 import axios from 'axios';
 
+const CompLongForm = [
+    { emp: "Empty" },
+    { aut: "Auto" },
+    { sem: "Semi Auto" },
+    { man: "Manual" },
+    { t: "Time" },
+    { f: "Flow" },
+    { opl: "Operational" },
+    { lpst: "lps trip" },
+    { hpst: "hps trip" },
+    { rwpot: "rwp overload trip" },
+    { hppot: "hpp overload trip" },
+    { rwpdt: "rwp dryrun trip" },
+    { hppdt: "hpp dryrun trip" },
+    { uvl: "Under Voltage" },
+    { ovl: "Over Voltage" },
+    { cont: "Conductivity Trip" },
+    { ser: "Service" },
+    { bck: "Backwash" },
+    { rns: "Rinse" },
+    { mot: "Motor On Delay Time" },
+    { tme: "Time" },
+    { vol: "Volume" },
+    { frt: "FlowRate" },
+    { non: "none" },
+    { m1: "Mode 1" },
+    { m2: "Mode 2" },
+    { m3: "Mode 3" },
+    { m4: "Mode 4" },
+    { m5: "Mode 5" },
+    { m6: "Mode 6" },
+    { m7: "Mode 7" },
+    { m8: "Mode 8" },
+    { m9: "Mode 9" },
+    { twl: "Treated Water Tank Level" },
+    { Rwl: "Raw Water Tank Level" },
+    { pls: "Pulse" },
+    { dsl: "Dosing Level" },
+    { ena: "Enable" },
+    { dis: "Disable" },
+    { nml: "Normal" },
+    { tke: "Tank Empty" },
+    { tpl: "Tap Low" },
+    { nof: "No Flow" },
+    { tpd: "Tempared" },
+    { cn: "Coin" },
+    { cd: "Card" },
+]
+
+
+
 const Notification = () => {
     const [data, setData] = useState([])
     const userData = JSON.parse(localStorage.getItem('user'));
@@ -18,7 +69,7 @@ const Notification = () => {
             }
             axios.post("/topicapi/last-records/", newData).then((resp) => {
                 setData(resp.data)
-                
+
                 const firstRecord = resp.data[0];
                 let updated_time_error = localStorage.getItem("updated_time_error")
                 // eslint-disable-next-line
@@ -82,7 +133,17 @@ const Notification = () => {
                                                                         <p className='text-sm font-normal my-2'>Alert</p>
                                                                     </div>
                                                                     <div className="flex">
-                                                                        <p className='text-sm font-normal mt-2'>{item.e_discriptions}</p>
+                                                                        {
+                                                                            CompLongForm.map((item, id) => {
+                                                                                let textDesc = item.e_discriptions
+                                                                                const key = Object.keys(item)[0];
+                                                                                const value = Object.values(item)[0];
+                                                                                let result = textDesc.replace(key, value);
+                                                                                return (
+                                                                                    <p className='text-sm font-normal mt-2'>{result}</p>
+                                                                                )
+                                                                            })
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>
