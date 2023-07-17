@@ -136,8 +136,8 @@ const Notification = () => {
                                                                         {
                                                                             CompLongForm.map((item, id) => {
                                                                                 let textDesc = item.e_discriptions
-                                                                                const key = Object.keys(item)[0];
-                                                                                const value = Object.values(item)[0];
+                                                                                const key = Object.keys(item)[id];
+                                                                                const value = Object.values(item)[id];
                                                                                 let result = textDesc.replace(key, value);
                                                                                 return (
                                                                                     <p className='text-sm font-normal mt-2'>{result}</p>
