@@ -27,6 +27,10 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
   const [flowsen2, setFlowSen2] = useState()
   const [flowsen3, setFlowSen3] = useState()
   const [flowsen4, setFlowSen4] = useState()
+  const [workingHoursInDisp, setWorkingHoursInDisp] = useState()
+  const [registrationDate, setRegistrationDate] = useState()
+  const [workingDate, setWorkingDate] = useState()
+  const [difference, setDifference] = useState()
 
 
   const handleChange = (_, newValue) => {
@@ -47,7 +51,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -76,7 +80,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -103,7 +107,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -138,10 +142,10 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const recentDocuments = filteredData.slice(-31) // Get a maximum of 31 most recent documents
-          
+
 
           console.log('filtered data in date search', recentDocuments);
 
@@ -170,7 +174,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID && obj.ntt == 'cn'
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const coinrecentDocuments = coinfilteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -190,7 +194,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID && obj.ntt == 'cd'
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const cardrecentDocuments = cardfilteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -204,14 +208,14 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
           setCardCollection(TotalCards)
           //Card collection code ends
 
-          
+
           //QR collection code starts
           const QRfilteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID && obj.ntt == 'qr'
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const QRrecentDocuments = QRfilteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -228,14 +232,14 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
         })
         .catch(err => console.log(err))
 
-        axios.get(`/topicapi/flowsen1_daily/`)
+      axios.get(`/topicapi/flowsen1_daily/`)
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -251,14 +255,14 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
         })
         .catch(err => console.log(err))
 
-        axios.get(`/topicapi/flowsen2_daily/`)
+      axios.get(`/topicapi/flowsen2_daily/`)
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -274,14 +278,14 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
         })
         .catch(err => console.log(err))
 
-        axios.get(`/topicapi/flowsen3_daily/`)
+      axios.get(`/topicapi/flowsen3_daily/`)
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -297,14 +301,14 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
         })
         .catch(err => console.log(err))
 
-        axios.get(`/topicapi/flowsen4_daily/`)
+      axios.get(`/topicapi/flowsen4_daily/`)
         .then(res => {
           const filteredData = res.data.filter((obj) => {
             const docDate = new Date(obj.year, obj.month - 1, obj.day);
             return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
           })
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
-            
+
 
           const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
 
@@ -320,14 +324,58 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
         })
         .catch(err => console.log(err))
 
+
+      //For Working Hours in Dispense unit
+      axios.get(`/topicapi/atm_daily/`)
+        .then(res => {
+          const filteredData = res.data.filter((obj) => {
+            const docDate = new Date(obj.year, obj.month - 1, obj.day);
+            return docDate >= fromDateObj && docDate <= toDateObj && obj.device_id === deviceID
+          })
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
+
+
+          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+
+          console.log('filtered data in disp_working_hours', recentDocuments);
+
+          const WorkingHoursDone = recentDocuments.reduce((total, document) => {
+            return total + document.whr.sum;
+          }, 0);
+
+          console.log('sum of working hours', WorkingHoursDone);
+
+          setWorkingHoursInDisp(WorkingHoursDone)
+          const wdate = new Date(filteredData[0].created_at).toISOString().slice(0, 10);
+          const wdateMain = new Date(wdate);
+          setWorkingDate(wdateMain)
+        })
+        .catch(err => console.log(err))
+
+      //For device_info
+      axios.get(`/topicapi/device_info/`)
+        .then(res => {
+          const filteredData = res.data.filter(information => information.componant_name === 'atm' && information.unit_type === "water_dispense")
+          console.log('device_info_filteredData', filteredData);
+          const date = new Date(filteredData[0].created_at).toISOString().slice(0, 10);
+          const dateMain = new Date(date);
+          // console.log('date of device_info', date);
+          setRegistrationDate(dateMain)
+          console.log('type of date', typeof (date));
+        })
+        .catch(err => console.log(err))
     }
 
-
-
+    const differenceInMilliseconds = Math.floor(workingDate - registrationDate);
+    // Convert the difference to days
+    const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
+    setDifference(differenceInHours)
 
   }, [fromDate, toDate, deviceID])
 
-
+  console.log('date of device_registration', registrationDate);
+  console.log('date of device_working', workingDate);
+  console.log('difference between date in hours', difference);
   console.log('value in tabpanel', value);
   const SummaryCardData = [
     { value: "120 Hrs", icon: <WorkingHoursIcon />, title: "Working Hours" },
@@ -357,7 +405,11 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
 
 
   const SummaryCardData1 = [
-    { value: "120 Hrs", icon: <WorkingHoursIcon />, title: "Working Hours" },
+    {
+      value: `${workingHoursInDisp} Hrs`,
+      icon: <WorkingHoursIcon />,
+      title: "Working Hours"
+    },
     {
       // value: "240",
       value: `${flowsen1 + flowsen2 + flowsen3 + flowsen4} m3`,
@@ -371,12 +423,36 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
       icon: <AverageWaterQualityIcon />,
       title: "Average Water Quality",
     },
-    { value: `${numberOfFaults}`, icon: <NumberOfFaultsIcon />, title: "Number Of Faults" },
-    { value: "XYZ", icon: <DownTimeIcon />, title: "Down Time" },
-    { value: `${qrCollection} Rs`, icon: <DownTimeIcon />, title: "Total QR collection" },
-    { value: `${cardCollection} Rs`, icon: <DownTimeIcon />, title: "Total Card collection" },
-    { value: `${coinCollection} Rs`, icon: <DownTimeIcon />, title: "Total Coin Collection" },
-    { value: `${qrCollection + cardCollection + coinCollection} Rs`, icon: <DownTimeIcon />, title: "Total Collection" },
+    {
+      value: `${numberOfFaults}`,
+      icon: <NumberOfFaultsIcon />,
+      title: "Number Of Faults"
+    },
+    {
+      value: `${difference-workingHoursInDisp}`,
+      icon: <DownTimeIcon />,
+      title: "Down Time"
+    },
+    {
+      value: `${qrCollection} Rs`,
+      icon: <DownTimeIcon />,
+      title: "Total QR collection"
+    },
+    {
+      value: `${cardCollection} Rs`,
+      icon: <DownTimeIcon />,
+      title: "Total Card collection"
+    },
+    {
+      value: `${coinCollection} Rs`,
+      icon: <DownTimeIcon />,
+      title: "Total Coin Collection"
+    },
+    {
+      value: `${qrCollection + cardCollection + coinCollection} Rs`,
+      icon: <DownTimeIcon />,
+      title: "Total Collection"
+    },
   ];
 
   return (
@@ -502,7 +578,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             />
           </Grid>
           <Grid>
-            <ChartComp deviceID={deviceID} value={value} fromDate={fromDate} toDate={toDate} Yaxis={Yaxis} setYaxis={setYaxis}/>
+            <ChartComp deviceID={deviceID} value={value} fromDate={fromDate} toDate={toDate} Yaxis={Yaxis} setYaxis={setYaxis} />
           </Grid>
         </Grid>
       </TabPanel>
@@ -552,7 +628,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             />
           </Grid>
           <Grid>
-            <ChartComp deviceID={deviceID} value={value} fromDate={fromDate} toDate={toDate} Yaxis={Yaxis} setYaxis={setYaxis}/>
+            <ChartComp deviceID={deviceID} value={value} fromDate={fromDate} toDate={toDate} Yaxis={Yaxis} setYaxis={setYaxis} />
           </Grid>
         </Grid>
       </TabPanel>
