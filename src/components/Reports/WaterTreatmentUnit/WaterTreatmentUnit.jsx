@@ -39,6 +39,10 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
 
 
   useEffect(() => {
+    handleData()
+  }, [fromDate, toDate, deviceID])
+
+  async function handleData() {
 
     if (fromDate && toDate) {
       const fromDateObj = new Date(fromDate);
@@ -347,6 +351,20 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
         .catch(err => console.log(err))
 
 
+      //For device_info
+      axios.get(`/topicapi/device_info/`)
+        .then(res => {
+          const filteredData = res.data.filter(information => information.componant_name === 'atm' && information.unit_type === "water_dispense")
+          console.log('device_info_filteredData', filteredData);
+          const date = new Date(filteredData[0].created_at).toISOString().slice(0, 10);
+          const dateMain = new Date(date);
+          // console.log('date of device_info', date);
+          setRegistrationDate(dateMain)
+          console.log('type of date', typeof (date));
+        })
+        .catch(err => console.log(err))
+
+
       //For Working Hours in Dispense unit
       axios.get(`/topicapi/atm_daily/`)
         .then(res => {
@@ -375,27 +393,17 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
           setWorkingDate(wdateMain)
         })
         .catch(err => console.log(err))
-
-      //For device_info
-      axios.get(`/topicapi/device_info/`)
-        .then(res => {
-          const filteredData = res.data.filter(information => information.componant_name === 'atm' && information.unit_type === "water_dispense")
-          console.log('device_info_filteredData', filteredData);
-          const date = new Date(filteredData[0].created_at).toISOString().slice(0, 10);
-          const dateMain = new Date(date);
-          // console.log('date of device_info', date);
-          setRegistrationDate(dateMain)
-          console.log('type of date', typeof (date));
-        })
-        .catch(err => console.log(err))
     }
+  }
 
-    const differenceInMilliseconds = Math.floor(workingDate - registrationDate);
-    // Convert the difference to days
-    const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
-    setDifference(differenceInHours)
-
-  }, [fromDate, toDate, deviceID])
+  // Use another useEffect to calculate the difference when both dates are ready
+  useEffect(() => {
+    if (workingDate && registrationDate) {
+      const differenceInMilliseconds = Math.floor(workingDate - registrationDate);
+      const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
+      setDifference(differenceInHours);
+    }
+  }, [workingDate, registrationDate]);
 
   console.log('date of device_registration', registrationDate);
   console.log('date of device_working', workingDate);
@@ -453,7 +461,7 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
       title: "Number Of Faults"
     },
     {
-      value: `${difference-workingHoursInDisp}`,
+      value: `${difference - workingHoursInDisp} Hrs`,
       icon: <DownTimeIcon />,
       title: "Down Time"
     },
