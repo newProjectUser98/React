@@ -23,7 +23,8 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "P_flowsen"
+                componant_name: "P_flowsen",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_P_flowsen/", newData).then((resp) => {
 
@@ -58,9 +59,9 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                     }
                     setIsLoading(false);
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                        alert("Device State Data Updated Successfully")
+                        alert(`Device state of P_flowsen component is updated successfully`)
                     } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        alert("Device Setting Data Updated Successfully")
+                        alert(`Device setting of P_flowsen component is updated successfully`)
                     }
                     localStorage.setItem('updated_time_P_flowsen_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_P_flowsen_settings', resp.data[0].data.data_set.updated_at);
@@ -88,7 +89,8 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
             company_name: userData.company_name,
             unit_type: "water_treatment",
             componant_name: "P_flowsen",
-            ff: ff2,
+            ff2: ff2,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {

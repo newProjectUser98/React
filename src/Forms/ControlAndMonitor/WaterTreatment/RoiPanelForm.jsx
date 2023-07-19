@@ -83,7 +83,7 @@ const RoiPanelForm = ({ intervalTime }) => {
         unv: 180,
         ovv: 280,
         spn: 330,
-        srt: "99:59",
+        srt: "9959",
         bkt: 99,
         rst: 99,
     };
@@ -93,7 +93,8 @@ const RoiPanelForm = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "panel"
+                componant_name: "panel",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_panel/", newData).then((resp) => {
 
@@ -162,9 +163,10 @@ const RoiPanelForm = ({ intervalTime }) => {
                 }
                 if (resp.data[0].data.data_set.srt !== "") {
                     let time = resp.data[0].data.data_set.srt;
-                    let SplitTime = time.split(':');
-                    localStorageData.srt1 = SplitTime[0];
-                    localStorageData.srt2 = SplitTime[1];
+                    const hours = Math.floor(time / 60);
+                    const minutes = time % 60;
+                    localStorageData.srt1 = hours;
+                    localStorageData.srt2 = minutes;
                 }
 
                 if (resp.data[0].data.data_set.bkt !== 0) {
@@ -218,9 +220,10 @@ const RoiPanelForm = ({ intervalTime }) => {
                     }
                     if (resp.data[0].data.data_set.srt != "") {
                         let time = resp.data[0].data.data_set.srt
-                        let SplitTime = time?.toString().split(':')
-                        setSrt1(parseInt(SplitTime[0]))
-                        setSrt2(parseInt(SplitTime[1]))
+                        const hours = Math.floor(time / 60);
+                        const minutes = time % 60;
+                        setSrt1(parseInt(hours))
+                        setSrt2(parseInt(minutes))
                     }
                     if (resp.data[0].data.data_set.unv != 0) {
                         setUnv(resp.data[0].data.data_set.unv)
@@ -242,9 +245,9 @@ const RoiPanelForm = ({ intervalTime }) => {
                     }
                     setIsLoading(false);
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                        alert("Device State Data Updated Successfully")
+                        alert(`Device state of panel component is updated successfully`)
                     } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        alert("Device Setting Data Updated Successfully")
+                        alert(`Device setting of panel component is updated successfully`)
                     }
                     localStorage.setItem('updated_time_panel_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_panel_settings', resp.data[0].data.data_set.updated_at);
@@ -277,6 +280,7 @@ const RoiPanelForm = ({ intervalTime }) => {
             srt: `${srt1}:${srt2}`,
             bkt: bkt,
             rst: rst,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {

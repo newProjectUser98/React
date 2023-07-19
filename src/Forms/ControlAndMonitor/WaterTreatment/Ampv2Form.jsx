@@ -74,7 +74,8 @@ const Ampv2Form = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "ampv2"
+                componant_name: "ampv2",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_ampv2/", newData).then((resp) => {
 
@@ -120,9 +121,11 @@ const Ampv2Form = ({ intervalTime }) => {
                 }
                 if (resp.data[0].data.data_set.srt !== "") {
                     let time = resp.data[0].data.data_set.srt;
-                    let SplitTime = time.split(':');
-                    localStorageData.srt1 = SplitTime[0];
-                    localStorageData.srt2 = SplitTime[1];
+                    const hours = Math.floor(time / 60);
+                    const minutes = time % 60;
+                    localStorageData.srt1 = hours;
+                    localStorageData.srt2 = minutes;
+
                 }
 
                 if (resp.data[0].data.data_set.bkt !== 0) {
@@ -198,20 +201,19 @@ const Ampv2Form = ({ intervalTime }) => {
                     }
                     if (resp.data[0].data.data_set.srt != 0) {
                         let time = resp.data[0].data.data_set.srt
-                        let SplitTime = time?.toString().split(':')
-                        console.log("SplitTime0", SplitTime[0]);
-                        console.log("SplitTime1", SplitTime[1]);
-                        setSrt1(parseInt(SplitTime[0]))
-                        setSrt2(parseInt(SplitTime[1]))
+                        const hours = Math.floor(time / 60);
+                        const minutes = time % 60;
+                        setSrt1(parseInt(hours))
+                        setSrt2(parseInt(minutes))
                     }
                     if (resp.data[0].data.data_set.stp != "") {
                         setStp(resp.data[0].data.data_set.stp)
                     }
                     setIsLoading(false);
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                        alert("Device State Data Updated Successfully")
+                        alert(`Device state of ampv2 component is updated successfully`)
                     } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        alert("Device Setting Data Updated Successfully")
+                        alert(`Device setting of ampv2 component is updated successfully`)
                     }
                     localStorage.setItem('updated_time_ampv2_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_ampv2_settings', resp.data[0].data.data_set.updated_at);
@@ -255,6 +257,7 @@ const Ampv2Form = ({ intervalTime }) => {
             unit_type: "water_treatment",
             componant_name: "ampv2",
             pos: pos,
+            site_name: userData.site_name
         }
         console.log("newData in state++>", newData);
         axios.post('/topicapi/ampv2_state/', newData, {
@@ -301,6 +304,7 @@ const Ampv2Form = ({ intervalTime }) => {
             op1: op1,
             op2: op2,
             op3: op3,
+            site_name: userData.site_name
         }
         axios.post('/topicapi/ampv2_setting/', newData, {
             headers: {
@@ -317,6 +321,10 @@ const Ampv2Form = ({ intervalTime }) => {
             }, 10000);
         }).catch((err) => {
             console.log("err", err);
+            if (err.response.statusText === "Unauthorized") {
+                navigate("/");
+                alert("Please enter valid credentials")
+            }
         })
 
     }

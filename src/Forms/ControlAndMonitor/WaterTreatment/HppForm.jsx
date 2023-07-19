@@ -28,7 +28,8 @@ const HppForm = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_treatment",
                 company_name: userData.company_name,
-                componant_name: "hpp"
+                componant_name: "hpp",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_treat_hpp/", newData).then((resp) => {
 
@@ -82,9 +83,9 @@ const HppForm = ({ intervalTime }) => {
                         setSpn(resp.data[0].data.data_set.spn)
                     }
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                        alert("Device State Data Updated Successfully")
+                        alert(`Device state of hpp component is updated successfully`)
                     } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        alert("Device Setting Data Updated Successfully")
+                        alert(`Device setting of hpp component is updated successfully`)
                     }
                     setIsLoading(false);
 
@@ -127,6 +128,7 @@ const HppForm = ({ intervalTime }) => {
             unit_type: "water_treatment",
             componant_name: "hpp",
             sts: statusVal === true ? "on" : "off",
+            site_name: userData.site_name
         };
 
         setTimeout(() => {
@@ -162,6 +164,7 @@ const HppForm = ({ intervalTime }) => {
             olc: olc,
             spn: spn,
             drc: drc,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {

@@ -13,7 +13,8 @@ const FeedFlowSensor3Form = ({intervalTime}) => {
             let newData = {
                 unit_type: "water_dispense",
                 company_name: userData.company_name,
-                componant_name: "flowsen3"
+                componant_name: "flowsen3",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_disp_flowsen3/", newData).then((resp) => {
              
@@ -38,7 +39,7 @@ const FeedFlowSensor3Form = ({intervalTime}) => {
                     if (resp.data[0].data.data_sta.fr != 0) {
                         setFr(resp.data[0].data.data_sta.fr)
                     }
-                    alert("Device state Data Updated Successfully")
+                    alert(`Device state of flowsen3 component is updated successfully`)
                 }
                 localStorage.setItem('updated_time_flowsen3_state', resp.data[0].data.data_sta.updated_at);
             }).catch((err) => {

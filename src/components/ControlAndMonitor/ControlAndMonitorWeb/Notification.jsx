@@ -4,21 +4,80 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Paper } from '@mui/material';
 import axios from 'axios';
 
+const CompLongForm = [
+    { emp: "Empty" },
+    { aut: "Auto" },
+    { sem: "Semi Auto" },
+    { man: "Manual" },
+    { t: "Time" },
+    { f: "Flow" },
+    { opl: "Operational" },
+    { lpst: "lps trip" },
+    { hpst: "hps trip" },
+    { rwpot: "rwp overload trip" },
+    { hppot: "hpp overload trip" },
+    { rwpdt: "rwp dryrun trip" },
+    { hppdt: "hpp dryrun trip" },
+    { uvl: "Under Voltage" },
+    { ovl: "Over Voltage" },
+    { cont: "Conductivity Trip" },
+    { ser: "Service" },
+    { bck: "Backwash" },
+    { rns: "Rinse" },
+    { mot: "Motor On Delay Time" },
+    { tme: "Time" },
+    { vol: "Volume" },
+    { frt: "FlowRate" },
+    { non: "none" },
+    { m1: "Mode 1" },
+    { m2: "Mode 2" },
+    { m3: "Mode 3" },
+    { m4: "Mode 4" },
+    { m5: "Mode 5" },
+    { m6: "Mode 6" },
+    { m7: "Mode 7" },
+    { m8: "Mode 8" },
+    { m9: "Mode 9" },
+    { Twl: "Treated Water Tank Level" },
+    { Rwl: "Raw Water Tank Level" },
+    { pls: "Pulse" },
+    { dsl: "Dosing Level" },
+    { ena: "Enable" },
+    { dis: "Disable" },
+    { nml: "Normal" },
+    { tke: "Tank Empty" },
+    { tpl: "Tap Low" },
+    { nof: "No Flow" },
+    { tpd: "Tempared" },
+    { cn: "Coin" },
+    { cd: "Card" },
+]
+
+
+
 const Notification = () => {
     const [data, setData] = useState([])
+    const [textDesc, setTextDesc] = useState("")
     const userData = JSON.parse(localStorage.getItem('user'));
-    useEffect(() => {
-        axios.get("/api/last-records/").then((resp) => {
-            console.log("resp", resp.data);
-            setData(resp.data)
-        }).catch((err) => {
-            console.log("err", err);
-        })
-    }, [])
 
     useEffect(() => {
         const fetchData = () => {
-            axios.get("/api/last-records/").then((resp) => {
+            const userData = JSON.parse(localStorage.getItem('user'));
+            let newData = {
+                company_name: userData.company_name,
+                site_name: userData.site_name
+            }
+            axios.post("/topicapi/last-records/", newData).then((resp) => {
+                setData(resp.data)
+                const stringValue = resp.data[0].e_discriptions
+                const replacedString = CompLongForm.reduce((acc, item) => {
+                    const key = Object.keys(item)[0];
+                    const value = item[key];
+                    const regex = new RegExp(`\\b${key}\\b`, 'g');
+                    return acc.replace(regex, value);
+                }, stringValue);
+
+                setTextDesc(replacedString);
                 const firstRecord = resp.data[0];
                 let updated_time_error = localStorage.getItem("updated_time_error")
                 // eslint-disable-next-line
@@ -75,14 +134,14 @@ const Notification = () => {
                                                                     <div className="flex">
                                                                         {/* <p className='text-xs font-semibold mb-2'>Site name</p>
                                                                         <p className='text-xs font-semibold mb-2'>3 min ago</p> */}
-                                                                        <p className='text-xs font-semibold mb-2'>{userData?.company_name}&nbsp;</p>
+                                                                        <p className='text-xs font-semibold mb-2'>{userData?.username}&nbsp;</p>
                                                                         <p className='text-xs font-semibold mb-2'> {item.created_at.slice(0, 10)} &nbsp;{`${item.hour}:${item.minit}:${item.second}`}</p>
                                                                     </div>
                                                                     <div className="flex">
                                                                         <p className='text-sm font-normal my-2'>Alert</p>
                                                                     </div>
                                                                     <div className="flex">
-                                                                        <p className='text-sm font-normal mt-2'>{userData?.company_name} - {item.service} - {item.e_discriptions}</p>
+                                                                        <p className='text-sm font-normal mt-2'>{textDesc}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -96,7 +155,7 @@ const Notification = () => {
                                 })
                             }
                         </Grid >
-                        
+
                     </div>
                 </div>
             </Paper>

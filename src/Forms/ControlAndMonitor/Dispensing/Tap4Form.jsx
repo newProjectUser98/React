@@ -24,7 +24,8 @@ const Tap4Form = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_dispense",
                 company_name: userData.company_name,
-                componant_name: "tap4"
+                componant_name: "tap4",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_disp_tap4/", newData).then((resp) => {
 
@@ -38,8 +39,8 @@ const Tap4Form = ({ intervalTime }) => {
                 }
 
                 // Update the variables with new values if they are not zero
-                if (resp.data[0].data.data_sta.p1 !== 0) {
-                    localStorageDataTap4.p1 = resp.data[0].data.data_sta.p1;
+                if (resp.data[0].data.data_set.p1 !== 0) {
+                    localStorageDataTap4.p1 = resp.data[0].data.data_set.p1;
                 }
 
                 if (resp.data[0].data.data_set.p2 !== 0) {
@@ -108,6 +109,7 @@ const Tap4Form = ({ intervalTime }) => {
             p2: p2,
             p3: p3,
             p4: p4,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {

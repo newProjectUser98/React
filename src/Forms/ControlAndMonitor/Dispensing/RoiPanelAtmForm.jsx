@@ -53,7 +53,8 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
             let newData = {
                 unit_type: "water_dispense",
                 company_name: userData.company_name,
-                componant_name: "atm"
+                componant_name: "atm",
+                site_name: userData.site_name
             }
             axios.post("/topicapi/updated_disp_atm/", newData).then((resp) => {
 
@@ -179,9 +180,9 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
                     }
                     setIsLoading(false);
                     if (updated_Time_state != resp.data[0].data.data_sta.updated_at) {
-                        alert("Device State Data Updated Successfully")
+                        alert(`Device state of atm component is updated successfully`)
                     } else if (updated_Time_settng != resp.data[0].data.data_set.updated_at) {
-                        alert("Device Setting Data Updated Successfully")
+                        alert(`Device setting of atm component is updated successfully`)
                     }
                     localStorage.setItem('updated_time_atm_state', resp.data[0].data.data_sta.updated_at);
                     localStorage.setItem('updated_time_atm_settings', resp.data[0].data.data_set.updated_at);
@@ -228,6 +229,7 @@ const RoiPanelAtmForm = ({ intervalTime }) => {
             re3: re3,
             re4: re4,
             ntt: ntt,
+            site_name: userData.site_name
         };
 
         setTimeout(() => {
