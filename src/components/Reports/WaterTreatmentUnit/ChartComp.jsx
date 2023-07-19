@@ -9,7 +9,7 @@ import LineChartComp from "./LineChartComp";
 import { ReactComponent as LeftArrow } from "../../../assets/icons/ReportsIcon/CaretLeft.svg";
 import ReactSimplyCarousel from "react-simply-carousel";
 
-const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
+const ChartComp = ({ deviceID, value, fromDate, toDate, Yaxis, setYaxis }) => {
   const [checked, setChecked] = useState(false);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const [variable, setVariable] = useState("")
@@ -34,7 +34,7 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
         <SelectOverviewSection
           handleChecked={handleChecked}
           checked={checked}
-          Yaxis={Yaxis} 
+          Yaxis={Yaxis}
           setYaxis={setYaxis}
           variable={variable}
           setVariable={setVariable}
@@ -56,20 +56,20 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
           className="iw-chart-comp__list-container"
         >
           {/* {ChartColors?.map((item, index) => ( */}
-            <Chart 
+          <Chart
             // key={index} item={item} index={index} 
             setUpdatedColor={setUpdatedColor} setUpdatedIndex={setUpdatedIndex} checked={checked}
             Yaxis={Yaxis} variable={variable} deviceID={deviceID} graphData={graphData}
             initialColor={initialColor} updatedColor={updatedColor}
-            fromDate={fromDate} toDate={toDate} variableFullName={variableFullName}/>
+            fromDate={fromDate} toDate={toDate} variableFullName={variableFullName} />
           {/* ))} */}
         </Grid>
       )}
       <Grid
-        
+
         className="iw-chart-comp__list-wrapper"
       >
-        <ReactSimplyCarousel
+        {/*  <ReactSimplyCarousel
           className="iw-chart-comp__list-carousel"
           activeSlideIndex={activeSlideIndex}
           onRequestChange={setActiveSlideIndex}
@@ -120,9 +120,9 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
               },
             },
           }}
-        >
-          {/* {ChartColors.map((item, index) => ( */}
-            <Chart
+        > */}
+        {/* {ChartColors.map((item, index) => ( */}
+        {/*  <Chart
               // key={index}
               // item={item}
               // index={index}
@@ -136,9 +136,25 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
               updatedColor={updatedColor}
               fromDate={fromDate} toDate={toDate}
               variableFullName={variableFullName}
-            />
-          {/* ))} */}
-        </ReactSimplyCarousel>
+      /> */}
+        {/* ))} */}
+        {/* </ReactSimplyCarousel>*/}
+
+        <Chart
+          // key={index}
+          // item={item}
+          // index={index}
+          setUpdatedColor={setUpdatedColor}
+          setUpdatedIndex={setUpdatedIndex}
+          checked={checked}
+          Yaxis={Yaxis} variable={variable}
+          deviceID={deviceID}
+          graphData={graphData}
+          initialColor={initialColor}
+          updatedColor={updatedColor}
+          fromDate={fromDate} toDate={toDate}
+          variableFullName={variableFullName}
+        />
       </Grid>
     </Grid>
   );
@@ -146,13 +162,13 @@ const ChartComp = ({deviceID, value, fromDate, toDate, Yaxis, setYaxis}) => {
 
 export default ChartComp;
 
-const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, variable, 
-  deviceID, graphData, initialColor, updatedColor, fromDate, toDate, variableFullName}) => {
+const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, variable,
+  deviceID, graphData, initialColor, updatedColor, fromDate, toDate, variableFullName }) => {
 
   return (
     <Grid
-    container 
-    key={index} md={12}>
+      container
+      key={index} md={12}>
       {/* <Grid>
         <Typography
           fontWeight={400}
@@ -160,39 +176,39 @@ const Chart = ({ item, index, setUpdatedColor, setUpdatedIndex, checked, Yaxis, 
           fontSize={"16px"}
           fontFamily={"Poppins"}
         > */}
-          {/* {item.title} {index} */}
-        {/* </Typography>
+      {/* {item.title} {index} */}
+      {/* </Typography>
       </Grid> */}
       <Grid height={1650} mt={"30px"}>
         {checked ? (
-          <LineChartComp 
-          color={initialColor}
-          Yaxis={Yaxis} 
-          variable={variable}
-          deviceID={deviceID}
-          graphData={graphData}
-          item={item}
-          index={index}
-          setUpdatedColor={setUpdatedColor}
-          setUpdatedIndex={setUpdatedIndex}
-          updatedColor={updatedColor}
-          fromDate={fromDate} toDate={toDate}
-          variableFullName={variableFullName}
+          <LineChartComp
+            color={initialColor}
+            Yaxis={Yaxis}
+            variable={variable}
+            deviceID={deviceID}
+            graphData={graphData}
+            item={item}
+            index={index}
+            setUpdatedColor={setUpdatedColor}
+            setUpdatedIndex={setUpdatedIndex}
+            updatedColor={updatedColor}
+            fromDate={fromDate} toDate={toDate}
+            variableFullName={variableFullName}
           />
         ) : (
-          <BarChartComp 
-          color={initialColor} 
-          Yaxis={Yaxis}
-          variable={variable}
-          deviceID={deviceID}
-          graphData={graphData}
-          item={item}
-          index={index}
-          setUpdatedColor={setUpdatedColor}
-          setUpdatedIndex={setUpdatedIndex}
-          updatedColor={updatedColor}
-          fromDate={fromDate} toDate={toDate}
-          variableFullName={variableFullName}
+          <BarChartComp
+            color={initialColor}
+            Yaxis={Yaxis}
+            variable={variable}
+            deviceID={deviceID}
+            graphData={graphData}
+            item={item}
+            index={index}
+            setUpdatedColor={setUpdatedColor}
+            setUpdatedIndex={setUpdatedIndex}
+            updatedColor={updatedColor}
+            fromDate={fromDate} toDate={toDate}
+            variableFullName={variableFullName}
           />
         )}
       </Grid>

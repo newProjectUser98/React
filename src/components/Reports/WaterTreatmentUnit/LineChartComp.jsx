@@ -5,6 +5,7 @@ import {
   Box,
   Grid,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import trueIcon from '../../../assets/icons/ReportsIcon/SelectColorIcon.png'
 
@@ -22,6 +23,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
   const [isActive2, setIsActive2] = useState(false)
   const [isActive3, setIsActive3] = useState(false)
   const [isActive4, setIsActive4] = useState(false)
+  // const [gwidth, setGwidth] = useState(950)
 
   const PopupColors = [
     { color: "#6CCED9" },
@@ -276,18 +278,42 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
 
   const customLegend = [
     [
-      { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor1 },
+      { value: `${variableFullName}[${graphData}]`, type: "square", color: updatedColor1 },
     ],
     [
-      { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor2 }
+      { value: `${variableFullName}[${graphData}]`, type: "square", color: updatedColor2 }
     ],
     [
-      { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor3 }
+      { value: `${variableFullName}[${graphData}]`, type: "square", color: updatedColor3 }
     ],
     [
-      { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor4 }
+      { value: `${variableFullName}[${graphData}]`, type: "square", color: updatedColor4 }
     ]
   ]
+
+  // const matches = useMediaQuery("(max-width: 1222px)")
+  // const matches1 = useMediaQuery("(max-width: 1028px)")
+  // const matches2 = useMediaQuery("(max-width: 640px)")
+  // const matches3 = useMediaQuery("(max-width: 450px)")
+
+
+  // useEffect(() => {
+  //   if (matches) {
+  //     setGwidth(750)
+  //   }
+  //   if (matches1) {
+  //     setGwidth(650)
+  //   }
+  //   if (matches2) {
+  //     setGwidth(450)
+  //   }
+  //   if (matches3) {
+  //     setGwidth(350)
+  //   }
+  //   else {
+  //     setGwidth(900)
+  //   }
+  // }, [matches, matches1, matches2, matches3])
 
   return (
     <>
@@ -300,7 +326,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 <XAxis dataKey="hour" fontSize={10} tickLine={false} />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
-                <Legend payload={customLegend[0]}/>
+                <Legend payload={customLegend[0]} />
                 <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor1} dot={true} />
               </LineChart>
 
@@ -361,7 +387,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
-                <Legend payload={customLegend[1]}/>
+                <Legend payload={customLegend[1]} />
                 <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor2} dot={true} />
               </LineChart>
 
@@ -422,7 +448,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
-                <Legend payload={customLegend[2]}/>
+                <Legend payload={customLegend[2]} />
                 <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor3} dot={true} />
               </LineChart>
 
@@ -478,7 +504,7 @@ const LineChartComp = ({ color, Yaxis, variable, deviceID, graphData, fromDate, 
                 <XAxis dataKey="year" fontSize={10} tickLine={false} />
                 <YAxis fontSize={10} tickLine={false} />
                 <Tooltip />
-                <Legend payload={customLegend[3]}/>
+                <Legend payload={customLegend[3]} />
                 <Line dataKey={`${variable}.${graphData}`} stroke={updatedColor4} dot={true} />
               </LineChart>
 

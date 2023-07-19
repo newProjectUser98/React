@@ -410,7 +410,7 @@ const SelectOverviewSection = ({ handleChecked, checked, Yaxis, setYaxis, variab
           <FormControl
             size="small"
             sx={{
-              minWidth: "170px",
+              minWidth: "165px",
               backgroundColor: "#EAF4F5",
               borderRadius: "10px",
               "& fieldset": { border: "none", outline: "none" },
