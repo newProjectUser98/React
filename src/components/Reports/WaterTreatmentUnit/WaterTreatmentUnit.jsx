@@ -53,7 +53,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const recentDocuments = filteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('filtered data in date search', recentDocuments);
 
@@ -82,7 +84,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const recentDocuments = filteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('filtered data in date search', recentDocuments);
 
@@ -109,7 +113,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const recentDocuments = filteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('res in updated treat panel', recentDocuments);
 
@@ -144,7 +150,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const recentDocuments = filteredData.slice(-31) // Get a maximum of 31 most recent documents
+          const recentDocuments = filteredData
+          //.slice(-31) 
+          // Get a maximum of 31 most recent documents
 
 
           console.log('filtered data in date search', recentDocuments);
@@ -176,7 +184,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const coinrecentDocuments = coinfilteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const coinrecentDocuments = coinfilteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('res in coinfilteredData', coinrecentDocuments);
 
@@ -196,7 +206,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const cardrecentDocuments = cardfilteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const cardrecentDocuments = cardfilteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('res in cardfilteredData', cardrecentDocuments);
 
@@ -217,7 +229,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const QRrecentDocuments = QRfilteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const QRrecentDocuments = QRfilteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('res in QRfilteredData', QRrecentDocuments);
 
@@ -241,7 +255,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const recentDocuments = filteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('filtered data in flowsen1 search', recentDocuments);
 
@@ -264,7 +280,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const recentDocuments = filteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('filtered data in flowsen2 search', recentDocuments);
 
@@ -287,7 +305,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const recentDocuments = filteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('filtered data in flowsen3 search', recentDocuments);
 
@@ -310,7 +330,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const recentDocuments = filteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('filtered data in flowsen4 search', recentDocuments);
 
@@ -335,7 +357,9 @@ const WaterTreatmentUnit = ({ deviceID, fromDate, toDate, Yaxis, setYaxis }) => 
             .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // Sort by date in descending order
 
 
-          const recentDocuments = filteredData.slice(-31); // Get a maximum of 31 most recent documents
+          const recentDocuments = filteredData
+          //.slice(-31); 
+          // Get a maximum of 31 most recent documents
 
           console.log('filtered data in disp_working_hours', recentDocuments);
 
