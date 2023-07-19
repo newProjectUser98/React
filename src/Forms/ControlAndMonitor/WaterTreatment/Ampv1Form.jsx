@@ -358,6 +358,7 @@ const Ampv1Form = ({ intervalTime }) => {
                                         as="select"
                                         disabled={!editState}
                                         name="pos"
+                                        required
                                         className="w-52 my-2 p-2 border rounded"
                                         value={pos}
                                         onChange={(e) => setPos(e.target.value)}
@@ -407,10 +408,10 @@ const Ampv1Form = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Service Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="srt1" id="srth" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" value={srt1}
+                                        <Field disabled={!editSetting} type="number" required name="srt1" id="srth" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" value={srt1}
                                             onChange={(e) => setSrt1(e.target.value)} />
                                         <span className='mx-1'>:</span>
-                                        <Field disabled={!editSetting} type="text" name="srt2" id="srts" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" value={srt2}
+                                        <Field disabled={!editSetting} type="number" required name="srt2" id="srts" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" value={srt2}
                                             onChange={(e) => setSrt2(e.target.value)} />
                                     </div>
                                 </div>
@@ -418,7 +419,7 @@ const Ampv1Form = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Backwash Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="bkt" id="bkt" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Backwash Time" value={bkt}
+                                        <Field disabled={!editSetting} type="number" required name="bkt" id="bkt" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Backwash Time" value={bkt}
                                             onChange={(e) => setBkt(e.target.value)} />
                                         <span className='mx-1'>minutes</span>
                                     </div>
@@ -427,7 +428,7 @@ const Ampv1Form = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Rinse Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="rst" id="rst" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rinse Time" value={rst}
+                                        <Field disabled={!editSetting} type="number" required name="rst" id="rst" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rinse Time" value={rst}
                                             onChange={(e) => setRst(e.target.value)} />
                                         <span className='mx-1'>minutes</span>
                                     </div>
@@ -436,7 +437,7 @@ const Ampv1Form = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Motor On Delay Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="mot" id="mot" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Motor On Delay Time" value={mot}
+                                        <Field disabled={!editSetting} type="number" required name="mot" id="mot" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Motor On Delay Time" value={mot}
                                             onChange={(e) => setMot(e.target.value)} />
                                         <span className='mx-1'>sec</span>
                                     </div>

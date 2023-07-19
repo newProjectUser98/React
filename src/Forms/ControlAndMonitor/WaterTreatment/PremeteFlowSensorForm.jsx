@@ -157,7 +157,7 @@ const FeedFlowSensorForm = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Flow Factor</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" name="ff" id="ff" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Flow Factor" value={ff2} onChange={(e) => setff2(e.target.value)} />
+                                        <Field disabled={!editSetting} type="number" required name="ff" id="ff" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Flow Factor" value={ff2} onChange={(e) => setff2(e.target.value)} />
                                         <span className='mx-2 my-2'>ml/pulse</span>
                                     </div>
                                 </div>

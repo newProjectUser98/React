@@ -61,6 +61,7 @@ const RwpForm = ({ intervalTime }) => {
                 }
 
                 // Store the updated data in localStorage
+
                 localStorage.setItem("localStorage_data_rwp", JSON.stringify(localStorageData));
 
                 let updated_Time_state = localStorage.getItem("updated_time_rwp_state")
@@ -270,7 +271,7 @@ const RwpForm = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Over Load Current</p>
                                     <div>
-                                        <Field disabled={!editSetting} type='text' id='olc' name='olc' placeholder="Over Load Current" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={olc}
+                                        <Field disabled={!editSetting} type='number' required id='olc' name='olc' placeholder="Over Load Current" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={olc}
                                             onChange={(e) => setOlc(e.target.value)} />
                                         <span className='mx-1 my-2'>Ampere</span>
                                     </div>
@@ -280,7 +281,7 @@ const RwpForm = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Dry Run Current</p>
                                     <div>
-                                        <Field disabled={!editSetting} type='text' id='drc' name='drc' placeholder="Dry Run Current" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={drc}
+                                        <Field disabled={!editSetting} type='number' required id='drc' name='drc' placeholder="Dry Run Current" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={drc}
                                             onChange={(e) => setDrc(e.target.value)} />
                                         <span className='mx-1 my-2'>Ampere</span>
                                     </div>
@@ -288,7 +289,7 @@ const RwpForm = ({ intervalTime }) => {
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Span</p>
-                                    <Field disabled={!editSetting} type='text' id='spn' name='spn' placeholder="Span" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={spn}
+                                    <Field disabled={!editSetting} type='number' required id='spn' name='spn' placeholder="Span" className="my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" value={spn}
                                         onChange={(e) => setSpn(e.target.value)} />
                                 </div>
                                 {

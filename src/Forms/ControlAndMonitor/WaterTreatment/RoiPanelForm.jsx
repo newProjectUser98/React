@@ -466,7 +466,7 @@ const RoiPanelForm = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Under Voltage</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" value={unv} onChange={(e) => setUnv(e.target.value)} name="unv" id="unv" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Under Voltage" />
+                                        <Field disabled={!editSetting} type="number" required value={unv} onChange={(e) => setUnv(e.target.value)} name="unv" id="unv" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Under Voltage" />
                                         <span className='mx-5 my-2'>Volts</span>
                                     </div>
                                 </div>
@@ -474,14 +474,14 @@ const RoiPanelForm = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Over Voltage</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" value={ovv} onChange={(e) => setOvv(e.target.value)} name="ovv" id="ovv" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Over Voltage" />
+                                        <Field disabled={!editSetting} type="number" required value={ovv} onChange={(e) => setOvv(e.target.value)} name="ovv" id="ovv" className=" my-2 p-3 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Over Voltage" />
                                         <span className='mx-5 my-2'>Volts</span>
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Span</p>
-                                    <Field disabled={!editSetting} type="text" value={spn} onChange={(e) => setSpn(e.target.value)} name="spn" id="spn" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
+                                    <Field disabled={!editSetting} type="number" required value={spn} onChange={(e) => setSpn(e.target.value)} name="spn" id="spn" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Span" />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
@@ -516,20 +516,20 @@ const RoiPanelForm = ({ intervalTime }) => {
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Service Time</p>
                                     <div>
-                                        <Field disabled={!editSetting} type="text" value={srt1} onChange={(e) => setSrt1(e.target.value)} name="srt1" id="srth" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
+                                        <Field disabled={!editSetting} type="number" required value={srt1} onChange={(e) => setSrt1(e.target.value)} name="srt1" id="srth" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
                                         <span className='mx-1'>:</span>
-                                        <Field disabled={!editSetting} type="text" value={srt2} onChange={(e) => setSrt2(e.target.value)} name="srt2" id="srts" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
+                                        <Field disabled={!editSetting} type="number" required value={srt2} onChange={(e) => setSrt2(e.target.value)} name="srt2" id="srts" className="my-2 p-3 border rounded-md w-20 outline-none font-medium text-sm leading-5" placeholder="Service Time" />
                                     </div>
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Backwash Time</p>
-                                    <Field disabled={!editSetting} type="text" value={bkt} onChange={(e) => setBkt(e.target.value)} name="bkt" id="bkt" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Backwash Time" />
+                                    <Field disabled={!editSetting} type="number" required value={bkt} onChange={(e) => setBkt(e.target.value)} name="bkt" id="bkt" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Backwash Time" />
                                 </div>
                                 <div className="flex items-center py-3 flex-wrap">
                                     <div className="rounded-full bg-green-400 w-3 h-3 mx-2"></div>
                                     <p className='w-40 my-2'>Rinse Time</p>
-                                    <Field disabled={!editSetting} type="text" value={rst} onChange={(e) => setRst(e.target.value)} name="rst" id="rst" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rinse Time" />
+                                    <Field disabled={!editSetting} type="number" required value={rst} onChange={(e) => setRst(e.target.value)} name="rst" id="rst" className="p-3 my-2 border rounded-md w-52 outline-none font-medium text-sm leading-5" placeholder="Rinse Time" />
                                 </div>
 
                                 {
