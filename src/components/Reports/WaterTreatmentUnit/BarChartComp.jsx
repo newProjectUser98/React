@@ -4,6 +4,7 @@ import {
   Box,
   Grid,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import { XAxis, BarChart, Bar, YAxis, Tooltip, Legend } from "recharts";
 import trueIcon from '../../../assets/icons/ReportsIcon/SelectColorIcon.png'
@@ -22,6 +23,8 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate, 
   const [isActive2, setIsActive2] = useState(false)
   const [isActive3, setIsActive3] = useState(false)
   const [isActive4, setIsActive4] = useState(false)
+  // const [gwidth, setGwidth] = useState(950)
+
   const PopupColors = [
     { color: "#6CCED9" },
     { color: "#B68FE7" },
@@ -286,6 +289,31 @@ const BarChartComp = ({ Yaxis, variable, deviceID, graphData, fromDate, toDate, 
     { value: `${variableFullName}[${graphData}]`, type: "square" , color: updatedColor4 }
   ]
 ]
+
+// const matches = useMediaQuery("(max-width: 1222px)")
+// const matches1 = useMediaQuery("(max-width: 1028px)")
+// const matches2 = useMediaQuery("(max-width: 640px)")
+// const matches3 = useMediaQuery("(max-width: 450px)")
+
+
+// useEffect(() => {
+//   if(matches){
+//     setGwidth(750)
+//   }
+//   if(matches1){
+//     setGwidth(650)
+//   }
+//   if(matches2){
+//     setGwidth(450)
+//   }
+//   if(matches3){
+//     setGwidth(350)
+//   }
+//   else{
+//     setGwidth(950)
+//   }
+// }, [matches, matches1, matches2, matches3])
+
 
   return (
     <>
